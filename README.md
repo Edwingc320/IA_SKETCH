@@ -1,35 +1,43 @@
-# Anatomical Core — Fase 1: Skeleton Core
+# Anatomical Core — Fase 1: Skeleton Core (v0.2: neutro + pose A)
 
 ## ¿Qué estamos construyendo?
 
 Un motor anatómico 3D reutilizable. A largo plazo servirá para crear personajes humanos (estilizados o realistas), ajustar proporciones, simular tejidos blandos y facilitar la animación. Se construye **por fases**; esta es la primera: un **esqueleto humano articulado de referencia**.
 
+## Qué cambió en la v0.2 (corrección del esqueleto)
+
+La v0.1 tenía la pose A incrustada en la geometría de los huesos, lo que producía ejes no perpendiculares a los huesos, un "reposo" que no era el neutro articular y un quiebre en la rodilla. Ahora hay **tres capas separadas**:
+
+1. **Esqueleto neutro** (`config/skeleton_definition.json`): posición anatómica. Brazos y piernas verticales, antebrazo y mano prolongando el brazo, pie horizontal a 90° de la pierna. Aquí viven los **pivotes y las longitudes** (una sola vez).
+2. **Marcos locales** por hueso: ejes X, Y, Z ortonormales (Y = hueso, X = flexión, Z = X × Y). De ahí salen el `roll` en Blender y **todos los ejes articulares** (`config/joints.json`): cada eje es ±un eje local, así que es perpendicular a los demás y al hueso por construcción.
+3. **Pose A** (`config/pose_a.json`): una tabla `articulación → grados`, medidos **desde el neutro**, aplicada por cinemática directa. No mueve ni duplica pivotes. En Blender es una rotación de cada *pose bone* (Rest Position = neutro, Pose Position = pose A).
+
+Los **límites articulares** se miden desde el neutro (0° = posición anatómica). Sus valores numéricos no cambiaron respecto a la v0.1.
+
 ## Qué hace y qué NO hace esta versión
 
 **Hace**
-- Genera un esqueleto de **20 huesos** en **A-pose** con jerarquía coherente: pelvis, columna simplificada (lumbar, torácica, tórax), cuello, cabeza, clavículas, brazo/antebrazo/mano y muslo/pierna/pie (izquierda y derecha).
-- Define **19 articulaciones** con pivote, ejes de rotación y límites configurables.
-- Guarda un archivo `.blend`, un reporte JSON y vistas previas PNG.
-- Valida todo automáticamente (29 pruebas) y **reabre el `.blend` guardado** para comprobar su contenido.
+- Genera 20 huesos y 19 articulaciones (47 grados de libertad) en neutro y con pose A, con jerarquía coherente: pelvis, columna simplificada, cuello, cabeza, clavículas, brazos, manos, muslos, piernas y pies (izquierda/derecha).
+- Guarda `.blend`, reporte JSON y vistas previas PNG (pose A y neutro).
+- Valida todo automáticamente y **reabre el `.blend` guardado** para comparar huesos, roll, pose evaluada y visualización con el modelo.
 
 **No hace (todavía)**
-- No hay malla de piel, músculos, tejidos blandos, IA, ni Unity.
-- **No es anatómicamente exacto.** Es una estructura inicial *aproximada* pensada para ajustarse después.
-- Los límites articulares son **aproximaciones configurables, no límites médicos universales**.
-- Las formas que ves (octaedros, esferas, flechas) son **solo visualización**, no una malla anatómica.
-- Manos y pies son un solo hueso (sin dedos). No hay hueso de cintura pélvica: las caderas parten de la pelvis con un desplazamiento lateral, por eso se ven "sueltas" en la vista previa.
+- No hay malla de piel, músculos, tejidos blandos, IA ni Unity.
+- **No es anatómicamente exacto.** Es una estructura inicial *aproximada*.
+- Los límites articulares son **aproximaciones configurables, no límites médicos universales**, y **no se aplican como restricciones** en Blender (son datos consultables y la pose se valida contra ellos al generar).
+- Manos y pies son un solo hueso (sin dedos, sin talón ni antepié: el apoyo se comprueba con la altura del tobillo, `ankle_height_fraction`).
+- No hay hueso de cintura pélvica: las caderas parten de la pelvis con un desplazamiento lateral.
+- Se **conservan** las inclinaciones estructurales de la columna (2.3°, 3.4° y 1.1° hacia atrás por segmento), el cuello (6.8° hacia delante) y la clavícula (9.8° de elevación). Forman parte del neutro: su 0° es esa postura.
 
 ## Requisitos
 
-Windows con Blender instalado (probado con Blender 5.0.1, Python 3.11 integrado). No hace falta instalar nada más ni tener GPU dedicada. El script busca Blender por sí solo; si no lo encuentra:
+Windows con Blender instalado (probado con Blender 5.0.1, Python 3.11 integrado). No hace falta instalar nada más ni GPU dedicada. El script busca Blender por sí solo; si no lo encuentra:
 
 ```powershell
 $env:ANATOMICAL_BLENDER = "C:\ruta\a\blender.exe"
 ```
 
 ## Ejecutar (PowerShell)
-
-Desde la carpeta del proyecto:
 
 ```powershell
 cd "C:\Users\EDWIN GC\Downloads\AI_SKETCH\anatomical-core"
@@ -40,86 +48,128 @@ powershell -ExecutionPolicy Bypass -File scripts\run.ps1
 # Solo generar / solo probar
 powershell -ExecutionPolicy Bypass -File scripts\run.ps1 -Task Generate
 powershell -ExecutionPolicy Bypass -File scripts\run.ps1 -Task Test
+
+# Cambiar la pose A sin tocar archivos, o generar solo el neutro
+powershell -ExecutionPolicy Bypass -File scripts\run.ps1 -Task Generate -Pose shoulder.abduction=35,elbow.flexion=20
+powershell -ExecutionPolicy Bypass -File scripts\run.ps1 -Task Generate -Neutral
 ```
 
-El script termina con código de salida **0** si todo está bien y **distinto de 0** si algo falla (puedes comprobarlo con `$LASTEXITCODE`).
-
-Resultados:
+El script termina con código **0** si todo está bien y **distinto de 0** si algo falla (`$LASTEXITCODE`).
 
 | Qué | Dónde |
 |---|---|
 | Archivo Blender | `output\skeleton_core.blend` |
-| Reporte (huesos, pivotes, ejes, límites) | `output\skeleton_core_report.json` |
-| Vistas previas | `output\preview_front.png`, `output\preview_side.png` |
-| Registros de cada ejecución | `logs\generate_<fecha>.log`, `logs\tests_<fecha>.log` |
+| Reporte (neutro, marcos, ejes, límites, pose y métricas) | `output\skeleton_core_report.json` |
+| Vistas previas, pose A | `output\preview_front.png`, `output\preview_side.png` |
+| Vistas previas, neutro | `output\preview_neutral_front.png`, `output\preview_neutral_side.png` |
+| Registros | `logs\generate_<fecha>.log`, `logs\tests_<fecha>.log` |
 
-## Abrir el archivo en Blender
+## Abrir y revisar el archivo en Blender
 
-1. Abre Blender → **File ▸ Open** → selecciona `output\skeleton_core.blend`.
-2. Pulsa `Home` con el cursor sobre la vista 3D para encuadrar todo; `1` (teclado numérico) da la vista frontal y `3` la lateral.
-3. En el panel **Outliner** (arriba a la derecha) verás 4 colecciones; puedes ocultar/mostrar cada una con el ojo:
-   - `AC_Skeleton`: la **armadura real** (huesos y jerarquía).
-   - `AC_BoneVisuals`: octaedros de color (azul = izquierda, rojo = derecha, gris = centro). *Solo visualización.*
-   - `AC_JointMarkers`: esferas amarillas en cada pivote articular.
-   - `AC_JointAxes`: flechas que muestran cada eje de rotación (`AX_<articulación>_<movimiento>`).
-4. Selecciona `AC_Armature`, ve a la pestaña **Object Data (icono verde de hueso)** ▸ Bones; en cada hueso, la sección **Custom Properties** muestra `ac_length_m` y `ac_joint` (pivote, ejes y límites en JSON).
+Comando para abrirlo directamente (ajusta la ruta de Blender si es otra):
 
-Convención: +Z es arriba, el personaje **mira hacia −Y** y su lado **izquierdo es +X** (sufijo `.L`).
+```powershell
+& "C:\Program Files\Blender Foundation\Blender 5.0\blender.exe" "C:\Users\EDWIN GC\Downloads\AI_SKETCH\anatomical-core\output\skeleton_core.blend"
+```
+
+1. Pulsa `Home` sobre la vista 3D para encuadrar; `1` (teclado numérico) es la vista frontal y `3` la lateral.
+2. **Alternar neutro y pose A:** selecciona `AC_Armature`, abre la pestaña **Object Data** (icono verde de hueso) ▸ **Skeleton** ▸ **Pose Position**: *Rest Position* = esqueleto neutro, *Pose Position* = pose A. La visualización sigue a los huesos en ambos casos.
+3. **Revisar los ejes locales (roll):** los huesos muestran sus ejes X, Y, Z (azul = Z, verde = Y, rojo = X). Con `AC_Armature` seleccionada, `Ctrl+Tab` entra al modo Pose; la pestaña **Bone** ▸ **Transform** muestra la rotación local (cuaternión) de cada hueso.
+4. **Outliner:** 4 colecciones con ojo para ocultar/mostrar: `AC_Skeleton` (armadura real), `AC_BoneVisuals` (octaedros, azul = izquierda, rojo = derecha, gris = centro; *solo visualización*), `AC_JointMarkers` (esferas amarillas en cada pivote) y `AC_JointAxes` (flechas = ejes de cada articulación, `AX_<articulación>_<movimiento>`).
+5. En cada hueso, **Custom Properties** muestra `ac_length_m` y `ac_joint` (pivote, ejes locales, límites y `positive_motion` en JSON). En el objeto `AC_Armature`, `ac_pose` guarda los ángulos de la pose A.
+
+Convención: +Z arriba, el personaje **mira hacia −Y**, su lado **izquierdo es +X** (sufijo `.L`).
+
+### Cómo se leen los ejes y los signos
+
+Un ángulo **positivo** es una rotación de regla de la mano derecha alrededor del eje. El campo `positive_motion` declara hacia dónde se mueve el extremo del hueso; el validador lo comprueba al generar (rotando ±10°).
+
+| Articulación | dof (positivo) | Movimiento positivo |
+|---|---|---|
+| hombro, cadera | flexion / abduction | hacia delante (−Y) / hacia fuera |
+| codo, muñeca | flexion / deviation | hacia delante / radial (hacia fuera) |
+| rodilla | flexion | pantorrilla hacia atrás (+Y) |
+| tobillo | dorsiflexion | puntera hacia arriba |
+| clavícula | elevation / protraction | hombro arriba / hacia delante |
+| columna, cuello, cabeza | flexion / lateral_bend | hacia delante / hacia la izquierda (+X) |
+| todas | axial, pronation, inversion | giro sobre el eje largo (regla de la mano derecha) |
+
+Los dof de una articulación se componen **en el orden en que aparecen en `joints.json`**, sobre ejes locales fijos. El lado derecho usa el espejo (pseudovector) del izquierdo.
 
 ## Interpretar las pruebas
 
-La suite corre **dentro de Blender** y verifica datos reales, no solo que Blender termine:
+La suite corre **dentro de Blender** y compara números reales, no solo que Blender termine:
 
-- **`test_model.py`** (datos puros): huesos requeridos, sin referencias rotas, jerarquía de una raíz y sin ciclos, longitudes positivas y finitas, pivotes/ejes/límites válidos, simetría izquierda/derecha, reproducibilidad, y que el validador **detecte** datos corruptos.
-- **`test_blender.py`**: genera dos veces y compara, guarda, **reabre desde disco**, comprueba huesos/colecciones/propiedades/flechas, y ejecuta el script como proceso independiente (incluido un caso que debe fallar con código ≠ 0).
+- **`test_model.py`**: huesos requeridos, referencias, jerarquía, longitudes, pivotes, apoyo del pie, reproducibilidad y que el validador **detecte** datos corruptos.
+- **`test_frames.py`**: marcos ortonormales y derechos, espejo L/R, miembros verticales en el neutro, ejes ortogonales y perpendiculares al hueso, signos positivos y negativos de cada articulación (tabla independiente de la configuración), límites y rechazo del schema 1.
+- **`test_pose.py`**: cinemática directa (ángulos medidos = parámetros, cadena calculada a mano, longitudes y conexiones intactas, pivotes sin duplicar ni desplazar, simetría), cuaterniones locales, apoyo y planitud de los pies, separación de tobillos y límites de la pose.
+- **`test_blender.py`**: roll y ejes locales **en Blender**, pose evaluada frente a la cinemática directa, Rest/Pose, visualización sin doble transformación, reapertura del `.blend` y scripts como proceso independiente (con casos que deben fallar con código ≠ 0).
 
-Lectura del resumen final: `[SUMMARY] ejecutadas=29 fallos=0 errores=0 omitidas=0` y `RESULTADO FINAL: OK`. Si algo falla, el log indica la prueba y el código del problema (p. ej. `LENGTH_MISMATCH`, `CYCLE`, `MISSING_BONE`). Una prueba "omitida" por falta de Blender cuenta como fallo a propósito.
+- **`test_base_frozen.py`**: la **base** (esqueleto neutro de 20 huesos) debe ser idéntica a su instantánea `tests\golden\base_skeleton.json`; ni la pose ni un nivel posterior pueden modificarla.
 
-Atajos: `-NoPreview` omite los renders; el registro completo siempre queda en `logs\`.
+Resumen esperado: `[SUMMARY] ejecutadas=84 fallos=0 errores=0 omitidas=0` y `RESULTADO FINAL: OK`. Las pruebas fijan los valores **por defecto** de `config\`; si editas la configuración, ejecuta `-Task Generate` (la validación interna siempre corre) y, si un test de valores por defecto falla por tus cambios, es esperado.
 
-## Modificar las proporciones
+## Modificar las proporciones y la pose
 
 **Rápido, por línea de comandos** (no toca archivos):
 
 ```powershell
-# Altura total de 1.85 m y muslo más largo (fracción de la altura)
-powershell -ExecutionPolicy Bypass -File scripts\run.ps1 -Height 1.85 -Set thigh=0.25
+powershell -ExecutionPolicy Bypass -File scripts\run.ps1 -Task Generate -Height 1.85 -Set thigh=0.25 -Pose shoulder.abduction=35
 ```
 
-**Permanente**: edita `config\proportions.json` (longitudes como fracción de la altura) y vuelve a ejecutar. Otros archivos de configuración:
+**Permanente**: edita los JSON de `config\` y regenera.
 
 | Archivo | Contiene |
 |---|---|
-| `config\proportions.json` | Altura de referencia y longitud de cada hueso (fracción de la altura). |
-| `config\skeleton_definition.json` | Jerarquía, punto de anclaje, dirección en A-pose (p. ej. cambiar el ángulo de los brazos). |
-| `config\joints.json` | Ejes de rotación y límites por articulación (aproximados). |
+| `config\proportions.json` | Altura de referencia, `ankle_height_fraction` y longitud de cada hueso (fracción de la altura). |
+| `config\skeleton_definition.json` | Jerarquía, anclaje, dirección **en el neutro** y `frame_x_hint` (orientación del eje X local). |
+| `config\joints.json` | Ejes locales (`x`/`y`/`z` + signo), `positive_motion` y límites por articulación. |
+| `config\pose_a.json` | Ángulos de la pose A (`articulación.dof`; `shoulder` = ambos lados, `shoulder.L` = solo uno). |
 
-Tras editar, ejecuta `-Task Test`: la validación te avisa si algo queda inconsistente. Los archivos son JSON: usa comillas dobles, sin comas finales.
+Ángulos iniciales de la pose A: abducción de hombro 40°, flexión de codo 12°, flexión de muñeca 6°, abducción de cadera 3° e inversión de tobillo −3°.
+
+- **Abducción de cadera ↔ inversión de tobillo:** la inversión compensa la abducción para que el pie quede plano (ambas giran sobre el eje largo del pie y se suman exactamente). Si cambias `hip.abduction`, pon `ankle.inversion` con el valor opuesto; si no, el validador falla (pie inclinado > 1°).
+- **Los 3° son provisionales.** Con ellos, la separación de tobillos es de 0.272 m (1.49 veces la de caderas; 0.155 de la altura) y la pelvis baja 1.18 mm para apoyar ambos pies. El validador exige el rango 1×–2× de la separación de caderas (aviso fuera de él, error fuera de 0.5×–3×).
+- **Apoyo:** la raíz se desplaza en vertical (`root_translation`) para que el pivote de tobillo más bajo quede a `ankle_height_fraction × altura`. Se comprueba que ambos pies quedan planos y al mismo nivel (tolerancia 2 mm).
+
+## La base congelada (nivel 0)
+
+El esqueleto neutro de 20 huesos y 19 articulaciones es la **base de referencia**: cualquier detalle anatómico posterior se construye *sobre* ella sin modificarla. Su instantánea vive en `tests\golden\base_skeleton.json` (huesos, marcos, pivotes, ejes y límites, con la firma `e6f88af5c6c3…`). Un cambio **deliberado** de la base se hace así (y se revisa el diff del golden):
+
+```powershell
+py scripts\freeze_base.py --update
+```
+
+Sin `--update` el script se niega a sobrescribir la instantánea. Copias locales de los `.blend` anteriores (no se versionan): `output\legacy\skeleton_core_v0.1.blend` y `output\legacy\skeleton_core_v0.2.blend`.
+
+## Versiones anteriores y compatibilidad
+
+- Esta versión usa `schema_version: 2` y **rechaza el schema 1** con un error claro.
+- La v0.1 está en la etiqueta Git `v0.1.0`: `git checkout v0.1.0` la restaura (con su suite de 29 pruebas).
+- El `.blend` v0.1 no pasa la validación nueva (la firma no coincide) a propósito. Una copia local del original está en `output\legacy\skeleton_core_v0.1.blend` (no se versiona).
 
 ## Estructura del proyecto
 
 ```
-config/            datos versionados (JSON, schema_version)
+config/            datos versionados (JSON, schema_version 2)
 src/anatomical_core/
   config.py        carga y valida los JSON
-  geometry.py      vectores y primitivas de visualización (sin Blender)
-  skeleton.py      huesos, jerarquía, pose de reposo (sin Blender)
-  joints.py        pivotes, ejes y límites (sin Blender)
+  geometry.py      vectores, marcos, rotaciones, cuaterniones y primitivas (sin Blender)
+  skeleton.py      esqueleto neutro: huesos, jerarquía, marcos, pivotes (sin Blender)
+  joints.py        pivotes, ejes locales y límites (sin Blender)
+  pose.py          pose A por cinemática directa (sin Blender)
   validation.py    comprobaciones y diagnósticos (sin Blender)
-  scene.py         ÚNICO módulo que usa Blender (bpy): armadura + visualización
+  scene.py         ÚNICO módulo que usa Blender (bpy): armadura, roll, pose y visualización
   pipeline.py      generar → guardar → reabrir → validar → reporte
 scripts/           generate_skeleton.py (Blender) y run.ps1 (PowerShell)
 tests/             pruebas automáticas
 output/  logs/     resultados y registros (no se versionan; son reproducibles)
 ```
 
-Los datos del modelo (longitudes, pivotes, restricciones) están separados de su representación en Blender: todo salvo `scene.py` y `pipeline.py` funciona sin Blender.
-
-## Qué falta antes de pasar a la malla corporal
+## Qué falta antes de pasar a la malla corporal y los músculos
 
 1. Revisión anatómica de proporciones y pivotes con referencias (hoy son aproximaciones).
-2. Cintura pélvica y caja torácica con más huesos; manos con dedos; pies con antepié/dedos.
-3. Roll de huesos y ejes locales definitivos para animación (hoy los ejes están en el espacio del modelo).
-4. Aplicar los límites como restricciones en pose (hoy son datos consultables, no restricciones activas).
-5. Pruebas de poses de ejemplo (rotar articulaciones dentro y fuera de límites).
-6. Definir cómo se enlaza la malla (pesos/envolventes) con estos huesos.
+2. Cintura pélvica y caja torácica con más huesos; manos con dedos; pie con talón y antepié (y apoyo real sobre ellos).
+3. Aplicar los límites como restricciones en pose (hoy son datos que se validan, no restricciones activas).
+4. Altura objetivo exacta, asimetría por lado en las longitudes y ángulos de pose como parámetros nombrados (puntos E5–E10 del informe de inspección).
+5. Definir cómo se enlaza la malla (pesos/envolventes) con estos huesos.

@@ -1,0 +1,1452 @@
+{
+ "schema": 1,
+ "description": "Instantanea de la BASE: esqueleto neutro de referencia (nivel 0). No editar a mano: usar scripts/freeze_base.py --update solo si el cambio de la base es deliberado.",
+ "height_m": 1.75,
+ "ankle_height_m": 0.06825,
+ "config_signature": "2a35df49c5c54380863f76970b27bcc994bbf31e034df5affced35b84cc8f88c",
+ "model_signature": "e6f88af5c6c3f26a0c7550de8b88a123ea29dc9bb36724b2f5c43c12accf2c6e",
+ "bones": {
+  "pelvis": {
+   "parent": null,
+   "head": [
+    0.0,
+    0.0,
+    0.9275
+   ],
+   "tail": [
+    0.0,
+    0.0,
+    1.015
+   ],
+   "length": 0.08750000000000001,
+   "frame": [
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    [
+     0.0,
+     -1.0,
+     0.0
+    ]
+   ]
+  },
+  "spine_lumbar": {
+   "parent": "pelvis",
+   "head": [
+    0.0,
+    0.0,
+    1.015
+   ],
+   "tail": [
+    0.0,
+    0.004896084697736769,
+    1.1374021174434192
+   ],
+   "length": 0.12250000000000001,
+   "frame": [
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.03996803834887158,
+     0.9992009587217895
+    ],
+    [
+     0.0,
+     -0.9992009587217895,
+     0.03996803834887158
+    ]
+   ]
+  },
+  "spine_thoracic": {
+   "parent": "spine_lumbar",
+   "head": [
+    0.0,
+    0.004896084697736769,
+    1.1374021174434192
+   ],
+   "tail": [
+    0.0,
+    0.013281005399649309,
+    1.2771507958086281
+   ],
+   "length": 0.14,
+   "frame": [
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.05989229072794672,
+     0.9982048454657787
+    ],
+    [
+     0.0,
+     -0.9982048454657787,
+     0.05989229072794672
+    ]
+   ]
+  },
+  "thorax": {
+   "parent": "spine_thoracic",
+   "head": [
+    0.0,
+    0.013281005399649309,
+    1.2771507958086281
+   ],
+   "tail": [
+    0.0,
+    0.01643037558858633,
+    1.4346193052554792
+   ],
+   "length": 0.1575,
+   "frame": [
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.01999600119960014,
+     0.9998000599800071
+    ],
+    [
+     0.0,
+     -0.9998000599800071,
+     0.01999600119960014
+    ]
+   ]
+  },
+  "neck": {
+   "parent": "thorax",
+   "head": [
+    0.0,
+    0.01643037558858633,
+    1.4346193052554792
+   ],
+   "tail": [
+    0.0,
+    0.007047689464884916,
+    1.5128083562863244
+   ],
+   "length": 0.07875,
+   "frame": [
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     -0.11914522061843065,
+     0.9928768384869221
+    ],
+    [
+     0.0,
+     -0.9928768384869221,
+     -0.11914522061843065
+    ]
+   ]
+  },
+  "head": {
+   "parent": "neck",
+   "head": [
+    0.0,
+    0.007047689464884916,
+    1.5128083562863244
+   ],
+   "tail": [
+    0.0,
+    0.0023236341814793825,
+    1.749011120456601
+   ],
+   "length": 0.23625000000000002,
+   "frame": [
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     -0.01999600119960014,
+     0.9998000599800071
+    ],
+    [
+     0.0,
+     -0.9998000599800071,
+     -0.01999600119960014
+    ]
+   ]
+  },
+  "clavicle.L": {
+   "parent": "thorax",
+   "head": [
+    0.0105,
+    -0.004569624411413672,
+    1.4136193052554793
+   ],
+   "tail": [
+    0.18270750413597572,
+    -0.013355721561208352,
+    1.4434920355647813
+   ],
+   "length": 0.17500000000000002,
+   "frame": [
+    [
+     -0.0494675069559324,
+     -0.998738870030692,
+     -0.008581098145416846
+    ],
+    [
+     0.984042880777004,
+     -0.05020626942739817,
+     0.17070131605315378
+    ],
+    [
+     -0.17091686443315057,
+     1.734723475976807e-18,
+     0.9852854537911031
+    ]
+   ]
+  },
+  "clavicle.R": {
+   "parent": "thorax",
+   "head": [
+    -0.0105,
+    -0.004569624411413672,
+    1.4136193052554793
+   ],
+   "tail": [
+    -0.18270750413597572,
+    -0.013355721561208352,
+    1.4434920355647813
+   ],
+   "length": 0.17500000000000002,
+   "frame": [
+    [
+     -0.0494675069559324,
+     0.998738870030692,
+     0.008581098145416846
+    ],
+    [
+     -0.984042880777004,
+     -0.05020626942739817,
+     0.17070131605315378
+    ],
+    [
+     0.17091686443315057,
+     1.734723475976807e-18,
+     0.9852854537911031
+    ]
+   ]
+  },
+  "upper_arm.L": {
+   "parent": "clavicle.L",
+   "head": [
+    0.18270750413597572,
+    -0.013355721561208352,
+    1.4434920355647813
+   ],
+   "tail": [
+    0.18270750413597572,
+    -0.013355721561208352,
+    1.1459920355647812
+   ],
+   "length": 0.29750000000000004,
+   "frame": [
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0
+    ]
+   ]
+  },
+  "upper_arm.R": {
+   "parent": "clavicle.R",
+   "head": [
+    -0.18270750413597572,
+    -0.013355721561208352,
+    1.4434920355647813
+   ],
+   "tail": [
+    -0.18270750413597572,
+    -0.013355721561208352,
+    1.1459920355647812
+   ],
+   "length": 0.29750000000000004,
+   "frame": [
+    [
+     1.0,
+     -0.0,
+     -0.0
+    ],
+    [
+     -0.0,
+     0.0,
+     -1.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0
+    ]
+   ]
+  },
+  "forearm.L": {
+   "parent": "upper_arm.L",
+   "head": [
+    0.18270750413597572,
+    -0.013355721561208352,
+    1.1459920355647812
+   ],
+   "tail": [
+    0.18270750413597572,
+    -0.013355721561208352,
+    0.8904920355647812
+   ],
+   "length": 0.2555,
+   "frame": [
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0
+    ]
+   ]
+  },
+  "forearm.R": {
+   "parent": "upper_arm.R",
+   "head": [
+    -0.18270750413597572,
+    -0.013355721561208352,
+    1.1459920355647812
+   ],
+   "tail": [
+    -0.18270750413597572,
+    -0.013355721561208352,
+    0.8904920355647812
+   ],
+   "length": 0.2555,
+   "frame": [
+    [
+     1.0,
+     -0.0,
+     -0.0
+    ],
+    [
+     -0.0,
+     0.0,
+     -1.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0
+    ]
+   ]
+  },
+  "hand.L": {
+   "parent": "forearm.L",
+   "head": [
+    0.18270750413597572,
+    -0.013355721561208352,
+    0.8904920355647812
+   ],
+   "tail": [
+    0.18270750413597572,
+    -0.013355721561208352,
+    0.7014920355647811
+   ],
+   "length": 0.189,
+   "frame": [
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0
+    ]
+   ]
+  },
+  "hand.R": {
+   "parent": "forearm.R",
+   "head": [
+    -0.18270750413597572,
+    -0.013355721561208352,
+    0.8904920355647812
+   ],
+   "tail": [
+    -0.18270750413597572,
+    -0.013355721561208352,
+    0.7014920355647811
+   ],
+   "length": 0.189,
+   "frame": [
+    [
+     1.0,
+     -0.0,
+     -0.0
+    ],
+    [
+     -0.0,
+     0.0,
+     -1.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0
+    ]
+   ]
+  },
+  "thigh.L": {
+   "parent": "pelvis",
+   "head": [
+    0.091,
+    0.0,
+    0.9275
+   ],
+   "tail": [
+    0.091,
+    0.0,
+    0.49875
+   ],
+   "length": 0.42874999999999996,
+   "frame": [
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0
+    ]
+   ]
+  },
+  "thigh.R": {
+   "parent": "pelvis",
+   "head": [
+    -0.091,
+    0.0,
+    0.9275
+   ],
+   "tail": [
+    -0.091,
+    0.0,
+    0.49875
+   ],
+   "length": 0.42874999999999996,
+   "frame": [
+    [
+     1.0,
+     -0.0,
+     -0.0
+    ],
+    [
+     -0.0,
+     0.0,
+     -1.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0
+    ]
+   ]
+  },
+  "shin.L": {
+   "parent": "thigh.L",
+   "head": [
+    0.091,
+    0.0,
+    0.49875
+   ],
+   "tail": [
+    0.091,
+    0.0,
+    0.06825000000000003
+   ],
+   "length": 0.4305,
+   "frame": [
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0
+    ]
+   ]
+  },
+  "shin.R": {
+   "parent": "thigh.R",
+   "head": [
+    -0.091,
+    0.0,
+    0.49875
+   ],
+   "tail": [
+    -0.091,
+    0.0,
+    0.06825000000000003
+   ],
+   "length": 0.4305,
+   "frame": [
+    [
+     1.0,
+     -0.0,
+     -0.0
+    ],
+    [
+     -0.0,
+     0.0,
+     -1.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0
+    ]
+   ]
+  },
+  "foot.L": {
+   "parent": "shin.L",
+   "head": [
+    0.091,
+    0.0,
+    0.06825000000000003
+   ],
+   "tail": [
+    0.091,
+    -0.2275,
+    0.06825000000000003
+   ],
+   "length": 0.2275,
+   "frame": [
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     -1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0
+    ]
+   ]
+  },
+  "foot.R": {
+   "parent": "shin.R",
+   "head": [
+    -0.091,
+    0.0,
+    0.06825000000000003
+   ],
+   "tail": [
+    -0.091,
+    -0.2275,
+    0.06825000000000003
+   ],
+   "length": 0.2275,
+   "frame": [
+    [
+     1.0,
+     -0.0,
+     -0.0
+    ],
+    [
+     -0.0,
+     -1.0,
+     0.0
+    ],
+    [
+     -0.0,
+     0.0,
+     -1.0
+    ]
+   ]
+  }
+ },
+ "joints": {
+  "lumbar": {
+   "bone": "spine_lumbar",
+   "parent_bone": "pelvis",
+   "pivot": [
+    0.0,
+    0.0,
+    1.015
+   ],
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      1.0,
+      0.0,
+      0.0
+     ],
+     "axis_local": "x",
+     "axis_sign": 1,
+     "min_deg": -20.0,
+     "max_deg": 40.0,
+     "positive_motion": "anterior"
+    },
+    {
+     "name": "lateral_bend",
+     "axis": [
+      -0.0,
+      0.9992009587217895,
+      -0.03996803834887158
+     ],
+     "axis_local": "z",
+     "axis_sign": -1,
+     "min_deg": -15.0,
+     "max_deg": 15.0,
+     "positive_motion": "left"
+    },
+    {
+     "name": "axial",
+     "axis": [
+      0.0,
+      0.03996803834887158,
+      0.9992009587217895
+     ],
+     "axis_local": "y",
+     "axis_sign": 1,
+     "min_deg": -10.0,
+     "max_deg": 10.0,
+     "positive_motion": "axial"
+    }
+   ]
+  },
+  "thoracic": {
+   "bone": "spine_thoracic",
+   "parent_bone": "spine_lumbar",
+   "pivot": [
+    0.0,
+    0.004896084697736769,
+    1.1374021174434192
+   ],
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      1.0,
+      0.0,
+      0.0
+     ],
+     "axis_local": "x",
+     "axis_sign": 1,
+     "min_deg": -10.0,
+     "max_deg": 20.0,
+     "positive_motion": "anterior"
+    },
+    {
+     "name": "lateral_bend",
+     "axis": [
+      -0.0,
+      0.9982048454657787,
+      -0.05989229072794672
+     ],
+     "axis_local": "z",
+     "axis_sign": -1,
+     "min_deg": -10.0,
+     "max_deg": 10.0,
+     "positive_motion": "left"
+    },
+    {
+     "name": "axial",
+     "axis": [
+      0.0,
+      0.05989229072794672,
+      0.9982048454657787
+     ],
+     "axis_local": "y",
+     "axis_sign": 1,
+     "min_deg": -15.0,
+     "max_deg": 15.0,
+     "positive_motion": "axial"
+    }
+   ]
+  },
+  "thorax": {
+   "bone": "thorax",
+   "parent_bone": "spine_thoracic",
+   "pivot": [
+    0.0,
+    0.013281005399649309,
+    1.2771507958086281
+   ],
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      1.0,
+      0.0,
+      0.0
+     ],
+     "axis_local": "x",
+     "axis_sign": 1,
+     "min_deg": -5.0,
+     "max_deg": 10.0,
+     "positive_motion": "anterior"
+    },
+    {
+     "name": "lateral_bend",
+     "axis": [
+      -0.0,
+      0.9998000599800071,
+      -0.01999600119960014
+     ],
+     "axis_local": "z",
+     "axis_sign": -1,
+     "min_deg": -5.0,
+     "max_deg": 5.0,
+     "positive_motion": "left"
+    },
+    {
+     "name": "axial",
+     "axis": [
+      0.0,
+      0.01999600119960014,
+      0.9998000599800071
+     ],
+     "axis_local": "y",
+     "axis_sign": 1,
+     "min_deg": -10.0,
+     "max_deg": 10.0,
+     "positive_motion": "axial"
+    }
+   ]
+  },
+  "neck": {
+   "bone": "neck",
+   "parent_bone": "thorax",
+   "pivot": [
+    0.0,
+    0.01643037558858633,
+    1.4346193052554792
+   ],
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      1.0,
+      0.0,
+      0.0
+     ],
+     "axis_local": "x",
+     "axis_sign": 1,
+     "min_deg": -40.0,
+     "max_deg": 45.0,
+     "positive_motion": "anterior"
+    },
+    {
+     "name": "lateral_bend",
+     "axis": [
+      -0.0,
+      0.9928768384869221,
+      0.11914522061843065
+     ],
+     "axis_local": "z",
+     "axis_sign": -1,
+     "min_deg": -35.0,
+     "max_deg": 35.0,
+     "positive_motion": "left"
+    },
+    {
+     "name": "axial",
+     "axis": [
+      0.0,
+      -0.11914522061843065,
+      0.9928768384869221
+     ],
+     "axis_local": "y",
+     "axis_sign": 1,
+     "min_deg": -50.0,
+     "max_deg": 50.0,
+     "positive_motion": "axial"
+    }
+   ]
+  },
+  "head": {
+   "bone": "head",
+   "parent_bone": "neck",
+   "pivot": [
+    0.0,
+    0.007047689464884916,
+    1.5128083562863244
+   ],
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      1.0,
+      0.0,
+      0.0
+     ],
+     "axis_local": "x",
+     "axis_sign": 1,
+     "min_deg": -20.0,
+     "max_deg": 25.0,
+     "positive_motion": "anterior"
+    },
+    {
+     "name": "lateral_bend",
+     "axis": [
+      -0.0,
+      0.9998000599800071,
+      0.01999600119960014
+     ],
+     "axis_local": "z",
+     "axis_sign": -1,
+     "min_deg": -15.0,
+     "max_deg": 15.0,
+     "positive_motion": "left"
+    },
+    {
+     "name": "axial",
+     "axis": [
+      0.0,
+      -0.01999600119960014,
+      0.9998000599800071
+     ],
+     "axis_local": "y",
+     "axis_sign": 1,
+     "min_deg": -15.0,
+     "max_deg": 15.0,
+     "positive_motion": "axial"
+    }
+   ]
+  },
+  "sternoclavicular.L": {
+   "bone": "clavicle.L",
+   "parent_bone": "thorax",
+   "pivot": [
+    0.0105,
+    -0.004569624411413672,
+    1.4136193052554793
+   ],
+   "dofs": [
+    {
+     "name": "elevation",
+     "axis": [
+      -0.0494675069559324,
+      -0.998738870030692,
+      -0.008581098145416846
+     ],
+     "axis_local": "x",
+     "axis_sign": 1,
+     "min_deg": -10.0,
+     "max_deg": 40.0,
+     "positive_motion": "superior"
+    },
+    {
+     "name": "protraction",
+     "axis": [
+      0.17091686443315057,
+      -1.734723475976807e-18,
+      -0.9852854537911031
+     ],
+     "axis_local": "z",
+     "axis_sign": -1,
+     "min_deg": -20.0,
+     "max_deg": 25.0,
+     "positive_motion": "anterior"
+    }
+   ]
+  },
+  "sternoclavicular.R": {
+   "bone": "clavicle.R",
+   "parent_bone": "thorax",
+   "pivot": [
+    -0.0105,
+    -0.004569624411413672,
+    1.4136193052554793
+   ],
+   "dofs": [
+    {
+     "name": "elevation",
+     "axis": [
+      -0.0494675069559324,
+      0.998738870030692,
+      0.008581098145416846
+     ],
+     "axis_local": "x",
+     "axis_sign": 1,
+     "min_deg": -10.0,
+     "max_deg": 40.0,
+     "positive_motion": "superior"
+    },
+    {
+     "name": "protraction",
+     "axis": [
+      0.17091686443315057,
+      1.734723475976807e-18,
+      0.9852854537911031
+     ],
+     "axis_local": "z",
+     "axis_sign": 1,
+     "min_deg": -20.0,
+     "max_deg": 25.0,
+     "positive_motion": "anterior"
+    }
+   ]
+  },
+  "shoulder.L": {
+   "bone": "upper_arm.L",
+   "parent_bone": "clavicle.L",
+   "pivot": [
+    0.18270750413597572,
+    -0.013355721561208352,
+    1.4434920355647813
+   ],
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      -1.0,
+      -0.0,
+      -0.0
+     ],
+     "axis_local": "x",
+     "axis_sign": -1,
+     "min_deg": -60.0,
+     "max_deg": 180.0,
+     "positive_motion": "anterior"
+    },
+    {
+     "name": "abduction",
+     "axis": [
+      0.0,
+      -1.0,
+      -0.0
+     ],
+     "axis_local": "z",
+     "axis_sign": -1,
+     "min_deg": -50.0,
+     "max_deg": 180.0,
+     "positive_motion": "lateral"
+    },
+    {
+     "name": "axial",
+     "axis": [
+      0.0,
+      0.0,
+      -1.0
+     ],
+     "axis_local": "y",
+     "axis_sign": 1,
+     "min_deg": -90.0,
+     "max_deg": 90.0,
+     "positive_motion": "axial"
+    }
+   ]
+  },
+  "shoulder.R": {
+   "bone": "upper_arm.R",
+   "parent_bone": "clavicle.R",
+   "pivot": [
+    -0.18270750413597572,
+    -0.013355721561208352,
+    1.4434920355647813
+   ],
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      -1.0,
+      0.0,
+      0.0
+     ],
+     "axis_local": "x",
+     "axis_sign": -1,
+     "min_deg": -60.0,
+     "max_deg": 180.0,
+     "positive_motion": "anterior"
+    },
+    {
+     "name": "abduction",
+     "axis": [
+      0.0,
+      1.0,
+      0.0
+     ],
+     "axis_local": "z",
+     "axis_sign": 1,
+     "min_deg": -50.0,
+     "max_deg": 180.0,
+     "positive_motion": "lateral"
+    },
+    {
+     "name": "axial",
+     "axis": [
+      0.0,
+      -0.0,
+      1.0
+     ],
+     "axis_local": "y",
+     "axis_sign": -1,
+     "min_deg": -90.0,
+     "max_deg": 90.0,
+     "positive_motion": "axial"
+    }
+   ]
+  },
+  "elbow.L": {
+   "bone": "forearm.L",
+   "parent_bone": "upper_arm.L",
+   "pivot": [
+    0.18270750413597572,
+    -0.013355721561208352,
+    1.1459920355647812
+   ],
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      -1.0,
+      -0.0,
+      -0.0
+     ],
+     "axis_local": "x",
+     "axis_sign": -1,
+     "min_deg": 0.0,
+     "max_deg": 145.0,
+     "positive_motion": "anterior"
+    },
+    {
+     "name": "pronation",
+     "axis": [
+      0.0,
+      0.0,
+      -1.0
+     ],
+     "axis_local": "y",
+     "axis_sign": 1,
+     "min_deg": -90.0,
+     "max_deg": 90.0,
+     "positive_motion": "axial"
+    }
+   ]
+  },
+  "elbow.R": {
+   "bone": "forearm.R",
+   "parent_bone": "upper_arm.R",
+   "pivot": [
+    -0.18270750413597572,
+    -0.013355721561208352,
+    1.1459920355647812
+   ],
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      -1.0,
+      0.0,
+      0.0
+     ],
+     "axis_local": "x",
+     "axis_sign": -1,
+     "min_deg": 0.0,
+     "max_deg": 145.0,
+     "positive_motion": "anterior"
+    },
+    {
+     "name": "pronation",
+     "axis": [
+      0.0,
+      -0.0,
+      1.0
+     ],
+     "axis_local": "y",
+     "axis_sign": -1,
+     "min_deg": -90.0,
+     "max_deg": 90.0,
+     "positive_motion": "axial"
+    }
+   ]
+  },
+  "wrist.L": {
+   "bone": "hand.L",
+   "parent_bone": "forearm.L",
+   "pivot": [
+    0.18270750413597572,
+    -0.013355721561208352,
+    0.8904920355647812
+   ],
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      -1.0,
+      -0.0,
+      -0.0
+     ],
+     "axis_local": "x",
+     "axis_sign": -1,
+     "min_deg": -60.0,
+     "max_deg": 70.0,
+     "positive_motion": "anterior"
+    },
+    {
+     "name": "deviation",
+     "axis": [
+      0.0,
+      -1.0,
+      -0.0
+     ],
+     "axis_local": "z",
+     "axis_sign": -1,
+     "min_deg": -30.0,
+     "max_deg": 20.0,
+     "positive_motion": "lateral"
+    }
+   ]
+  },
+  "wrist.R": {
+   "bone": "hand.R",
+   "parent_bone": "forearm.R",
+   "pivot": [
+    -0.18270750413597572,
+    -0.013355721561208352,
+    0.8904920355647812
+   ],
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      -1.0,
+      0.0,
+      0.0
+     ],
+     "axis_local": "x",
+     "axis_sign": -1,
+     "min_deg": -60.0,
+     "max_deg": 70.0,
+     "positive_motion": "anterior"
+    },
+    {
+     "name": "deviation",
+     "axis": [
+      0.0,
+      1.0,
+      0.0
+     ],
+     "axis_local": "z",
+     "axis_sign": 1,
+     "min_deg": -30.0,
+     "max_deg": 20.0,
+     "positive_motion": "lateral"
+    }
+   ]
+  },
+  "hip.L": {
+   "bone": "thigh.L",
+   "parent_bone": "pelvis",
+   "pivot": [
+    0.091,
+    0.0,
+    0.9275
+   ],
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      -1.0,
+      -0.0,
+      -0.0
+     ],
+     "axis_local": "x",
+     "axis_sign": -1,
+     "min_deg": -20.0,
+     "max_deg": 120.0,
+     "positive_motion": "anterior"
+    },
+    {
+     "name": "abduction",
+     "axis": [
+      0.0,
+      -1.0,
+      -0.0
+     ],
+     "axis_local": "z",
+     "axis_sign": -1,
+     "min_deg": -30.0,
+     "max_deg": 45.0,
+     "positive_motion": "lateral"
+    },
+    {
+     "name": "axial",
+     "axis": [
+      0.0,
+      0.0,
+      -1.0
+     ],
+     "axis_local": "y",
+     "axis_sign": 1,
+     "min_deg": -40.0,
+     "max_deg": 45.0,
+     "positive_motion": "axial"
+    }
+   ]
+  },
+  "hip.R": {
+   "bone": "thigh.R",
+   "parent_bone": "pelvis",
+   "pivot": [
+    -0.091,
+    0.0,
+    0.9275
+   ],
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      -1.0,
+      0.0,
+      0.0
+     ],
+     "axis_local": "x",
+     "axis_sign": -1,
+     "min_deg": -20.0,
+     "max_deg": 120.0,
+     "positive_motion": "anterior"
+    },
+    {
+     "name": "abduction",
+     "axis": [
+      0.0,
+      1.0,
+      0.0
+     ],
+     "axis_local": "z",
+     "axis_sign": 1,
+     "min_deg": -30.0,
+     "max_deg": 45.0,
+     "positive_motion": "lateral"
+    },
+    {
+     "name": "axial",
+     "axis": [
+      0.0,
+      -0.0,
+      1.0
+     ],
+     "axis_local": "y",
+     "axis_sign": -1,
+     "min_deg": -40.0,
+     "max_deg": 45.0,
+     "positive_motion": "axial"
+    }
+   ]
+  },
+  "knee.L": {
+   "bone": "shin.L",
+   "parent_bone": "thigh.L",
+   "pivot": [
+    0.091,
+    0.0,
+    0.49875
+   ],
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      1.0,
+      0.0,
+      0.0
+     ],
+     "axis_local": "x",
+     "axis_sign": 1,
+     "min_deg": 0.0,
+     "max_deg": 140.0,
+     "positive_motion": "posterior"
+    },
+    {
+     "name": "axial",
+     "axis": [
+      0.0,
+      0.0,
+      -1.0
+     ],
+     "axis_local": "y",
+     "axis_sign": 1,
+     "min_deg": -10.0,
+     "max_deg": 10.0,
+     "positive_motion": "axial"
+    }
+   ]
+  },
+  "knee.R": {
+   "bone": "shin.R",
+   "parent_bone": "thigh.R",
+   "pivot": [
+    -0.091,
+    0.0,
+    0.49875
+   ],
+   "dofs": [
+    {
+     "name": "flexion",
+     "axis": [
+      1.0,
+      -0.0,
+      -0.0
+     ],
+     "axis_local": "x",
+     "axis_sign": 1,
+     "min_deg": 0.0,
+     "max_deg": 140.0,
+     "positive_motion": "posterior"
+    },
+    {
+     "name": "axial",
+     "axis": [
+      0.0,
+      -0.0,
+      1.0
+     ],
+     "axis_local": "y",
+     "axis_sign": -1,
+     "min_deg": -10.0,
+     "max_deg": 10.0,
+     "positive_motion": "axial"
+    }
+   ]
+  },
+  "ankle.L": {
+   "bone": "foot.L",
+   "parent_bone": "shin.L",
+   "pivot": [
+    0.091,
+    0.0,
+    0.06825000000000003
+   ],
+   "dofs": [
+    {
+     "name": "dorsiflexion",
+     "axis": [
+      -1.0,
+      -0.0,
+      -0.0
+     ],
+     "axis_local": "x",
+     "axis_sign": -1,
+     "min_deg": -50.0,
+     "max_deg": 20.0,
+     "positive_motion": "superior"
+    },
+    {
+     "name": "inversion",
+     "axis": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "axis_local": "y",
+     "axis_sign": 1,
+     "min_deg": -20.0,
+     "max_deg": 30.0,
+     "positive_motion": "axial"
+    }
+   ]
+  },
+  "ankle.R": {
+   "bone": "foot.R",
+   "parent_bone": "shin.R",
+   "pivot": [
+    -0.091,
+    0.0,
+    0.06825000000000003
+   ],
+   "dofs": [
+    {
+     "name": "dorsiflexion",
+     "axis": [
+      -1.0,
+      0.0,
+      0.0
+     ],
+     "axis_local": "x",
+     "axis_sign": -1,
+     "min_deg": -50.0,
+     "max_deg": 20.0,
+     "positive_motion": "superior"
+    },
+    {
+     "name": "inversion",
+     "axis": [
+      0.0,
+      1.0,
+      -0.0
+     ],
+     "axis_local": "y",
+     "axis_sign": -1,
+     "min_deg": -20.0,
+     "max_deg": 30.0,
+     "positive_motion": "axial"
+    }
+   ]
+  }
+ }
+}
