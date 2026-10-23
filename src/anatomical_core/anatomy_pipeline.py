@@ -98,7 +98,7 @@ def generate(output_blend, config_dir=None, anatomy_dir=None, reference_path=Non
         "base_signature": base.signature(),
         "anatomy_signature": anat.signature(),
         "regions": list(anat.regions),
-        "bones": {n: {"parent": b.parent, "region": b.region, "reference": list(b.reference), "head": list(b.head),
+        "bones": {n: {"parent": b.parent, "anatomical_parent": b.anatomical_parent or b.parent, "region": b.region, "reference": list(b.reference), "head": list(b.head),
                       "tail": list(b.tail), "length_m": b.length, "outline": [list(p) for p in b.outline]}
                   for n, b in anat.bones.items()},
         "anchors": [{"point": p, "equals": q, "description": d} for p, q, d in anat.anchors],
@@ -113,7 +113,7 @@ def generate(output_blend, config_dir=None, anatomy_dir=None, reference_path=Non
     previews = []
     if preview:
         try:
-            previews = anatomy_scene.render_anatomy_previews(base.height_m, output_blend.parent)
+            previews = anatomy_scene.render_anatomy_previews(base, output_blend.parent, anat=anat)
             for p in previews:
                 log(f"[INFO] Vista previa: {p}")
         except Exception as exc:  # noqa: BLE001

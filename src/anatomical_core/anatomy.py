@@ -10,6 +10,10 @@ Cada hueso anatomico:
     unidades de altura H (ejes del modelo: +X izquierda, +Y atras, +Z arriba). Asi escala con las
     proporciones de la base y sigue a sus pivotes;
   * lleva `reference`: los nombres de config/reference que representa (trazabilidad);
+  * `parent` es el padre en el RIG (el segmento que lo mueve: siempre la base o un hueso rigido de
+    ella), y `anatomical_parent` la relacion anatomica/articular (p. ej. el humero cuelga
+    anatomicamente de la escapula, pero en el rig lo mueve el segmento base upper_arm). Si no se
+    indica, coincide con `parent`;
   * puede llevar un contorno (`outline`): geometria de referencia, solo visualizacion.
 Los huesos con mirror=true se definen para el lado izquierdo; el derecho es su espejo exacto.
 En este nivel los huesos son RIGIDOS respecto a su padre (sin articulaciones ni poses propias).
@@ -29,7 +33,7 @@ from .skeleton import SkeletonModel
 REFERENCE_FILE = PROJECT_ROOT / "config" / "reference" / "human_skeleton_reference.json"
 ANATOMY_DIR = PROJECT_ROOT / "config" / "anatomy"
 # Orden de construccion del nivel 1: una region puede usar puntos de las anteriores.
-REGION_ORDER = ("pelvic_girdle", "thoracic_cage", "hands_feet", "vertebrae_skull")
+REGION_ORDER = ("pelvic_girdle", "thoracic_cage", "hands_feet", "spine_head", "long_bones")
 LAYER = "anatomy_L1"
 
 
@@ -86,6 +90,7 @@ class AnatomyBoneDef:
     frame_x_hint: Vec3
     outline: tuple  # PointSpec
     outline_closed: bool
+    anatomical_parent: str
 
 
 @dataclass(frozen=True)
@@ -143,6 +148,7 @@ def load_anatomy_config(anatomy_dir: Path | str | None = None, reference_path: P
                 frame_x_hint=_vec3(b.get("frame_x_hint", [1, 0, 0]), f"{w}.frame_x_hint"),
                 outline=tuple(_point_spec(p, f"{w}.outline[{k}]") for k, p in enumerate(b.get("outline", []))),
                 outline_closed=bool(b.get("outline_closed", True)),
+                anatomical_parent=str(b.get("anatomical_parent", b["parent"])),
             ))
         for i, a in enumerate(data.get("anchors", [])):
             anchors.append(AnchorDef(str(a["point"]), str(a["equals"]), str(a.get("description", ""))))
@@ -163,6 +169,7 @@ class AnatomyBone:
     reference: tuple
     outline: tuple  # puntos (Vec3) del contorno de referencia, en el neutro
     outline_closed: bool
+    anatomical_parent: str | None = None  # relacion anatomica (None = igual que parent)
 
     @property
     def side(self) -> str | None:
@@ -184,6 +191,7 @@ class AnatomyModel:
         payload = {
             "base": self.base_signature,
             "bones": {n: [b.parent, r(b.head), r(b.tail), [r(a) for a in b.frame], list(b.reference), [r(p) for p in b.outline]]
+                      + ([b.anatomical_parent] if b.anatomical_parent not in (None, b.parent) else [])
                       for n, b in sorted(self.bones.items())},
         }
         return hashlib.sha256(json.dumps(payload, sort_keys=True).encode("utf-8")).hexdigest()
@@ -231,11 +239,12 @@ def build_anatomy(base: SkeletonModel, cfg: AnatomyConfig) -> AnatomyModel:
             if name in bones:
                 raise ConfigError(f"Hueso anatomico duplicado '{name}'")
             parent = _swap_side(d.parent, side or "L")
+            anat_parent = _swap_side(d.anatomical_parent, side or "L")
             reference = tuple(_swap_side(r, side or "L") for r in d.reference)
             if side == "R":
                 b = left
                 bone = AnatomyBone(name, parent, mirror_point(b.head), mirror_point(b.tail), b.length, mirror_frame(b.frame),
-                                   d.region, reference, tuple(mirror_point(p) for p in b.outline), b.outline_closed)
+                                   d.region, reference, tuple(mirror_point(p) for p in b.outline), b.outline_closed, anat_parent)
             else:
                 head, tail = _eval(d.head, base, bones), _eval(d.tail, base, bones)
                 ln = length(sub(tail, head))
@@ -245,10 +254,10 @@ def build_anatomy(base: SkeletonModel, cfg: AnatomyConfig) -> AnatomyModel:
                     frame = frame_from_direction(sub(tail, head), d.frame_x_hint)
                 except ValueError as exc:
                     raise ConfigError(f"Hueso anatomico '{name}': {exc}") from exc
-                bone = AnatomyBone(name, parent, head, tail, ln, frame, d.region, reference, (), d.outline_closed)
+                bone = AnatomyBone(name, parent, head, tail, ln, frame, d.region, reference, (), d.outline_closed, anat_parent)
                 bones[name] = bone  # el contorno puede usar la cabeza/cola del propio hueso
                 outline = tuple(_eval(p, base, bones) for p in d.outline)
-                bone = AnatomyBone(name, parent, head, tail, ln, frame, d.region, reference, outline, d.outline_closed)
+                bone = AnatomyBone(name, parent, head, tail, ln, frame, d.region, reference, outline, d.outline_closed, anat_parent)
                 left = bone
             bones[name] = bone
     anchors = []

@@ -454,6 +454,17 @@ def validate_anatomy(base: SkeletonModel, anat) -> list:
                 out.append(Issue("error", "ANAT_NOT_ROOTED", f"'{n}' no cuelga de ningun hueso de la base"))
         if not b.reference:
             out.append(Issue("error", "ANAT_NO_REFERENCE", f"'{n}' no indica que huesos de la referencia representa"))
+        ap = b.anatomical_parent or b.parent
+        if ap not in base.bones and ap not in names:
+            out.append(Issue("error", "ANAT_ANATOMICAL_PARENT_UNKNOWN", f"'{n}': padre anatomico inexistente '{ap}'"))
+        else:  # la jerarquia anatomica tambien debe ser un arbol sin ciclos que acaba en la base
+            seen_a, cur_a = set(), n
+            while cur_a in names:
+                if cur_a in seen_a:
+                    out.append(Issue("error", "ANAT_ANATOMICAL_CYCLE", f"Ciclo en la jerarquia anatomica que incluye '{n}'"))
+                    break
+                seen_a.add(cur_a)
+                cur_a = anat.bones[cur_a].anatomical_parent or anat.bones[cur_a].parent
         if not all(is_finite(p) for p in b.outline):
             out.append(Issue("error", "ANAT_OUTLINE_NON_FINITE", f"Contorno no finito en '{n}'"))
     # geometria: mismas comprobaciones que la base (duck typing sobre .bones)
@@ -504,6 +515,8 @@ def validate_anatomy_snapshot(anat, snap: dict) -> list:
             out.append(Issue("error", "ANAT_BLEND_PARENT", f"'{n}': padre {s['parent']!r} != {b.parent!r}"))
         if s.get("layer") != "anatomy_L1":
             out.append(Issue("error", "ANAT_BLEND_LAYER", f"'{n}' no esta marcado como nivel 1"))
+        if s.get("anatomical_parent") != (b.anatomical_parent or b.parent):
+            out.append(Issue("error", "ANAT_BLEND_ANATOMICAL_PARENT", f"'{n}': padre anatomico en .blend {s.get('anatomical_parent')!r}"))
         for label, mine, theirs in (("head", b.head, s["head"]), ("tail", b.tail, s["tail"])):
             if length(sub(mine, tuple(theirs))) > BLEND_TOL:
                 out.append(Issue("error", "ANAT_BLEND_POSITION", f"'{n}' {label} difiere en el .blend"))

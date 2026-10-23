@@ -95,7 +95,7 @@ if ($Task -in 'All', 'Anatomy') {
     if ($code -ne 0) { if ($exit -eq 0) { $exit = $code } } else {
         Write-Host "Nivel 1 .blend   : $ablend"
         Write-Host "Reporte nivel 1  : $(Join-Path $OutDir 'anatomy_level1_report.json')"
-        if (-not $NoPreview) { Write-Host "Vistas nivel 1   : $OutDir\anatomy_front.png , anatomy_side.png , anatomy_pelvis_34.png , anatomy_thorax_34.png" }
+        if (-not $NoPreview) { Write-Host "Vistas nivel 1   : $OutDir\anatomy_*.png (frente, lado, pelvis, torax, nivel 1 aislado, columna, mano, pie)" }
     }
 }
 

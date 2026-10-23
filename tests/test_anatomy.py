@@ -242,6 +242,298 @@ class TestThoracicCage(unittest.TestCase):
         self.assertGreater(heads[-1][2], bottom[2])
 
 
+def base_ancestor(anat, name):
+    cur = name
+    while cur in anat.bones:
+        cur = anat.bones[cur].parent
+    return cur
+
+
+def reference_group(*path):
+    data = json.loads((ROOT / "config" / "reference" / "human_skeleton_reference.json").read_text(encoding="utf-8"))
+    node = data["bone_hierarchy"]
+    for p in path:
+        node = node[p]
+    return [anatomy.normalize_reference_name(n) for n in anatomy._leaves(node)]
+
+
+class TestHandsFeet(unittest.TestCase):
+    """Region 3: carpo, metacarpo y falanges; tarso, metatarso y falanges (53 huesos por lado)."""
+
+    def setUp(self):
+        self.base, self.anat = build()
+        self.b = self.anat.bones
+        self.region = {n for n, x in self.b.items() if x.region == "hands_feet"}
+
+    def test_bones_are_exactly_the_reference_hand_and_foot_bones(self):
+        expected = set()
+        for side in ("left", "right"):
+            for g in ("carpal", "metacarpals", "phalanges"):
+                expected |= set(reference_group("appendicular_skeleton", "upper_limbs", f"arm_{side}", g))
+            for g in ("tarsal", "metatarsals", "phalanges"):
+                expected |= set(reference_group("appendicular_skeleton", "lower_limbs", f"leg_{side}", g))
+        self.assertEqual(len(expected), 106)
+        self.assertEqual(self.region, expected)
+        for n in self.region:
+            self.assertEqual(self.b[n].reference, (n,))  # un hueso por nombre de referencia
+
+    def test_rooted_in_the_base_hand_and_foot_segments(self):
+        hand_groups = ("scaphoid", "lunate", "triquetrum", "pisiform", "trapezium", "trapezoid", "capitate", "hamate",
+                       "metacarpal", "thumb", "index", "middle", "ring", "little")
+        for n in self.region:
+            side = n[-1]
+            expected = f"hand.{side}" if n.startswith(hand_groups) else f"foot.{side}"
+            self.assertEqual(base_ancestor(self.anat, n), expected, n)
+
+    def test_digit_chains_are_exact(self):
+        for n in self.region:
+            b = self.b[n]
+            if b.parent in self.b and n.split("_")[0] in ("thumb", "index", "middle", "ring", "little", "toe"):
+                self.assertLess(length(sub(b.head, self.b[b.parent].tail)), 1e-12, n)  # cada falange nace en la cola de su padre
+        for s in "LR":
+            self.assertEqual(self.b[f"index_proximal.{s}"].parent, f"metacarpal_2.{s}")
+            self.assertEqual(self.b[f"thumb_proximal.{s}"].parent, f"metacarpal_1.{s}")
+            self.assertEqual(self.b[f"metacarpal_1.{s}"].parent, f"trapezium.{s}")
+            self.assertEqual(self.b[f"toe_1_proximal.{s}"].parent, f"metatarsal_1.{s}")
+            self.assertEqual(self.b[f"metatarsal_5.{s}"].parent, f"cuboid.{s}")
+            self.assertEqual(self.b[f"calcaneus.{s}"].parent, f"talus.{s}")
+            for k, cun in ((1, "medial"), (2, "intermediate"), (3, "lateral")):
+                self.assertLess(length(sub(self.b[f"metatarsal_{k}.{s}"].head, self.b[f"{cun}_cuneiform.{s}"].tail)), 1e-12)
+            self.assertNotIn(f"thumb_middle.{s}", self.b)  # el pulgar tiene 2 falanges
+            self.assertNotIn(f"toe_1_middle.{s}", self.b)  # el dedo gordo tambien
+
+    def test_hand_fits_its_base_segment(self):
+        from anatomical_core.geometry import dot, normalize
+        for s, sx in (("L", 1), ("R", -1)):
+            hb = self.base.bones[f"hand.{s}"]
+            axis, ln = normalize(sub(hb.tail, hb.head)), hb.length
+            pts = [p for n in self.region if base_ancestor(self.anat, n) == f"hand.{s}" for p in (self.b[n].head, self.b[n].tail)]
+            for p in pts:
+                t = dot(sub(p, hb.head), axis) / ln
+                self.assertGreaterEqual(t, -1e-9)
+                self.assertLessEqual(t, 1.0 + 1e-9)
+                self.assertLess(perp_distance(p, hb.head, hb.tail), 0.035 * H)
+            tips = {f: self.b[f"{f}_distal.{s}"].tail for f in ("thumb", "index", "middle", "ring", "little")}
+            self.assertLess(length(sub(tips["middle"], hb.tail)), 0.005)  # el dedo medio llega a la punta del segmento base
+            self.assertEqual(min(tips, key=lambda f: tips[f][2]), "middle")  # el mas largo
+            self.assertEqual(max((f for f in tips if f != "thumb"), key=lambda f: tips[f][2]), "little")  # el mas corto
+            self.assertEqual(max(tips, key=lambda f: tips[f][0] * sx), "thumb")  # pulgar lateral
+            self.assertLess(tips["thumb"][1], hb.head[1])  # y algo hacia la palma (anterior)
+
+    def test_foot_rests_on_the_ground(self):
+        for s, sx in (("L", 1), ("R", -1)):
+            fb = self.base.bones[f"foot.{s}"]
+            names = [n for n in self.region if base_ancestor(self.anat, n) == f"foot.{s}"]
+            pts = [p for n in names for p in (self.b[n].head, self.b[n].tail)]
+            self.assertGreaterEqual(min(p[2] for p in pts), 0.0)  # nada bajo el suelo
+            heel = self.b[f"calcaneus.{s}"].tail
+            self.assertLess(heel[2], 0.012)  # apoyo del talon
+            self.assertGreater(heel[1], fb.head[1] + 0.03)  # detras del tobillo
+            for k in range(1, 6):
+                self.assertLess(self.b[f"metatarsal_{k}.{s}"].tail[2], 0.012)  # apoyo de las cabezas metatarsianas
+            tips = {k: self.b[f"toe_{k}_distal.{s}"].tail for k in range(1, 6)}
+            for p in tips.values():
+                self.assertLess(p[2], 0.012)
+            self.assertLess(abs(tips[1][1] - fb.tail[1]), 0.002)  # el dedo gordo llega a la punta del pie base
+            self.assertEqual(min(tips, key=lambda k: tips[k][0] * sx), 1)  # dedo gordo medial
+            self.assertEqual(max(tips, key=lambda k: tips[k][0] * sx), 5)  # quinto dedo lateral
+            arch = min(self.b[f"navicular.{s}"].tail[2], self.b[f"medial_cuneiform.{s}"].head[2])
+            self.assertGreater(arch, 0.02)  # arco longitudinal medial
+
+    def test_scales_with_the_base(self):
+        base2, anat2 = build(height_m=1.90)
+        self.assertEqual(validation.validate_anatomy(base2, anat2), [])
+        self.assertAlmostEqual(anat2.bones["metacarpal_3.L"].length / self.b["metacarpal_3.L"].length, 1.90 / 1.75, places=9)
+        self.assertGreaterEqual(min(anat2.bones[n].tail[2] for n in anat2.bones if n.startswith(("toe_", "calcaneus"))), 0.0)
+
+
+def rig_base_carrier(anat, name):
+    """Hueso base que mueve a un hueso del nivel 1 (subiendo por padres del RIG)."""
+    return base_ancestor(anat, name)
+
+
+VERTEBRAE = [f"L{k}" for k in range(5, 0, -1)] + [f"T{k}" for k in range(12, 0, -1)] + [f"C{k}" for k in range(7, 0, -1)]
+
+
+class TestSpineHead(unittest.TestCase):
+    """Region 4: C1-C7, T1-T12, L1-L5, cranium, mandible."""
+
+    def setUp(self):
+        self.base, self.anat = build()
+        self.b = self.anat.bones
+
+    def test_names_and_traceability_against_the_reference(self):
+        region = {n for n, x in self.b.items() if x.region == "spine_head"}
+        self.assertEqual(region, set(VERTEBRAE) | {"cranium", "mandible"})
+        self.assertEqual(len(region), 26)
+        expected_refs = set()
+        for g in ("cervical", "thoracic", "lumbar"):
+            expected_refs |= set(reference_group("axial_skeleton", "vertebral_column", g))
+        expected_refs |= set(reference_group("axial_skeleton", "skull"))
+        self.assertEqual({r for n in region for r in self.b[n].reference}, expected_refs)
+        self.assertEqual(self.b["C1"].reference, ("C1_atlas",))
+        self.assertEqual(self.b["C2"].reference, ("C2_axis",))
+        for n in region - {"C1", "C2"}:
+            self.assertEqual(self.b[n].reference, (n,))
+
+    def test_reference_is_now_fully_covered(self):
+        cov = anatomy.coverage(self.anat, self.base)
+        self.assertEqual(cov["pending"], [])
+        self.assertEqual(len(cov["implemented"]), 183)
+        self.assertEqual(len(cov["implemented"]) + len(cov["base"]), 185)
+
+    def test_anatomical_chain_bottom_up_as_specified(self):
+        chain = ["sacrum_fused"] + VERTEBRAE + ["cranium", "mandible"]
+        for lower, upper in zip(chain, chain[1:]):
+            self.assertEqual(self.b[upper].anatomical_parent, lower, upper)
+
+    def test_vertebral_column_is_continuous_and_anchored_to_the_base(self):
+        self.assertLess(length(sub(self.b["L5"].head, self.b["sacrum_fused"].head)), 1e-12)  # L5 sobre el sacro
+        for lower, upper in zip(VERTEBRAE, VERTEBRAE[1:]):
+            self.assertLess(length(sub(self.b[upper].head, self.b[lower].tail)), 1e-12, upper)
+        pivots = (("L1", "spine_thoracic"), ("T1", "neck"), ("C1", "head"))
+        for v, seg in pivots:
+            self.assertLess(length(sub(self.b[v].tail, self.base.bones[seg].head)), 1e-12, v)
+        self.assertLess(length(sub(self.b["cranium"].head, self.b["C1"].tail)), 1e-12)
+        self.assertLess(length(sub(self.b["cranium"].tail, self.base.bones["head"].tail)), 1e-12)
+
+    def test_rig_carriers(self):
+        carrier = {**{f"L{k}": "spine_lumbar" for k in range(1, 6)},
+                   **{f"T{k}": "spine_thoracic" for k in range(7, 13)}, **{f"T{k}": "thorax" for k in range(1, 7)},
+                   **{f"C{k}": "neck" for k in range(1, 8)}, "cranium": "head", "mandible": "head"}
+        for n, seg in carrier.items():
+            self.assertEqual(rig_base_carrier(self.anat, n), seg, n)
+        self.assertEqual(self.b["mandible"].parent, "cranium")
+
+    def _sagittal_offsets(self, names):
+        """Desplazamiento en Y (+atras) del centro de cada vertebra respecto a la linea base a su altura."""
+        out = []
+        for n in names:
+            v = self.b[n]
+            c = tuple((a + b) / 2 for a, b in zip(v.head, v.tail))
+            seg = self.base.bones[rig_base_carrier(self.anat, n)]
+            t = (c[2] - seg.head[2]) / (seg.tail[2] - seg.head[2])
+            out.append(c[1] - (seg.head[1] + t * (seg.tail[1] - seg.head[1])))
+        return out
+
+    def test_s_curve(self):
+        lumbar = self._sagittal_offsets([f"L{k}" for k in range(5, 0, -1)])
+        thoracic = self._sagittal_offsets([f"T{k}" for k in range(12, 6, -1)]) + self._sagittal_offsets([f"T{k}" for k in range(6, 0, -1)])
+        cervical = self._sagittal_offsets([f"C{k}" for k in range(7, 0, -1)])
+        self.assertTrue(all(o < 0 for o in lumbar))  # lordosis lumbar: hacia delante (-Y)
+        self.assertTrue(all(o > 0 for o in thoracic))  # cifosis toracica: hacia atras (+Y)
+        self.assertTrue(all(o < 0 for o in cervical))  # lordosis cervical: hacia delante
+        self.assertEqual(lumbar.index(min(lumbar)), 2)  # vertice en L3
+        self.assertIn(thoracic.index(max(thoracic)), (5, 6))  # vertice en T7-T6
+        self.assertEqual(cervical.index(min(cervical)), 3)  # vertice en C4
+        self.assertTrue(0.008 * H < -min(lumbar) < 0.013 * H)
+        self.assertTrue(0.006 * H < max(thoracic) < 0.011 * H)
+        self.assertTrue(0.002 * H < -min(cervical) < 0.006 * H)
+        for n in VERTEBRAE + ["cranium", "mandible"]:  # todo en el plano medio (X = 0)
+            self.assertAlmostEqual(self.b[n].head[0], 0.0, places=12)
+            self.assertAlmostEqual(self.b[n].tail[0], 0.0, places=12)
+
+    def test_vertebra_sizes_are_uniform_per_region_and_match_the_rib_levels(self):
+        for group in ([f"L{k}" for k in range(1, 6)], [f"T{k}" for k in range(1, 13)], [f"C{k}" for k in range(1, 8)]):
+            heights = [self.b[n].tail[2] - self.b[n].head[2] for n in group]
+            mean = sum(heights) / len(heights)
+            for hgt in heights:
+                self.assertLess(abs(hgt - mean) / mean, 0.05, group)
+        for k in range(1, 13):  # cada costilla nace a la altura media de su vertebra
+            t = self.b[f"T{k}"]
+            self.assertLess(abs(self.b[f"rib_{k:02d}.L"].head[2] - (t.head[2] + t.tail[2]) / 2), 0.002)
+
+    def test_head(self):
+        cr, md = self.b["cranium"], self.b["mandible"]
+        self.assertLess(md.head[1], cr.head[1])  # ATM por delante de los condilos occipitales
+        self.assertLess(md.tail[1], md.head[1] - 0.05)  # menton hacia delante
+        self.assertLess(md.tail[2], md.head[2])  # y por debajo
+        self.assertLess(min(p[1] for p in cr.outline), cr.head[1] - 0.08)  # la cara queda delante
+        self.assertGreater(max(p[1] for p in cr.outline), cr.head[1] + 0.05)  # el occipital detras
+        for p in cr.outline:
+            self.assertAlmostEqual(p[0], 0.0, places=12)  # perfil medio-sagital
+        n = len(md.outline)
+        for i in range(n // 2):  # mandibula en U simetrica
+            self.assertLess(length(sub(mirror_point(md.outline[i]), md.outline[n - 1 - i])), 1e-12)
+
+
+class TestLongBones(unittest.TestCase):
+    """Region 5: escapula y huesos largos."""
+
+    SPEC_ANATOMICAL = {"scapula": "T2", "humerus": "scapula", "radius": "humerus", "ulna": "humerus",
+                       "femur": "hip_bone", "patella": "femur", "tibia": "femur", "fibula": "femur"}
+    RIG = {"scapula": "clavicle", "humerus": "upper_arm", "radius": "forearm", "ulna": "forearm",
+           "femur": "thigh", "patella": "thigh", "tibia": "shin", "fibula": "shin"}
+
+    def setUp(self):
+        self.base, self.anat = build()
+        self.b = self.anat.bones
+
+    def test_names_and_traceability(self):
+        region = {n for n, x in self.b.items() if x.region == "long_bones"}
+        self.assertEqual(region, {f"{n}.{s}" for n in self.SPEC_ANATOMICAL for s in "LR"})
+        expected = set()
+        for side in ("left", "right"):
+            expected |= set(reference_group("appendicular_skeleton", "pectoral_girdle", side)) - {"clavicle.L", "clavicle.R"}
+            arm = reference_group("appendicular_skeleton", "upper_limbs", f"arm_{side}", "humerus") + \
+                reference_group("appendicular_skeleton", "upper_limbs", f"arm_{side}", "forearm")
+            leg = sum((reference_group("appendicular_skeleton", "lower_limbs", f"leg_{side}", g)
+                       for g in ("femur", "patella", "lower_leg")), [])
+            expected |= set(arm) | set(leg)
+        self.assertEqual(region, expected)
+        for n in region:
+            self.assertEqual(self.b[n].reference, (n,))
+
+    def test_anatomical_hierarchy_as_specified_and_rig_carriers(self):
+        for s in "LR":
+            for bone, ap in self.SPEC_ANATOMICAL.items():
+                expected = ap if ap == "T2" else f"{ap}.{s}"
+                self.assertEqual(self.b[f"{bone}.{s}"].anatomical_parent, expected, bone)
+                self.assertEqual(self.b[f"{bone}.{s}"].parent, f"{self.RIG[bone]}.{s}", bone)
+
+    def test_long_bones_coincide_with_their_base_segments(self):
+        for s in "LR":
+            for bone, seg in (("humerus", "upper_arm"), ("femur", "thigh"), ("tibia", "shin")):
+                self.assertLess(length(sub(self.b[f"{bone}.{s}"].head, self.base.bones[f"{seg}.{s}"].head)), 1e-12)
+                self.assertLess(length(sub(self.b[f"{bone}.{s}"].tail, self.base.bones[f"{seg}.{s}"].tail)), 1e-12)
+            self.assertLess(length(sub(self.b[f"scapula.{s}"].head, self.base.bones[f"upper_arm.{s}"].head)), 1e-12)  # glenoide
+            self.assertLess(length(sub(self.b[f"femur.{s}"].head, self.b[f"hip_bone.{s}"].tail)), 1e-12)  # acetabulo
+
+    def test_anatomical_position_and_distal_attachments(self):
+        for s, sx in (("L", 1), ("R", -1)):
+            r, u = self.b[f"radius.{s}"], self.b[f"ulna.{s}"]
+            elbow = self.base.bones[f"forearm.{s}"].head
+            wrist = self.base.bones[f"hand.{s}"].head
+            self.assertGreater(r.head[0] * sx, u.head[0] * sx)  # radio lateral (posicion anatomica)
+            self.assertGreater(r.tail[0] * sx, u.tail[0] * sx)
+            self.assertGreater(u.head[1], elbow[1])  # olecranon detras del codo
+            self.assertLess(perp_distance(wrist, r.tail, u.tail), 0.006)  # la muneca entre radio y cubito distales
+            self.assertTrue(min(r.tail[0] * sx, u.tail[0] * sx) < wrist[0] * sx < max(r.tail[0] * sx, u.tail[0] * sx))
+            tib, fib = self.b[f"tibia.{s}"], self.b[f"fibula.{s}"]
+            ankle = self.base.bones[f"foot.{s}"].head
+            medial_malleolus = tib.outline[-1]
+            self.assertTrue(medial_malleolus[0] * sx < ankle[0] * sx < fib.tail[0] * sx)  # tobillo entre maleolos
+            self.assertGreater(fib.head[0] * sx, tib.head[0] * sx)  # perone lateral
+            self.assertGreater(fib.head[1], tib.head[1])  # y algo posterior
+            knee = self.base.bones[f"shin.{s}"].head
+            pat = self.b[f"patella.{s}"]
+            self.assertLess(max(pat.head[1], pat.tail[1]), knee[1] - 0.03)  # rotula delante de la rodilla
+            self.assertTrue(pat.tail[2] < knee[2] < pat.head[2])
+            fem = self.b[f"femur.{s}"]
+            self.assertGreater(fem.outline[1][0] * sx, fem.head[0] * sx)  # trocanter mayor lateral a la cabeza
+
+    def test_scapula_lies_on_the_back_of_the_thorax(self):
+        for s, sx in (("L", 1), ("R", -1)):
+            sc = self.b[f"scapula.{s}"]
+            ribs_back = max(p[1] for k in range(1, 13) for p in self.b[f"rib_{k:02d}.{s}"].outline)
+            self.assertGreater(sc.tail[1], ribs_back)  # el angulo inferior queda por detras de las costillas
+            t7 = self.b["T7"]
+            self.assertLess(abs(sc.tail[2] - (t7.head[2] + t7.tail[2]) / 2), 0.01)  # a la altura de T7
+            medial = [sc.outline[2], sc.tail]  # angulo superior e inferior: borde medial
+            for p in medial:
+                self.assertTrue(0.03 * H < p[0] * sx < 0.06 * H)
+
+
 class TestAnatomyValidatorDetectsProblems(unittest.TestCase):
     def setUp(self):
         self.base, self.anat = build()
@@ -275,6 +567,11 @@ class TestAnatomyValidatorDetectsProblems(unittest.TestCase):
         outline = list(r.outline)
         outline[2] = (outline[2][0] - 0.02, outline[2][1], outline[2][2])
         self.assertIn("ANAT_OUTLINE_ASYMMETRIC", codes(validation.validate_anatomy(self.base, self.with_bone("hip_bone.R", outline=tuple(outline)))))
+
+    def test_anatomical_parent_errors(self):
+        self.assertIn("ANAT_ANATOMICAL_PARENT_UNKNOWN", codes(validation.validate_anatomy(self.base, self.with_bone("C1", anatomical_parent="fantasma"))))
+        m = self.with_bone("L5", anatomical_parent="L4")  # L5 -> L4 -> L5
+        self.assertIn("ANAT_ANATOMICAL_CYCLE", codes(validation.validate_anatomy(self.base, m)))
 
     def test_built_on_a_different_base(self):
         other_base = build_model(load_config(height_m=1.60))

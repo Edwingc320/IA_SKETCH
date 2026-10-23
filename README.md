@@ -109,7 +109,7 @@ La suite corre **dentro de Blender** y compara números reales, no solo que Blen
 
 - **`test_anatomy.py`** y **`test_anatomy_blender.py`**: nivel 1 (ver más abajo): referencia y nombres, jerarquía enraizada en la base, anclajes exactos, forma y simetría de pelvis y caja torácica, y en Blender que los huesos del nivel 1 son hijos reales de la base.
 
-Resumen esperado: `[SUMMARY] ejecutadas=119 fallos=0 errores=0 omitidas=0` y `RESULTADO FINAL: OK`. Las pruebas fijan los valores **por defecto** de `config\`; si editas la configuración, ejecuta `-Task Generate` (la validación interna siempre corre) y, si un test de valores por defecto falla por tus cambios, es esperado.
+Resumen esperado: `[SUMMARY] ejecutadas=143 fallos=0 errores=0 omitidas=0` y `RESULTADO FINAL: OK`. Las pruebas fijan los valores **por defecto** de `config\`; si editas la configuración, ejecuta `-Task Generate` (la validación interna siempre corre) y, si un test de valores por defecto falla por tus cambios, es esperado.
 
 ## Modificar las proporciones y la pose
 
@@ -157,7 +157,7 @@ powershell -ExecutionPolicy Bypass -File scripts\run.ps1 -Task Anatomy
 |---|---|
 | Archivo Blender del nivel 1 | `output\anatomy_level1.blend` (la base `skeleton_core.blend` no se toca) |
 | Reporte (huesos, anclajes, cobertura de la referencia, limitaciones) | `output\anatomy_level1_report.json` |
-| Vistas previas | `output\anatomy_front.png`, `anatomy_side.png`, `anatomy_pelvis_34.png`, `anatomy_thorax_34.png` |
+| Vistas previas | `output\anatomy_front.png`, `anatomy_side.png`, `anatomy_pelvis_34.png`, `anatomy_thorax_34.png`; aisladas (solo nivel 1): `anatomy_level1_front.png`, `anatomy_level1_side.png`, `anatomy_spine_head_lateral.png`, `anatomy_hand_L_palmar.png`, `anatomy_foot_L_lateral.png`, `anatomy_foot_L_plantar.png` |
 
 - **Referencia:** `config\reference\human_skeleton_reference.json` (185 huesos, tal como se entregó). Nombres normalizados: lado como sufijo final (`rib_01.L`), `little` en vez de `pinky`, `sternum_body` en vez de `body`.
 - **Definición:** `config\anatomy\<region>.json`. Cabeza y cola de cada hueso son **puntos de la base** (`"at": "thigh.L.head"`) o interpolaciones entre ellos (`"lerp"`), más un desplazamiento en fracción de la altura; así siguen las proporciones de la base. `reference` indica qué nombres de la referencia representa cada hueso; `anchors` son uniones que deben coincidir exactamente.
@@ -169,10 +169,22 @@ Regiones (orden aprobado):
 |---|---|---|---|
 | 1 | Cintura pélvica + sacro | hecho | `sacrum_fused`, `coccyx_fused`, `hip_bone.L/R` (ilion + isquion + pubis). La cola de cada coxal **es** la cabeza femoral de la base (anclaje exacto). |
 | 2 | Caja torácica + esternón | hecho | `sternum` (manubrio + cuerpo + xifoides, una pieza) y `rib_01…rib_12.L/R`, cada costilla en su vértebra T1–T12 (hija de `thorax` las 1–6, de `spine_thoracic` las 7–12). Da profundidad anteroposterior al torso. |
-| 3 | Manos y pies desglosados | pendiente | |
-| 4 | Vértebras ajustadas + cráneo | pendiente | |
+| 3 | Manos y pies desglosados | hecho | 53 por lado (106): carpo (8), metacarpo (5) y falanges (14) de la mano, todos descendientes del hueso base `hand`; tarso (7), metatarso (5) y falanges (14) del pie, descendientes de `foot`. Pulgar y dedo gordo con 2 falanges. Mano en posición anatómica (palma al frente, pulgar lateral, dedos rectos); talón, cabezas metatarsianas y puntas de los dedos a pocos mm del suelo, con arco medial. |
+| 4 | Columna + cabeza | hecho | `C1`–`C7`, `T1`–`T12`, `L1`–`L5` (C1/C2 representan `C1_atlas`/`C2_axis`), `cranium`, `mandible`. Cadena continua de abajo arriba (sacro → L5 → … → C1 → cráneo → mandíbula): cada vértebra nace en la cola de la inferior. Repartidas por igual sobre sus segmentos base; las torácicas coinciden con los niveles de las costillas. Curva en S sagital (lordosis lumbar y cervical, cifosis torácica), nula en las uniones con la base. |
+| 5 | Huesos largos + cintura escapular | hecho | `scapula`, `humerus`, `radius`, `ulna`, `femur`, `patella`, `tibia`, `fibula` (.L/.R). Húmero, fémur y tibia coinciden con sus segmentos base; radio lateral y cúbito medial (supinación), la muñeca queda entre sus extremos distales; el tobillo, entre los maléolos de tibia y peroné; rótula delante de la rodilla; escápula detrás de las costillas, de la glenoide (= pivote del hombro) al ángulo inferior (T7). |
 
-**Limitación conocida:** la clavícula de la base (congelada) nace casi en el plano de la columna, por lo que queda un hueco de unos 8 cm entre su pivote esternoclavicular y el manubrio (medido en el reporte como `sternoclavicular_gap_m`). Se corregirá al rehacer la cintura escapular.
+**Padre del rig y padre anatómico.** Cada hueso tiene dos relaciones:
+
+- `parent` (la jerarquía real de Blender): el **segmento base que lo mueve** (o un hueso rígido que cuelga de él). Así todo el nivel 1 sigue cualquier pose de la base: girar `spine_lumbar` arrastra L1–L5 y todo lo que está encima (vértebras, cráneo, costillas, escápulas, brazos), girar `neck` arrastra C1–C7, cráneo y mandíbula, girar `upper_arm` arrastra húmero, radio, cúbito y mano.
+- `anatomical_parent` (propiedad `ac_anatomical_parent` en Blender): la **relación anatómica** pedida: L5 → sacro, cadena vertebral, C1 → cráneo → mandíbula, escápula → T2, húmero → escápula, radio/cúbito → húmero, fémur → coxal, tibia/peroné/rótula → fémur.
+
+Si coinciden (p. ej. dentro de un mismo segmento base: L5 → L4 → … → L1), el rig sigue la cadena anatómica. Si el hueso anatómico padre lo mueve otro segmento base (el húmero lo mueve `upper_arm`, no la escápula), el rig usa el segmento base para que la pose de la base no lo deje atrás.
+
+**Limitaciones conocidas** (heredadas de la base congelada; se miden en el reporte o en las pruebas):
+
+- La clavícula base nace casi en el plano de la columna: hueco de unos 8 cm entre su pivote esternoclavicular y el manubrio (`sternoclavicular_gap_m`).
+- El cuello base mide 0.045 H: C1–C7 quedan comprimidas (~11 mm por vértebra) y los cóndilos occipitales quedan unos 5–7 cm más bajos que en un adulto real, por lo que el cráneo es alto y la barbilla queda baja, cerca del esternón.
+- La mano y el pie base no se re-emparentan a radio/cúbito ni a tibia/peroné (cambiaría la base congelada): la unión es geométrica (muñeca entre radio y cúbito distales; tobillo entre los maléolos) y cinemática (los mueve el mismo segmento base).
 
 ## Versiones anteriores y compatibilidad
 

@@ -147,6 +147,100 @@ class TestAnatomyInBlender(unittest.TestCase):
         self.assertEqual(sorted(b.name for b in arm.data.collections_all["L1_thoracic_cage"].bones),
                          sorted(n for n, b in self.anat.bones.items() if b.region == "thoracic_cage"))
 
+    def test_05c_hands_and_feet_follow_their_base_segment(self):
+        """Girar la mano base izquierda y el pie base derecho arrastra todo su desglose (y nada mas)."""
+        import bpy
+        from mathutils import Euler, Vector
+        arm = self.open()
+        for n in ("hand.L", "foot.R"):
+            pb = arm.pose.bones[n]
+            pb.rotation_mode = "XYZ"
+            pb.rotation_euler = Euler((0.4, -0.3, 0.2))
+        bpy.context.view_layer.update()
+        ev = self.evaluated(arm)
+        deltas = {n: ev.pose.bones[n].matrix @ arm.data.bones[n].matrix_local.inverted() for n in ("hand.L", "foot.R")}
+        checked = {"hand.L": 0, "foot.R": 0, "quietos": 0}
+        for n, b in self.anat.bones.items():
+            if b.region != "hands_feet":
+                continue
+            root = n
+            while root in self.anat.bones:
+                root = self.anat.bones[root].parent
+            got = ev.pose.bones[n].tail
+            if root in deltas:
+                self.assertLess(dist(got, deltas[root] @ Vector(b.tail)), TOL, n)
+                checked[root] += 1
+            else:
+                self.assertLess(dist(got, b.tail), TOL, n)
+                checked["quietos"] += 1
+        self.assertEqual(checked, {"hand.L": 27, "foot.R": 26, "quietos": 53})
+        self.assertEqual(len(arm.data.collections_all["L1_hands_feet"].bones), 106)
+
+    def _rig_ancestors(self, n):
+        out, cur = [], n
+        while cur is not None:
+            out.append(cur)
+            cur = self.anat.bones[cur].parent if cur in self.anat.bones else self.base.bones[cur].parent
+        return out
+
+    def _check_solidary(self, driver, euler):
+        """Gira el hueso `driver` en pose: todo lo que cuelga de el en el rig se mueve rigidamente; lo demas, no."""
+        import bpy
+        from mathutils import Euler, Vector
+        arm = self.open()
+        pb = arm.pose.bones[driver]
+        pb.rotation_mode = "XYZ"
+        pb.rotation_euler = Euler(euler)
+        bpy.context.view_layer.update()
+        ev = self.evaluated(arm)
+        rest = arm.data.bones[driver].matrix_local
+        delta = ev.pose.bones[driver].matrix @ rest.inverted()
+        moved = []
+        for n, b in self.anat.bones.items():
+            if n == driver:
+                continue  # el propio hueso girado se mueve por definicion
+            got = ev.pose.bones[n].tail
+            if driver in self._rig_ancestors(n)[1:]:
+                self.assertLess(dist(got, delta @ Vector(b.tail)), TOL, n)
+                moved.append(n)
+            else:
+                self.assertLess(dist(got, b.tail), TOL, n)
+        return set(moved)
+
+    def test_05d_spine_moves_solidarily_with_the_base_carriers(self):
+        """Girar el segmento base lumbar arrastra L1-L5 y TODO lo que esta por encima (toracicas, cervicales,
+        craneo, mandibula, costillas, esternon, escapulas, brazos); pelvis, sacro y piernas no se mueven."""
+        moved = self._check_solidary("spine_lumbar", (0.3, 0.1, -0.2))
+        for n in ["L5", "L1", "T12", "T1", "C7", "C1", "cranium", "mandible", "sternum", "rib_07.L", "scapula.R", "humerus.L", "ulna.R", "index_distal.L"]:
+            self.assertIn(n, moved)
+        for n in ["sacrum_fused", "hip_bone.L", "femur.R", "tibia.L", "calcaneus.R"]:
+            self.assertNotIn(n, moved)
+        moved_neck = self._check_solidary("neck", (0.4, 0.0, 0.3))
+        self.assertEqual({n for n in moved_neck if n in self.anat.bones and self.anat.bones[n].region == "spine_head"},
+                         {f"C{k}" for k in range(1, 8)} | {"cranium", "mandible"})
+
+    def test_05e_long_bones_follow_their_base_segments(self):
+        moved = self._check_solidary("upper_arm.L", (0.5, 0.0, 0.4))
+        self.assertTrue({"humerus.L", "radius.L", "ulna.L", "scaphoid.L", "middle_distal.L"} <= moved)
+        self.assertNotIn("scapula.L", moved)  # la escapula la mueve la clavicula, no el brazo
+        moved = self._check_solidary("thigh.R", (0.6, 0.0, 0.0))
+        self.assertTrue({"femur.R", "patella.R", "tibia.R", "fibula.R", "talus.R", "toe_1_distal.R"} <= moved)
+        self.assertNotIn("hip_bone.R", moved)
+        moved = self._check_solidary("clavicle.L", (0.0, 0.0, 0.3))
+        self.assertIn("scapula.L", moved)
+        moved = self._check_solidary("L2", (0.2, 0.0, 0.0))  # dentro del segmento lumbar la cadena anatomica es la del rig
+        self.assertEqual({n for n in moved if self.anat.bones[n].region == "spine_head"}, {"L1"})
+
+    def test_05f_collections_and_anatomical_parent_in_blender(self):
+        arm = self.open()
+        cols = arm.data.collections_all
+        self.assertEqual(len(cols["L1_spine_head"].bones), 26)
+        self.assertEqual(len(cols["L1_long_bones"].bones), 16)
+        for n, b in self.anat.bones.items():
+            self.assertEqual(arm.data.bones[n]["ac_anatomical_parent"], b.anatomical_parent or b.parent, n)
+        self.assertEqual(arm.data.bones["cranium"]["ac_anatomical_parent"], "C1")
+        self.assertEqual(arm.data.bones["humerus.R"]["ac_anatomical_parent"], "scapula.R")
+
     def test_06_visuals_and_outlines_are_parented_without_double_transform(self):
         import bpy
         self.open()

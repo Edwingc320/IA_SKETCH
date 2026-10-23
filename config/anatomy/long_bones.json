@@ -1,0 +1,346 @@
+{
+ "schema_version": 2,
+ "level": 1,
+ "region": "long_bones",
+ "description": "Nivel 1, region 5: cintura escapular (escapula) y huesos largos (humero, radio, cubito, femur, rotula, tibia, perone). anatomical_parent recoge la jerarquia anatomica pedida (escapula -> T2, humero -> escapula, radio/cubito -> humero, femur -> coxal, tibia/perone/rotula -> femur). Padre en el RIG: el segmento base que los mueve (escapula: clavicle; humero: upper_arm; radio/cubito: forearm; femur/rotula: thigh; tibia/perone: shin), para que sigan cualquier pose de la base. Humero, femur y tibia coinciden exactamente con sus segmentos base; mano y pie base (congelados) quedan unidos geometricamente al extremo distal de radio/cubito y tibia/perone. Valores APROXIMADOS.",
+ "bones": [
+  {
+   "name": "scapula.L",
+   "parent": "clavicle.L",
+   "anatomical_parent": "T2",
+   "mirror": true,
+   "reference": [
+    "scapula.L"
+   ],
+   "head": {
+    "at": "clavicle.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "spine_thoracic.head",
+     "spine_thoracic.tail",
+     0.973958
+    ],
+    "offset_h": [
+     0.045,
+     0.024,
+     0.0
+    ]
+   },
+   "description": "Escapula: de la cavidad glenoidea (= pivote del hombro base) al angulo inferior (nivel T7), sobre la cara posterior del torax.",
+   "outline": [
+    {
+     "at": "clavicle.L.tail"
+    },
+    {
+     "at": "clavicle.L.tail",
+     "offset_h": [
+      0.00286,
+      0.01143,
+      0.01257
+     ]
+    },
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.763889
+     ],
+     "offset_h": [
+      0.04,
+      0.024,
+      0.0
+     ]
+    },
+    {
+     "at": "scapula.L.tail"
+    }
+   ],
+   "outline_closed": true
+  },
+  {
+   "name": "humerus.L",
+   "parent": "upper_arm.L",
+   "anatomical_parent": "scapula.L",
+   "mirror": true,
+   "reference": [
+    "humerus.L"
+   ],
+   "head": {
+    "at": "upper_arm.L.head"
+   },
+   "tail": {
+    "at": "upper_arm.L.tail"
+   },
+   "description": "Humero: coincide con el segmento base upper_arm (hombro -> codo).",
+   "outline": [
+    {
+     "at": "upper_arm.L.tail",
+     "offset_h": [
+      0.01714,
+      0.0,
+      0.00571
+     ]
+    },
+    {
+     "at": "upper_arm.L.tail",
+     "offset_h": [
+      -0.02,
+      0.0,
+      0.00571
+     ]
+    }
+   ],
+   "outline_closed": false
+  },
+  {
+   "name": "radius.L",
+   "parent": "forearm.L",
+   "anatomical_parent": "humerus.L",
+   "mirror": true,
+   "reference": [
+    "radius.L"
+   ],
+   "head": {
+    "at": "forearm.L.head",
+    "offset_h": [
+     0.00686,
+     0.0,
+     -0.00571
+    ]
+   },
+   "tail": {
+    "at": "forearm.L.tail",
+    "offset_h": [
+     0.008,
+     -0.00171,
+     0.0
+    ]
+   },
+   "description": "Radio: lateral (lado del pulgar, posicion anatomica en supinacion); su extremo distal flanquea la muneca."
+  },
+  {
+   "name": "ulna.L",
+   "parent": "forearm.L",
+   "anatomical_parent": "humerus.L",
+   "mirror": true,
+   "reference": [
+    "ulna.L"
+   ],
+   "head": {
+    "at": "forearm.L.head",
+    "offset_h": [
+     -0.00457,
+     0.00914,
+     0.01029
+    ]
+   },
+   "tail": {
+    "at": "forearm.L.tail",
+    "offset_h": [
+     -0.00743,
+     0.00171,
+     0.0
+    ]
+   },
+   "description": "Cubito: medial; nace en el olecranon (detras del codo); su extremo distal flanquea la muneca."
+  },
+  {
+   "name": "femur.L",
+   "parent": "thigh.L",
+   "anatomical_parent": "hip_bone.L",
+   "mirror": true,
+   "reference": [
+    "femur.L"
+   ],
+   "head": {
+    "at": "thigh.L.head"
+   },
+   "tail": {
+    "at": "thigh.L.tail"
+   },
+   "description": "Femur: coincide con el segmento base thigh (cabeza femoral en el acetabulo -> rodilla).",
+   "outline": [
+    {
+     "at": "thigh.L.head"
+    },
+    {
+     "at": "thigh.L.head",
+     "offset_h": [
+      0.02857,
+      0.00286,
+      -0.01714
+     ]
+    },
+    {
+     "lerp": [
+      "thigh.L.head",
+      "thigh.L.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.00686,
+      0.0,
+      0.0
+     ]
+    },
+    {
+     "at": "thigh.L.tail",
+     "offset_h": [
+      0.02,
+      0.00457,
+      0.00571
+     ]
+    },
+    {
+     "at": "thigh.L.tail",
+     "offset_h": [
+      -0.02,
+      0.00457,
+      0.00571
+     ]
+    }
+   ],
+   "outline_closed": false
+  },
+  {
+   "name": "patella.L",
+   "parent": "thigh.L",
+   "anatomical_parent": "femur.L",
+   "mirror": true,
+   "reference": [
+    "patella.L"
+   ],
+   "head": {
+    "at": "thigh.L.tail",
+    "offset_h": [
+     0.0,
+     -0.02571,
+     0.02
+    ]
+   },
+   "tail": {
+    "at": "thigh.L.tail",
+    "offset_h": [
+     0.0,
+     -0.02743,
+     -0.00457
+    ]
+   },
+   "description": "Rotula: delante de la rodilla."
+  },
+  {
+   "name": "tibia.L",
+   "parent": "shin.L",
+   "anatomical_parent": "femur.L",
+   "mirror": true,
+   "reference": [
+    "tibia.L"
+   ],
+   "head": {
+    "at": "shin.L.head"
+   },
+   "tail": {
+    "at": "shin.L.tail"
+   },
+   "description": "Tibia: coincide con el segmento base shin (rodilla -> tobillo). Contorno: meseta tibial, diafisis y maleolo medial.",
+   "outline": [
+    {
+     "at": "shin.L.head",
+     "offset_h": [
+      0.02,
+      0.0,
+      -0.00286
+     ]
+    },
+    {
+     "at": "shin.L.head",
+     "offset_h": [
+      -0.02,
+      0.0,
+      -0.00286
+     ]
+    },
+    {
+     "lerp": [
+      "shin.L.head",
+      "shin.L.tail",
+      0.5
+     ],
+     "offset_h": [
+      -0.00229,
+      -0.00571,
+      0.0
+     ]
+    },
+    {
+     "at": "shin.L.tail",
+     "offset_h": [
+      -0.01257,
+      -0.00171,
+      -0.00457
+     ]
+    }
+   ],
+   "outline_closed": false
+  },
+  {
+   "name": "fibula.L",
+   "parent": "shin.L",
+   "anatomical_parent": "femur.L",
+   "mirror": true,
+   "reference": [
+    "fibula.L"
+   ],
+   "head": {
+    "at": "shin.L.head",
+    "offset_h": [
+     0.01829,
+     0.00686,
+     -0.02286
+    ]
+   },
+   "tail": {
+    "at": "shin.L.tail",
+    "offset_h": [
+     0.01371,
+     0.00571,
+     -0.008
+    ]
+   },
+   "description": "Perone: lateral y algo posterior; su extremo distal es el maleolo lateral."
+  }
+ ],
+ "anchors": [
+  {
+   "point": "scapula.L.head",
+   "equals": "upper_arm.L.head",
+   "description": "cavidad glenoidea = cabeza humeral (hombro)"
+  },
+  {
+   "point": "humerus.L.head",
+   "equals": "upper_arm.L.head",
+   "description": "humero en el pivote del hombro"
+  },
+  {
+   "point": "humerus.L.tail",
+   "equals": "forearm.L.head",
+   "description": "humero en el pivote del codo"
+  },
+  {
+   "point": "femur.L.head",
+   "equals": "hip_bone.L.tail",
+   "description": "cabeza femoral en el acetabulo"
+  },
+  {
+   "point": "femur.L.tail",
+   "equals": "shin.L.head",
+   "description": "femur en el pivote de la rodilla"
+  },
+  {
+   "point": "tibia.L.tail",
+   "equals": "foot.L.head",
+   "description": "tibia en el pivote del tobillo"
+  }
+ ]
+}

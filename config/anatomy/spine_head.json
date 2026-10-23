@@ -1,0 +1,748 @@
+{
+ "schema_version": 2,
+ "level": 1,
+ "region": "spine_head",
+ "description": "Nivel 1, region 4: columna (C1-C7, T1-T12, L1-L5) y cabeza (cranium, mandible). Cadena vertebral de ABAJO A ARRIBA (sacro -> L5 -> ... -> L1 -> T12 -> ... -> T1 -> C7 -> ... -> C1 -> cranium -> mandible) en anatomical_parent; cada vertebra nace exactamente en la cola de la inferior. Padre en el RIG: el segmento base que la mueve (spine_lumbar: L1-L5; spine_thoracic: T7-T12; thorax: T1-T6; neck: C1-C7; head: cranium) y, dentro de cada segmento, la vertebra inferior. Las vertebras de cada tramo se reparten por igual sobre sus segmentos base (las toracicas coinciden con los niveles de las costillas) y se aplica una curva en S sagital: lordosis lumbar (+-0.012 H hacia delante), cifosis toracica (0.010 H hacia atras) y lordosis cervical (0.005 H hacia delante), nula en las uniones con la base, el sacro y el craneo. Valores APROXIMADOS. LIMITACION de la base congelada: el cuello base mide 0.045 H, por lo que C1-C7 quedan comprimidas (~11 mm por vertebra) y C1 (condilos) queda unos 5-7 cm mas baja que en un adulto real; el craneo va de C1 al vertex de la cabeza base.",
+ "bones": [
+  {
+   "name": "L5",
+   "parent": "spine_lumbar",
+   "anatomical_parent": "sacrum_fused",
+   "reference": [
+    "L5"
+   ],
+   "head": {
+    "at": "sacrum_fused.head"
+   },
+   "tail": {
+    "lerp": [
+     "spine_lumbar.head",
+     "spine_lumbar.tail",
+     0.2
+    ],
+    "offset_h": [
+     0.0,
+     -0.00705,
+     0.0
+    ]
+   },
+   "description": "vertebra lumbar L5 (lordosis: desplazada hacia delante)"
+  },
+  {
+   "name": "L4",
+   "parent": "L5",
+   "anatomical_parent": "L5",
+   "reference": [
+    "L4"
+   ],
+   "head": {
+    "at": "L5.tail"
+   },
+   "tail": {
+    "lerp": [
+     "spine_lumbar.head",
+     "spine_lumbar.tail",
+     0.4
+    ],
+    "offset_h": [
+     0.0,
+     -0.01141,
+     0.0
+    ]
+   },
+   "description": "vertebra lumbar L4 (lordosis: desplazada hacia delante)"
+  },
+  {
+   "name": "L3",
+   "parent": "L4",
+   "anatomical_parent": "L4",
+   "reference": [
+    "L3"
+   ],
+   "head": {
+    "at": "L4.tail"
+   },
+   "tail": {
+    "lerp": [
+     "spine_lumbar.head",
+     "spine_lumbar.tail",
+     0.6
+    ],
+    "offset_h": [
+     0.0,
+     -0.01141,
+     0.0
+    ]
+   },
+   "description": "vertebra lumbar L3 (lordosis: desplazada hacia delante)"
+  },
+  {
+   "name": "L2",
+   "parent": "L3",
+   "anatomical_parent": "L3",
+   "reference": [
+    "L2"
+   ],
+   "head": {
+    "at": "L3.tail"
+   },
+   "tail": {
+    "lerp": [
+     "spine_lumbar.head",
+     "spine_lumbar.tail",
+     0.8
+    ],
+    "offset_h": [
+     0.0,
+     -0.00705,
+     0.0
+    ]
+   },
+   "description": "vertebra lumbar L2 (lordosis: desplazada hacia delante)"
+  },
+  {
+   "name": "L1",
+   "parent": "L2",
+   "anatomical_parent": "L2",
+   "reference": [
+    "L1"
+   ],
+   "head": {
+    "at": "L2.tail"
+   },
+   "tail": {
+    "at": "spine_lumbar.tail"
+   },
+   "description": "vertebra lumbar L1 (lordosis: desplazada hacia delante)"
+  },
+  {
+   "name": "T12",
+   "parent": "spine_thoracic",
+   "anatomical_parent": "L1",
+   "reference": [
+    "T12"
+   ],
+   "head": {
+    "at": "L1.tail"
+   },
+   "tail": {
+    "lerp": [
+     "spine_thoracic.head",
+     "spine_thoracic.tail",
+     0.177083
+    ],
+    "offset_h": [
+     0.0,
+     0.00259,
+     0.0
+    ]
+   },
+   "description": "vertebra toracica T12 (cifosis: desplazada hacia atras)"
+  },
+  {
+   "name": "T11",
+   "parent": "T12",
+   "anatomical_parent": "T12",
+   "reference": [
+    "T11"
+   ],
+   "head": {
+    "at": "T12.tail"
+   },
+   "tail": {
+    "lerp": [
+     "spine_thoracic.head",
+     "spine_thoracic.tail",
+     0.354167
+    ],
+    "offset_h": [
+     0.0,
+     0.005,
+     0.0
+    ]
+   },
+   "description": "vertebra toracica T11 (cifosis: desplazada hacia atras)"
+  },
+  {
+   "name": "T10",
+   "parent": "T11",
+   "anatomical_parent": "T11",
+   "reference": [
+    "T10"
+   ],
+   "head": {
+    "at": "T11.tail"
+   },
+   "tail": {
+    "lerp": [
+     "spine_thoracic.head",
+     "spine_thoracic.tail",
+     0.53125
+    ],
+    "offset_h": [
+     0.0,
+     0.00707,
+     0.0
+    ]
+   },
+   "description": "vertebra toracica T10 (cifosis: desplazada hacia atras)"
+  },
+  {
+   "name": "T9",
+   "parent": "T10",
+   "anatomical_parent": "T10",
+   "reference": [
+    "T9"
+   ],
+   "head": {
+    "at": "T10.tail"
+   },
+   "tail": {
+    "lerp": [
+     "spine_thoracic.head",
+     "spine_thoracic.tail",
+     0.708333
+    ],
+    "offset_h": [
+     0.0,
+     0.00866,
+     0.0
+    ]
+   },
+   "description": "vertebra toracica T9 (cifosis: desplazada hacia atras)"
+  },
+  {
+   "name": "T8",
+   "parent": "T9",
+   "anatomical_parent": "T9",
+   "reference": [
+    "T8"
+   ],
+   "head": {
+    "at": "T9.tail"
+   },
+   "tail": {
+    "lerp": [
+     "spine_thoracic.head",
+     "spine_thoracic.tail",
+     0.885417
+    ],
+    "offset_h": [
+     0.0,
+     0.00966,
+     0.0
+    ]
+   },
+   "description": "vertebra toracica T8 (cifosis: desplazada hacia atras)"
+  },
+  {
+   "name": "T7",
+   "parent": "T8",
+   "anatomical_parent": "T8",
+   "reference": [
+    "T7"
+   ],
+   "head": {
+    "at": "T8.tail"
+   },
+   "tail": {
+    "lerp": [
+     "thorax.head",
+     "thorax.tail",
+     0.055556
+    ],
+    "offset_h": [
+     0.0,
+     0.01,
+     0.0
+    ]
+   },
+   "description": "vertebra toracica T7 (cifosis: desplazada hacia atras)"
+  },
+  {
+   "name": "T6",
+   "parent": "thorax",
+   "anatomical_parent": "T7",
+   "reference": [
+    "T6"
+   ],
+   "head": {
+    "at": "T7.tail"
+   },
+   "tail": {
+    "lerp": [
+     "thorax.head",
+     "thorax.tail",
+     0.212963
+    ],
+    "offset_h": [
+     0.0,
+     0.00966,
+     0.0
+    ]
+   },
+   "description": "vertebra toracica T6 (cifosis: desplazada hacia atras)"
+  },
+  {
+   "name": "T5",
+   "parent": "T6",
+   "anatomical_parent": "T6",
+   "reference": [
+    "T5"
+   ],
+   "head": {
+    "at": "T6.tail"
+   },
+   "tail": {
+    "lerp": [
+     "thorax.head",
+     "thorax.tail",
+     0.37037
+    ],
+    "offset_h": [
+     0.0,
+     0.00866,
+     0.0
+    ]
+   },
+   "description": "vertebra toracica T5 (cifosis: desplazada hacia atras)"
+  },
+  {
+   "name": "T4",
+   "parent": "T5",
+   "anatomical_parent": "T5",
+   "reference": [
+    "T4"
+   ],
+   "head": {
+    "at": "T5.tail"
+   },
+   "tail": {
+    "lerp": [
+     "thorax.head",
+     "thorax.tail",
+     0.527778
+    ],
+    "offset_h": [
+     0.0,
+     0.00707,
+     0.0
+    ]
+   },
+   "description": "vertebra toracica T4 (cifosis: desplazada hacia atras)"
+  },
+  {
+   "name": "T3",
+   "parent": "T4",
+   "anatomical_parent": "T4",
+   "reference": [
+    "T3"
+   ],
+   "head": {
+    "at": "T4.tail"
+   },
+   "tail": {
+    "lerp": [
+     "thorax.head",
+     "thorax.tail",
+     0.685185
+    ],
+    "offset_h": [
+     0.0,
+     0.005,
+     0.0
+    ]
+   },
+   "description": "vertebra toracica T3 (cifosis: desplazada hacia atras)"
+  },
+  {
+   "name": "T2",
+   "parent": "T3",
+   "anatomical_parent": "T3",
+   "reference": [
+    "T2"
+   ],
+   "head": {
+    "at": "T3.tail"
+   },
+   "tail": {
+    "lerp": [
+     "thorax.head",
+     "thorax.tail",
+     0.842593
+    ],
+    "offset_h": [
+     0.0,
+     0.00259,
+     0.0
+    ]
+   },
+   "description": "vertebra toracica T2 (cifosis: desplazada hacia atras)"
+  },
+  {
+   "name": "T1",
+   "parent": "T2",
+   "anatomical_parent": "T2",
+   "reference": [
+    "T1"
+   ],
+   "head": {
+    "at": "T2.tail"
+   },
+   "tail": {
+    "at": "thorax.tail"
+   },
+   "description": "vertebra toracica T1 (cifosis: desplazada hacia atras)"
+  },
+  {
+   "name": "C7",
+   "parent": "neck",
+   "anatomical_parent": "T1",
+   "reference": [
+    "C7"
+   ],
+   "head": {
+    "at": "T1.tail"
+   },
+   "tail": {
+    "lerp": [
+     "neck.head",
+     "neck.tail",
+     0.142857
+    ],
+    "offset_h": [
+     0.0,
+     -0.00217,
+     0.0
+    ]
+   },
+   "description": "vertebra cervical C7 (lordosis: desplazada hacia delante)"
+  },
+  {
+   "name": "C6",
+   "parent": "C7",
+   "anatomical_parent": "C7",
+   "reference": [
+    "C6"
+   ],
+   "head": {
+    "at": "C7.tail"
+   },
+   "tail": {
+    "lerp": [
+     "neck.head",
+     "neck.tail",
+     0.285714
+    ],
+    "offset_h": [
+     0.0,
+     -0.00391,
+     0.0
+    ]
+   },
+   "description": "vertebra cervical C6 (lordosis: desplazada hacia delante)"
+  },
+  {
+   "name": "C5",
+   "parent": "C6",
+   "anatomical_parent": "C6",
+   "reference": [
+    "C5"
+   ],
+   "head": {
+    "at": "C6.tail"
+   },
+   "tail": {
+    "lerp": [
+     "neck.head",
+     "neck.tail",
+     0.428571
+    ],
+    "offset_h": [
+     0.0,
+     -0.00487,
+     0.0
+    ]
+   },
+   "description": "vertebra cervical C5 (lordosis: desplazada hacia delante)"
+  },
+  {
+   "name": "C4",
+   "parent": "C5",
+   "anatomical_parent": "C5",
+   "reference": [
+    "C4"
+   ],
+   "head": {
+    "at": "C5.tail"
+   },
+   "tail": {
+    "lerp": [
+     "neck.head",
+     "neck.tail",
+     0.571429
+    ],
+    "offset_h": [
+     0.0,
+     -0.00487,
+     0.0
+    ]
+   },
+   "description": "vertebra cervical C4 (lordosis: desplazada hacia delante)"
+  },
+  {
+   "name": "C3",
+   "parent": "C4",
+   "anatomical_parent": "C4",
+   "reference": [
+    "C3"
+   ],
+   "head": {
+    "at": "C4.tail"
+   },
+   "tail": {
+    "lerp": [
+     "neck.head",
+     "neck.tail",
+     0.714286
+    ],
+    "offset_h": [
+     0.0,
+     -0.00391,
+     0.0
+    ]
+   },
+   "description": "vertebra cervical C3 (lordosis: desplazada hacia delante)"
+  },
+  {
+   "name": "C2",
+   "parent": "C3",
+   "anatomical_parent": "C3",
+   "reference": [
+    "C2_axis"
+   ],
+   "head": {
+    "at": "C3.tail"
+   },
+   "tail": {
+    "lerp": [
+     "neck.head",
+     "neck.tail",
+     0.857143
+    ],
+    "offset_h": [
+     0.0,
+     -0.00217,
+     0.0
+    ]
+   },
+   "description": "vertebra cervical C2 (lordosis: desplazada hacia delante)"
+  },
+  {
+   "name": "C1",
+   "parent": "C2",
+   "anatomical_parent": "C2",
+   "reference": [
+    "C1_atlas"
+   ],
+   "head": {
+    "at": "C2.tail"
+   },
+   "tail": {
+    "at": "neck.tail"
+   },
+   "description": "vertebra cervical C1 (lordosis: desplazada hacia delante)"
+  },
+  {
+   "name": "cranium",
+   "parent": "head",
+   "anatomical_parent": "C1",
+   "reference": [
+    "cranium"
+   ],
+   "head": {
+    "at": "C1.tail"
+   },
+   "tail": {
+    "at": "head.tail"
+   },
+   "outline": [
+    {
+     "at": "head.head"
+    },
+    {
+     "at": "head.head",
+     "offset_h": [
+      0.0,
+      0.04857,
+      0.02
+     ]
+    },
+    {
+     "at": "head.head",
+     "offset_h": [
+      0.0,
+      0.04286,
+      0.08571
+     ]
+    },
+    {
+     "at": "head.tail"
+    },
+    {
+     "at": "head.head",
+     "offset_h": [
+      0.0,
+      -0.03143,
+      0.11714
+     ]
+    },
+    {
+     "at": "head.head",
+     "offset_h": [
+      0.0,
+      -0.06,
+      0.06
+     ]
+    },
+    {
+     "at": "head.head",
+     "offset_h": [
+      0.0,
+      -0.05714,
+      0.04857
+     ]
+    },
+    {
+     "at": "head.head",
+     "offset_h": [
+      0.0,
+      -0.06,
+      0.02
+     ]
+    },
+    {
+     "at": "head.head",
+     "offset_h": [
+      0.0,
+      -0.05429,
+      0.00286
+     ]
+    }
+   ],
+   "outline_closed": true,
+   "description": "Craneo (neurocraneo + macizo facial): de los condilos occipitales (cima de C1) al vertex (cola de la cabeza base). Contorno: perfil medio-sagital (inion, lambda, vertex, bregma, glabela, nasion, espina nasal, arcada superior)."
+  },
+  {
+   "name": "mandible",
+   "parent": "cranium",
+   "anatomical_parent": "cranium",
+   "reference": [
+    "mandible"
+   ],
+   "head": {
+    "at": "head.head",
+    "offset_h": [
+     0.0,
+     -0.01029,
+     0.00571
+    ]
+   },
+   "tail": {
+    "at": "head.head",
+    "offset_h": [
+     0.0,
+     -0.05143,
+     -0.03429
+    ]
+   },
+   "outline": [
+    {
+     "at": "head.head",
+     "offset_h": [
+      0.02857,
+      -0.01029,
+      0.00571
+     ]
+    },
+    {
+     "at": "head.head",
+     "offset_h": [
+      0.02686,
+      -0.00286,
+      -0.02571
+     ]
+    },
+    {
+     "at": "head.head",
+     "offset_h": [
+      0.01143,
+      -0.04857,
+      -0.03314
+     ]
+    },
+    {
+     "at": "mandible.tail"
+    },
+    {
+     "at": "head.head",
+     "offset_h": [
+      -0.01143,
+      -0.04857,
+      -0.03314
+     ]
+    },
+    {
+     "at": "head.head",
+     "offset_h": [
+      -0.02686,
+      -0.00286,
+      -0.02571
+     ]
+    },
+    {
+     "at": "head.head",
+     "offset_h": [
+      -0.02857,
+      -0.01029,
+      0.00571
+     ]
+    }
+   ],
+   "outline_closed": false,
+   "description": "Mandibula: cabeza = centro del eje de las dos articulaciones temporomandibulares (ATM); cola = menton. Contorno en U: condilo, angulo (gonion), cuerpo y menton de cada lado."
+  }
+ ],
+ "anchors": [
+  {
+   "point": "L5.head",
+   "equals": "sacrum_fused.head",
+   "description": "L5 asienta sobre la meseta del sacro"
+  },
+  {
+   "point": "L1.tail",
+   "equals": "spine_thoracic.head",
+   "description": "union toracolumbar en el pivote base"
+  },
+  {
+   "point": "T1.tail",
+   "equals": "neck.head",
+   "description": "union cervicotoracica en el pivote base"
+  },
+  {
+   "point": "C1.tail",
+   "equals": "head.head",
+   "description": "condilos occipitales en el pivote base de la cabeza"
+  },
+  {
+   "point": "cranium.head",
+   "equals": "C1.tail",
+   "description": "craneo articulado sobre el atlas"
+  },
+  {
+   "point": "cranium.tail",
+   "equals": "head.tail",
+   "description": "vertex = cima de la cabeza base (estatura)"
+  }
+ ]
+}

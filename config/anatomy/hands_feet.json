@@ -1,0 +1,1481 @@
+{
+ "schema_version": 2,
+ "level": 1,
+ "region": "hands_feet",
+ "description": "Nivel 1, region 3: manos y pies desglosados (carpo, metacarpo, falanges; tarso, metatarso, falanges). Todos los huesos de la mano descienden del hueso base hand (muneca -> punta de los dedos) y los del pie del hueso base foot (tobillo -> punta del pie); sus puntos se definen a lo largo de esos segmentos (lerp; t<0 = detras del tobillo) mas desplazamientos en fraccion de la altura (medidas de partida para 1.75 m). Mano en posicion anatomica: palma hacia delante (-Y), pulgar lateral (+X en la izquierda), dedos rectos y paralelos. Pie: el talon y las cabezas de los metatarsianos quedan a pocos milimetros del suelo. Las falanges forman cadenas exactas (cada cabeza = cola de la anterior). Valores APROXIMADOS, no medidas anatomicas exactas; rigidos respecto a su padre (sin articulaciones en este nivel).",
+ "bones": [
+  {
+   "name": "scaphoid.L",
+   "parent": "hand.L",
+   "mirror": true,
+   "reference": [
+    "scaphoid.L"
+   ],
+   "head": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.0
+    ],
+    "offset_h": [
+     0.00686,
+     0.0,
+     0.0
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.07
+    ],
+    "offset_h": [
+     0.00743,
+     -0.00114,
+     0.0
+    ]
+   },
+   "description": "carpo, fila proximal, lateral"
+  },
+  {
+   "name": "lunate.L",
+   "parent": "hand.L",
+   "mirror": true,
+   "reference": [
+    "lunate.L"
+   ],
+   "head": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.0
+    ],
+    "offset_h": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.07
+    ],
+    "offset_h": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "description": "carpo, fila proximal, central"
+  },
+  {
+   "name": "triquetrum.L",
+   "parent": "hand.L",
+   "mirror": true,
+   "reference": [
+    "triquetrum.L"
+   ],
+   "head": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.0
+    ],
+    "offset_h": [
+     -0.00686,
+     0.00114,
+     0.0
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.07
+    ],
+    "offset_h": [
+     -0.00743,
+     0.00114,
+     0.0
+    ]
+   },
+   "description": "carpo, fila proximal, medial"
+  },
+  {
+   "name": "pisiform.L",
+   "parent": "hand.L",
+   "mirror": true,
+   "reference": [
+    "pisiform.L"
+   ],
+   "head": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.03
+    ],
+    "offset_h": [
+     -0.00743,
+     -0.00571,
+     0.0
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.06
+    ],
+    "offset_h": [
+     -0.008,
+     -0.00686,
+     0.0
+    ]
+   },
+   "description": "carpo, palmar sobre el piramidal"
+  },
+  {
+   "name": "trapezium.L",
+   "parent": "hand.L",
+   "mirror": true,
+   "reference": [
+    "trapezium.L"
+   ],
+   "head": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.075
+    ],
+    "offset_h": [
+     0.01086,
+     -0.00229,
+     0.0
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.15
+    ],
+    "offset_h": [
+     0.01257,
+     -0.00457,
+     0.0
+    ]
+   },
+   "description": "carpo, fila distal, base del pulgar"
+  },
+  {
+   "name": "trapezoid.L",
+   "parent": "hand.L",
+   "mirror": true,
+   "reference": [
+    "trapezoid.L"
+   ],
+   "head": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.075
+    ],
+    "offset_h": [
+     0.00457,
+     0.0,
+     0.0
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.15
+    ],
+    "offset_h": [
+     0.00571,
+     0.0,
+     0.0
+    ]
+   },
+   "description": "carpo, fila distal"
+  },
+  {
+   "name": "capitate.L",
+   "parent": "hand.L",
+   "mirror": true,
+   "reference": [
+    "capitate.L"
+   ],
+   "head": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.075
+    ],
+    "offset_h": [
+     -0.00114,
+     0.0,
+     0.0
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.15
+    ],
+    "offset_h": [
+     -0.00057,
+     0.0,
+     0.0
+    ]
+   },
+   "description": "carpo, fila distal, central"
+  },
+  {
+   "name": "hamate.L",
+   "parent": "hand.L",
+   "mirror": true,
+   "reference": [
+    "hamate.L"
+   ],
+   "head": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.075
+    ],
+    "offset_h": [
+     -0.00743,
+     0.00057,
+     0.0
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.15
+    ],
+    "offset_h": [
+     -0.008,
+     0.00057,
+     0.0
+    ]
+   },
+   "description": "carpo, fila distal, medial"
+  },
+  {
+   "name": "metacarpal_1.L",
+   "parent": "trapezium.L",
+   "mirror": true,
+   "reference": [
+    "metacarpal_1.L"
+   ],
+   "head": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.15
+    ],
+    "offset_h": [
+     0.01257,
+     -0.00457,
+     0.0
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.36
+    ],
+    "offset_h": [
+     0.01943,
+     -0.01257,
+     0.0
+    ]
+   },
+   "description": "metacarpiano 1"
+  },
+  {
+   "name": "metacarpal_2.L",
+   "parent": "trapezoid.L",
+   "mirror": true,
+   "reference": [
+    "metacarpal_2.L"
+   ],
+   "head": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.15
+    ],
+    "offset_h": [
+     0.00571,
+     0.0,
+     0.0
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.49
+    ],
+    "offset_h": [
+     0.01143,
+     0.0,
+     0.0
+    ]
+   },
+   "description": "metacarpiano 2"
+  },
+  {
+   "name": "metacarpal_3.L",
+   "parent": "capitate.L",
+   "mirror": true,
+   "reference": [
+    "metacarpal_3.L"
+   ],
+   "head": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.15
+    ],
+    "offset_h": [
+     -0.00057,
+     0.0,
+     0.0
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.00114,
+     0.0,
+     0.0
+    ]
+   },
+   "description": "metacarpiano 3"
+  },
+  {
+   "name": "metacarpal_4.L",
+   "parent": "hamate.L",
+   "mirror": true,
+   "reference": [
+    "metacarpal_4.L"
+   ],
+   "head": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.15
+    ],
+    "offset_h": [
+     -0.00514,
+     0.00057,
+     0.0
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.49
+    ],
+    "offset_h": [
+     -0.00857,
+     0.0,
+     0.0
+    ]
+   },
+   "description": "metacarpiano 4"
+  },
+  {
+   "name": "metacarpal_5.L",
+   "parent": "hamate.L",
+   "mirror": true,
+   "reference": [
+    "metacarpal_5.L"
+   ],
+   "head": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.15
+    ],
+    "offset_h": [
+     -0.00914,
+     0.00057,
+     0.0
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.45
+    ],
+    "offset_h": [
+     -0.01771,
+     0.0,
+     0.0
+    ]
+   },
+   "description": "metacarpiano 5"
+  },
+  {
+   "name": "thumb_proximal.L",
+   "parent": "metacarpal_1.L",
+   "mirror": true,
+   "reference": [
+    "thumb_proximal.L"
+   ],
+   "head": {
+    "at": "metacarpal_1.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.53
+    ],
+    "offset_h": [
+     0.024,
+     -0.01771,
+     0.0
+    ]
+   },
+   "description": "falange proximal del dedo thumb"
+  },
+  {
+   "name": "thumb_distal.L",
+   "parent": "thumb_proximal.L",
+   "mirror": true,
+   "reference": [
+    "thumb_distal.L"
+   ],
+   "head": {
+    "at": "thumb_proximal.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.66
+    ],
+    "offset_h": [
+     0.02686,
+     -0.02114,
+     0.0
+    ]
+   },
+   "description": "falange distal del dedo thumb"
+  },
+  {
+   "name": "index_proximal.L",
+   "parent": "metacarpal_2.L",
+   "mirror": true,
+   "reference": [
+    "index_proximal.L"
+   ],
+   "head": {
+    "at": "metacarpal_2.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.711
+    ],
+    "offset_h": [
+     0.01143,
+     0.0,
+     0.0
+    ]
+   },
+   "description": "falange proximal del dedo index"
+  },
+  {
+   "name": "index_middle.L",
+   "parent": "index_proximal.L",
+   "mirror": true,
+   "reference": [
+    "index_middle.L"
+   ],
+   "head": {
+    "at": "index_proximal.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.841
+    ],
+    "offset_h": [
+     0.01143,
+     0.0,
+     0.0
+    ]
+   },
+   "description": "falange middle del dedo index"
+  },
+  {
+   "name": "index_distal.L",
+   "parent": "index_middle.L",
+   "mirror": true,
+   "reference": [
+    "index_distal.L"
+   ],
+   "head": {
+    "at": "index_middle.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.941
+    ],
+    "offset_h": [
+     0.01143,
+     0.0,
+     0.0
+    ]
+   },
+   "description": "falange distal del dedo index"
+  },
+  {
+   "name": "middle_proximal.L",
+   "parent": "metacarpal_3.L",
+   "mirror": true,
+   "reference": [
+    "middle_proximal.L"
+   ],
+   "head": {
+    "at": "metacarpal_3.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.738
+    ],
+    "offset_h": [
+     0.00114,
+     0.0,
+     0.0
+    ]
+   },
+   "description": "falange proximal del dedo middle"
+  },
+  {
+   "name": "middle_middle.L",
+   "parent": "middle_proximal.L",
+   "mirror": true,
+   "reference": [
+    "middle_middle.L"
+   ],
+   "head": {
+    "at": "middle_proximal.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.886
+    ],
+    "offset_h": [
+     0.00114,
+     0.0,
+     0.0
+    ]
+   },
+   "description": "falange middle del dedo middle"
+  },
+  {
+   "name": "middle_distal.L",
+   "parent": "middle_middle.L",
+   "mirror": true,
+   "reference": [
+    "middle_distal.L"
+   ],
+   "head": {
+    "at": "middle_middle.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     1.0
+    ],
+    "offset_h": [
+     0.00114,
+     0.0,
+     0.0
+    ]
+   },
+   "description": "falange distal del dedo middle"
+  },
+  {
+   "name": "ring_proximal.L",
+   "parent": "metacarpal_4.L",
+   "mirror": true,
+   "reference": [
+    "ring_proximal.L"
+   ],
+   "head": {
+    "at": "metacarpal_4.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.716
+    ],
+    "offset_h": [
+     -0.00857,
+     0.0,
+     0.0
+    ]
+   },
+   "description": "falange proximal del dedo ring"
+  },
+  {
+   "name": "ring_middle.L",
+   "parent": "ring_proximal.L",
+   "mirror": true,
+   "reference": [
+    "ring_middle.L"
+   ],
+   "head": {
+    "at": "ring_proximal.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.856
+    ],
+    "offset_h": [
+     -0.00857,
+     0.0,
+     0.0
+    ]
+   },
+   "description": "falange middle del dedo ring"
+  },
+  {
+   "name": "ring_distal.L",
+   "parent": "ring_middle.L",
+   "mirror": true,
+   "reference": [
+    "ring_distal.L"
+   ],
+   "head": {
+    "at": "ring_middle.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.956
+    ],
+    "offset_h": [
+     -0.00857,
+     0.0,
+     0.0
+    ]
+   },
+   "description": "falange distal del dedo ring"
+  },
+  {
+   "name": "little_proximal.L",
+   "parent": "metacarpal_5.L",
+   "mirror": true,
+   "reference": [
+    "little_proximal.L"
+   ],
+   "head": {
+    "at": "metacarpal_5.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.635
+    ],
+    "offset_h": [
+     -0.01771,
+     0.0,
+     0.0
+    ]
+   },
+   "description": "falange proximal del dedo little"
+  },
+  {
+   "name": "little_middle.L",
+   "parent": "little_proximal.L",
+   "mirror": true,
+   "reference": [
+    "little_middle.L"
+   ],
+   "head": {
+    "at": "little_proximal.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.735
+    ],
+    "offset_h": [
+     -0.01771,
+     0.0,
+     0.0
+    ]
+   },
+   "description": "falange middle del dedo little"
+  },
+  {
+   "name": "little_distal.L",
+   "parent": "little_middle.L",
+   "mirror": true,
+   "reference": [
+    "little_distal.L"
+   ],
+   "head": {
+    "at": "little_middle.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "hand.L.head",
+     "hand.L.tail",
+     0.82
+    ],
+    "offset_h": [
+     -0.01771,
+     0.0,
+     0.0
+    ]
+   },
+   "description": "falange distal del dedo little"
+  },
+  {
+   "name": "talus.L",
+   "parent": "foot.L",
+   "mirror": true,
+   "reference": [
+    "talus.L"
+   ],
+   "head": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     -0.04
+    ],
+    "offset_h": [
+     0.0,
+     0.0,
+     -0.00457
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.2
+    ],
+    "offset_h": [
+     -0.00343,
+     0.0,
+     -0.01371
+    ]
+   },
+   "description": "astragalo: troclea bajo el tobillo -> cabeza"
+  },
+  {
+   "name": "calcaneus.L",
+   "parent": "talus.L",
+   "mirror": true,
+   "reference": [
+    "calcaneus.L"
+   ],
+   "head": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.1
+    ],
+    "offset_h": [
+     0.00571,
+     0.0,
+     -0.02286
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     -0.26
+    ],
+    "offset_h": [
+     0.00229,
+     0.0,
+     -0.03543
+    ]
+   },
+   "description": "calcaneo: apofisis anterior -> tuberosidad posterior (talon)"
+  },
+  {
+   "name": "navicular.L",
+   "parent": "talus.L",
+   "mirror": true,
+   "reference": [
+    "navicular.L"
+   ],
+   "head": {
+    "at": "talus.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.27
+    ],
+    "offset_h": [
+     -0.00686,
+     0.0,
+     -0.01714
+    ]
+   },
+   "description": "escafoides del pie (navicular)"
+  },
+  {
+   "name": "cuboid.L",
+   "parent": "calcaneus.L",
+   "mirror": true,
+   "reference": [
+    "cuboid.L"
+   ],
+   "head": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.13
+    ],
+    "offset_h": [
+     0.01143,
+     0.0,
+     -0.02514
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.27
+    ],
+    "offset_h": [
+     0.01371,
+     0.0,
+     -0.02629
+    ]
+   },
+   "description": "cuboides (lateral)"
+  },
+  {
+   "name": "medial_cuneiform.L",
+   "parent": "navicular.L",
+   "mirror": true,
+   "reference": [
+    "medial_cuneiform.L"
+   ],
+   "head": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.27
+    ],
+    "offset_h": [
+     -0.00914,
+     0.0,
+     -0.01714
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.35
+    ],
+    "offset_h": [
+     -0.01143,
+     0.0,
+     -0.01943
+    ]
+   },
+   "description": "cuneiforme medial"
+  },
+  {
+   "name": "intermediate_cuneiform.L",
+   "parent": "navicular.L",
+   "mirror": true,
+   "reference": [
+    "intermediate_cuneiform.L"
+   ],
+   "head": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.27
+    ],
+    "offset_h": [
+     -0.00286,
+     0.0,
+     -0.01714
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.33
+    ],
+    "offset_h": [
+     -0.004,
+     0.0,
+     -0.01829
+    ]
+   },
+   "description": "cuneiforme intermedio"
+  },
+  {
+   "name": "lateral_cuneiform.L",
+   "parent": "navicular.L",
+   "mirror": true,
+   "reference": [
+    "lateral_cuneiform.L"
+   ],
+   "head": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.27
+    ],
+    "offset_h": [
+     0.00343,
+     0.0,
+     -0.01886
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.34
+    ],
+    "offset_h": [
+     0.00457,
+     0.0,
+     -0.02057
+    ]
+   },
+   "description": "cuneiforme lateral"
+  },
+  {
+   "name": "metatarsal_1.L",
+   "parent": "medial_cuneiform.L",
+   "mirror": true,
+   "reference": [
+    "metatarsal_1.L"
+   ],
+   "head": {
+    "at": "medial_cuneiform.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.66
+    ],
+    "offset_h": [
+     -0.01371,
+     0.0,
+     -0.03314
+    ]
+   },
+   "description": "metatarsiano 1"
+  },
+  {
+   "name": "metatarsal_2.L",
+   "parent": "intermediate_cuneiform.L",
+   "mirror": true,
+   "reference": [
+    "metatarsal_2.L"
+   ],
+   "head": {
+    "at": "intermediate_cuneiform.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.69
+    ],
+    "offset_h": [
+     -0.00457,
+     0.0,
+     -0.03429
+    ]
+   },
+   "description": "metatarsiano 2"
+  },
+  {
+   "name": "metatarsal_3.L",
+   "parent": "lateral_cuneiform.L",
+   "mirror": true,
+   "reference": [
+    "metatarsal_3.L"
+   ],
+   "head": {
+    "at": "lateral_cuneiform.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.67
+    ],
+    "offset_h": [
+     0.00229,
+     0.0,
+     -0.03429
+    ]
+   },
+   "description": "metatarsiano 3"
+  },
+  {
+   "name": "metatarsal_4.L",
+   "parent": "cuboid.L",
+   "mirror": true,
+   "reference": [
+    "metatarsal_4.L"
+   ],
+   "head": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.3
+    ],
+    "offset_h": [
+     0.00914,
+     0.0,
+     -0.024
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.64
+    ],
+    "offset_h": [
+     0.00857,
+     0.0,
+     -0.03429
+    ]
+   },
+   "description": "metatarsiano 4"
+  },
+  {
+   "name": "metatarsal_5.L",
+   "parent": "cuboid.L",
+   "mirror": true,
+   "reference": [
+    "metatarsal_5.L"
+   ],
+   "head": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.28
+    ],
+    "offset_h": [
+     0.016,
+     0.0,
+     -0.02514
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.6
+    ],
+    "offset_h": [
+     0.01543,
+     0.0,
+     -0.03429
+    ]
+   },
+   "description": "metatarsiano 5"
+  },
+  {
+   "name": "toe_1_proximal.L",
+   "parent": "metatarsal_1.L",
+   "mirror": true,
+   "reference": [
+    "toe_1_proximal.L"
+   ],
+   "head": {
+    "at": "metatarsal_1.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.84
+    ],
+    "offset_h": [
+     -0.01429,
+     0.0,
+     -0.03314
+    ]
+   },
+   "description": "falange proximal del dedo 1 del pie"
+  },
+  {
+   "name": "toe_1_distal.L",
+   "parent": "toe_1_proximal.L",
+   "mirror": true,
+   "reference": [
+    "toe_1_distal.L"
+   ],
+   "head": {
+    "at": "toe_1_proximal.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     1.0
+    ],
+    "offset_h": [
+     -0.01429,
+     0.0,
+     -0.03314
+    ]
+   },
+   "description": "falange distal del dedo 1 del pie"
+  },
+  {
+   "name": "toe_2_proximal.L",
+   "parent": "metatarsal_2.L",
+   "mirror": true,
+   "reference": [
+    "toe_2_proximal.L"
+   ],
+   "head": {
+    "at": "metatarsal_2.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.8
+    ],
+    "offset_h": [
+     -0.00514,
+     0.0,
+     -0.03371
+    ]
+   },
+   "description": "falange proximal del dedo 2 del pie"
+  },
+  {
+   "name": "toe_2_middle.L",
+   "parent": "toe_2_proximal.L",
+   "mirror": true,
+   "reference": [
+    "toe_2_middle.L"
+   ],
+   "head": {
+    "at": "toe_2_proximal.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.885
+    ],
+    "offset_h": [
+     -0.00514,
+     0.0,
+     -0.03371
+    ]
+   },
+   "description": "falange middle del dedo 2 del pie"
+  },
+  {
+   "name": "toe_2_distal.L",
+   "parent": "toe_2_middle.L",
+   "mirror": true,
+   "reference": [
+    "toe_2_distal.L"
+   ],
+   "head": {
+    "at": "toe_2_middle.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.95
+    ],
+    "offset_h": [
+     -0.00514,
+     0.0,
+     -0.03314
+    ]
+   },
+   "description": "falange distal del dedo 2 del pie"
+  },
+  {
+   "name": "toe_3_proximal.L",
+   "parent": "metatarsal_3.L",
+   "mirror": true,
+   "reference": [
+    "toe_3_proximal.L"
+   ],
+   "head": {
+    "at": "metatarsal_3.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.775
+    ],
+    "offset_h": [
+     0.00229,
+     0.0,
+     -0.03371
+    ]
+   },
+   "description": "falange proximal del dedo 3 del pie"
+  },
+  {
+   "name": "toe_3_middle.L",
+   "parent": "toe_3_proximal.L",
+   "mirror": true,
+   "reference": [
+    "toe_3_middle.L"
+   ],
+   "head": {
+    "at": "toe_3_proximal.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.85
+    ],
+    "offset_h": [
+     0.00229,
+     0.0,
+     -0.03371
+    ]
+   },
+   "description": "falange middle del dedo 3 del pie"
+  },
+  {
+   "name": "toe_3_distal.L",
+   "parent": "toe_3_middle.L",
+   "mirror": true,
+   "reference": [
+    "toe_3_distal.L"
+   ],
+   "head": {
+    "at": "toe_3_middle.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.91
+    ],
+    "offset_h": [
+     0.00229,
+     0.0,
+     -0.03314
+    ]
+   },
+   "description": "falange distal del dedo 3 del pie"
+  },
+  {
+   "name": "toe_4_proximal.L",
+   "parent": "metatarsal_4.L",
+   "mirror": true,
+   "reference": [
+    "toe_4_proximal.L"
+   ],
+   "head": {
+    "at": "metatarsal_4.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.74
+    ],
+    "offset_h": [
+     0.00857,
+     0.0,
+     -0.03371
+    ]
+   },
+   "description": "falange proximal del dedo 4 del pie"
+  },
+  {
+   "name": "toe_4_middle.L",
+   "parent": "toe_4_proximal.L",
+   "mirror": true,
+   "reference": [
+    "toe_4_middle.L"
+   ],
+   "head": {
+    "at": "toe_4_proximal.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.81
+    ],
+    "offset_h": [
+     0.00857,
+     0.0,
+     -0.03371
+    ]
+   },
+   "description": "falange middle del dedo 4 del pie"
+  },
+  {
+   "name": "toe_4_distal.L",
+   "parent": "toe_4_middle.L",
+   "mirror": true,
+   "reference": [
+    "toe_4_distal.L"
+   ],
+   "head": {
+    "at": "toe_4_middle.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.865
+    ],
+    "offset_h": [
+     0.00857,
+     0.0,
+     -0.03314
+    ]
+   },
+   "description": "falange distal del dedo 4 del pie"
+  },
+  {
+   "name": "toe_5_proximal.L",
+   "parent": "metatarsal_5.L",
+   "mirror": true,
+   "reference": [
+    "toe_5_proximal.L"
+   ],
+   "head": {
+    "at": "metatarsal_5.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.69
+    ],
+    "offset_h": [
+     0.01543,
+     0.0,
+     -0.03371
+    ]
+   },
+   "description": "falange proximal del dedo 5 del pie"
+  },
+  {
+   "name": "toe_5_middle.L",
+   "parent": "toe_5_proximal.L",
+   "mirror": true,
+   "reference": [
+    "toe_5_middle.L"
+   ],
+   "head": {
+    "at": "toe_5_proximal.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.75
+    ],
+    "offset_h": [
+     0.01543,
+     0.0,
+     -0.03371
+    ]
+   },
+   "description": "falange middle del dedo 5 del pie"
+  },
+  {
+   "name": "toe_5_distal.L",
+   "parent": "toe_5_middle.L",
+   "mirror": true,
+   "reference": [
+    "toe_5_distal.L"
+   ],
+   "head": {
+    "at": "toe_5_middle.L.tail"
+   },
+   "tail": {
+    "lerp": [
+     "foot.L.head",
+     "foot.L.tail",
+     0.8
+    ],
+    "offset_h": [
+     0.01543,
+     0.0,
+     -0.03314
+    ]
+   },
+   "description": "falange distal del dedo 5 del pie"
+  }
+ ],
+ "anchors": [
+  {
+   "point": "navicular.L.head",
+   "equals": "talus.L.tail",
+   "description": "articulacion astragaloescafoidea"
+  },
+  {
+   "point": "metatarsal_1.L.head",
+   "equals": "medial_cuneiform.L.tail",
+   "description": "articulacion cuneometatarsiana 1"
+  }
+ ]
+}

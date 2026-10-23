@@ -61,6 +61,7 @@ def add_anatomy(anat: AnatomyModel, base_bone_names) -> None:
         bone["ac_layer"] = LAYER
         bone["ac_region"] = b.region
         bone["ac_reference"] = json.dumps(list(b.reference))
+        bone["ac_anatomical_parent"] = b.anatomical_parent or b.parent  # relacion anatomica (el padre del rig es bone.parent)
 
     inverses = scene._bone_parent_inverses(sc, arm_obj, list(anat.bones))
     mat = scene._material("AC_Mat_anatomy", _BONE_COLOR)
@@ -101,6 +102,7 @@ def read_back_anatomy() -> dict:
             "head": tuple(b.head_local), "tail": tuple(b.tail_local),
             "frame": [tuple(m3.col[i]) for i in range(3)],
             "layer": b.get("ac_layer"),
+            "anatomical_parent": b.get("ac_anatomical_parent"),
             "collections": [c.name for c in b.collections],
         }
     snap["bone_collections"] = {c.name: [b.name for b in c.bones] for c in arm_obj.data.collections_all}
@@ -123,12 +125,32 @@ def read_back_anatomy() -> dict:
     return snap
 
 
-def render_anatomy_previews(height_m: float, out_dir, prefix: str = "anatomy") -> list:
-    """Vistas frontal, lateral y 3/4 (Workbench). Modifica la escena abierta: NO guardar despues."""
+def _descendants(anat: AnatomyModel, root: str) -> set:
+    """Huesos del nivel 1 que cuelgan (directa o indirectamente) del hueso `root`."""
+    out = set()
+    for n, b in anat.bones.items():
+        cur = b.parent
+        while cur is not None:
+            if cur == root:
+                out.add(n)
+                break
+            cur = anat.bones[cur].parent if cur in anat.bones else None
+    return out
+
+
+def render_anatomy_previews(base, out_dir, prefix: str = "anatomy", anat: AnatomyModel | None = None) -> list:
+    """Vistas frontal, lateral, 3/4 de pelvis y torax, y de cerca de mano y pie (Workbench).
+    Modifica la escena abierta: NO guardar despues."""
     from pathlib import Path
 
+    height_m = base.height_m
     out_dir = Path(out_dir)
     sc = bpy.context.scene
+    # en las vistas, los octaedros base de mano/pie taparian el detalle del nivel 1 (solo render)
+    for n in ("hand.L", "hand.R", "foot.L", "foot.R"):
+        obj = bpy.data.objects.get(f"VIS_{n}")
+        if obj is not None:
+            obj.hide_render = True
     sc.render.engine = "BLENDER_WORKBENCH"
     sc.display.shading.light = "STUDIO"
     sc.display.shading.color_type = "MATERIAL"
@@ -149,10 +171,40 @@ def render_anatomy_previews(height_m: float, out_dir, prefix: str = "anatomy") -
         ("pelvis_34", 0.55 * height_m, 0.35 * height_m, None, None),
         ("thorax_34", 0.73 * height_m, 0.40 * height_m, None, None),
     ]
+    hand = base.bones["hand.L"]
+    foot = base.bones["foot.L"]
+    hand_c = Vector(hand.head).lerp(Vector(hand.tail), 0.5)
+    foot_c = Vector(foot.head).lerp(Vector(foot.tail), 0.4) + Vector((0.0, 0.0, -0.03 * height_m / 1.75))
+    # vistas aisladas: (nombre, objetivo, direccion objetivo->camara, escala ortografica, huesos del nivel 1 visibles)
+    every = set(anat.bones) if anat is not None else set()
+    spine = {n for n, b in anat.bones.items() if b.region == "spine_head"} | {"sacrum_fused", "coccyx_fused"} if anat else set()
+    spine_c = Vector((0.0, 0.0, 0.5 * (base.bones["pelvis"].tail[2] + base.bones["head"].tail[2])))
+    body_c = Vector((0.0, 0.0, 0.5 * height_m))
+    close = [
+        ("hand_L_palmar", hand_c, Vector((0.0, -1.0, 0.0)), 1.5 * hand.length, _descendants(anat, "hand.L") if anat else set()),
+        ("foot_L_lateral", foot_c, Vector((1.0, 0.0, 0.0)), 1.6 * foot.length, _descendants(anat, "foot.L") if anat else set()),
+        ("foot_L_plantar", foot_c, Vector((0.0, 0.0, -1.0)), 1.6 * foot.length, _descendants(anat, "foot.L") if anat else set()),
+        ("spine_head_lateral", spine_c, Vector((1.0, 0.0, 0.0)), 0.48 * height_m, spine),
+        ("level1_front", body_c, Vector((0.0, -1.0, 0.0)), 1.15 * height_m, every),
+        ("level1_side", body_c, Vector((1.0, 0.0, 0.0)), 1.15 * height_m, every),
+    ]
+    views += [(n, None, o, None, (t, d, keep)) for n, t, d, o, keep in close]
     paths = []
     for name, cz, ortho, loc, rot in views:
         cam_data.ortho_scale = ortho
-        if loc is None:  # vista 3/4 desde delante-izquierda y algo arriba, centrada en cz
+        hidden = {}
+        if isinstance(rot, tuple) and len(rot) == 3 and isinstance(rot[0], Vector):  # vista de cerca
+            target, direction, bones_kept = rot
+            if anat is not None:  # aislar: solo se renderizan esos huesos del nivel 1 (y sus contornos)
+                keep = {f"ANA_{n}" for n in bones_kept} | {f"ANA_outline_{n}" for n in bones_kept}
+                for o in bpy.data.objects:
+                    if o.type == "MESH" and o.name not in keep:
+                        hidden[o.name] = o.hide_render
+                        o.hide_render = True
+            loc_v = target + direction.normalized() * 3.0
+            cam.location = loc_v
+            cam.rotation_euler = (target - loc_v).to_track_quat("-Z", "Y").to_euler()
+        elif loc is None:  # vista 3/4 desde delante-izquierda y algo arriba, centrada en cz
             target = Vector((0.0, 0.0, cz))
             loc_v = target + Vector((3.0, -4.0, 2.0))
             cam.location = loc_v
@@ -162,5 +214,7 @@ def render_anatomy_previews(height_m: float, out_dir, prefix: str = "anatomy") -
         path = out_dir / f"{prefix}_{name}.png"
         sc.render.filepath = str(path)
         bpy.ops.render.render(write_still=True)
+        for oname, was in hidden.items():  # restaurar la visibilidad de render
+            bpy.data.objects[oname].hide_render = was
         paths.append(path)
     return paths
