@@ -15,7 +15,7 @@
   (Archivo solo ASCII a proposito: PowerShell 5.1 lee mal UTF-8 sin BOM.)
 #>
 param(
-    [ValidateSet('All', 'Generate', 'Test')][string]$Task = 'All',
+    [ValidateSet('All', 'Generate', 'Anatomy', 'Test')][string]$Task = 'All',
     [double]$Height = 0,
     [string[]]$Set = @(),
     [string[]]$Pose = @(),
@@ -83,6 +83,19 @@ if ($Task -in 'All', 'Generate') {
         Write-Host "Resultado .blend : $blend"
         Write-Host "Reporte JSON     : $(Join-Path $OutDir 'skeleton_core_report.json')"
         if (-not $NoPreview) { Write-Host "Vistas previas   : $OutDir\preview_front.png , preview_side.png (pose) ; preview_neutral_front.png , preview_neutral_side.png (neutro)" }
+    }
+}
+
+if ($Task -in 'All', 'Anatomy') {
+    # Nivel 1 (anatomia sobre la base): archivo propio; no toca skeleton_core.blend
+    $ablend = Join-Path $OutDir 'anatomy_level1.blend'
+    $a = @('-b', '--factory-startup', '--python', (Join-Path $Root 'scripts\generate_anatomy.py'), '--', '--output', $ablend)
+    if ($NoPreview) { $a += '--no-preview' }
+    $code = Invoke-Blender 'anatomy' $a
+    if ($code -ne 0) { if ($exit -eq 0) { $exit = $code } } else {
+        Write-Host "Nivel 1 .blend   : $ablend"
+        Write-Host "Reporte nivel 1  : $(Join-Path $OutDir 'anatomy_level1_report.json')"
+        if (-not $NoPreview) { Write-Host "Vistas nivel 1   : $OutDir\anatomy_front.png , anatomy_side.png , anatomy_pelvis_34.png , anatomy_thorax_34.png" }
     }
 }
 

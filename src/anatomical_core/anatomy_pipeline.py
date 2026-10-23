@@ -1,0 +1,121 @@
+"""Nivel 1: base -> anatomia -> validar -> escena -> guardar -> reabrir -> validar -> reporte.
+
+Genera un archivo PROPIO (por defecto output/anatomy_level1.blend); el archivo de la base
+(output/skeleton_core.blend) no se toca. Se ejecuta dentro de Blender. Las poses quedan fuera de
+este nivel: la base se construye en su neutro.
+"""
+from __future__ import annotations
+
+import json
+from dataclasses import dataclass, field
+from pathlib import Path
+
+from . import anatomy, anatomy_scene, scene, validation
+from . import pose as pose_mod
+from .config import PoseDef, load_config
+from .skeleton import build_model
+
+
+class AnatomyGenerationError(RuntimeError):
+    def __init__(self, message: str, issues=()):
+        super().__init__(message)
+        self.issues = list(issues)
+
+
+@dataclass
+class AnatomyResult:
+    blend_path: Path
+    report_path: Path
+    base: object
+    anatomy: object
+    issues: list
+    previews: list = field(default_factory=list)
+
+
+def base_part_of_snapshot(snap: dict, base) -> dict:
+    """Restringe un snapshot de scene.read_back a los huesos de la base, para validarla con el
+    validador de la base sin tocarlo (los huesos de nivel 1 no son 'extra' de la base)."""
+    return dict(
+        snap,
+        bones={n: v for n, v in snap["bones"].items() if n in base.bones},
+        pose_bones={n: v for n, v in snap["pose_bones"].items() if n in base.bones},
+    )
+
+
+def known_limitations(base, anat) -> dict:
+    """Medidas de limitaciones conocidas (no son errores): se documentan en el reporte."""
+    from .geometry import length, sub
+
+    out = {}
+    if "sternum" in anat.bones:
+        gap = length(sub(base.bones["clavicle.L"].head, anat.bones["sternum"].head))
+        out["sternoclavicular_gap_m"] = gap
+        out["sternoclavicular_note"] = ("La clavicula base (congelada) nace casi en el plano de la columna; el manubrio "
+                                        "esta delante. Se corregira al rehacer la cintura escapular.")
+    return out
+
+
+def generate(output_blend, config_dir=None, anatomy_dir=None, reference_path=None, preview=True, log=print) -> AnatomyResult:
+    output_blend = Path(output_blend).resolve()
+    output_blend.parent.mkdir(parents=True, exist_ok=True)
+    if output_blend.exists():
+        log(f"[INFO] Se regenera (sobrescribe) el archivo de anatomia: {output_blend}")
+
+    base = build_model(load_config(config_dir))
+    base_issues = validation.validate_model(base)
+    if validation.errors(base_issues):
+        raise AnatomyGenerationError("La base no supera la validacion", base_issues)
+    neutral = pose_mod.apply_pose(base, PoseDef("neutral", {}))
+    acfg = anatomy.load_anatomy_config(anatomy_dir, reference_path)
+    anat = anatomy.build_anatomy(base, acfg)
+    issues = validation.validate_anatomy(base, anat)
+    for i in issues:
+        log(str(i))
+    if validation.errors(issues):
+        raise AnatomyGenerationError("El nivel 1 no supera la validacion", issues)
+    cov = anatomy.coverage(anat, base)
+    log(f"[INFO] Nivel 1: regiones {list(anat.regions)}, {len(anat.bones)} huesos; referencia: "
+        f"{len(cov['implemented'])} representados, {len(cov['base'])} en la base, {len(cov['pending'])} pendientes")
+
+    scene.reset_scene()
+    scene.build_scene(base, neutral)
+    anatomy_scene.add_anatomy(anat, list(base.bones))
+    scene.save_blend(output_blend)
+    log(f"[INFO] Guardado: {output_blend} ({output_blend.stat().st_size} bytes)")
+
+    scene.open_blend(output_blend)
+    base_blend = validation.validate_blend_snapshot(base, base_part_of_snapshot(scene.read_back(), base), neutral)
+    anat_blend = validation.validate_anatomy_snapshot(anat, anatomy_scene.read_back_anatomy())
+    for i in base_blend + anat_blend:
+        log(str(i))
+    issues += base_blend + anat_blend
+    if validation.errors(base_blend + anat_blend):
+        raise AnatomyGenerationError("El .blend reabierto no coincide con la base o con el nivel 1", base_blend + anat_blend)
+    log("[OK] .blend reabierto: base intacta y nivel 1 verificado (jerarquia, roll, posiciones, visualizacion)")
+
+    report_path = output_blend.with_name(output_blend.stem + "_report.json")
+    report = {
+        "base_signature": base.signature(),
+        "anatomy_signature": anat.signature(),
+        "regions": list(anat.regions),
+        "bones": {n: {"parent": b.parent, "region": b.region, "reference": list(b.reference), "head": list(b.head),
+                      "tail": list(b.tail), "length_m": b.length, "outline": [list(p) for p in b.outline]}
+                  for n, b in anat.bones.items()},
+        "anchors": [{"point": p, "equals": q, "description": d} for p, q, d in anat.anchors],
+        "coverage": cov,
+        "known_limitations": known_limitations(base, anat),
+        "issues": [str(i) for i in issues],
+        "disclaimer": "Nivel 1 aproximado sobre la base; no es anatomicamente exacto.",
+    }
+    report_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
+    log(f"[INFO] Reporte: {report_path}")
+
+    previews = []
+    if preview:
+        try:
+            previews = anatomy_scene.render_anatomy_previews(base.height_m, output_blend.parent)
+            for p in previews:
+                log(f"[INFO] Vista previa: {p}")
+        except Exception as exc:  # noqa: BLE001
+            log(f"[WARNING] No se pudo renderizar la vista previa: {exc}")
+    return AnatomyResult(output_blend, report_path, base, anat, issues, previews)

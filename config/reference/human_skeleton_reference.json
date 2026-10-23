@@ -1,0 +1,70 @@
+{
+  "skeleton_metadata": {
+    "name": "Human Skeleton Rig Hierarchy",
+    "total_bone_groups": 6,
+    "approx_total_bones": 206
+  },
+  "bone_hierarchy": {
+    "axial_skeleton": {
+      "skull": [
+        "cranium",
+        "mandible"
+      ],
+      "vertebral_column": {
+        "cervical": ["C1_atlas", "C2_axis", "C3", "C4", "C5", "C6", "C7"],
+        "thoracic": ["T1", "T2", "T3", "T4", "T5", "T6", "T7", "T8", "T9", "T10", "T11", "T12"],
+        "lumbar": ["L1", "L2", "L3", "L4", "L5"],
+        "sacrum": ["sacrum_fused"],
+        "coccyx": ["coccyx_fused"]
+      },
+      "thoracic_cage": {
+        "sternum": ["manubrium", "body", "xiphoid_process"],
+        "ribs_left": ["rib_L_01", "rib_L_02", "rib_L_03", "rib_L_04", "rib_L_05", "rib_L_06", "rib_L_07", "rib_L_08", "rib_L_09", "rib_L_10", "rib_L_11", "rib_L_12"],
+        "ribs_right": ["rib_R_01", "rib_R_02", "rib_R_03", "rib_R_04", "rib_R_05", "rib_R_06", "rib_R_07", "rib_R_08", "rib_R_09", "rib_R_10", "rib_R_11", "rib_R_12"]
+      }
+    },
+    "appendicular_skeleton": {
+      "pectoral_girdle": {
+        "left": ["clavicle.L", "scapula.L"],
+        "right": ["clavicle.R", "scapula.R"]
+      },
+      "upper_limbs": {
+        "arm_left": {
+          "humerus": "humerus.L",
+          "forearm": ["radius.L", "ulna.L"],
+          "carpal": ["scaphoid.L", "lunate.L", "triquetrum.L", "pisiform.L", "trapezium.L", "trapezoid.L", "capitate.L", "hamate.L"],
+          "metacarpals": ["metacarpal_1.L", "metacarpal_2.L", "metacarpal_3.L", "metacarpal_4.L", "metacarpal_5.L"],
+          "phalanges": ["thumb_proximal.L", "thumb_distal.L", "index_proximal.L", "index_middle.L", "index_distal.L", "middle_proximal.L", "middle_middle.L", "middle_distal.L", "ring_proximal.L", "ring_middle.L", "ring_distal.L", "pinky_proximal.L", "pinky_middle.L", "pinky_distal.L"]
+        },
+        "arm_right": {
+          "humerus": "humerus.R",
+          "forearm": ["radius.R", "ulna.R"],
+          "carpal": ["scaphoid.R", "lunate.R", "triquetrum.R", "pisiform.R", "trapezium.R", "trapezoid.R", "capitate.R", "hamate.R"],
+          "metacarpals": ["metacarpal_1.R", "metacarpal_2.R", "metacarpal_3.R", "metacarpal_4.R", "metacarpal_5.R"],
+          "phalanges": ["thumb_proximal.R", "thumb_distal.R", "index_proximal.R", "index_middle.R", "index_distal.R", "middle_proximal.R", "middle_middle.R", "middle_distal.R", "ring_proximal.R", "ring_middle.R", "ring_distal.R", "pinky_proximal.R", "pinky_middle.R", "pinky_distal.R"]
+        }
+      },
+      "pelvic_girdle": {
+        "pelvis": ["ilium.L", "ischium.L", "pubis.L", "ilium.R", "ischium.R", "pubis.R"]
+      },
+      "lower_limbs": {
+        "leg_left": {
+          "femur": "femur.L",
+          "patella": "patella.L",
+          "lower_leg": ["tibia.L", "fibula.L"],
+          "tarsal": ["talus.L", "calcaneus.L", "navicular.L", "medial_cuneiform.L", "intermediate_cuneiform.L", "lateral_cuneiform.L", "cuboid.L"],
+          "metatarsals": ["metatarsal_1.L", "metatarsal_2.L", "metatarsal_3.L", "metatarsal_4.L", "metatarsal_5.L"],
+          "phalanges": ["toe_1_proximal.L", "toe_1_distal.L", "toe_2_proximal.L", "toe_2_middle.L", "toe_2_distal.L", "toe_3_proximal.L", "toe_3_middle.L", "toe_3_distal.L", "toe_4_proximal.L", "toe_4_middle.L", "toe_4_distal.L", "toe_5_proximal.L", "toe_5_middle.L", "toe_5_distal.L"]
+        },
+        "leg_right": {
+          "femur": "femur.R",
+          "patella": "patella.R",
+          "lower_leg": ["tibia.R", "fibula.R"],
+          "tarsal": ["talus.R", "calcaneus.R", "navicular.R", "medial_cuneiform.R", "intermediate_cuneiform.R", "lateral_cuneiform.R", "cuboid.R"],
+          "metatarsals": ["metatarsal_1.R", "metatarsal_2.R", "metatarsal_3.R", "metatarsal_4.R", "metatarsal_5.R"],
+          "phalanges": ["toe_1_proximal.R", "toe_1_distal.R", "toe_2_proximal.R", "toe_2_middle.R", "toe_2_distal.R", "toe_3_proximal.R", "toe_3_middle.R", "toe_3_distal.R", "toe_4_proximal.R", "toe_4_middle.R", "toe_4_distal.R", "toe_5_proximal.R", "toe_5_middle.R", "toe_5_distal.R"]
+        }
+      }
+    }
+  }
+}

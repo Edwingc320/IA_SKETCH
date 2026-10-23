@@ -419,3 +419,109 @@ def validate_blend_snapshot(model: SkeletonModel, snap: dict, posed: PosedSkelet
         if needed not in snap.get("collections", []):
             out.append(Issue("error", "BLEND_COLLECTION", f"Falta la coleccion '{needed}'"))
     return out
+
+
+# --- Nivel 1 (anatomia) ------------------------------------------------------------------------
+ANCHOR_TOL = 1e-9
+
+
+def validate_anatomy(base: SkeletonModel, anat) -> list:
+    """Valida el nivel 1 contra la base: jerarquia enraizada en la base, geometria, simetria,
+    anclajes exactos y trazabilidad con la referencia. No modifica nada."""
+    from types import SimpleNamespace
+
+    from .anatomy import resolve_point_ref
+
+    out = []
+    if anat.base_signature != base.signature():
+        out.append(Issue("error", "ANAT_BASE_MISMATCH", "El nivel 1 se construyo sobre otra base (firma distinta)"))
+    names = set(anat.bones)
+    for n, b in anat.bones.items():
+        if n in base.bones:
+            out.append(Issue("error", "ANAT_NAME_COLLISION", f"'{n}' choca con un hueso de la base"))
+        if b.parent not in base.bones and b.parent not in names:
+            out.append(Issue("error", "ANAT_PARENT_UNKNOWN", f"'{n}': padre inexistente '{b.parent}'"))
+            continue
+        seen, cur = set(), n
+        while cur in names:  # subir hasta llegar a un hueso de la base
+            if cur in seen:
+                out.append(Issue("error", "ANAT_CYCLE", f"Ciclo en la jerarquia anatomica que incluye '{n}'"))
+                break
+            seen.add(cur)
+            cur = anat.bones[cur].parent
+        else:
+            if cur not in base.bones:
+                out.append(Issue("error", "ANAT_NOT_ROOTED", f"'{n}' no cuelga de ningun hueso de la base"))
+        if not b.reference:
+            out.append(Issue("error", "ANAT_NO_REFERENCE", f"'{n}' no indica que huesos de la referencia representa"))
+        if not all(is_finite(p) for p in b.outline):
+            out.append(Issue("error", "ANAT_OUTLINE_NON_FINITE", f"Contorno no finito en '{n}'"))
+    # geometria: mismas comprobaciones que la base (duck typing sobre .bones)
+    view = SimpleNamespace(bones=anat.bones)
+    for issue in check_lengths(view) + check_frames(view) + check_symmetry(view):
+        out.append(Issue(issue.severity, "ANAT_" + issue.code, issue.message))
+    for n, b in anat.bones.items():
+        if n.endswith(".L") and n[:-2] + ".R" in anat.bones:
+            r = anat.bones[n[:-2] + ".R"]
+            if len(b.outline) != len(r.outline) or not all(_close(mirror_point(p), q, FRAME_TOL) for p, q in zip(b.outline, r.outline)):
+                out.append(Issue("error", "ANAT_OUTLINE_ASYMMETRIC", f"El contorno de '{n[:-2]}.R' no es el espejo del de '{n}'"))
+    # anclajes exactos (p. ej. cabeza femoral en el acetabulo)
+    for point, equals, desc in anat.anchors:
+        try:
+            p = resolve_point_ref(point, base, anat.bones)
+            q = resolve_point_ref(equals, base, anat.bones)
+        except ValueError as exc:
+            out.append(Issue("error", "ANAT_ANCHOR_UNKNOWN", str(exc)))
+            continue
+        if length(sub(p, q)) > ANCHOR_TOL:
+            out.append(Issue("error", "ANAT_ANCHOR", f"{point} != {equals} ({length(sub(p, q)) * 1000:.3f} mm): {desc}"))
+    # trazabilidad
+    known = set(anat.reference_names)
+    claimed: dict[str, str] = {}
+    for n, b in anat.bones.items():
+        for r in b.reference:
+            if r not in known:
+                out.append(Issue("error", "ANAT_REFERENCE_UNKNOWN", f"'{n}' cita '{r}', que no esta en la referencia"))
+            elif r in claimed:
+                out.append(Issue("error", "ANAT_REFERENCE_DUPLICATE", f"'{r}' lo representan '{claimed[r]}' y '{n}'"))
+            else:
+                claimed[r] = n
+            if r in base.bones:
+                out.append(Issue("error", "ANAT_REFERENCE_IN_BASE", f"'{r}' ya es un hueso de la base; no se duplica en el nivel 1"))
+    return out
+
+
+def validate_anatomy_snapshot(anat, snap: dict) -> list:
+    """Compara el nivel 1 leido de Blender (anatomy_scene.read_back_anatomy) con el modelo."""
+    out = []
+    sb = snap.get("bones", {})
+    for n, b in anat.bones.items():
+        s = sb.get(n)
+        if s is None:
+            out.append(Issue("error", "ANAT_BLEND_MISSING", f"El .blend no contiene el hueso anatomico '{n}'"))
+            continue
+        if s["parent"] != b.parent:
+            out.append(Issue("error", "ANAT_BLEND_PARENT", f"'{n}': padre {s['parent']!r} != {b.parent!r}"))
+        if s.get("layer") != "anatomy_L1":
+            out.append(Issue("error", "ANAT_BLEND_LAYER", f"'{n}' no esta marcado como nivel 1"))
+        for label, mine, theirs in (("head", b.head, s["head"]), ("tail", b.tail, s["tail"])):
+            if length(sub(mine, tuple(theirs))) > BLEND_TOL:
+                out.append(Issue("error", "ANAT_BLEND_POSITION", f"'{n}' {label} difiere en el .blend"))
+        for label, mine, theirs in zip("xyz", b.frame, s["frame"]):
+            if length(sub(mine, tuple(theirs))) > BLEND_TOL:
+                out.append(Issue("error", "ANAT_BLEND_FRAME", f"'{n}': eje local {label} difiere (roll)"))
+        v = snap.get("visuals", {}).get(f"ANA_{n}")
+        if v is None or v["parent_bone"] != n:
+            out.append(Issue("error", "ANAT_VIS_PARENT", f"ANA_{n} falta o no esta emparentado a '{n}'"))
+        elif length(sub(b.head, tuple(v["head"]))) > BLEND_TOL or length(sub(b.tail, tuple(v["tail"]))) > BLEND_TOL:
+            out.append(Issue("error", "ANAT_VIS_POSITION", f"ANA_{n} no coincide con el hueso"))
+        if b.outline:
+            o = snap.get("outlines", {}).get(f"ANA_outline_{n}")
+            if o is None or o["parent_bone"] != n:
+                out.append(Issue("error", "ANAT_OUTLINE_PARENT", f"ANA_outline_{n} falta o no esta emparentado a '{n}'"))
+            elif length(sub(b.outline[0], tuple(o["first_point"]))) > BLEND_TOL:
+                out.append(Issue("error", "ANAT_OUTLINE_POSITION", f"ANA_outline_{n} desplazado"))
+    extra = [n for n, s in sb.items() if s.get("layer") == "anatomy_L1" and n not in anat.bones]
+    if extra:
+        out.append(Issue("error", "ANAT_BLEND_EXTRA", f"Huesos de nivel 1 no esperados: {extra}"))
+    return out

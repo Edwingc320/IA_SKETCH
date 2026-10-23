@@ -107,7 +107,9 @@ La suite corre **dentro de Blender** y compara números reales, no solo que Blen
 
 - **`test_base_frozen.py`**: la **base** (esqueleto neutro de 20 huesos) debe ser idéntica a su instantánea `tests\golden\base_skeleton.json`; ni la pose ni un nivel posterior pueden modificarla.
 
-Resumen esperado: `[SUMMARY] ejecutadas=84 fallos=0 errores=0 omitidas=0` y `RESULTADO FINAL: OK`. Las pruebas fijan los valores **por defecto** de `config\`; si editas la configuración, ejecuta `-Task Generate` (la validación interna siempre corre) y, si un test de valores por defecto falla por tus cambios, es esperado.
+- **`test_anatomy.py`** y **`test_anatomy_blender.py`**: nivel 1 (ver más abajo): referencia y nombres, jerarquía enraizada en la base, anclajes exactos, forma y simetría de pelvis y caja torácica, y en Blender que los huesos del nivel 1 son hijos reales de la base.
+
+Resumen esperado: `[SUMMARY] ejecutadas=119 fallos=0 errores=0 omitidas=0` y `RESULTADO FINAL: OK`. Las pruebas fijan los valores **por defecto** de `config\`; si editas la configuración, ejecuta `-Task Generate` (la validación interna siempre corre) y, si un test de valores por defecto falla por tus cambios, es esperado.
 
 ## Modificar las proporciones y la pose
 
@@ -141,6 +143,36 @@ py scripts\freeze_base.py --update
 ```
 
 Sin `--update` el script se niega a sobrescribir la instantánea. Copias locales de los `.blend` anteriores (no se versionan): `output\legacy\skeleton_core_v0.1.blend` y `output\legacy\skeleton_core_v0.2.blend`.
+
+## Nivel 1: anatomía sobre la base
+
+El nivel 1 añade huesos anatómicos como **hijos de los segmentos de la base**, sin modificarla. Vive en su propio archivo:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\run.ps1 -Task Anatomy
+& "C:\Program Files\Blender Foundation\Blender 5.0\blender.exe" "C:\Users\EDWIN GC\Downloads\AI_SKETCH\anatomical-core\output\anatomy_level1.blend"
+```
+
+| Qué | Dónde |
+|---|---|
+| Archivo Blender del nivel 1 | `output\anatomy_level1.blend` (la base `skeleton_core.blend` no se toca) |
+| Reporte (huesos, anclajes, cobertura de la referencia, limitaciones) | `output\anatomy_level1_report.json` |
+| Vistas previas | `output\anatomy_front.png`, `anatomy_side.png`, `anatomy_pelvis_34.png`, `anatomy_thorax_34.png` |
+
+- **Referencia:** `config\reference\human_skeleton_reference.json` (185 huesos, tal como se entregó). Nombres normalizados: lado como sufijo final (`rib_01.L`), `little` en vez de `pinky`, `sternum_body` en vez de `body`.
+- **Definición:** `config\anatomy\<region>.json`. Cabeza y cola de cada hueso son **puntos de la base** (`"at": "thigh.L.head"`) o interpolaciones entre ellos (`"lerp"`), más un desplazamiento en fracción de la altura; así siguen las proporciones de la base. `reference` indica qué nombres de la referencia representa cada hueso; `anchors` son uniones que deben coincidir exactamente.
+- **En Blender:** colecciones de huesos `L0_base` y `L1_<region>` (panel *Object Data ▸ Bone Collections*, con ojo para mostrar/ocultar); formas `ANA_<hueso>` y contornos de referencia `ANA_outline_<hueso>` (colecciones `AC_Anatomy_Visuals` y `AC_Anatomy_Outlines`). Los huesos del nivel 1 son rígidos respecto a su padre (sin poses propias en este nivel).
+
+Regiones (orden aprobado):
+
+| # | Región | Estado | Huesos |
+|---|---|---|---|
+| 1 | Cintura pélvica + sacro | hecho | `sacrum_fused`, `coccyx_fused`, `hip_bone.L/R` (ilion + isquion + pubis). La cola de cada coxal **es** la cabeza femoral de la base (anclaje exacto). |
+| 2 | Caja torácica + esternón | hecho | `sternum` (manubrio + cuerpo + xifoides, una pieza) y `rib_01…rib_12.L/R`, cada costilla en su vértebra T1–T12 (hija de `thorax` las 1–6, de `spine_thoracic` las 7–12). Da profundidad anteroposterior al torso. |
+| 3 | Manos y pies desglosados | pendiente | |
+| 4 | Vértebras ajustadas + cráneo | pendiente | |
+
+**Limitación conocida:** la clavícula de la base (congelada) nace casi en el plano de la columna, por lo que queda un hueco de unos 8 cm entre su pivote esternoclavicular y el manubrio (medido en el reporte como `sternoclavicular_gap_m`). Se corregirá al rehacer la cintura escapular.
 
 ## Versiones anteriores y compatibilidad
 

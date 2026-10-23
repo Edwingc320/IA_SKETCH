@@ -164,6 +164,31 @@ def bone_shape(head: Vec3, tail: Vec3, width_ratio: float = 0.12):
     return verts, faces
 
 
+def polyline_tube(points, radius: float, closed: bool = True, sides: int = 4):
+    """Contorno de referencia como tubo fino: un prisma de `sides` caras por segmento (visible en
+    renders, a diferencia de una malla de solo aristas). Devuelve (vertices, caras); los `sides`
+    primeros vertices rodean al primer punto."""
+    pts = list(points)
+    n = len(pts)
+    segments = [(i, (i + 1) % n) for i in range(n if closed and n > 2 else n - 1)]
+    verts, faces = [], []
+    for a, b in segments:
+        p, q = pts[a], pts[b]
+        d = sub(q, p)
+        if length(d) < 1e-9:
+            continue
+        u, v = _perpendicular_basis(normalize(d))
+        start = len(verts)
+        for end in (p, q):
+            for k in range(sides):
+                ang = 2.0 * math.pi * k / sides
+                verts.append(add(end, add(scale(u, radius * math.cos(ang)), scale(v, radius * math.sin(ang)))))
+        for k in range(sides):
+            k2 = (k + 1) % sides
+            faces.append((start + k, start + k2, start + sides + k2, start + sides + k))
+    return verts, faces
+
+
 def icosphere(center: Vec3, radius: float, subdivisions: int = 1):
     """Esfera de baja resolucion (icosaedro subdividido). Devuelve (vertices, caras)."""
     t = (1.0 + math.sqrt(5.0)) / 2.0

@@ -1,0 +1,1466 @@
+{
+ "schema_version": 2,
+ "level": 1,
+ "region": "thoracic_cage",
+ "description": "Nivel 1, region 2: caja toracica + esternon (una pieza). Las 12 vertebras toracicas se reparten uniformemente sobre los segmentos base thorax (T1-T6) y spine_thoracic (T7-T12); cada costilla nace en su vertebra (cabeza = articulacion costovertebral) y es hija del segmento base de su nivel. El esternon es hijo de thorax y da profundidad anteroposterior al torso. Cada hueso costal es la cuerda del arco (cabeza -> extremo oseo anterior); el arco y el cartilago costal son geometria de referencia (contorno). Valores APROXIMADOS (fracciones de la altura), no medidas anatomicas exactas. LIMITACION conocida: la clavicula base (congelada, decision D3) nace casi en el plano de la columna, por lo que queda un hueco anteroposterior entre su pivote esternoclavicular y el manubrio; se corregira al rehacer la cintura escapular.",
+ "bones": [
+  {
+   "name": "sternum",
+   "parent": "thorax",
+   "mirror": false,
+   "reference": [
+    "manubrium",
+    "sternum_body",
+    "xiphoid_process"
+   ],
+   "head": {
+    "lerp": [
+     "thorax.head",
+     "thorax.tail",
+     0.84
+    ],
+    "offset_h": [
+     0,
+     -0.058,
+     0
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "spine_thoracic.head",
+     "spine_thoracic.tail",
+     0.619792
+    ],
+    "offset_h": [
+     0,
+     -0.075,
+     0
+    ]
+   },
+   "outline": [
+    {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.0
+     ],
+     "offset_h": [
+      0.017,
+      0,
+      0
+     ]
+    },
+    {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.25
+     ],
+     "offset_h": [
+      0.01,
+      0,
+      0
+     ]
+    },
+    {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.75
+     ],
+     "offset_h": [
+      0.014,
+      0,
+      0
+     ]
+    },
+    {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.006,
+      0,
+      0
+     ]
+    },
+    {
+     "at": "sternum.tail"
+    },
+    {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.9
+     ],
+     "offset_h": [
+      -0.006,
+      0,
+      0
+     ]
+    },
+    {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.75
+     ],
+     "offset_h": [
+      -0.014,
+      0,
+      0
+     ]
+    },
+    {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.25
+     ],
+     "offset_h": [
+      -0.01,
+      0,
+      0
+     ]
+    },
+    {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.0
+     ],
+     "offset_h": [
+      -0.017,
+      0,
+      0
+     ]
+    }
+   ],
+   "outline_closed": true,
+   "description": "Esternon en una pieza (manubrio + cuerpo + apendice xifoides). Cabeza: escotadura yugular (a la altura de T1-T2); cola: punta del xifoides (altura de T9). Contorno: manubrio ancho, angulo esternal, cuerpo y xifoides."
+  },
+  {
+   "name": "rib_01.L",
+   "parent": "thorax",
+   "mirror": true,
+   "reference": [
+    "rib_01.L"
+   ],
+   "head": {
+    "lerp": [
+     "thorax.head",
+     "thorax.tail",
+     0.921296
+    ],
+    "offset_h": [
+     0.012,
+     0.006,
+     0.0
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "thorax.head",
+     "thorax.tail",
+     0.921296
+    ],
+    "offset_h": [
+     0.022,
+     -0.04,
+     -0.025
+    ]
+   },
+   "frame_x_hint": [
+    0,
+    0,
+    1
+   ],
+   "outline": [
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.921296
+     ],
+     "offset_h": [
+      0.012,
+      0.006,
+      0.0
+     ]
+    },
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.921296
+     ],
+     "offset_h": [
+      0.0158,
+      0.012,
+      -0.0025
+     ]
+    },
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.921296
+     ],
+     "offset_h": [
+      0.035,
+      -0.02,
+      -0.0138
+     ]
+    },
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.921296
+     ],
+     "offset_h": [
+      0.0335,
+      -0.04,
+      -0.02
+     ]
+    },
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.921296
+     ],
+     "offset_h": [
+      0.022,
+      -0.04,
+      -0.025
+     ]
+    },
+    {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.012,
+      0,
+      0
+     ]
+    }
+   ],
+   "outline_closed": false,
+   "description": "Costilla 1 (verdadera: su cartilago llega al borde del esternon (t=0.05)). Cabeza: articulacion costovertebral de T1; cola: extremo oseo anterior. Contorno: arco costal + cartilago."
+  },
+  {
+   "name": "rib_02.L",
+   "parent": "thorax",
+   "mirror": true,
+   "reference": [
+    "rib_02.L"
+   ],
+   "head": {
+    "lerp": [
+     "thorax.head",
+     "thorax.tail",
+     0.763889
+    ],
+    "offset_h": [
+     0.012,
+     0.006,
+     0.0
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "thorax.head",
+     "thorax.tail",
+     0.763889
+    ],
+    "offset_h": [
+     0.032,
+     -0.05,
+     -0.035
+    ]
+   },
+   "frame_x_hint": [
+    0,
+    0,
+    1
+   ],
+   "outline": [
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.763889
+     ],
+     "offset_h": [
+      0.012,
+      0.006,
+      0.0
+     ]
+    },
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.763889
+     ],
+     "offset_h": [
+      0.0225,
+      0.012,
+      -0.0035
+     ]
+    },
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.763889
+     ],
+     "offset_h": [
+      0.05,
+      -0.02,
+      -0.0193
+     ]
+    },
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.763889
+     ],
+     "offset_h": [
+      0.046,
+      -0.045,
+      -0.028
+     ]
+    },
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.763889
+     ],
+     "offset_h": [
+      0.032,
+      -0.05,
+      -0.035
+     ]
+    },
+    {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.22
+     ],
+     "offset_h": [
+      0.012,
+      0,
+      0
+     ]
+    }
+   ],
+   "outline_closed": false,
+   "description": "Costilla 2 (verdadera: su cartilago llega al borde del esternon (t=0.22)). Cabeza: articulacion costovertebral de T2; cola: extremo oseo anterior. Contorno: arco costal + cartilago."
+  },
+  {
+   "name": "rib_03.L",
+   "parent": "thorax",
+   "mirror": true,
+   "reference": [
+    "rib_03.L"
+   ],
+   "head": {
+    "lerp": [
+     "thorax.head",
+     "thorax.tail",
+     0.606481
+    ],
+    "offset_h": [
+     0.012,
+     0.006,
+     0.0
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "thorax.head",
+     "thorax.tail",
+     0.606481
+    ],
+    "offset_h": [
+     0.04,
+     -0.054,
+     -0.045
+    ]
+   },
+   "frame_x_hint": [
+    0,
+    0,
+    1
+   ],
+   "outline": [
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.606481
+     ],
+     "offset_h": [
+      0.012,
+      0.006,
+      0.0
+     ]
+    },
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.606481
+     ],
+     "offset_h": [
+      0.027,
+      0.012,
+      -0.0045
+     ]
+    },
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.606481
+     ],
+     "offset_h": [
+      0.06,
+      -0.02,
+      -0.0248
+     ]
+    },
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.606481
+     ],
+     "offset_h": [
+      0.055,
+      -0.047,
+      -0.036
+     ]
+    },
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.606481
+     ],
+     "offset_h": [
+      0.04,
+      -0.054,
+      -0.045
+     ]
+    },
+    {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.38
+     ],
+     "offset_h": [
+      0.012,
+      0,
+      0
+     ]
+    }
+   ],
+   "outline_closed": false,
+   "description": "Costilla 3 (verdadera: su cartilago llega al borde del esternon (t=0.38)). Cabeza: articulacion costovertebral de T3; cola: extremo oseo anterior. Contorno: arco costal + cartilago."
+  },
+  {
+   "name": "rib_04.L",
+   "parent": "thorax",
+   "mirror": true,
+   "reference": [
+    "rib_04.L"
+   ],
+   "head": {
+    "lerp": [
+     "thorax.head",
+     "thorax.tail",
+     0.449074
+    ],
+    "offset_h": [
+     0.012,
+     0.006,
+     0.0
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "thorax.head",
+     "thorax.tail",
+     0.449074
+    ],
+    "offset_h": [
+     0.045,
+     -0.056,
+     -0.05
+    ]
+   },
+   "frame_x_hint": [
+    0,
+    0,
+    1
+   ],
+   "outline": [
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.449074
+     ],
+     "offset_h": [
+      0.012,
+      0.006,
+      0.0
+     ]
+    },
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.449074
+     ],
+     "offset_h": [
+      0.0297,
+      0.012,
+      -0.005
+     ]
+    },
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.449074
+     ],
+     "offset_h": [
+      0.066,
+      -0.02,
+      -0.0275
+     ]
+    },
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.449074
+     ],
+     "offset_h": [
+      0.0605,
+      -0.048,
+      -0.04
+     ]
+    },
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.449074
+     ],
+     "offset_h": [
+      0.045,
+      -0.056,
+      -0.05
+     ]
+    },
+    {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.52
+     ],
+     "offset_h": [
+      0.012,
+      0,
+      0
+     ]
+    }
+   ],
+   "outline_closed": false,
+   "description": "Costilla 4 (verdadera: su cartilago llega al borde del esternon (t=0.52)). Cabeza: articulacion costovertebral de T4; cola: extremo oseo anterior. Contorno: arco costal + cartilago."
+  },
+  {
+   "name": "rib_05.L",
+   "parent": "thorax",
+   "mirror": true,
+   "reference": [
+    "rib_05.L"
+   ],
+   "head": {
+    "lerp": [
+     "thorax.head",
+     "thorax.tail",
+     0.291667
+    ],
+    "offset_h": [
+     0.012,
+     0.006,
+     0.0
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "thorax.head",
+     "thorax.tail",
+     0.291667
+    ],
+    "offset_h": [
+     0.05,
+     -0.056,
+     -0.055
+    ]
+   },
+   "frame_x_hint": [
+    0,
+    0,
+    1
+   ],
+   "outline": [
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.291667
+     ],
+     "offset_h": [
+      0.012,
+      0.006,
+      0.0
+     ]
+    },
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.291667
+     ],
+     "offset_h": [
+      0.0315,
+      0.012,
+      -0.0055
+     ]
+    },
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.291667
+     ],
+     "offset_h": [
+      0.07,
+      -0.02,
+      -0.0303
+     ]
+    },
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.291667
+     ],
+     "offset_h": [
+      0.065,
+      -0.048,
+      -0.044
+     ]
+    },
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.291667
+     ],
+     "offset_h": [
+      0.05,
+      -0.056,
+      -0.055
+     ]
+    },
+    {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.65
+     ],
+     "offset_h": [
+      0.012,
+      0,
+      0
+     ]
+    }
+   ],
+   "outline_closed": false,
+   "description": "Costilla 5 (verdadera: su cartilago llega al borde del esternon (t=0.65)). Cabeza: articulacion costovertebral de T5; cola: extremo oseo anterior. Contorno: arco costal + cartilago."
+  },
+  {
+   "name": "rib_06.L",
+   "parent": "thorax",
+   "mirror": true,
+   "reference": [
+    "rib_06.L"
+   ],
+   "head": {
+    "lerp": [
+     "thorax.head",
+     "thorax.tail",
+     0.134259
+    ],
+    "offset_h": [
+     0.012,
+     0.006,
+     0.0
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "thorax.head",
+     "thorax.tail",
+     0.134259
+    ],
+    "offset_h": [
+     0.054,
+     -0.054,
+     -0.058
+    ]
+   },
+   "frame_x_hint": [
+    0,
+    0,
+    1
+   ],
+   "outline": [
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.134259
+     ],
+     "offset_h": [
+      0.012,
+      0.006,
+      0.0
+     ]
+    },
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.134259
+     ],
+     "offset_h": [
+      0.0328,
+      0.012,
+      -0.0058
+     ]
+    },
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.134259
+     ],
+     "offset_h": [
+      0.073,
+      -0.02,
+      -0.0319
+     ]
+    },
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.134259
+     ],
+     "offset_h": [
+      0.0685,
+      -0.047,
+      -0.0464
+     ]
+    },
+    {
+     "lerp": [
+      "thorax.head",
+      "thorax.tail",
+      0.134259
+     ],
+     "offset_h": [
+      0.054,
+      -0.054,
+      -0.058
+     ]
+    },
+    {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.78
+     ],
+     "offset_h": [
+      0.012,
+      0,
+      0
+     ]
+    }
+   ],
+   "outline_closed": false,
+   "description": "Costilla 6 (verdadera: su cartilago llega al borde del esternon (t=0.78)). Cabeza: articulacion costovertebral de T6; cola: extremo oseo anterior. Contorno: arco costal + cartilago."
+  },
+  {
+   "name": "rib_07.L",
+   "parent": "spine_thoracic",
+   "mirror": true,
+   "reference": [
+    "rib_07.L"
+   ],
+   "head": {
+    "lerp": [
+     "spine_thoracic.head",
+     "spine_thoracic.tail",
+     0.973958
+    ],
+    "offset_h": [
+     0.012,
+     0.006,
+     0.0
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "spine_thoracic.head",
+     "spine_thoracic.tail",
+     0.973958
+    ],
+    "offset_h": [
+     0.058,
+     -0.052,
+     -0.06
+    ]
+   },
+   "frame_x_hint": [
+    0,
+    0,
+    1
+   ],
+   "outline": [
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.973958
+     ],
+     "offset_h": [
+      0.012,
+      0.006,
+      0.0
+     ]
+    },
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.973958
+     ],
+     "offset_h": [
+      0.0338,
+      0.012,
+      -0.006
+     ]
+    },
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.973958
+     ],
+     "offset_h": [
+      0.075,
+      -0.02,
+      -0.033
+     ]
+    },
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.973958
+     ],
+     "offset_h": [
+      0.0715,
+      -0.046,
+      -0.048
+     ]
+    },
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.973958
+     ],
+     "offset_h": [
+      0.058,
+      -0.052,
+      -0.06
+     ]
+    },
+    {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.012,
+      0,
+      0
+     ]
+    }
+   ],
+   "outline_closed": false,
+   "description": "Costilla 7 (verdadera: su cartilago llega al borde del esternon (t=0.9)). Cabeza: articulacion costovertebral de T7; cola: extremo oseo anterior. Contorno: arco costal + cartilago."
+  },
+  {
+   "name": "rib_08.L",
+   "parent": "spine_thoracic",
+   "mirror": true,
+   "reference": [
+    "rib_08.L"
+   ],
+   "head": {
+    "lerp": [
+     "spine_thoracic.head",
+     "spine_thoracic.tail",
+     0.796875
+    ],
+    "offset_h": [
+     0.012,
+     0.006,
+     0.0
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "spine_thoracic.head",
+     "spine_thoracic.tail",
+     0.796875
+    ],
+    "offset_h": [
+     0.062,
+     -0.045,
+     -0.058
+    ]
+   },
+   "frame_x_hint": [
+    0,
+    0,
+    1
+   ],
+   "outline": [
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.796875
+     ],
+     "offset_h": [
+      0.012,
+      0.006,
+      0.0
+     ]
+    },
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.796875
+     ],
+     "offset_h": [
+      0.0338,
+      0.012,
+      -0.0058
+     ]
+    },
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.796875
+     ],
+     "offset_h": [
+      0.075,
+      -0.02,
+      -0.0319
+     ]
+    },
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.796875
+     ],
+     "offset_h": [
+      0.0735,
+      -0.0425,
+      -0.0464
+     ]
+    },
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.796875
+     ],
+     "offset_h": [
+      0.062,
+      -0.045,
+      -0.058
+     ]
+    },
+    {
+     "at": "sternum.tail",
+     "offset_h": [
+      0.03,
+      0.0,
+      -0.01
+     ]
+    }
+   ],
+   "outline_closed": false,
+   "description": "Costilla 8 (falsa: su cartilago se une al reborde costal). Cabeza: articulacion costovertebral de T8; cola: extremo oseo anterior. Contorno: arco costal + cartilago."
+  },
+  {
+   "name": "rib_09.L",
+   "parent": "spine_thoracic",
+   "mirror": true,
+   "reference": [
+    "rib_09.L"
+   ],
+   "head": {
+    "lerp": [
+     "spine_thoracic.head",
+     "spine_thoracic.tail",
+     0.619792
+    ],
+    "offset_h": [
+     0.012,
+     0.006,
+     0.0
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "spine_thoracic.head",
+     "spine_thoracic.tail",
+     0.619792
+    ],
+    "offset_h": [
+     0.064,
+     -0.038,
+     -0.052
+    ]
+   },
+   "frame_x_hint": [
+    0,
+    0,
+    1
+   ],
+   "outline": [
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.619792
+     ],
+     "offset_h": [
+      0.012,
+      0.006,
+      0.0
+     ]
+    },
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.619792
+     ],
+     "offset_h": [
+      0.0328,
+      0.012,
+      -0.0052
+     ]
+    },
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.619792
+     ],
+     "offset_h": [
+      0.073,
+      -0.02,
+      -0.0286
+     ]
+    },
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.619792
+     ],
+     "offset_h": [
+      0.0735,
+      -0.039,
+      -0.0416
+     ]
+    },
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.619792
+     ],
+     "offset_h": [
+      0.064,
+      -0.038,
+      -0.052
+     ]
+    },
+    {
+     "at": "sternum.tail",
+     "offset_h": [
+      0.045,
+      0.0,
+      -0.03
+     ]
+    }
+   ],
+   "outline_closed": false,
+   "description": "Costilla 9 (falsa: su cartilago se une al reborde costal). Cabeza: articulacion costovertebral de T9; cola: extremo oseo anterior. Contorno: arco costal + cartilago."
+  },
+  {
+   "name": "rib_10.L",
+   "parent": "spine_thoracic",
+   "mirror": true,
+   "reference": [
+    "rib_10.L"
+   ],
+   "head": {
+    "lerp": [
+     "spine_thoracic.head",
+     "spine_thoracic.tail",
+     0.442708
+    ],
+    "offset_h": [
+     0.012,
+     0.006,
+     0.0
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "spine_thoracic.head",
+     "spine_thoracic.tail",
+     0.442708
+    ],
+    "offset_h": [
+     0.064,
+     -0.03,
+     -0.045
+    ]
+   },
+   "frame_x_hint": [
+    0,
+    0,
+    1
+   ],
+   "outline": [
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.442708
+     ],
+     "offset_h": [
+      0.012,
+      0.006,
+      0.0
+     ]
+    },
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.442708
+     ],
+     "offset_h": [
+      0.0311,
+      0.012,
+      -0.0045
+     ]
+    },
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.442708
+     ],
+     "offset_h": [
+      0.069,
+      -0.02,
+      -0.0248
+     ]
+    },
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.442708
+     ],
+     "offset_h": [
+      0.0715,
+      -0.035,
+      -0.036
+     ]
+    },
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.442708
+     ],
+     "offset_h": [
+      0.064,
+      -0.03,
+      -0.045
+     ]
+    },
+    {
+     "at": "sternum.tail",
+     "offset_h": [
+      0.055,
+      0.0,
+      -0.05
+     ]
+    }
+   ],
+   "outline_closed": false,
+   "description": "Costilla 10 (falsa: su cartilago se une al reborde costal). Cabeza: articulacion costovertebral de T10; cola: extremo oseo anterior. Contorno: arco costal + cartilago."
+  },
+  {
+   "name": "rib_11.L",
+   "parent": "spine_thoracic",
+   "mirror": true,
+   "reference": [
+    "rib_11.L"
+   ],
+   "head": {
+    "lerp": [
+     "spine_thoracic.head",
+     "spine_thoracic.tail",
+     0.265625
+    ],
+    "offset_h": [
+     0.012,
+     0.006,
+     0.0
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "spine_thoracic.head",
+     "spine_thoracic.tail",
+     0.265625
+    ],
+    "offset_h": [
+     0.058,
+     -0.012,
+     -0.03
+    ]
+   },
+   "frame_x_hint": [
+    0,
+    0,
+    1
+   ],
+   "outline": [
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.265625
+     ],
+     "offset_h": [
+      0.012,
+      0.006,
+      0.0
+     ]
+    },
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.265625
+     ],
+     "offset_h": [
+      0.027,
+      0.012,
+      -0.003
+     ]
+    },
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.265625
+     ],
+     "offset_h": [
+      0.06,
+      -0.02,
+      -0.0165
+     ]
+    },
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.265625
+     ],
+     "offset_h": [
+      0.064,
+      -0.026,
+      -0.024
+     ]
+    },
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.265625
+     ],
+     "offset_h": [
+      0.058,
+      -0.012,
+      -0.03
+     ]
+    }
+   ],
+   "outline_closed": false,
+   "description": "Costilla 11 (flotante: sin cartilago anterior). Cabeza: articulacion costovertebral de T11; cola: extremo oseo anterior. Contorno: arco costal + cartilago."
+  },
+  {
+   "name": "rib_12.L",
+   "parent": "spine_thoracic",
+   "mirror": true,
+   "reference": [
+    "rib_12.L"
+   ],
+   "head": {
+    "lerp": [
+     "spine_thoracic.head",
+     "spine_thoracic.tail",
+     0.088542
+    ],
+    "offset_h": [
+     0.012,
+     0.006,
+     0.0
+    ]
+   },
+   "tail": {
+    "lerp": [
+     "spine_thoracic.head",
+     "spine_thoracic.tail",
+     0.088542
+    ],
+    "offset_h": [
+     0.046,
+     0.0,
+     -0.02
+    ]
+   },
+   "frame_x_hint": [
+    0,
+    0,
+    1
+   ],
+   "outline": [
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.088542
+     ],
+     "offset_h": [
+      0.012,
+      0.006,
+      0.0
+     ]
+    },
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.088542
+     ],
+     "offset_h": [
+      0.0216,
+      0.012,
+      -0.002
+     ]
+    },
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.088542
+     ],
+     "offset_h": [
+      0.048,
+      -0.02,
+      -0.011
+     ]
+    },
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.088542
+     ],
+     "offset_h": [
+      0.052,
+      -0.02,
+      -0.016
+     ]
+    },
+    {
+     "lerp": [
+      "spine_thoracic.head",
+      "spine_thoracic.tail",
+      0.088542
+     ],
+     "offset_h": [
+      0.046,
+      0.0,
+      -0.02
+     ]
+    }
+   ],
+   "outline_closed": false,
+   "description": "Costilla 12 (flotante: sin cartilago anterior). Cabeza: articulacion costovertebral de T12; cola: extremo oseo anterior. Contorno: arco costal + cartilago."
+  }
+ ],
+ "anchors": []
+}
