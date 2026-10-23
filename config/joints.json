@@ -1,63 +1,63 @@
 {
-  "schema_version": 1,
-  "description": "Articulaciones: pivote = cabeza (head) del hueso hijo. Cada grado de libertad (dof) tiene un eje en el espacio del modelo en reposo (vector; 'long' = eje largo head->tail del hueso) y limites en grados. Un angulo positivo es una rotacion de regla de la mano derecha alrededor del eje; los ejes se eligieron para que el positivo sea el movimiento anatomico nombrado (p. ej. flexion). Para huesos con mirror=true se define el lado izquierdo y el derecho se obtiene reflejando el eje como pseudovector (x,-y,-z). IMPORTANTE: los limites son APROXIMACIONES CONFIGURABLES para un esqueleto de referencia, no limites medicos universales.",
+  "schema_version": 2,
+  "description": "Articulaciones: pivote = cabeza (head) del hueso hijo, en el esqueleto NEUTRO. Cada grado de libertad (dof) usa un eje LOCAL del hueso: 'axis' = x | y | z del marco local (Y = eje largo head->tail, X = flexion, Z = X cross Y) y 'sign' = 1 | -1. Un angulo positivo es una rotacion de regla de la mano derecha alrededor del eje resultante. Como los ejes son columnas de un marco ortonormal, son perpendiculares entre si y al hueso por construccion. 'positive_motion' declara hacia donde se mueve el extremo distal con un angulo positivo (anterior = -Y, posterior = +Y, superior = +Z, inferior = -Z, lateral/medial segun el lado, left = +X, right = -X; 'axial' = giro sobre el eje largo) y el validador lo comprueba numericamente. Para huesos con mirror=true se define el lado izquierdo y el derecho se obtiene reflejando el eje como pseudovector (x,-y,-z). Los angulos se miden DESDE EL NEUTRO (0 grados = posicion anatomica), no desde la pose A. IMPORTANTE: los limites son APROXIMACIONES CONFIGURABLES para un esqueleto de referencia, no limites medicos universales. Los dof se componen en el orden listado, todos sobre ejes locales fijos del hueso en reposo.",
   "joints": [
     {"name": "lumbar", "bone": "spine_lumbar", "mirror": false, "dofs": [
-      {"name": "flexion",      "axis": [1, 0, 0], "min_deg": -20, "max_deg": 40, "description": "flexion (+) / extension (-) hacia delante (-Y)"},
-      {"name": "lateral_bend", "axis": [0, 1, 0], "min_deg": -15, "max_deg": 15, "description": "inclinacion lateral (+ hacia la izquierda)"},
-      {"name": "axial",        "axis": "long",    "min_deg": -10, "max_deg": 10, "description": "torsion alrededor del eje del hueso (+ giro a la izquierda)"}
+      {"name": "flexion",      "axis": "x", "sign": 1,  "min_deg": -20, "max_deg": 40, "positive_motion": "anterior", "description": "flexion (+) / extension (-) hacia delante (-Y)"},
+      {"name": "lateral_bend", "axis": "z", "sign": -1, "min_deg": -15, "max_deg": 15, "positive_motion": "left",     "description": "inclinacion lateral (+ hacia la izquierda)"},
+      {"name": "axial",        "axis": "y", "sign": 1,  "min_deg": -10, "max_deg": 10, "positive_motion": "axial",    "description": "torsion alrededor del eje del hueso (+ giro a la izquierda)"}
     ]},
     {"name": "thoracic", "bone": "spine_thoracic", "mirror": false, "dofs": [
-      {"name": "flexion",      "axis": [1, 0, 0], "min_deg": -10, "max_deg": 20, "description": "flexion/extension"},
-      {"name": "lateral_bend", "axis": [0, 1, 0], "min_deg": -10, "max_deg": 10, "description": "inclinacion lateral"},
-      {"name": "axial",        "axis": "long",    "min_deg": -15, "max_deg": 15, "description": "torsion"}
+      {"name": "flexion",      "axis": "x", "sign": 1,  "min_deg": -10, "max_deg": 20, "positive_motion": "anterior", "description": "flexion/extension"},
+      {"name": "lateral_bend", "axis": "z", "sign": -1, "min_deg": -10, "max_deg": 10, "positive_motion": "left",     "description": "inclinacion lateral"},
+      {"name": "axial",        "axis": "y", "sign": 1,  "min_deg": -15, "max_deg": 15, "positive_motion": "axial",    "description": "torsion"}
     ]},
     {"name": "thorax", "bone": "thorax", "mirror": false, "dofs": [
-      {"name": "flexion",      "axis": [1, 0, 0], "min_deg": -5, "max_deg": 10, "description": "flexion/extension"},
-      {"name": "lateral_bend", "axis": [0, 1, 0], "min_deg": -5, "max_deg": 5,  "description": "inclinacion lateral"},
-      {"name": "axial",        "axis": "long",    "min_deg": -10, "max_deg": 10, "description": "torsion"}
+      {"name": "flexion",      "axis": "x", "sign": 1,  "min_deg": -5,  "max_deg": 10, "positive_motion": "anterior", "description": "flexion/extension"},
+      {"name": "lateral_bend", "axis": "z", "sign": -1, "min_deg": -5,  "max_deg": 5,  "positive_motion": "left",     "description": "inclinacion lateral"},
+      {"name": "axial",        "axis": "y", "sign": 1,  "min_deg": -10, "max_deg": 10, "positive_motion": "axial",    "description": "torsion"}
     ]},
     {"name": "neck", "bone": "neck", "mirror": false, "dofs": [
-      {"name": "flexion",      "axis": [1, 0, 0], "min_deg": -40, "max_deg": 45, "description": "flexion/extension"},
-      {"name": "lateral_bend", "axis": [0, 1, 0], "min_deg": -35, "max_deg": 35, "description": "inclinacion lateral"},
-      {"name": "axial",        "axis": "long",    "min_deg": -50, "max_deg": 50, "description": "rotacion"}
+      {"name": "flexion",      "axis": "x", "sign": 1,  "min_deg": -40, "max_deg": 45, "positive_motion": "anterior", "description": "flexion/extension"},
+      {"name": "lateral_bend", "axis": "z", "sign": -1, "min_deg": -35, "max_deg": 35, "positive_motion": "left",     "description": "inclinacion lateral"},
+      {"name": "axial",        "axis": "y", "sign": 1,  "min_deg": -50, "max_deg": 50, "positive_motion": "axial",    "description": "rotacion"}
     ]},
     {"name": "head", "bone": "head", "mirror": false, "dofs": [
-      {"name": "flexion",      "axis": [1, 0, 0], "min_deg": -20, "max_deg": 25, "description": "asentimiento (atlanto-occipital aproximado)"},
-      {"name": "lateral_bend", "axis": [0, 1, 0], "min_deg": -15, "max_deg": 15, "description": "inclinacion lateral"},
-      {"name": "axial",        "axis": "long",    "min_deg": -15, "max_deg": 15, "description": "rotacion"}
+      {"name": "flexion",      "axis": "x", "sign": 1,  "min_deg": -20, "max_deg": 25, "positive_motion": "anterior", "description": "asentimiento (atlanto-occipital aproximado)"},
+      {"name": "lateral_bend", "axis": "z", "sign": -1, "min_deg": -15, "max_deg": 15, "positive_motion": "left",     "description": "inclinacion lateral"},
+      {"name": "axial",        "axis": "y", "sign": 1,  "min_deg": -15, "max_deg": 15, "positive_motion": "axial",    "description": "rotacion"}
     ]},
 
     {"name": "sternoclavicular", "bone": "clavicle", "mirror": true, "dofs": [
-      {"name": "elevation",  "axis": [0, -1, 0], "min_deg": -10, "max_deg": 40, "description": "elevacion (+) / depresion (-) del hombro"},
-      {"name": "protraction","axis": [0, 0, -1], "min_deg": -20, "max_deg": 25, "description": "protraccion (+, hacia delante) / retraccion (-)"}
+      {"name": "elevation",   "axis": "x", "sign": 1,  "min_deg": -10, "max_deg": 40, "positive_motion": "superior", "description": "elevacion (+) / depresion (-) del hombro"},
+      {"name": "protraction", "axis": "z", "sign": -1, "min_deg": -20, "max_deg": 25, "positive_motion": "anterior", "description": "protraccion (+, hacia delante) / retraccion (-)"}
     ]},
     {"name": "shoulder", "bone": "upper_arm", "mirror": true, "dofs": [
-      {"name": "flexion",   "axis": [-1, 0, 0], "min_deg": -60, "max_deg": 180, "description": "flexion (+, brazo hacia delante) / extension (-)"},
-      {"name": "abduction", "axis": [0, -1, 0], "min_deg": -50, "max_deg": 180, "description": "abduccion (+, separar del cuerpo) / aduccion (-)"},
-      {"name": "axial",     "axis": "long",     "min_deg": -90, "max_deg": 90,  "description": "rotacion axial del humero"}
+      {"name": "flexion",   "axis": "x", "sign": -1, "min_deg": -60, "max_deg": 180, "positive_motion": "anterior", "description": "flexion (+, brazo hacia delante) / extension (-)"},
+      {"name": "abduction", "axis": "z", "sign": -1, "min_deg": -50, "max_deg": 180, "positive_motion": "lateral",  "description": "abduccion (+, separar del cuerpo) / aduccion (-)"},
+      {"name": "axial",     "axis": "y", "sign": 1,  "min_deg": -90, "max_deg": 90,  "positive_motion": "axial",    "description": "rotacion axial del humero"}
     ]},
     {"name": "elbow", "bone": "forearm", "mirror": true, "dofs": [
-      {"name": "flexion",   "axis": [-1, 0, 0], "min_deg": 0,   "max_deg": 145, "description": "flexion del codo (+, mano hacia delante/arriba)"},
-      {"name": "pronation", "axis": "long",     "min_deg": -90, "max_deg": 90,  "description": "pronacion/supinacion (signo segun regla de la mano derecha)"}
+      {"name": "flexion",   "axis": "x", "sign": -1, "min_deg": 0,   "max_deg": 145, "positive_motion": "anterior", "description": "flexion del codo (+, mano hacia delante/arriba); 0 = brazo extendido"},
+      {"name": "pronation", "axis": "y", "sign": 1,  "min_deg": -90, "max_deg": 90,  "positive_motion": "axial",    "description": "pronacion/supinacion (signo segun regla de la mano derecha)"}
     ]},
     {"name": "wrist", "bone": "hand", "mirror": true, "dofs": [
-      {"name": "flexion",   "axis": [-1, 0, 0], "min_deg": -60, "max_deg": 70, "description": "flexion/extension de la muneca"},
-      {"name": "deviation", "axis": [0, -1, 0], "min_deg": -30, "max_deg": 20, "description": "desviacion radial/cubital"}
+      {"name": "flexion",   "axis": "x", "sign": -1, "min_deg": -60, "max_deg": 70, "positive_motion": "anterior", "description": "flexion/extension de la muneca"},
+      {"name": "deviation", "axis": "z", "sign": -1, "min_deg": -30, "max_deg": 20, "positive_motion": "lateral",  "description": "desviacion: + radial (hacia fuera con la palma al frente), - cubital"}
     ]},
 
     {"name": "hip", "bone": "thigh", "mirror": true, "dofs": [
-      {"name": "flexion",   "axis": [-1, 0, 0], "min_deg": -20, "max_deg": 120, "description": "flexion (+, muslo hacia delante) / extension (-)"},
-      {"name": "abduction", "axis": [0, -1, 0], "min_deg": -30, "max_deg": 45,  "description": "abduccion (+) / aduccion (-)"},
-      {"name": "axial",     "axis": "long",     "min_deg": -40, "max_deg": 45,  "description": "rotacion axial del femur"}
+      {"name": "flexion",   "axis": "x", "sign": -1, "min_deg": -20, "max_deg": 120, "positive_motion": "anterior", "description": "flexion (+, muslo hacia delante) / extension (-)"},
+      {"name": "abduction", "axis": "z", "sign": -1, "min_deg": -30, "max_deg": 45,  "positive_motion": "lateral",  "description": "abduccion (+) / aduccion (-)"},
+      {"name": "axial",     "axis": "y", "sign": 1,  "min_deg": -40, "max_deg": 45,  "positive_motion": "axial",    "description": "rotacion axial del femur"}
     ]},
     {"name": "knee", "bone": "shin", "mirror": true, "dofs": [
-      {"name": "flexion", "axis": [1, 0, 0], "min_deg": 0,   "max_deg": 140, "description": "flexion de rodilla (+, pantorrilla hacia atras)"},
-      {"name": "axial",   "axis": "long",    "min_deg": -10, "max_deg": 10,  "description": "rotacion axial pequena con rodilla flexionada"}
+      {"name": "flexion", "axis": "x", "sign": 1, "min_deg": 0,   "max_deg": 140, "positive_motion": "posterior", "description": "flexion de rodilla (+, pantorrilla hacia atras); 0 = pierna extendida"},
+      {"name": "axial",   "axis": "y", "sign": 1, "min_deg": -10, "max_deg": 10,  "positive_motion": "axial",     "description": "rotacion axial pequena con rodilla flexionada"}
     ]},
     {"name": "ankle", "bone": "foot", "mirror": true, "dofs": [
-      {"name": "dorsiflexion", "axis": [-1, 0, 0], "min_deg": -50, "max_deg": 20, "description": "dorsiflexion (+, puntera arriba) / flexion plantar (-)"},
-      {"name": "inversion",    "axis": "long",     "min_deg": -20, "max_deg": 30, "description": "inversion/eversion (signo segun regla de la mano derecha)"}
+      {"name": "dorsiflexion", "axis": "x", "sign": -1, "min_deg": -50, "max_deg": 20, "positive_motion": "superior", "description": "dorsiflexion (+, puntera arriba) / flexion plantar (-); 0 = pie a 90 grados de la pierna"},
+      {"name": "inversion",    "axis": "y", "sign": 1,  "min_deg": -20, "max_deg": 30, "positive_motion": "axial",    "description": "inversion/eversion (signo segun regla de la mano derecha)"}
     ]}
   ]
 }

@@ -21,6 +21,40 @@ def codes(issues):
     return {i.code for i in validation.errors(issues)}
 
 
+def synthetic_snapshot(model, posed):
+    """Snapshot ideal (lo que read_back deberia devolver) construido solo desde los datos del modelo."""
+    from anatomical_core.geometry import mat_vec
+
+    visuals = {}
+    for n, pb in posed.bones.items():
+        visuals[f"VIS_{n}"] = {"head": pb.head, "tail": pb.tail, "parent_bone": n}
+    for jn, j in model.joints.items():
+        if j.parent_bone is None:
+            continue
+        visuals[f"JM_{jn}"] = {"center": posed.bones[j.bone].head, "parent_bone": j.parent_bone}
+        for d in j.dofs:
+            visuals[f"AX_{jn}_{d.name}"] = {
+                "location": posed.bones[j.bone].head,
+                "direction": mat_vec(posed.bones[j.parent_bone].rotation, d.axis),
+                "parent_bone": j.parent_bone,
+            }
+    return {
+        "armature_object": "AC_Armature",
+        "armature_transform_identity": True,
+        "pose_position": "POSE",
+        "bones": {n: {"parent": b.parent, "head": b.head, "tail": b.tail, "length": b.length, "frame": list(b.frame)} for n, b in model.bones.items()},
+        "pose_bones": {n: {"head": pb.head, "tail": pb.tail} for n, pb in posed.bones.items()},
+        "visuals": visuals,
+        "collections": ["AC_Skeleton", "AC_BoneVisuals", "AC_JointMarkers", "AC_JointAxes"],
+        "counts": {
+            "joint_markers": len(model.joints),
+            "joint_axes": sum(len(j.dofs) for j in model.joints.values()),
+            "bone_visuals": len(model.bones),
+        },
+        "meta": {"model_signature": model.signature(), "pose_signature": posed.signature},
+    }
+
+
 class TestValidModel(unittest.TestCase):
     def setUp(self):
         self.model = make_model()
@@ -51,7 +85,15 @@ class TestValidModel(unittest.TestCase):
 
     def test_06_symmetry_and_grounding(self):
         self.assertEqual(validation.check_symmetry(self.model), [])
-        self.assertAlmostEqual(min(min(b.head[2], b.tail[2]) for b in self.model.bones.values()), 0.0, places=9)
+        self.assertEqual(validation.check_ground_neutral(self.model), [])
+        # El apoyo del pie lo define el pivote del tobillo (ankle_height_fraction), no el punto mas bajo.
+        self.assertAlmostEqual(self.model.ankle_height_m, 0.039 * 1.75, places=12)
+        for side in "LR":
+            foot = self.model.bones[f"foot.{side}"]
+            self.assertAlmostEqual(foot.head[2], self.model.ankle_height_m, places=12)
+            self.assertAlmostEqual(foot.tail[2], foot.head[2], places=12)  # pie horizontal
+        lowest = min(min(b.head[2], b.tail[2]) for b in self.model.bones.values())
+        self.assertGreaterEqual(lowest, self.model.ankle_height_m - 1e-9)
 
     def test_07_full_validation_has_no_errors(self):
         issues = validation.validate_model(self.model)
@@ -159,22 +201,24 @@ class TestValidatorDetectsProblems(unittest.TestCase):
         self.assertTrue({"ASYMMETRIC", "LENGTH_MISMATCH"} & codes(validation.validate_model(m)))
 
     def test_blend_snapshot_comparison(self):
-        snap = {
-            "armature_object": "AC_Armature",
-            "armature_transform_identity": True,
-            "bones": {n: {"parent": b.parent, "head": b.head, "tail": b.tail, "length": b.length} for n, b in self.model.bones.items()},
-            "collections": ["AC_Skeleton", "AC_BoneVisuals", "AC_JointMarkers", "AC_JointAxes"],
-            "counts": {
-                "joint_markers": len(self.model.joints),
-                "joint_axes": sum(len(j.dofs) for j in self.model.joints.values()),
-                "bone_visuals": len(self.model.bones),
-            },
-            "meta": {"model_signature": self.model.signature()},
-        }
-        self.assertEqual(validation.validate_blend_snapshot(self.model, snap), [])
+        from anatomical_core import pose as pose_mod
+        posed = pose_mod.apply_pose(self.model, load_config().pose)
+        snap = synthetic_snapshot(self.model, posed)
+        self.assertEqual(validation.validate_blend_snapshot(self.model, snap, posed), [])
         broken = dict(snap, bones={k: v for k, v in snap["bones"].items() if k != "head"})
-        self.assertIn("BLEND_MISSING_BONE", codes(validation.validate_blend_snapshot(self.model, broken)))
-        self.assertIn("NO_ARMATURE", codes(validation.validate_blend_snapshot(self.model, dict(snap, armature_object=None))))
+        self.assertIn("BLEND_MISSING_BONE", codes(validation.validate_blend_snapshot(self.model, broken, posed)))
+        self.assertIn("NO_ARMATURE", codes(validation.validate_blend_snapshot(self.model, dict(snap, armature_object=None), posed)))
+        # el snapshot detecta: roll incorrecto, pose distinta de la FK, visual sin emparentar o desplazada
+        bad_roll = dict(snap, bones={**snap["bones"], "forearm.L": dict(snap["bones"]["forearm.L"], frame=[(0, 1, 0), (1, 0, 0), (0, 0, 1)])})
+        self.assertIn("BLEND_FRAME", codes(validation.validate_blend_snapshot(self.model, bad_roll, posed)))
+        bad_pose = dict(snap, pose_bones={**snap["pose_bones"], "hand.L": {"head": (0, 0, 0), "tail": (0, 0, 1)}})
+        self.assertIn("BLEND_POSE_POSITION", codes(validation.validate_blend_snapshot(self.model, bad_pose, posed)))
+        unparented = dict(snap, visuals={**snap["visuals"], "VIS_hand.L": dict(snap["visuals"]["VIS_hand.L"], parent_bone=None)})
+        self.assertIn("VIS_PARENT", codes(validation.validate_blend_snapshot(self.model, unparented, posed)))
+        displaced = dict(snap, visuals={**snap["visuals"], "JM_elbow.L": dict(snap["visuals"]["JM_elbow.L"], center=(0, 0, 0))})
+        self.assertIn("VIS_POSITION", codes(validation.validate_blend_snapshot(self.model, displaced, posed)))
+        wrong_sig = dict(snap, meta=dict(snap["meta"], pose_signature="x"))
+        self.assertIn("BLEND_POSE_SIGNATURE", codes(validation.validate_blend_snapshot(self.model, wrong_sig, posed)))
 
 
 if __name__ == "__main__":

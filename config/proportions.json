@@ -1,8 +1,12 @@
 {
-  "schema_version": 1,
-  "description": "Longitudes oseas aproximadas como FRACCION de la altura total del personaje. Son valores de partida para un esqueleto de referencia, NO medidas anatomicas exactas. Edita estos valores para cambiar proporciones.",
+  "schema_version": 2,
+  "description": "Longitudes oseas aproximadas como FRACCION de la altura total del personaje, mas la altura del tobillo sobre el suelo. Son valores de partida para un esqueleto de referencia, NO medidas anatomicas exactas. Edita estos valores para cambiar proporciones.",
   "units": "meters",
   "reference_height_m": 1.75,
+  "stance": {
+    "ankle_height_fraction": 0.039,
+    "description": "Altura del pivote del tobillo sobre el suelo (fraccion de la altura). Define el apoyo del pie: en el esqueleto neutro el hueso del pie es horizontal a esa altura. No se modela talon ni antepie."
+  },
   "lengths_fraction_of_height": {
     "pelvis": 0.05,
     "spine_lumbar": 0.07,

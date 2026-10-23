@@ -24,17 +24,30 @@ def main(argv):
     p.add_argument("--height", type=float, default=None, help="altura total en metros")
     p.add_argument("--set", action="append", default=[], metavar="HUESO=FRACCION",
                    help="sustituye una longitud (fraccion de la altura), p. ej. thigh=0.25")
+    p.add_argument("--pose", action="append", default=[], metavar="ARTICULACION.DOF=GRADOS",
+                   help="sustituye un angulo de la pose A, p. ej. shoulder.abduction=35")
+    p.add_argument("--neutral", action="store_true", help="no aplica la pose A: deja el esqueleto neutro")
     p.add_argument("--no-preview", action="store_true")
     args = p.parse_args(argv)
 
-    overrides = {}
-    for item in args.set:
-        key, _, val = item.partition("=")
-        overrides[key.strip()] = float(val)
+    def parse_pairs(items, what):
+        out = {}
+        for item in items:
+            key, sep, val = item.partition("=")
+            try:
+                if not sep:
+                    raise ValueError
+                out[key.strip()] = float(val)
+            except ValueError:
+                raise ConfigError(f"{what} invalido '{item}': usa clave=numero") from None
+        return out
 
     try:
+        overrides = parse_pairs(args.set, "--set")
+        pose_overrides = parse_pairs(args.pose, "--pose")
         result = pipeline.generate(
-            args.output, args.config_dir, args.height, overrides or None, preview=not args.no_preview
+            args.output, args.config_dir, args.height, overrides or None, pose_overrides or None,
+            neutral_only=args.neutral, preview=not args.no_preview,
         )
     except (pipeline.GenerationError, ConfigError) as exc:
         print(f"[FAIL] {exc}")

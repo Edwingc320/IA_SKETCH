@@ -8,12 +8,22 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass
 
-from .geometry import dot, is_finite, length, mirror_point, sub
+from .geometry import (
+    cross, dot, is_finite, length, mat_vec, mirror_frame, mirror_point, normalize, rotation_matrix, scale, sub,
+)
+from .pose import PosedSkeleton, metrics
 from .skeleton import REQUIRED_BONES, SkeletonModel
 
 LENGTH_TOL = 1e-4  # m
 AXIS_TOL = 1e-6
+FRAME_TOL = 1e-9  # los marcos y ejes se calculan en doble precision: tolerancia estricta
 BLEND_TOL = 1e-4  # m: tolerancia al comparar con lo guardado en .blend (float32)
+SEMANTICS_PROBE_DEG = 10.0
+SEMANTICS_MIN_COS = 0.7
+FOOT_TILT_WARN_DEG, FOOT_TILT_ERROR_DEG = 0.1, 1.0
+FEET_LEVEL_TOL = 0.002  # m
+STANCE_WARN = (1.0, 2.0)  # separacion de tobillos / separacion de caderas: rango esperado
+STANCE_ERROR = (0.5, 3.0)
 
 
 @dataclass(frozen=True)
@@ -107,6 +117,129 @@ def check_pivots_and_axes(model: SkeletonModel) -> list:
     return out
 
 
+def _close(a, b, tol) -> bool:
+    return length(sub(a, b)) <= tol
+
+
+def check_frames(model: SkeletonModel) -> list:
+    """Marcos locales: ortonormales, derechos, Y = direccion del hueso, R = espejo de L."""
+    out = []
+    for b in model.bones.values():
+        x, y, z = b.frame
+        if not all(is_finite(a) for a in b.frame):
+            out.append(Issue("error", "FRAME_NON_FINITE", f"Marco no finito en '{b.name}'"))
+            continue
+        if any(abs(length(a) - 1.0) > FRAME_TOL for a in b.frame):
+            out.append(Issue("error", "FRAME_NOT_UNIT", f"Ejes no unitarios en el marco de '{b.name}'"))
+        if max(abs(dot(x, y)), abs(dot(y, z)), abs(dot(x, z))) > FRAME_TOL:
+            out.append(Issue("error", "FRAME_NOT_ORTHOGONAL", f"Ejes no ortogonales en el marco de '{b.name}'"))
+        if not _close(cross(x, y), z, FRAME_TOL):
+            out.append(Issue("error", "FRAME_NOT_RIGHT_HANDED", f"Marco de '{b.name}' no es derecho (x cross y != z)"))
+        direction = sub(b.tail, b.head)
+        if is_finite(direction) and length(direction) > 0 and not _close(y, normalize(direction), FRAME_TOL):
+            out.append(Issue("error", "FRAME_Y_NOT_BONE", f"El eje Y del marco de '{b.name}' no es head->tail"))
+    for name, b in model.bones.items():
+        if name.endswith(".L") and name[:-2] + ".R" in model.bones:
+            expected = mirror_frame(b.frame)
+            actual = model.bones[name[:-2] + ".R"].frame
+            if not all(_close(e, a, FRAME_TOL) for e, a in zip(expected, actual)):
+                out.append(Issue("error", "FRAME_NOT_MIRRORED", f"El marco de '{name[:-2]}.R' no es el espejo del de '{name}'"))
+    return out
+
+
+_AXIS_INDEX = {"x": 0, "y": 1, "z": 2}
+
+
+def check_joint_axes(model: SkeletonModel) -> list:
+    """Cada eje es +-un eje local del hueso; los no axiales son perpendiculares al hueso y el
+    axial es paralelo; los ejes de una articulacion son mutuamente ortogonales (E1/E4)."""
+    out = []
+    for j in model.joints.values():
+        bone = model.bones.get(j.bone)
+        if bone is None:
+            continue
+        y = bone.frame[1]
+        for d in j.dofs:
+            column = bone.frame[_AXIS_INDEX.get(d.axis_local, 0)]
+            if d.axis_local not in _AXIS_INDEX or not _close(d.axis, scale(column, float(d.axis_sign)), FRAME_TOL):
+                out.append(Issue("error", "AXIS_NOT_LOCAL", f"El eje '{j.name}.{d.name}' no coincide con +-el eje local {d.axis_local} del hueso"))
+                continue
+            if d.positive_motion == "axial":
+                if abs(abs(dot(d.axis, y)) - 1.0) > FRAME_TOL:
+                    out.append(Issue("error", "AXIAL_NOT_PARALLEL", f"El eje axial '{j.name}.{d.name}' no es paralelo al hueso"))
+            elif abs(dot(d.axis, y)) > FRAME_TOL:
+                out.append(Issue("error", "AXIS_NOT_PERPENDICULAR", f"El eje '{j.name}.{d.name}' no es perpendicular al hueso"))
+        for i, a in enumerate(j.dofs):
+            for b in j.dofs[i + 1:]:
+                if abs(dot(a.axis, b.axis)) > FRAME_TOL:
+                    out.append(Issue("error", "AXES_NOT_ORTHOGONAL", f"Ejes no ortogonales en '{j.name}': {a.name} y {b.name}"))
+    return out
+
+
+_MOTION_VECTORS = {
+    "anterior": (0.0, -1.0, 0.0), "posterior": (0.0, 1.0, 0.0),
+    "superior": (0.0, 0.0, 1.0), "inferior": (0.0, 0.0, -1.0),
+    "left": (1.0, 0.0, 0.0), "right": (-1.0, 0.0, 0.0),
+}
+
+
+def dof_displacement(model: SkeletonModel, joint, dof, degrees: float):
+    """Desplazamiento del extremo distal (cola del hueso) al girar `degrees` sobre el eje del dof."""
+    bone = model.bones[joint.bone]
+    rel = sub(bone.tail, joint.pivot)
+    return sub(mat_vec(rotation_matrix(dof.axis, math.radians(degrees)), rel), rel)
+
+
+def check_dof_semantics(model: SkeletonModel) -> list:
+    """El movimiento positivo/negativo coincide con el declarado en `positive_motion`."""
+    out = []
+    for j in model.joints.values():
+        if j.bone not in model.bones:
+            continue  # ya se informa como JOINT_UNKNOWN_BONE
+        side = model.bones[j.bone].side
+        for d in j.dofs:
+            if d.positive_motion == "axial":
+                continue
+            if d.positive_motion in ("lateral", "medial"):
+                if side is None:
+                    out.append(Issue("error", "MOTION_NEEDS_SIDE", f"'{j.name}.{d.name}': lateral/medial requiere un hueso con lado"))
+                    continue
+                sx = 1.0 if side == "L" else -1.0
+                expected = (sx if d.positive_motion == "lateral" else -sx, 0.0, 0.0)
+            elif d.positive_motion in _MOTION_VECTORS:
+                expected = _MOTION_VECTORS[d.positive_motion]
+            else:
+                out.append(Issue("error", "MOTION_UNKNOWN", f"'{j.name}.{d.name}': positive_motion '{d.positive_motion}' desconocido"))
+                continue
+            for sign, label in ((1.0, "positivo"), (-1.0, "negativo")):
+                v = dof_displacement(model, j, d, sign * SEMANTICS_PROBE_DEG)
+                n = length(v)
+                cos = dot(v, expected) / n if n > 0 else 0.0
+                if cos * sign < SEMANTICS_MIN_COS:
+                    out.append(Issue(
+                        "error", "DOF_SEMANTICS",
+                        f"'{j.name}.{d.name}': el movimiento {label} no va hacia '{d.positive_motion}' (cos={cos:+.2f})",
+                    ))
+    return out
+
+
+def check_ground_neutral(model: SkeletonModel) -> list:
+    """Apoyo del pie en el neutro: tobillos a la altura configurada, pie horizontal, nada mas bajo."""
+    out = []
+    for side in ("L", "R"):
+        foot = model.bones.get(f"foot.{side}")
+        if foot is None:
+            continue
+        if abs(foot.head[2] - model.ankle_height_m) > FRAME_TOL * 10:
+            out.append(Issue("error", "ANKLE_HEIGHT", f"Tobillo {side} a z={foot.head[2]:.6f} != altura configurada {model.ankle_height_m:.6f}"))
+        if abs(foot.tail[2] - foot.head[2]) > FRAME_TOL * 10:
+            out.append(Issue("error", "FOOT_NOT_HORIZONTAL", f"El pie {side} no es horizontal en el neutro"))
+    lowest = min(min(b.head[2], b.tail[2]) for b in model.bones.values())
+    if lowest < model.ankle_height_m - 1e-6:
+        out.append(Issue("error", "BELOW_FEET", f"Hay huesos por debajo del apoyo del pie (z={lowest:.4f} < {model.ankle_height_m:.4f})"))
+    return out
+
+
 def check_symmetry(model: SkeletonModel) -> list:
     out = []
     for name, b in model.bones.items():
@@ -132,19 +265,73 @@ def check_plausibility(model: SkeletonModel) -> list:
 
 
 def validate_model(model: SkeletonModel) -> list:
+    """Valida el esqueleto NEUTRO."""
     return (
         check_required_bones(model)
         + check_references(model)
         + check_hierarchy(model)
         + check_lengths(model)
+        + check_frames(model)
         + check_pivots_and_axes(model)
+        + check_joint_axes(model)
+        + check_dof_semantics(model)
         + check_symmetry(model)
+        + check_ground_neutral(model)
         + check_plausibility(model)
     )
 
 
-def validate_blend_snapshot(model: SkeletonModel, snap: dict) -> list:
-    """Compara lo leido de una escena de Blender (ver scene.read_back) con el modelo."""
+def validate_pose(model: SkeletonModel, posed: PosedSkeleton) -> list:
+    """Valida la pose aplicada: limites, rigidez, pivotes sin desplazar, simetria, pies y separacion."""
+    out = []
+    # 1. angulos dentro de los limites articulares (medidos desde el neutro)
+    for jn, dofs in posed.angles.items():
+        for dn, deg in dofs.items():
+            d = next(x for x in model.joints[jn].dofs if x.name == dn)
+            if not (d.min_deg <= deg <= d.max_deg):
+                out.append(Issue("error", "POSE_OUT_OF_LIMITS", f"Pose: '{jn}.{dn}' = {deg} fuera de [{d.min_deg}, {d.max_deg}]"))
+    # 2. rigidez y pivotes: la cabeza posada es la imagen de la cabeza neutra por la transformacion del padre
+    for name, b in model.bones.items():
+        pb = posed.bones[name]
+        if abs(length(sub(pb.tail, pb.head)) - b.length) > FRAME_TOL * 10:
+            out.append(Issue("error", "POSE_LENGTH_CHANGED", f"La pose cambia la longitud de '{name}'"))
+        parent = posed.bones[b.parent] if b.parent else None
+        expected_head = parent.apply(b.head) if parent else tuple(c + t for c, t in zip(b.head, posed.root_translation))
+        if not _close(pb.head, expected_head, FRAME_TOL * 10):
+            out.append(Issue("error", "POSE_PIVOT_DISPLACED", f"El pivote de '{name}' se desplazo respecto a su padre"))
+    # 3. simetria (solo si la pose es simetrica)
+    left_right_same = all(
+        posed.angles.get(n, {}) == posed.angles.get(n[:-2] + ".R", {}) for n in model.joints if n.endswith(".L")
+    )
+    if left_right_same:
+        for name in model.bones:
+            if name.endswith(".L"):
+                a, b = posed.bones[name], posed.bones[name[:-2] + ".R"]
+                if not (_close(mirror_point(a.head), b.head, FRAME_TOL * 10) and _close(mirror_point(a.tail), b.tail, FRAME_TOL * 10)):
+                    out.append(Issue("error", "POSE_ASYMMETRIC", f"La pose simetrica produce asimetria en '{name}'"))
+    # 4. pies: planos, a nivel y con separacion razonable
+    m = metrics(model, posed)
+    for side in ("L", "R"):
+        tilt = m[f"foot_{side}_tilt_deg"]
+        if tilt > FOOT_TILT_ERROR_DEG:
+            out.append(Issue("error", "POSE_FOOT_TILTED", f"Pie {side} inclinado {tilt:.2f} grados; ajusta ankle.inversion para compensar la abduccion de cadera"))
+        elif tilt > FOOT_TILT_WARN_DEG:
+            out.append(Issue("warning", "POSE_FOOT_TILTED", f"Pie {side} inclinado {tilt:.2f} grados"))
+        if m[f"foot_{side}_ankle_height_error_m"] < -1e-6:
+            out.append(Issue("error", "POSE_FOOT_BELOW_GROUND", f"El tobillo {side} queda por debajo del apoyo"))
+    if m["ankle_level_diff_m"] > FEET_LEVEL_TOL:
+        out.append(Issue("error", "POSE_FEET_NOT_LEVEL", f"Los dos pies no estan a la misma altura (dif {m['ankle_level_diff_m'] * 1000:.1f} mm)"))
+    r = m["ankle_spacing_over_hip_spacing"]
+    eps = 1e-9  # el neutro (cociente exactamente 1) no debe avisar por ruido de coma flotante
+    if not (STANCE_ERROR[0] <= r <= STANCE_ERROR[1]):
+        out.append(Issue("error", "POSE_STANCE", f"Separacion de tobillos {r:.2f}x la de caderas, fuera de {STANCE_ERROR}"))
+    elif not (STANCE_WARN[0] - eps <= r <= STANCE_WARN[1] + eps):
+        out.append(Issue("warning", "POSE_STANCE", f"Separacion de tobillos {r:.2f}x la de caderas, fuera de lo esperado {STANCE_WARN}"))
+    return out
+
+
+def validate_blend_snapshot(model: SkeletonModel, snap: dict, posed: PosedSkeleton) -> list:
+    """Compara lo leido de una escena de Blender (ver scene.read_back) con el modelo neutro y la pose."""
     out = []
     if not snap.get("armature_object"):
         return [Issue("error", "NO_ARMATURE", "La escena no contiene el objeto armadura")]
@@ -168,9 +355,57 @@ def validate_blend_snapshot(model: SkeletonModel, snap: dict) -> list:
                 out.append(Issue("error", "BLEND_POSITION", f"'{n}' {label} difiere del modelo en el .blend"))
         if abs(s["length"] - b.length) > BLEND_TOL:
             out.append(Issue("error", "BLEND_LENGTH", f"'{n}' longitud en .blend {s['length']:.6f} != {b.length:.6f}"))
+        # roll: los ejes locales del hueso en Blender deben ser los del marco del modelo
+        for label, mine, theirs in zip("xyz", b.frame, s.get("frame", [(9, 9, 9)] * 3)):
+            if length(sub(mine, tuple(theirs))) > BLEND_TOL:
+                out.append(Issue("error", "BLEND_FRAME", f"'{n}': el eje local {label} en Blender no coincide con el marco del modelo (roll)"))
     meta = snap.get("meta", {})
     if meta.get("model_signature") != model.signature():
         out.append(Issue("error", "BLEND_SIGNATURE", "La firma del modelo guardada en el .blend no coincide"))
+    if meta.get("pose_signature") != posed.signature:
+        out.append(Issue("error", "BLEND_POSE_SIGNATURE", "La firma de la pose guardada en el .blend no coincide"))
+    if snap.get("pose_position") != "POSE":
+        out.append(Issue("error", "BLEND_POSE_POSITION", "La armadura no esta en modo POSE"))
+    # pose: posiciones evaluadas de los huesos posados == cinematica directa del modelo
+    spose = snap.get("pose_bones", {})
+    for n, pb in posed.bones.items():
+        s = spose.get(n)
+        if s is None:
+            out.append(Issue("error", "BLEND_POSE_MISSING", f"Falta el hueso posado '{n}'"))
+            continue
+        for label, mine, theirs in (("head", pb.head, s["head"]), ("tail", pb.tail, s["tail"])):
+            if length(sub(mine, tuple(theirs))) > BLEND_TOL:
+                out.append(Issue("error", "BLEND_POSE_POSITION", f"'{n}' {label} posado en Blender difiere de la FK del modelo"))
+    # visualizacion: debe seguir a los huesos (emparentada, sin doble transformacion)
+    vis = snap.get("visuals", {})
+    for n, pb in posed.bones.items():
+        v = vis.get(f"VIS_{n}")
+        if v is None:
+            continue
+        if v["parent_bone"] != n:
+            out.append(Issue("error", "VIS_PARENT", f"VIS_{n} no esta emparentado al hueso '{n}'"))
+        if length(sub(pb.head, tuple(v["head"]))) > BLEND_TOL or length(sub(pb.tail, tuple(v["tail"]))) > BLEND_TOL:
+            out.append(Issue("error", "VIS_POSITION", f"VIS_{n} no coincide con el hueso posado"))
+    for jn, j in model.joints.items():
+        parent = j.parent_bone
+        if parent is None:
+            continue
+        expected_pivot = posed.bones[j.bone].head
+        m = vis.get(f"JM_{jn}")
+        if m is not None:
+            if m["parent_bone"] != parent:
+                out.append(Issue("error", "VIS_PARENT", f"JM_{jn} no esta emparentado a '{parent}'"))
+            if length(sub(expected_pivot, tuple(m["center"]))) > BLEND_TOL:
+                out.append(Issue("error", "VIS_POSITION", f"JM_{jn} no esta en el pivote posado"))
+        for d in j.dofs:
+            a = vis.get(f"AX_{jn}_{d.name}")
+            if a is None:
+                continue
+            expected_dir = mat_vec(posed.bones[parent].rotation, d.axis)  # el padre posado arrastra los ejes
+            if a["parent_bone"] != parent:
+                out.append(Issue("error", "VIS_PARENT", f"AX_{jn}_{d.name} no esta emparentado a '{parent}'"))
+            if length(sub(expected_pivot, tuple(a["location"]))) > BLEND_TOL or length(sub(expected_dir, tuple(a["direction"]))) > BLEND_TOL:
+                out.append(Issue("error", "VIS_POSITION", f"AX_{jn}_{d.name} no coincide con el eje posado"))
     counts = snap.get("counts", {})
     expected = {
         "joint_markers": len(model.joints),

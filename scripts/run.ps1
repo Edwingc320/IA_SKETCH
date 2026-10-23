@@ -7,6 +7,8 @@
   powershell -ExecutionPolicy Bypass -File scripts\run.ps1 -Task Generate
   powershell -ExecutionPolicy Bypass -File scripts\run.ps1 -Task Test
   powershell -ExecutionPolicy Bypass -File scripts\run.ps1 -Height 1.85 -Set thigh=0.25
+  powershell -ExecutionPolicy Bypass -File scripts\run.ps1 -Task Generate -Pose shoulder.abduction=35,elbow.flexion=20
+  powershell -ExecutionPolicy Bypass -File scripts\run.ps1 -Task Generate -Neutral
   Variable opcional ANATOMICAL_BLENDER = ruta completa a blender.exe
 
   Codigo de salida: 0 todo bien; distinto de 0 si algo falla.
@@ -16,10 +18,15 @@ param(
     [ValidateSet('All', 'Generate', 'Test')][string]$Task = 'All',
     [double]$Height = 0,
     [string[]]$Set = @(),
+    [string[]]$Pose = @(),
+    [switch]$Neutral,
     [switch]$NoPreview
 )
 
 $ErrorActionPreference = 'Stop'
+# Con "powershell -File" una lista con comas llega como UNA cadena: se separa a mano.
+$Set  = @($Set  | ForEach-Object { $_ -split ',' } | Where-Object { $_ })
+$Pose = @($Pose | ForEach-Object { $_ -split ',' } | Where-Object { $_ })
 $Root = Split-Path -Parent $PSScriptRoot
 $LogDir = Join-Path $Root 'logs'
 $OutDir = Join-Path $Root 'output'
@@ -68,12 +75,14 @@ if ($Task -in 'All', 'Generate') {
     $a = @('-b', '--factory-startup', '--python', (Join-Path $Root 'scripts\generate_skeleton.py'), '--', '--output', $blend)
     if ($Height -gt 0) { $a += @('--height', "$Height") }
     foreach ($s in $Set) { $a += @('--set', $s) }
+    foreach ($p in $Pose) { $a += @('--pose', $p) }
+    if ($Neutral) { $a += '--neutral' }
     if ($NoPreview) { $a += '--no-preview' }
     $code = Invoke-Blender 'generate' $a
     if ($code -ne 0) { $exit = $code } else {
         Write-Host "Resultado .blend : $blend"
         Write-Host "Reporte JSON     : $(Join-Path $OutDir 'skeleton_core_report.json')"
-        if (-not $NoPreview) { Write-Host "Vistas previas   : $OutDir\preview_front.png , preview_side.png" }
+        if (-not $NoPreview) { Write-Host "Vistas previas   : $OutDir\preview_front.png , preview_side.png (pose) ; preview_neutral_front.png , preview_neutral_side.png (neutro)" }
     }
 }
 
