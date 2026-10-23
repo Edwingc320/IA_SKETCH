@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "pose": "A-pose",
+  "description": "Jerarquia y pose neutra (reposo). Coordenadas estilo Blender: +Z arriba, el personaje MIRA hacia -Y, su lado IZQUIERDO es +X (sufijo .L). Los huesos con mirror=true se definen para el lado izquierdo y se generan como .L/.R (x se refleja). 'attach' indica de donde parte la cabeza del hueso: parent_head | parent_tail | origin. 'offset_h' es un desplazamiento en fraccion de la altura. 'direction' es la direccion head->tail en reposo (se normaliza). La longitud sale de proportions.json (length_key). Los padres deben definirse antes que sus hijos.",
+  "bones": [
+    {"name": "pelvis",         "parent": null,             "attach": "origin",      "offset_h": [0, 0, 0],             "direction": [0, 0, 1],            "length_key": "pelvis",         "mirror": false},
+    {"name": "spine_lumbar",   "parent": "pelvis",         "attach": "parent_tail", "offset_h": [0, 0, 0],             "direction": [0, 0.04, 1],         "length_key": "spine_lumbar",   "mirror": false},
+    {"name": "spine_thoracic", "parent": "spine_lumbar",   "attach": "parent_tail", "offset_h": [0, 0, 0],             "direction": [0, 0.06, 1],         "length_key": "spine_thoracic", "mirror": false},
+    {"name": "thorax",         "parent": "spine_thoracic", "attach": "parent_tail", "offset_h": [0, 0, 0],             "direction": [0, 0.02, 1],         "length_key": "thorax",         "mirror": false},
+    {"name": "neck",           "parent": "thorax",         "attach": "parent_tail", "offset_h": [0, 0, 0],             "direction": [0, -0.12, 1],        "length_key": "neck",           "mirror": false},
+    {"name": "head",           "parent": "neck",           "attach": "parent_tail", "offset_h": [0, 0, 0],             "direction": [0, -0.02, 1],        "length_key": "head",           "mirror": false},
+
+    {"name": "clavicle",       "parent": "thorax",         "attach": "parent_tail", "offset_h": [0.006, -0.012, -0.012], "direction": [0.98, -0.05, 0.17], "length_key": "clavicle",       "mirror": true},
+    {"name": "upper_arm",      "parent": "clavicle",       "attach": "parent_tail", "offset_h": [0, 0, 0],             "direction": [0.643, 0, -0.766],   "length_key": "upper_arm",      "mirror": true},
+    {"name": "forearm",        "parent": "upper_arm",      "attach": "parent_tail", "offset_h": [0, 0, 0],             "direction": [0.60, -0.20, -0.77], "length_key": "forearm",        "mirror": true},
+    {"name": "hand",           "parent": "forearm",        "attach": "parent_tail", "offset_h": [0, 0, 0],             "direction": [0.62, -0.10, -0.78], "length_key": "hand",           "mirror": true},
+
+    {"name": "thigh",          "parent": "pelvis",         "attach": "parent_head", "offset_h": [0.052, 0, 0],         "direction": [0.05, 0, -1],        "length_key": "thigh",          "mirror": true},
+    {"name": "shin",           "parent": "thigh",          "attach": "parent_tail", "offset_h": [0, 0, 0],             "direction": [0, 0, -1],           "length_key": "shin",           "mirror": true},
+    {"name": "foot",           "parent": "shin",           "attach": "parent_tail", "offset_h": [0, 0, 0],             "direction": [0, -1, -0.28],       "length_key": "foot",           "mirror": true}
+  ]
+}

@@ -1,0 +1,8 @@
+# Resultados regenerables
+output/*
+!output/.gitkeep
+logs/*
+!logs/.gitkeep
+__pycache__/
+*.pyc
+*.blend1
