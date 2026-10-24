@@ -243,3 +243,7 @@ output/  logs/     resultados y registros (no se versionan; son reproducibles)
 3. Aplicar los límites como restricciones en pose (hoy son datos que se validan, no restricciones activas).
 4. Altura objetivo exacta, asimetría por lado en las longitudes y ángulos de pose como parámetros nombrados (puntos E5–E10 del informe de inspección).
 5. Definir cómo se enlaza la malla (pesos/envolventes) con estos huesos.
+
+## Ramas
+
+Solo hay dos lineas de trabajo, una por cada parte del cuerpo: `main` guarda el **modelo de estructura osea** (base, nivel 1 y puntos de union) y `muscle-model` guarda el **modelo de estructura muscular** (todavia sin contenido: parte de `main` y usa sus inserciones). Las ramas de trabajo se fusionan en `main` y se borran; el tag `v0.1.0` se conserva.
