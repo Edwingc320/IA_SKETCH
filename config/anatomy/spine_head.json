@@ -7,12 +7,12 @@
   {
    "name": "L5",
    "parent": "spine_lumbar",
-   "anatomical_parent": "sacrum_fused",
+   "anatomical_parent": "sacrum",
    "reference": [
     "L5"
    ],
    "head": {
-    "at": "sacrum_fused.head"
+    "at": "sacrum.head"
    },
    "tail": {
     "lerp": [
@@ -724,7 +724,7 @@
  "anchors": [
   {
    "point": "L5.head",
-   "equals": "sacrum_fused.head",
+   "equals": "sacrum.head",
    "description": "L5 asienta sobre la meseta del sacro"
   },
   {

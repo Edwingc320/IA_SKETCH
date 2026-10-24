@@ -5,11 +5,11 @@
  "description": "Nivel 1, region 1: cintura pelvica + sacro. Decision aprobada: sacro + coxis + ilion, isquion y pubis por lado (el coxal separado en sus tres huesos), rigidos respecto a la pelvis base. El ilion cuelga del sacro (articulacion sacroiliaca); isquion y pubis cuelgan del ilion y los tres coinciden en el acetabulo, que es EXACTAMENTE el pivote de la cadera de la base (anclajes validados), lo que une las caderas a la pelvis. Los puntos se definen desde puntos de la base; offset_h en fraccion de la altura (+X izquierda, +Y atras, +Z arriba). Valores APROXIMADOS de referencia, no medidas anatomicas exactas. Limitacion heredada de la base: la columna base pasa por el plano coronal de las caderas (y=0), por lo que el sacro parte de y=0 en L5-S1.",
  "bones": [
   {
-   "name": "sacrum_fused",
+   "name": "sacrum",
    "parent": "pelvis",
    "mirror": false,
    "reference": [
-    "sacrum_fused"
+    "sacrum"
    ],
    "head": {
     "at": "pelvis.tail"
@@ -32,7 +32,7 @@
      ]
     },
     {
-     "at": "sacrum_fused.tail"
+     "at": "sacrum.tail"
     },
     {
      "at": "pelvis.tail",
@@ -46,17 +46,17 @@
    "description": "Sacro: de la union L5-S1 (cola de la pelvis base) hacia abajo y atras. Pendiente sacra 37 grados (media de Sudhir 2016 y Cureus 2025; la placa de S1 se toma perpendicular al eje del sacro). Raiz del bloque pelvico del nivel 1: los coxales y el coxis cuelgan de el. Contorno: triangulo de alas sacras y vertice."
   },
   {
-   "name": "coccyx_fused",
-   "parent": "sacrum_fused",
+   "name": "coccyx",
+   "parent": "sacrum",
    "mirror": false,
    "reference": [
-    "coccyx_fused"
+    "coccyx"
    ],
    "head": {
-    "at": "sacrum_fused.tail"
+    "at": "sacrum.tail"
    },
    "tail": {
-    "at": "sacrum_fused.tail",
+    "at": "sacrum.tail",
     "offset_h": [
      0,
      -0.006,
@@ -67,7 +67,7 @@
   },
   {
    "name": "ilium.L",
-   "parent": "sacrum_fused",
+   "parent": "sacrum",
    "mirror": true,
    "reference": [
     "ilium.L"
@@ -196,13 +196,13 @@
  ],
  "anchors": [
   {
-   "point": "sacrum_fused.head",
+   "point": "sacrum.head",
    "equals": "spine_lumbar.head",
    "description": "union lumbosacra L5-S1"
   },
   {
-   "point": "coccyx_fused.head",
-   "equals": "sacrum_fused.tail",
+   "point": "coccyx.head",
+   "equals": "sacrum.tail",
    "description": "union sacrococcigea"
   },
   {

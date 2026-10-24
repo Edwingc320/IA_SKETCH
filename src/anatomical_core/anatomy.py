@@ -60,13 +60,15 @@ def load_reference(path: Path | str | None = None) -> tuple:
 
 def normalize_reference_name(name: str) -> str:
     """Reglas aprobadas: lado como sufijo final (.L/.R), 'little' en vez de 'pinky' y 'sternum_body'
-    en vez del generico 'body'. El resto de nombres se conserva tal cual."""
+    en vez del generico 'body'; 'sacrum_fused' y 'coccyx_fused' son 'sacrum' y 'coccyx'. El resto de nombres se conserva tal cual."""
     m = re.fullmatch(r"(.+)_([LR])_(\d+)", name)
     if m:
         name = f"{m.group(1)}_{m.group(3)}.{m.group(2)}"
     name = name.replace("pinky_", "little_")
     if name == "body":
         name = "sternum_body"
+    if name in ("sacrum_fused", "coccyx_fused"):  # el hueso fusionado se llama simplemente sacrum / coccyx
+        name = name.removesuffix("_fused")
     return name
 
 

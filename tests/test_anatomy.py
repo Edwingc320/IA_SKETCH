@@ -93,12 +93,12 @@ class TestPelvicGirdle(unittest.TestCase):
 
     def test_bones_parents_and_traceability(self):
         self.assertEqual({n for n, x in self.b.items() if x.region == "pelvic_girdle"},
-                         {"sacrum_fused", "coccyx_fused", *(f"{n}.{s}" for n in ("ilium", "ischium", "pubis") for s in "LR")})
-        self.assertEqual(self.b["sacrum_fused"].parent, "pelvis")
-        self.assertEqual(self.b["coccyx_fused"].parent, "sacrum_fused")
+                         {"sacrum", "coccyx", *(f"{n}.{s}" for n in ("ilium", "ischium", "pubis") for s in "LR")})
+        self.assertEqual(self.b["sacrum"].parent, "pelvis")
+        self.assertEqual(self.b["coccyx"].parent, "sacrum")
         # el coxal esta separado en tres huesos: el ilion cuelga del sacro (sacroiliaca) y el isquion y el pubis, del ilion
         for s in "LR":
-            self.assertEqual(self.b[f"ilium.{s}"].parent, "sacrum_fused")
+            self.assertEqual(self.b[f"ilium.{s}"].parent, "sacrum")
             self.assertEqual(self.b[f"ischium.{s}"].parent, f"ilium.{s}")
             self.assertEqual(self.b[f"pubis.{s}"].parent, f"ilium.{s}")
             for n in ("ilium", "ischium", "pubis"):
@@ -107,7 +107,7 @@ class TestPelvicGirdle(unittest.TestCase):
                 self.assertEqual(base_ancestor(self.anat, f"{n}.{s}"), "pelvis")
         self.assertNotIn("hip_bone.L", self.b)
         cov = anatomy.coverage(self.anat, self.base)["implemented"]
-        for r in ("sacrum_fused", "coccyx_fused", "ilium.L", "ischium.L", "pubis.L", "ilium.R", "ischium.R", "pubis.R"):
+        for r in ("sacrum", "coccyx", "ilium.L", "ischium.L", "pubis.L", "ilium.R", "ischium.R", "pubis.R"):
             self.assertIn(r, cov)
 
     def test_femoral_heads_are_anchored_exactly_in_the_acetabulum(self):
@@ -116,11 +116,11 @@ class TestPelvicGirdle(unittest.TestCase):
             self.assertLess(length(sub(self.b[f"ilium.{s}"].tail, head)), 1e-12)
             self.assertLess(length(sub(self.b[f"ischium.{s}"].head, head)), 1e-12)
             self.assertLess(length(sub(self.b[f"pubis.{s}"].head, head)), 1e-12)
-        self.assertLess(length(sub(self.b["sacrum_fused"].head, self.base.bones["spine_lumbar"].head)), 1e-12)
-        self.assertLess(length(sub(self.b["coccyx_fused"].head, self.b["sacrum_fused"].tail)), 1e-12)
+        self.assertLess(length(sub(self.b["sacrum"].head, self.base.bones["spine_lumbar"].head)), 1e-12)
+        self.assertLess(length(sub(self.b["coccyx"].head, self.b["sacrum"].tail)), 1e-12)
 
     def test_anatomical_orientation(self):
-        sac = self.b["sacrum_fused"]
+        sac = self.b["sacrum"]
         self.assertLess(sac.tail[2], sac.head[2])  # baja
         self.assertGreater(sac.tail[1], sac.head[1])  # hacia atras
         for s, sx in (("L", 1), ("R", -1)):
@@ -147,19 +147,19 @@ class TestPelvicGirdle(unittest.TestCase):
             l, r = self.b[f"{n}.L"], self.b[f"{n}.R"]
             for p, q in zip((l.head, l.tail) + l.outline, (r.head, r.tail) + r.outline):
                 self.assertLess(length(sub(mirror_point(p), q)), 1e-12, n)
-        for n in ("sacrum_fused", "coccyx_fused"):
+        for n in ("sacrum", "coccyx"):
             self.assertAlmostEqual(self.b[n].head[0], 0.0, places=12)
             self.assertAlmostEqual(self.b[n].tail[0], 0.0, places=12)
 
     def test_scales_with_the_base_proportions_and_stays_anchored(self):
         base2, anat2 = build(height_m=1.90)
-        self.assertAlmostEqual(anat2.bones["sacrum_fused"].length / self.b["sacrum_fused"].length, 1.90 / 1.75, places=9)
+        self.assertAlmostEqual(anat2.bones["sacrum"].length / self.b["sacrum"].length, 1.90 / 1.75, places=9)
         self.assertEqual(validation.validate_anatomy(base2, anat2), [])
         base3, anat3 = build(length_overrides={"pelvis": 0.06, "thigh": 0.27})
         self.assertEqual(validation.validate_anatomy(base3, anat3), [])
         self.assertLess(length(sub(anat3.bones["ilium.L"].tail, base3.bones["thigh.L"].head)), 1e-12)
         self.assertLess(length(sub(anat3.bones["pubis.L"].head, base3.bones["thigh.L"].head)), 1e-12)
-        self.assertLess(length(sub(anat3.bones["sacrum_fused"].head, base3.bones["spine_lumbar"].head)), 1e-12)
+        self.assertLess(length(sub(anat3.bones["sacrum"].head, base3.bones["spine_lumbar"].head)), 1e-12)
 
 
 def perp_distance(p, a, b):
@@ -405,12 +405,12 @@ class TestSpineHead(unittest.TestCase):
         self.assertEqual(len(cov["implemented"]) + len(cov["base"]), 185)
 
     def test_anatomical_chain_bottom_up_as_specified(self):
-        chain = ["sacrum_fused"] + VERTEBRAE + ["cranium", "mandible"]
+        chain = ["sacrum"] + VERTEBRAE + ["cranium", "mandible"]
         for lower, upper in zip(chain, chain[1:]):
             self.assertEqual(self.b[upper].anatomical_parent, lower, upper)
 
     def test_vertebral_column_is_continuous_and_anchored_to_the_base(self):
-        self.assertLess(length(sub(self.b["L5"].head, self.b["sacrum_fused"].head)), 1e-12)  # L5 sobre el sacro
+        self.assertLess(length(sub(self.b["L5"].head, self.b["sacrum"].head)), 1e-12)  # L5 sobre el sacro
         for lower, upper in zip(VERTEBRAE, VERTEBRAE[1:]):
             self.assertLess(length(sub(self.b[upper].head, self.b[lower].tail)), 1e-12, upper)
         pivots = (("L1", "spine_thoracic"), ("T1", "neck"), ("C1", "head"))
@@ -585,18 +585,18 @@ class TestAnatomyValidatorDetectsProblems(unittest.TestCase):
         self.assertIn("ANAT_ANCHOR", codes(validation.validate_anatomy(self.base, m)))
 
     def test_unknown_parent_and_not_rooted(self):
-        self.assertIn("ANAT_PARENT_UNKNOWN", codes(validation.validate_anatomy(self.base, self.with_bone("coccyx_fused", parent="fantasma"))))
-        m = self.with_bone("sacrum_fused", parent="coccyx_fused")  # ciclo sacro <-> coxis
+        self.assertIn("ANAT_PARENT_UNKNOWN", codes(validation.validate_anatomy(self.base, self.with_bone("coccyx", parent="fantasma"))))
+        m = self.with_bone("sacrum", parent="coccyx")  # ciclo sacro <-> coxis
         self.assertIn("ANAT_CYCLE", codes(validation.validate_anatomy(self.base, m)))
 
     def test_name_collision_and_references(self):
         bones = dict(self.anat.bones)
-        bones["pelvis"] = dataclasses.replace(bones["coccyx_fused"], name="pelvis")
+        bones["pelvis"] = dataclasses.replace(bones["coccyx"], name="pelvis")
         self.assertIn("ANAT_NAME_COLLISION", codes(validation.validate_anatomy(self.base, dataclasses.replace(self.anat, bones=bones))))
-        self.assertIn("ANAT_REFERENCE_UNKNOWN", codes(validation.validate_anatomy(self.base, self.with_bone("coccyx_fused", reference=("no_existe",)))))
-        self.assertIn("ANAT_REFERENCE_DUPLICATE", codes(validation.validate_anatomy(self.base, self.with_bone("coccyx_fused", reference=("sacrum_fused",)))))
-        self.assertIn("ANAT_REFERENCE_IN_BASE", codes(validation.validate_anatomy(self.base, self.with_bone("coccyx_fused", reference=("clavicle.L",)))))
-        self.assertIn("ANAT_NO_REFERENCE", codes(validation.validate_anatomy(self.base, self.with_bone("coccyx_fused", reference=()))))
+        self.assertIn("ANAT_REFERENCE_UNKNOWN", codes(validation.validate_anatomy(self.base, self.with_bone("coccyx", reference=("no_existe",)))))
+        self.assertIn("ANAT_REFERENCE_DUPLICATE", codes(validation.validate_anatomy(self.base, self.with_bone("coccyx", reference=("sacrum",)))))
+        self.assertIn("ANAT_REFERENCE_IN_BASE", codes(validation.validate_anatomy(self.base, self.with_bone("coccyx", reference=("clavicle.L",)))))
+        self.assertIn("ANAT_NO_REFERENCE", codes(validation.validate_anatomy(self.base, self.with_bone("coccyx", reference=()))))
 
     def test_asymmetry_and_outline_asymmetry(self):
         r = self.anat.bones["ilium.R"]

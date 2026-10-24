@@ -177,7 +177,7 @@ def render_anatomy_previews(base, out_dir, prefix: str = "anatomy", anat: Anatom
     foot_c = Vector(foot.head).lerp(Vector(foot.tail), 0.4) + Vector((0.0, 0.0, -0.03 * height_m / 1.75))
     # vistas aisladas: (nombre, objetivo, direccion objetivo->camara, escala ortografica, huesos del nivel 1 visibles)
     every = set(anat.bones) if anat is not None else set()
-    spine = {n for n, b in anat.bones.items() if b.region == "spine_head"} | {"sacrum_fused", "coccyx_fused"} if anat else set()
+    spine = {n for n, b in anat.bones.items() if b.region == "spine_head"} | {"sacrum", "coccyx"} if anat else set()
     spine_c = Vector((0.0, 0.0, 0.5 * (base.bones["pelvis"].tail[2] + base.bones["head"].tail[2])))
     body_c = Vector((0.0, 0.0, 0.5 * height_m))
     close = [

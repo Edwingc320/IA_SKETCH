@@ -15,12 +15,12 @@ Coordenadas del proyecto: +X izquierda, **+Y atrás (anterior = −Y)**, +Z arri
 
 | Hueso | Padre en el rig | Padre anatómico | Lo mueve |
 |---|---|---|---|
-| `sacrum_fused` | `pelvis` (base) | `pelvis` | `pelvis` |
-| `coccyx_fused` | `sacrum_fused` | `sacrum_fused` | `pelvis` |
-| `ilium.L/.R` | **`sacrum_fused`** | `sacrum_fused` | `pelvis` |
+| `sacrum` | `pelvis` (base) | `pelvis` | `pelvis` |
+| `coccyx` | `sacrum` | `sacrum` | `pelvis` |
+| `ilium.L/.R` | **`sacrum`** | `sacrum` | `pelvis` |
 | `ischium.L/.R` | `ilium` | `ilium` | `pelvis` |
 | `pubis.L/.R` | `ilium` | `ilium` | `pelvis` |
-| `L5` | `spine_lumbar` (base) | **`sacrum_fused`** | `spine_lumbar` |
+| `L5` | `spine_lumbar` (base) | **`sacrum`** | `spine_lumbar` |
 | `L4` … `L1` | vértebra inferior | vértebra inferior | `spine_lumbar` |
 
 - **Sacro = raíz del bloque pélvico** del nivel 1: el ilion y el cóccix cuelgan de él (articulaciones sacroilíaca y sacrococcígea); el isquion y el pubis cuelgan del ilion. La cadena lumbar va de abajo arriba (sacro → L5 → … → L1 → T12).
@@ -80,7 +80,7 @@ Cada fuente lleva su fiabilidad (`alta`, `media`, `baja`) en `lumbar_pelvis.json
 
 | Pedido | Aplicado | Motivo |
 |---|---|---|
-| Nombres `sacrum`, `coccyx` | `sacrum_fused`, `coccyx_fused` | son los nombres de la referencia (trazabilidad 1:1); `ilium`, `ischium` y `pubis` sí van separados, como pides |
+| Nombres `sacrum`, `coccyx` | `sacrum`, `coccyx` | aplicado: antes eran `sacrum_fused` y `coccyx_fused`; la referencia los sigue llamando así y `normalize_reference_name` los convierte (trazabilidad 1:1). `ilium`, `ischium` y `pubis` van separados, como pides |
 | «L5 hijo de L4 en orden descendente» | cadena de abajo arriba (L5 sobre el sacro) | cumple «sacro raíz» y «L5 sobre la meseta de S1» |
 | «Lordosis hacia +Y» | convexa hacia **−Y** (delante) | convención del proyecto: el personaje mira a −Y |
-| Los huesos ilíacos cuelgan del sacro | aplicado | el ilion cuelga de `sacrum_fused`; isquion y pubis, del ilion (el rig los sigue moviendo `pelvis`) |
+| Los huesos ilíacos cuelgan del sacro | aplicado | el ilion cuelga de `sacrum`; isquion y pubis, del ilion (el rig los sigue moviendo `pelvis`) |

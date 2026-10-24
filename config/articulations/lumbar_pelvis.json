@@ -265,10 +265,10 @@
    "mirror": false,
    "kind": "disco L5-S1 + articulaciones facetarias",
    "bones": [
-    "sacrum_fused",
+    "sacrum",
     "L5"
    ],
-   "carrier": "sacrum_fused",
+   "carrier": "sacrum",
    "center": {
     "at": "L5.head"
    },
@@ -311,9 +311,9 @@
    "kind": "sinovial (anfiartrosis) muy rigida",
    "bones": [
     "ilium.L",
-    "sacrum_fused"
+    "sacrum"
    ],
-   "carrier": "sacrum_fused",
+   "carrier": "sacrum",
    "center": {
     "at": "ilium.L.head"
    },
@@ -354,12 +354,12 @@
    "mirror": false,
    "kind": "cartilaginosa (sinfisis)",
    "bones": [
-    "coccyx_fused",
-    "sacrum_fused"
+    "coccyx",
+    "sacrum"
    ],
-   "carrier": "sacrum_fused",
+   "carrier": "sacrum",
    "center": {
-    "at": "coccyx_fused.head"
+    "at": "coccyx.head"
    },
    "tolerance_m": 0.001,
    "dofs": [
@@ -385,7 +385,7 @@
     "pubis.L",
     "pubis.R"
    ],
-   "carrier": "sacrum_fused",
+   "carrier": "sacrum",
    "center": {
     "at": "pelvis.head",
     "offset_h": [
@@ -532,11 +532,11 @@
    "name": "sacrotuberous.L",
    "mirror": true,
    "from": {
-    "bone": "sacrum_fused",
+    "bone": "sacrum",
     "point": {
      "lerp": [
-      "sacrum_fused.head",
-      "sacrum_fused.tail",
+      "sacrum.head",
+      "sacrum.tail",
       0.7
      ],
      "offset_h": [
@@ -569,11 +569,11 @@
    "name": "sacrospinous.L",
    "mirror": true,
    "from": {
-    "bone": "sacrum_fused",
+    "bone": "sacrum",
     "point": {
      "lerp": [
-      "sacrum_fused.head",
-      "sacrum_fused.tail",
+      "sacrum.head",
+      "sacrum.tail",
       0.9
      ],
      "offset_h": [
@@ -883,11 +883,11 @@
   {
    "name": "gluteus_maximus_origin_sacrum.L",
    "mirror": true,
-   "bone": "sacrum_fused",
+   "bone": "sacrum",
    "point": {
     "lerp": [
-     "sacrum_fused.head",
-     "sacrum_fused.tail",
+     "sacrum.head",
+     "sacrum.tail",
      0.6
     ],
     "offset_h": [
@@ -1008,7 +1008,7 @@
   {
    "name": "body_center_of_mass",
    "mirror": false,
-   "bone": "sacrum_fused",
+   "bone": "sacrum",
    "point": {
     "at": "pelvis.head",
     "offset_h": [

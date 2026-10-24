@@ -29,7 +29,7 @@ def angle(u, v):
 def spinopelvic(base, anat):
     """SS, PT, PI y LL (L1-S1) medidos en el modelo. La placa de S1 se toma perpendicular al eje del sacro."""
     b = anat.bones
-    sac = b["sacrum_fused"]
+    sac = b["sacrum"]
     s1_up = sub(sac.head, sac.tail)  # normal de la placa superior de S1
     ss = angle(s1_up, (0, 0, 1))
     hips = tuple((x + y) / 2 for x, y in zip(base.bones["thigh.L"].head, base.bones["thigh.R"].head))
@@ -45,20 +45,20 @@ class TestLumbarPelvisStructure(unittest.TestCase):
         self.b = self.anat.bones
 
     def test_hierarchy(self):
-        self.assertEqual(self.b["sacrum_fused"].parent, "pelvis")  # raiz del bloque pelvico del nivel 1
-        for n in ("coccyx_fused", "ilium.L", "ilium.R"):
-            self.assertEqual(self.b[n].parent, "sacrum_fused", n)
-            self.assertEqual(self.b[n].anatomical_parent, "sacrum_fused", n)
+        self.assertEqual(self.b["sacrum"].parent, "pelvis")  # raiz del bloque pelvico del nivel 1
+        for n in ("coccyx", "ilium.L", "ilium.R"):
+            self.assertEqual(self.b[n].parent, "sacrum", n)
+            self.assertEqual(self.b[n].anatomical_parent, "sacrum", n)
         for s in "LR":  # el isquion y el pubis nacen en el acetabulo y cuelgan del ilion
             for n in ("ischium", "pubis"):
                 self.assertEqual(self.b[f"{n}.{s}"].parent, f"ilium.{s}", n)
-        chain = ["sacrum_fused"] + LUMBAR + ["T12"]
+        chain = ["sacrum"] + LUMBAR + ["T12"]
         for lower, upper in zip(chain, chain[1:]):
             self.assertEqual(self.b[upper].anatomical_parent, lower, upper)  # cadena de abajo arriba
-        self.assertLess(length(sub(self.b["L5"].head, self.b["sacrum_fused"].head)), 1e-12)  # L5 sobre la meseta de S1
+        self.assertLess(length(sub(self.b["L5"].head, self.b["sacrum"].head)), 1e-12)  # L5 sobre la meseta de S1
         for lower, upper in zip(LUMBAR, LUMBAR[1:]):
             self.assertLess(length(sub(self.b[upper].head, self.b[lower].tail)), 1e-12, upper)
-        self.assertLess(length(sub(self.b["coccyx_fused"].head, self.b["sacrum_fused"].tail)), 1e-12)
+        self.assertLess(length(sub(self.b["coccyx"].head, self.b["sacrum"].tail)), 1e-12)
 
     def test_spinopelvic_parameters_against_the_sources(self):
         ss, pt, pi, ll = spinopelvic(self.base, self.anat)
@@ -82,7 +82,7 @@ class TestLumbarPelvisStructure(unittest.TestCase):
             offsets.append(c[1] - (line.head[1] + t * (line.tail[1] - line.head[1])))
         self.assertTrue(all(o < 0 for o in offsets))  # convexa hacia delante (-Y)
         self.assertEqual(offsets.index(min(offsets)), 2)  # vertice en L3
-        l5, sac = self.b["L5"], self.b["sacrum_fused"]
+        l5, sac = self.b["L5"], self.b["sacrum"]
         l5_up = sub(l5.tail, l5.head)
         self.assertLess(l5_up[1], 0)  # L5 inclinada hacia delante sobre el sacro
         # Angulacion lumbosacra: angulo entre el eje de L5 y la normal de S1 (7.7 grados con la lordosis calibrada a
@@ -93,9 +93,9 @@ class TestLumbarPelvisStructure(unittest.TestCase):
         com = self.art.attachments["body_center_of_mass"].point
         self.assertAlmostEqual(com[2], 0.557 * H, places=9)  # 55.7% de la estatura (Palmer)
         hip_z = self.base.bones["thigh.L"].head[2]
-        promontory = self.b["sacrum_fused"].head
+        promontory = self.b["sacrum"].head
         self.assertTrue(hip_z < com[2] < promontory[2])  # entre el eje de las caderas y el promontorio
-        sac = self.b["sacrum_fused"]
+        sac = self.b["sacrum"]
         s2 = tuple(a + 0.25 * (b - a) for a, b in zip(sac.head, sac.tail))
         self.assertLess(com[1], s2[1])  # delante de S2
         crest = [self.b[f"ilium.{s}"].outline[2][0] for s in "LR"]

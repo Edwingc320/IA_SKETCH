@@ -64,11 +64,11 @@ class TestAnatomyInBlender(unittest.TestCase):
         for n, b in self.anat.bones.items():
             self.assertEqual(bones[n].parent.name, b.parent, n)
             self.assertEqual(bones[n].get("ac_layer"), "anatomy_L1")
-        self.assertEqual(bones["ilium.L"].parent.name, "sacrum_fused")  # el ilion cuelga del sacro (sacroiliaca)
+        self.assertEqual(bones["ilium.L"].parent.name, "sacrum")  # el ilion cuelga del sacro (sacroiliaca)
         self.assertEqual(bones["ischium.L"].parent.name, "ilium.L")
         self.assertEqual(bones["pubis.R"].parent.name, "ilium.R")
-        self.assertEqual(bones["sacrum_fused"].parent.name, "pelvis")
-        self.assertEqual(bones["sacrum_fused"].parent.name, "pelvis")
+        self.assertEqual(bones["sacrum"].parent.name, "pelvis")
+        self.assertEqual(bones["sacrum"].parent.name, "pelvis")
         # la base sigue siendo la misma: 20 huesos sin marca de nivel 1, en la coleccion L0_base
         base_bones = [b for b in bones if b.get("ac_layer") is None]
         self.assertEqual(sorted(b.name for b in base_bones), sorted(self.base.bones))
@@ -103,7 +103,7 @@ class TestAnatomyInBlender(unittest.TestCase):
         rest = arm.data.bones["pelvis"].matrix_local
         delta = ev.pose.bones["pelvis"].matrix @ rest.inverted()
         moved = 0
-        for n in ("sacrum_fused", "coccyx_fused", "ilium.L", "ilium.R", "ischium.L", "ischium.R", "pubis.L", "pubis.R"):
+        for n in ("sacrum", "coccyx", "ilium.L", "ilium.R", "ischium.L", "ischium.R", "pubis.L", "pubis.R"):
             b = self.anat.bones[n]
             self.assertLess(dist(ev.pose.bones[n].head, delta @ Vector(b.head)), TOL, n)
             self.assertLess(dist(ev.pose.bones[n].tail, delta @ Vector(b.tail)), TOL, n)
@@ -216,7 +216,7 @@ class TestAnatomyInBlender(unittest.TestCase):
         moved = self._check_solidary("spine_lumbar", (0.3, 0.1, -0.2))
         for n in ["L5", "L1", "T12", "T1", "C7", "C1", "cranium", "mandible", "sternum", "rib_07.L", "scapula.R", "humerus.L", "ulna.R", "index_distal.L"]:
             self.assertIn(n, moved)
-        for n in ["sacrum_fused", "ilium.L", "pubis.R", "femur.R", "tibia.L", "calcaneus.R"]:
+        for n in ["sacrum", "ilium.L", "pubis.R", "femur.R", "tibia.L", "calcaneus.R"]:
             self.assertNotIn(n, moved)
         moved_neck = self._check_solidary("neck", (0.4, 0.0, 0.3))
         self.assertEqual({n for n in moved_neck if n in self.anat.bones and self.anat.bones[n].region == "spine_head"},
@@ -374,7 +374,7 @@ class TestAnatomyScript(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stdout[-2000:] + r.stderr[-2000:])
         report = json.loads(out.with_name("anatomy_e2e_report.json").read_text(encoding="utf-8"))
         self.assertIn("pelvic_girdle", report["regions"])
-        self.assertEqual(report["bones"]["ilium.L"]["parent"], "sacrum_fused")
+        self.assertEqual(report["bones"]["ilium.L"]["parent"], "sacrum")
         self.assertEqual(report["bones"]["pubis.L"]["parent"], "ilium.L")
 
     def test_script_fails_when_an_anchor_is_broken(self):
