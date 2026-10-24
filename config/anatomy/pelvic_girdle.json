@@ -113,10 +113,22 @@
     },
     {
      "at": "ilium.L.tail"
+    },
+    {
+     "lerp": [
+      "sacrum.outline_0",
+      "sacrum.outline_1",
+      0.45
+     ],
+     "offset_h": [
+      0,
+      0,
+      0
+     ]
     }
    ],
    "outline_closed": true,
-   "description": "Ilion: la mayor parte del hueso coxal. Cabeza: articulacion sacroiliaca; cola: acetabulo = cabeza femoral. Contorno (en orden): sacroiliaca, espina iliaca posterosuperior, cresta iliaca, espina iliaca anterosuperior, acetabulo. Su cabeza (articulacion sacroiliaca) es exactamente la esquina lateral del contorno del sacro: el anillo pelvico queda cerrado."
+   "description": "Ilion: la mayor parte del hueso coxal. Cabeza: articulacion sacroiliaca; cola: acetabulo = cabeza femoral. Contorno (en orden): sacroiliaca, espina iliaca posterosuperior, cresta iliaca, espina iliaca anterosuperior, acetabulo. Su cabeza (articulacion sacroiliaca) es exactamente la esquina lateral del contorno del sacro: el anillo pelvico queda cerrado. Cara auricular: el borde cabeza -> ultimo punto del contorno coincide con el borde lateral del sacro (sin hueco sacroiliaco); el ultimo punto cierra el contorno hacia el acetabulo (escotadura ciatica mayor)."
   },
   {
    "name": "ischium.L",

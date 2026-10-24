@@ -92,7 +92,7 @@ class TestLegFootUnions(unittest.TestCase):
     def test_counts_and_validation(self):
         self.assertEqual(len(self.region(self.art.joints)), 28 * 2)
         self.assertEqual(len(self.region(self.art.ligaments)), 29 * 2)
-        self.assertEqual(len(self.region(self.art.attachments)), 17 * 2)  # 11 hitos + 5 tuberosidades distales + base de la rotula
+        self.assertEqual(len(self.region(self.art.attachments)), 18 * 2)  # 11 hitos + 5 tuberosidades distales + base de la rotula + tuberculo de Gerdy
         issues = validation.validate_articulations(self.base, self.anat, self.art)
         self.assertEqual([i for i in issues if i.severity == "error"], [])
 

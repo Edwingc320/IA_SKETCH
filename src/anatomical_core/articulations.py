@@ -17,7 +17,7 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
-from .anatomy import AnatomyModel, PointSpec, _eval, _point_spec, _swap_side, point_segment_distance
+from .anatomy import AnatomyModel, PointSpec, _eval, _point_spec, _swap_side, point_segment_distance, point_triangle_distance
 from .config import PROJECT_ROOT, ConfigError, _read_json
 from .geometry import Vec3, mirror_point
 from .skeleton import SkeletonModel
@@ -177,7 +177,7 @@ def build_articulations(base: SkeletonModel, anat: AnatomyModel, data_list) -> A
 
 
 def bone_distance(p: Vec3, bone: str, base: SkeletonModel, anat: AnatomyModel) -> float:
-    """Distancia de un punto a la geometria de un hueso: su segmento y, en el nivel 1, su contorno y su cartilago."""
+    """Distancia de un punto a la geometria de un hueso: su segmento y, en el nivel 1, su contorno (y su cara si es una lamina cerrada) y su cartilago."""
     b = anat.bones.get(bone) or base.bones.get(bone)
     if b is None:
         return float("inf")
@@ -186,6 +186,8 @@ def bone_distance(p: Vec3, bone: str, base: SkeletonModel, anat: AnatomyModel) -
     if outline:
         pts = list(outline) + ([outline[0]] if getattr(b, "outline_closed", False) else [])
         d = min([d] + [point_segment_distance(p, a, c) for a, c in zip(pts, pts[1:])])
+        if getattr(b, "outline_closed", False) and len(outline) >= 3:  # contorno cerrado = lamina: tambien su cara (abanico de triangulos)
+            d = min([d] + [point_triangle_distance(p, outline[0], outline[i], outline[i + 1]) for i in range(1, len(outline) - 1)])
     cartilage = getattr(b, "cartilage", ())  # el cartilago costal forma parte de la costilla
     if cartilage:
         d = min([d] + [point_segment_distance(p, a, c) for a, c in zip(cartilage, cartilage[1:])])

@@ -27,7 +27,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from .config import PROJECT_ROOT, ConfigError, _finite, _read_json, _vec3
-from .geometry import Frame, Vec3, add, frame_from_direction, length, mirror_frame, mirror_point, scale, sub
+from .geometry import Frame, Vec3, add, cross, dot, frame_from_direction, length, mirror_frame, mirror_point, scale, sub
 from .skeleton import SkeletonModel
 
 REFERENCE_FILE = PROJECT_ROOT / "config" / "reference" / "human_skeleton_reference.json"
@@ -307,6 +307,24 @@ def point_segment_distance(p: Vec3, a: Vec3, b: Vec3) -> float:
     den = sum(c * c for c in ab)
     t = 0.0 if den <= 0 else max(0.0, min(1.0, sum(x * y for x, y in zip(sub(p, a), ab)) / den))
     return length(sub(p, add(a, scale(ab, t))))
+
+
+def point_triangle_distance(p: Vec3, a: Vec3, b: Vec3, c: Vec3) -> float:
+    """Distancia de un punto a un triangulo 3D (a su interior si la proyeccion cae dentro, o a su borde)."""
+    n = cross(sub(b, a), sub(c, a))
+    nl = length(n)
+    if nl < 1e-15:
+        return min(point_segment_distance(p, a, b), point_segment_distance(p, b, c), point_segment_distance(p, c, a))
+    n = scale(n, 1.0 / nl)
+    q = sub(p, scale(n, dot(sub(p, a), n)))  # proyeccion sobre el plano
+
+    def side(u: Vec3, v: Vec3) -> float:
+        return dot(cross(sub(v, u), sub(q, u)), n)
+
+    s = (side(a, b), side(b, c), side(c, a))
+    if all(x >= 0 for x in s) or all(x <= 0 for x in s):
+        return abs(dot(sub(p, a), n))
+    return min(point_segment_distance(p, a, b), point_segment_distance(p, b, c), point_segment_distance(p, c, a))
 
 
 def scapula_rib_clearance(anat: AnatomyModel, side: str, samples: int = 12) -> float | None:

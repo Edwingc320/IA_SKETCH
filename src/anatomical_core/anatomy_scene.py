@@ -215,6 +215,13 @@ def render_anatomy_previews(base, out_dir, prefix: str = "anatomy", anat: Anatom
         thorax_c = Vector((0.0, 0.0, base.bones["thorax"].head[2]))
         close.append(("thorax_shoulder_34", thorax_c, Vector((1.2, -1.6, 0.9)), 0.42 * height_m,
                       {*thorax, "__objects__", *(f"__obj__{u}" for u in unions), "__obj__VIS_clavicle.L", "__obj__VIS_clavicle.R"}))
+        # pelvis posterior y region glutea: huesos de la pelvis y el femur con sus hitos y ligamentos (lateral, superior e inferior)
+        pelvis = {"sacrum", "coccyx", "L5", "femur.L", "femur.R"} | {f"{n}.{s}" for n in ("ilium", "ischium", "pubis") for s in "LR"}
+        pv_unions = {o.name for o in bpy.data.objects if o.get("ac_region") == "lumbar_pelvis"}
+        pelvis_c = Vector((0.0, 0.03 * height_m, base.bones["pelvis"].tail[2] + 0.01 * height_m))
+        for vname, direction in (("pelvis_lateral", Vector((1.0, 0.0, 0.0))), ("pelvis_superior", Vector((0.0, -0.001, 1.0))),
+                                 ("pelvis_inferior", Vector((0.0, -0.001, -1.0)))):
+            close.append((vname, pelvis_c, direction, 0.30 * height_m, {*pelvis, *(f"__obj__{u}" for u in pv_unions)}))
         # cabeza + columna cervical con sus puntos de union (vista lateral izquierda, algo de frente)
         head_neck = {f"C{k}" for k in range(1, 8)} | {"cranium", "mandible"}
         hn_unions = {o.name for o in bpy.data.objects if o.get("ac_region") == "head_neck"}

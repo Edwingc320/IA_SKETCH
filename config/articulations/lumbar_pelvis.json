@@ -97,6 +97,21 @@
    "url": "https://www.revisiondojo.com/ib/ib-sehs/4-3-3-define-the-term-centre-of-mass/notes",
    "reliability": "baja",
    "title": "Apuntes - centro de masas delante de S2, ~55% de la estatura"
+  },
+  "wiki_gluteal": {
+   "url": "https://en.wikipedia.org/wiki/Gluteal_muscles",
+   "reliability": "media",
+   "title": "Wikipedia - Gluteal muscles (lineas gluteas, trocanter mayor, tuberosidad glutea)"
+  },
+  "wiki_sacrotuberous": {
+   "url": "https://en.wikipedia.org/wiki/Sacrotuberous_ligament",
+   "reliability": "media",
+   "title": "Wikipedia - Sacrotuberous ligament (margenes laterales del sacro y el coxis a la tuberosidad isquiatica)"
+  },
+  "wiki_sacrospinous": {
+   "url": "https://en.wikipedia.org/wiki/Sacrospinous_ligament",
+   "reliability": "media",
+   "title": "Wikipedia - Sacrospinous ligament (margenes laterales del sacro y el coxis a la espina isquiatica)"
   }
  },
  "joints": [
@@ -317,7 +332,7 @@
    "center": {
     "at": "ilium.L.head"
    },
-   "tolerance_m": 0.03,
+   "tolerance_m": 0.012,
    "dofs": [
     {
      "name": "nutacion_contranutacion",
@@ -347,7 +362,7 @@
     "abmp_sij",
     "physiotutors_sij"
    ],
-   "notes": "La nutacion (sacro hacia delante) tensa los ligamentos interoseo y sacrotuberoso y aumenta la estabilidad."
+   "notes": "La nutacion (sacro hacia delante) tensa los ligamentos interoseo y sacrotuberoso y aumenta la estabilidad. La cara auricular del ilion (hitos iliac_auricular_surface y sacral_auricular_surface) coincide con el borde lateral del sacro."
   },
   {
    "name": "sacrococcygeal",
@@ -504,7 +519,7 @@
       0.5
      ],
      "offset_h": [
-      0.01257142857142857,
+      0.006285714285714285,
       0.0,
       0.0
      ]
@@ -513,11 +528,15 @@
    "to": {
     "bone": "ilium.L",
     "point": {
-     "at": "pelvis.head",
+     "lerp": [
+      "ilium.L.outline_1",
+      "ilium.L.outline_2",
+      0.25
+     ],
      "offset_h": [
-      0.0525,
-      0.024999999999999998,
-      0.060000000000000005
+      0,
+      0,
+      0
      ]
     }
    },
@@ -525,8 +544,8 @@
    "sources": [
     "pmc_iliolumbar"
    ],
-   "notes": "De la apofisis transversa de L5 a la parte anterior/posterior de la cresta iliaca; parte del cuadrado lumbar nace en el.",
-   "tolerance_m": 0.03
+   "notes": "De la raiz de la apofisis transversa de L5 (el cuerpo vertebral no tiene anchura en el modelo: 11 mm del eje) a la cresta iliaca posterior.",
+   "tolerance_m": 0.012
   },
   {
    "name": "sacrotuberous.L",
@@ -535,35 +554,31 @@
     "bone": "sacrum",
     "point": {
      "lerp": [
-      "sacrum.head",
-      "sacrum.tail",
-      0.7
+      "sacrum.outline_0",
+      "sacrum.outline_1",
+      0.6
      ],
      "offset_h": [
-      0.008571428571428572,
-      0.0,
-      0.0
+      0,
+      0,
+      0
      ]
     }
    },
    "to": {
     "bone": "ischium.L",
     "point": {
-     "at": "pelvis.head",
-     "offset_h": [
-      0.035,
-      0.012,
-      -0.06
-     ]
+     "at": "ischium.L.tail"
     }
    },
    "joint": "sacroiliac.L",
    "sources": [
     "tf_sacrotuberous",
+    "wiki_sacrotuberous",
     "physiotutors_sij"
    ],
-   "notes": "Del borde lateral del sacro/coxis a la tuberosidad isquiatica; se tensa en la nutacion.",
-   "tolerance_m": 0.03
+   "notes": "Del borde lateral del sacro (y el coxis) a la tuberosidad isquiatica: cierra por detras el espacio entre ambos; se tensa en la nutacion.",
+   "tolerance_m": 0.012
   },
   {
    "name": "sacrospinous.L",
@@ -572,34 +587,39 @@
     "bone": "sacrum",
     "point": {
      "lerp": [
-      "sacrum.head",
-      "sacrum.tail",
-      0.9
+      "sacrum.outline_0",
+      "sacrum.outline_1",
+      0.85
      ],
      "offset_h": [
-      0.006857142857142858,
-      0.0,
-      0.0
+      0,
+      0,
+      0
      ]
     }
    },
    "to": {
     "bone": "ischium.L",
     "point": {
-     "at": "pelvis.head",
+     "lerp": [
+      "ischium.L.head",
+      "ischium.L.tail",
+      0.3
+     ],
      "offset_h": [
-      0.04265,
-      0.006600000000000001,
-      -0.033
+      0.0,
+      0.004571428571428572,
+      0.0
      ]
     }
    },
    "joint": "sacroiliac.L",
    "sources": [
-    "kenhub_sacrospinous"
+    "kenhub_sacrospinous",
+    "wiki_sacrospinous"
    ],
-   "notes": "Triangular: del borde lateral del sacro y el coxis a la espina isquiatica; impide que el promontorio bascule hacia delante.",
-   "tolerance_m": 0.03
+   "notes": "Triangular: del borde lateral del sacro y el coxis a la espina isquiatica (que se modela como parte del isquion); impide que el promontorio bascule hacia delante.",
+   "tolerance_m": 0.012
   },
   {
    "name": "iliofemoral.L",
@@ -618,11 +638,15 @@
    "to": {
     "bone": "femur.L",
     "point": {
-     "at": "thigh.L.head",
+     "lerp": [
+      "femur.L.outline_1",
+      "femur.L.outline_2",
+      0.2
+     ],
      "offset_h": [
-      0.017142857142857144,
-      -0.005714285714285714,
-      -0.025714285714285714
+      0,
+      0,
+      0
      ]
     }
    },
@@ -632,7 +656,7 @@
     "weill_hip_capsule"
    ],
    "notes": "En Y, de la espina iliaca anteroinferior a la linea intertrocanterea: el mas fuerte; limita extension y rotacion externa.",
-   "tolerance_m": 0.035
+   "tolerance_m": 0.012
   },
   {
    "name": "pubofemoral.L",
@@ -642,8 +666,8 @@
     "point": {
      "at": "pelvis.head",
      "offset_h": [
-      0.032799999999999996,
-      -0.014000000000000002,
+      0.0328,
+      -0.014,
       -0.012
      ]
     }
@@ -651,11 +675,15 @@
    "to": {
     "bone": "femur.L",
     "point": {
-     "at": "thigh.L.head",
+     "lerp": [
+      "femur.L.outline_0",
+      "femur.L.outline_1",
+      0.6
+     ],
      "offset_h": [
-      0.006857142857142858,
-      -0.002285714285714286,
-      -0.017142857142857144
+      0,
+      0,
+      0
      ]
     }
    },
@@ -665,7 +693,7 @@
     "weill_hip_capsule"
    ],
    "notes": "De la rama superior del pubis al cuello femoral; limita abduccion y extension.",
-   "tolerance_m": 0.03
+   "tolerance_m": 0.012
   },
   {
    "name": "ischiofemoral.L",
@@ -698,7 +726,7 @@
     "weill_hip_capsule"
    ],
    "notes": "Del isquion al cuello femoral posterior; principal freno de la rotacion interna.",
-   "tolerance_m": 0.035
+   "tolerance_m": 0.012
   }
  ],
  "attachments": [
@@ -835,11 +863,15 @@
    "mirror": true,
    "bone": "femur.L",
    "point": {
-    "at": "thigh.L.head",
+    "lerp": [
+     "thigh.L.head",
+     "thigh.L.tail",
+     0.07
+    ],
     "offset_h": [
-     0.008571428571428572,
-     0.005714285714285714,
-     -0.03428571428571429
+     -0.003428571428571429,
+     0.003428571428571429,
+     0.0
     ]
    },
    "structures": [
@@ -849,7 +881,7 @@
     "brainscape_post_abdominal"
    ],
    "notes": "Fuente debil: verificar en un atlas.",
-   "tolerance_m": 0.03
+   "tolerance_m": 0.012
   },
   {
    "name": "gluteal_tuberosity.L",
@@ -862,8 +894,8 @@
      0.2
     ],
     "offset_h": [
-     0.008571428571428572,
-     0.006857142857142858,
+     0.002857142857142857,
+     0.004,
      0.0
     ]
    },
@@ -874,7 +906,7 @@
     "brainscape_pelvis"
    ],
    "notes": "Fuente debil: verificar en un atlas.",
-   "tolerance_m": 0.03
+   "tolerance_m": 0.012
   },
   {
    "name": "body_center_of_mass",
@@ -911,6 +943,198 @@
    "sources": [],
    "notes": "Apice del coccix: extremo libre de la columna.",
    "tolerance_m": 0.01
+  },
+  {
+   "name": "iliac_auricular_surface.L",
+   "mirror": true,
+   "bone": "ilium.L",
+   "point": {
+    "lerp": [
+     "sacrum.outline_0",
+     "sacrum.outline_1",
+     0.225
+    ],
+    "offset_h": [
+     0,
+     0,
+     0
+    ]
+   },
+   "structures": [
+    "hito oseo: iliac auricular surface"
+   ],
+   "sources": [
+    "physiotutors_sij"
+   ],
+   "notes": "Punto medio de la cara auricular del ilion; coincide con el del sacro.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "sacral_auricular_surface.L",
+   "mirror": true,
+   "bone": "sacrum",
+   "point": {
+    "lerp": [
+     "sacrum.outline_0",
+     "sacrum.outline_1",
+     0.225
+    ],
+    "offset_h": [
+     0,
+     0,
+     0
+    ]
+   },
+   "structures": [
+    "hito oseo: sacral auricular surface"
+   ],
+   "sources": [
+    "physiotutors_sij"
+   ],
+   "notes": "Punto medio de la cara auricular del sacro (ala); coincide con el del ilion.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "sacral_lateral_mass.L",
+   "mirror": true,
+   "bone": "sacrum",
+   "point": {
+    "lerp": [
+     "sacrum.outline_0",
+     "sacrum.outline_1",
+     0.4
+    ],
+    "offset_h": [
+     0,
+     0,
+     0
+    ]
+   },
+   "structures": [
+    "hito oseo: sacral lateral mass"
+   ],
+   "sources": [
+    "wiki_gluteal",
+    "wiki_sacrotuberous"
+   ],
+   "notes": "Masa lateral del sacro: borde lateral, sobre la superficie del hueso.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "ischial_spine.L",
+   "mirror": true,
+   "bone": "ischium.L",
+   "point": {
+    "lerp": [
+     "ischium.L.head",
+     "ischium.L.tail",
+     0.3
+    ],
+    "offset_h": [
+     0.0,
+     0.004571428571428572,
+     0.0
+    ]
+   },
+   "structures": [
+    "hito oseo: ischial spine"
+   ],
+   "sources": [
+    "kenhub_sacrospinous"
+   ],
+   "notes": "Espina isquiatica: vertice del sacroespinoso (en el modelo es parte del isquion).",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_gluteal_line.L",
+   "mirror": true,
+   "bone": "ilium.L",
+   "point": {
+    "lerp": [
+     "ilium.L.outline_0",
+     "ilium.L.outline_2",
+     0.35
+    ],
+    "offset_h": [
+     0,
+     0,
+     0
+    ]
+   },
+   "structures": [
+    "hito oseo: posterior gluteal line"
+   ],
+   "sources": [
+    "wiki_gluteal"
+   ],
+   "notes": "Linea glutea posterior de la cara externa del ilion.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "anterior_gluteal_line.L",
+   "mirror": true,
+   "bone": "ilium.L",
+   "point": {
+    "lerp": [
+     "ilium.L.outline_0",
+     "ilium.L.outline_3",
+     0.55
+    ],
+    "offset_h": [
+     0,
+     0,
+     0
+    ]
+   },
+   "structures": [
+    "hito oseo: anterior gluteal line"
+   ],
+   "sources": [
+    "wiki_gluteal"
+   ],
+   "notes": "Linea glutea anterior de la cara externa del ilion.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "inferior_gluteal_line.L",
+   "mirror": true,
+   "bone": "ilium.L",
+   "point": {
+    "lerp": [
+     "ilium.L.outline_3",
+     "ilium.L.outline_4",
+     0.45
+    ],
+    "offset_h": [
+     0,
+     0,
+     0
+    ]
+   },
+   "structures": [
+    "hito oseo: inferior gluteal line"
+   ],
+   "sources": [
+    "wiki_gluteal"
+   ],
+   "notes": "Linea glutea inferior de la cara externa del ilion.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "greater_trochanter.L",
+   "mirror": true,
+   "bone": "femur.L",
+   "point": {
+    "at": "femur.L.outline_1"
+   },
+   "structures": [
+    "hito oseo: greater trochanter"
+   ],
+   "sources": [
+    "wiki_gluteal"
+   ],
+   "notes": "Trocanter mayor: punto lateral del contorno proximal del femur.",
+   "tolerance_m": 0.012
   }
  ]
 }

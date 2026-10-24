@@ -112,7 +112,7 @@ class TestLumbarPelvisUnions(unittest.TestCase):
     def test_counts_and_validation(self):
         self.assertEqual(len(self.region(self.art.joints)), 4 + 1 + 2 + 1 + 1 + 2)
         self.assertEqual(len(self.region(self.art.ligaments)), 6 * 2)
-        self.assertEqual(len(self.region(self.art.attachments)), 8 * 2 + 2)  # hitos oseos + centro de masas + apice del coccix
+        self.assertEqual(len(self.region(self.art.attachments)), 16 * 2 + 2)  # hitos oseos (8) + cara auricular, lineas gluteas, trocanter mayor... (8) + centro de masas + apice del coccix
         issues = validation.validate_articulations(self.base, self.anat, self.art)
         self.assertEqual([i for i in issues if i.severity == "error"], [])
         self.assertFalse([i for i in issues if any(n in i.message for n in self.region(self.art.joints))])

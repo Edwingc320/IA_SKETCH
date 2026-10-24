@@ -2468,6 +2468,25 @@
    "sources": [],
    "notes": "Base de la rotula (borde superior). Es su extremo libre: alli se inserta el tendon cuadricipital (modelo muscular).",
    "tolerance_m": 0.01
+  },
+  {
+   "name": "gerdy_tubercle.L",
+   "mirror": true,
+   "bone": "tibia.L",
+   "point": {
+    "at": "tibia.L.outline_0",
+    "offset_h": [
+     0.0,
+     -0.002285714285714286,
+     -0.003428571428571429
+    ]
+   },
+   "structures": [
+    "hito oseo: gerdy tubercle"
+   ],
+   "sources": [],
+   "notes": "Tuberculo de Gerdy: cara anterolateral del condilo tibial lateral (donde llega la cintilla iliotibial).",
+   "tolerance_m": 0.012
   }
  ]
 }

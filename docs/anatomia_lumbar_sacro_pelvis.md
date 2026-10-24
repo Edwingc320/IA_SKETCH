@@ -87,3 +87,11 @@ Espinas ilíacas anterosuperior e inferior, fosa y cresta ilíacas, tuberosidad 
 
 El anillo es continuo: la esquina lateral del contorno del sacro **es** la cabeza del ilion (sacroilíaca), ilion, isquion y pubis confluyen exactamente en el acetábulo, y las colas de los dos pubis coinciden en la línea media (sínfisis); el cóccix cuelga de la punta del sacro. Los hitos pélvicos (cresta, espinas, tuberosidad isquiática, cuerpo del pubis, trocánter menor y tuberosidad glútea) están sobre estos huesos, y el ápice del cóccix tiene su propio hito.
 
+## Pelvis posterior y región glútea (cierre)
+
+- **Sacroilíaca sin hueco**: el contorno del ilion añade un punto sobre el borde lateral del sacro, de modo que la arista cabeza → último punto del ilion **coincide con el borde del sacro** (la cara auricular mide ≈ 5 cm). Los hitos `iliac_auricular_surface` y `sacral_auricular_surface` son el mismo punto.
+- **Piso posterior cerrado**: el **sacrotuberoso** nace en el borde lateral del sacro y termina en la tuberosidad isquiática; el **sacroespinoso**, en el mismo borde (más abajo, cerca del cóccix) y termina en la espina isquiática (hito `ischial_spine`; en el modelo la espina es parte del isquion, no del ilion). Fuentes: [Wikipedia](https://en.wikipedia.org/wiki/Sacrotuberous_ligament), [Wikipedia](https://en.wikipedia.org/wiki/Sacrospinous_ligament), [Kenhub](https://www.kenhub.com/en/library/anatomy/sacrospinous-ligament).
+- **Hitos óseos de la región glútea** (cara externa del ilion y fémur): líneas glúteas posterior, anterior e inferior ([Wikipedia](https://en.wikipedia.org/wiki/Gluteal_muscles)), masa lateral del sacro, trocánter mayor, tuberosidad glútea, trocánter menor y tubérculo de Gerdy (tibia). Todos están a menos de 12 mm de la superficie de su hueso (la cara de un contorno cerrado cuenta como superficie del hueso).
+- Los ligamentos de la cadera (iliofemoral, pubofemoral e isquiofemoral) terminan en el cuello y la línea intertrocantérea del fémur, y el iliolumbar nace a 11 mm del eje de L5 (el cuerpo vertebral no tiene anchura en el modelo).
+- **Orígenes e inserciones de los glúteos** (mayor, mediano y menor): son del modelo muscular y están en la rama `muscle-model`, ancladas a estos hitos.
+
