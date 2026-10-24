@@ -1,10 +1,10 @@
 # Columna lumbar, sacro y pelvis: especificación
 
-Especificación de L1–L5, el sacro, el cóccix y los coxales de `anatomical-core`, con sus **puntos de unión** (articulaciones naturales, ligamentos, inserciones e hito del centro de masas) preparados para las poses y los músculos futuros. Todo está implementado como datos y validado por pruebas.
+Especificación de L1–L5, el sacro, el cóccix y los huesos de la cadera (ilion, isquion y pubis) de `anatomical-core`, con sus **puntos de unión** (articulaciones naturales, ligamentos, inserciones e hito del centro de masas) preparados para las poses y los músculos futuros. Todo está implementado como datos y validado por pruebas.
 
 | Qué | Archivo |
 |---|---|
-| Sacro, cóccix y coxales | `config/anatomy/pelvic_girdle.json` |
+| Sacro, cóccix, ilion, isquion y pubis | `config/anatomy/pelvic_girdle.json` |
 | Vértebras lumbares | `config/anatomy/spine_head.json` |
 | Articulaciones, ligamentos, inserciones y fuentes | `config/articulations/lumbar_pelvis.json` |
 | Pruebas | `tests/test_lumbar_pelvis.py`, `tests/test_anatomy_blender.py` (`test_05i`) |
@@ -17,13 +17,15 @@ Coordenadas del proyecto: +X izquierda, **+Y atrás (anterior = −Y)**, +Z arri
 |---|---|---|---|
 | `sacrum_fused` | `pelvis` (base) | `pelvis` | `pelvis` |
 | `coccyx_fused` | `sacrum_fused` | `sacrum_fused` | `pelvis` |
-| `hip_bone.L/.R` (ilion + isquion + pubis) | **`sacrum_fused`** | `sacrum_fused` | `pelvis` |
+| `ilium.L/.R` | **`sacrum_fused`** | `sacrum_fused` | `pelvis` |
+| `ischium.L/.R` | `ilium` | `ilium` | `pelvis` |
+| `pubis.L/.R` | `ilium` | `ilium` | `pelvis` |
 | `L5` | `spine_lumbar` (base) | **`sacrum_fused`** | `spine_lumbar` |
 | `L4` … `L1` | vértebra inferior | vértebra inferior | `spine_lumbar` |
 
-- **Sacro = raíz del bloque pélvico** del nivel 1: los coxales y el cóccix cuelgan de él (articulaciones sacroilíacas y sacrococcígea). La cadena lumbar va de abajo arriba (sacro → L5 → … → L1 → T12).
+- **Sacro = raíz del bloque pélvico** del nivel 1: el ilion y el cóccix cuelgan de él (articulaciones sacroilíaca y sacrococcígea); el isquion y el pubis cuelgan del ilion. La cadena lumbar va de abajo arriba (sacro → L5 → … → L1 → T12).
 - **L5 asienta exactamente sobre la meseta de S1**: su cabeza coincide con la cabeza del sacro, que es la cola de la pelvis base.
-- **Coxales fusionados**: se mantiene la decisión aprobada (un hueso por lado en vez de ilion, isquion y pubis por separado); `ilium`, `ischium` y `pubis` quedan trazados en su campo `reference`.
+- **Coxal separado en tres huesos**: `ilium` (sacroilíaca, cresta y espinas ilíacas), `ischium` (acetábulo → tuberosidad isquiática) y `pubis` (acetábulo → sínfisis). Los tres **coinciden en el acetábulo**, que es exactamente el pivote de la cadera de la base, y cada uno traza su nombre de la referencia.
 
 ## 2. Alineación: parámetros espinopélvicos
 
@@ -78,7 +80,7 @@ Cada fuente lleva su fiabilidad (`alta`, `media`, `baja`) en `lumbar_pelvis.json
 
 | Pedido | Aplicado | Motivo |
 |---|---|---|
-| Nombres `sacrum`, `coccyx`, `ilium.L`, `ischium.L`, `pubis.L` | `sacrum_fused`, `coccyx_fused`, `hip_bone.L` | nombres aprobados antes (trazabilidad 1:1 con el JSON de referencia y un coxal fusionado por lado) |
+| Nombres `sacrum`, `coccyx` | `sacrum_fused`, `coccyx_fused` | son los nombres de la referencia (trazabilidad 1:1); `ilium`, `ischium` y `pubis` sí van separados, como pides |
 | «L5 hijo de L4 en orden descendente» | cadena de abajo arriba (L5 sobre el sacro) | cumple «sacro raíz» y «L5 sobre la meseta de S1» |
 | «Lordosis hacia +Y» | convexa hacia **−Y** (delante) | convención del proyecto: el personaje mira a −Y |
-| Los coxales cuelgan del sacro | aplicado | cambia el padre del coxal de `pelvis` a `sacrum_fused` (el rig lo sigue moviendo `pelvis`) |
+| Los huesos ilíacos cuelgan del sacro | aplicado | el ilion cuelga de `sacrum_fused`; isquion y pubis, del ilion (el rig los sigue moviendo `pelvis`) |

@@ -310,12 +310,12 @@
    "mirror": true,
    "kind": "sinovial (anfiartrosis) muy rigida",
    "bones": [
-    "hip_bone.L",
+    "ilium.L",
     "sacrum_fused"
    ],
    "carrier": "sacrum_fused",
    "center": {
-    "at": "hip_bone.L.head"
+    "at": "ilium.L.head"
    },
    "tolerance_m": 0.03,
    "dofs": [
@@ -382,8 +382,8 @@
    "mirror": false,
    "kind": "cartilaginosa (sinfisis, disco interpubico)",
    "bones": [
-    "hip_bone.L",
-    "hip_bone.R"
+    "pubis.L",
+    "pubis.R"
    ],
    "carrier": "sacrum_fused",
    "center": {
@@ -434,9 +434,11 @@
    "kind": "sinovial esferoidea (enartrosis)",
    "bones": [
     "femur.L",
-    "hip_bone.L"
+    "ilium.L",
+    "ischium.L",
+    "pubis.L"
    ],
-   "carrier": "hip_bone.L",
+   "carrier": "ilium.L",
    "center": {
     "at": "thigh.L.head"
    },
@@ -509,7 +511,7 @@
     }
    },
    "to": {
-    "bone": "hip_bone.L",
+    "bone": "ilium.L",
     "point": {
      "at": "pelvis.head",
      "offset_h": [
@@ -545,7 +547,7 @@
     }
    },
    "to": {
-    "bone": "hip_bone.L",
+    "bone": "ischium.L",
     "point": {
      "at": "pelvis.head",
      "offset_h": [
@@ -582,13 +584,13 @@
     }
    },
    "to": {
-    "bone": "hip_bone.L",
+    "bone": "ischium.L",
     "point": {
      "at": "pelvis.head",
      "offset_h": [
-      0.032,
-      0.0144,
-      -0.03
+      0.04265,
+      0.006600000000000001,
+      -0.033
      ]
     }
    },
@@ -603,7 +605,7 @@
    "name": "iliofemoral.L",
    "mirror": true,
    "from": {
-    "bone": "hip_bone.L",
+    "bone": "ilium.L",
     "point": {
      "at": "pelvis.head",
      "offset_h": [
@@ -636,7 +638,7 @@
    "name": "pubofemoral.L",
    "mirror": true,
    "from": {
-    "bone": "hip_bone.L",
+    "bone": "pubis.L",
     "point": {
      "at": "pelvis.head",
      "offset_h": [
@@ -669,13 +671,13 @@
    "name": "ischiofemoral.L",
    "mirror": true,
    "from": {
-    "bone": "hip_bone.L",
+    "bone": "ischium.L",
     "point": {
      "at": "pelvis.head",
      "offset_h": [
-      0.030500000000000003,
-      0.015600000000000001,
-      -0.014999999999999993
+      0.0435,
+      0.006,
+      -0.03
      ]
     }
    },
@@ -703,7 +705,7 @@
   {
    "name": "anterior_superior_iliac_spine.L",
    "mirror": true,
-   "bone": "hip_bone.L",
+   "bone": "ilium.L",
    "point": {
     "at": "pelvis.head",
     "offset_h": [
@@ -724,7 +726,7 @@
   {
    "name": "anterior_inferior_iliac_spine.L",
    "mirror": true,
-   "bone": "hip_bone.L",
+   "bone": "ilium.L",
    "point": {
     "at": "pelvis.head",
     "offset_h": [
@@ -747,7 +749,7 @@
   {
    "name": "iliac_fossa.L",
    "mirror": true,
-   "bone": "hip_bone.L",
+   "bone": "ilium.L",
    "point": {
     "at": "pelvis.head",
     "offset_h": [
@@ -768,7 +770,7 @@
   {
    "name": "iliac_crest.L",
    "mirror": true,
-   "bone": "hip_bone.L",
+   "bone": "ilium.L",
    "point": {
     "at": "pelvis.head",
     "offset_h": [
@@ -791,7 +793,7 @@
   {
    "name": "ischial_tuberosity.L",
    "mirror": true,
-   "bone": "hip_bone.L",
+   "bone": "ischium.L",
    "point": {
     "at": "pelvis.head",
     "offset_h": [
@@ -814,7 +816,7 @@
   {
    "name": "pubic_body.L",
    "mirror": true,
-   "bone": "hip_bone.L",
+   "bone": "pubis.L",
    "point": {
     "at": "pelvis.head",
     "offset_h": [

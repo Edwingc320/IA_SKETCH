@@ -2,7 +2,7 @@
  "schema_version": 2,
  "level": 1,
  "region": "pelvic_girdle",
- "description": "Nivel 1, region 1: cintura pelvica + sacro. Decision aprobada: par de huesos coxales (hip_bone = ilion + isquion + pubis fusionados) + sacro, rigidos respecto a la pelvis base, colgando del sacro (articulaciones sacroiliacas). Cada hip_bone va de la articulacion sacroiliaca a la cabeza femoral: su cola COINCIDE EXACTAMENTE con el pivote de la cadera de la base (anclaje validado), lo que une las caderas a la pelvis. Los puntos se definen desde puntos de la base; offset_h en fraccion de la altura (+X izquierda, +Y atras, +Z arriba). Valores APROXIMADOS de referencia, no medidas anatomicas exactas. Limitacion heredada de la base: la columna base pasa por el plano coronal de las caderas (y=0), por lo que el sacro parte de y=0 en L5-S1.",
+ "description": "Nivel 1, region 1: cintura pelvica + sacro. Decision aprobada: sacro + coxis + ilion, isquion y pubis por lado (el coxal separado en sus tres huesos), rigidos respecto a la pelvis base. El ilion cuelga del sacro (articulacion sacroiliaca); isquion y pubis cuelgan del ilion y los tres coinciden en el acetabulo, que es EXACTAMENTE el pivote de la cadera de la base (anclajes validados), lo que une las caderas a la pelvis. Los puntos se definen desde puntos de la base; offset_h en fraccion de la altura (+X izquierda, +Y atras, +Z arriba). Valores APROXIMADOS de referencia, no medidas anatomicas exactas. Limitacion heredada de la base: la columna base pasa por el plano coronal de las caderas (y=0), por lo que el sacro parte de y=0 en L5-S1.",
  "bones": [
   {
    "name": "sacrum_fused",
@@ -66,13 +66,11 @@
    "description": "Coxis: continua el vertice del sacro, curvandose hacia delante."
   },
   {
-   "name": "hip_bone.L",
+   "name": "ilium.L",
    "parent": "sacrum_fused",
    "mirror": true,
    "reference": [
-    "ilium.L",
-    "ischium.L",
-    "pubis.L"
+    "ilium.L"
    ],
    "head": {
     "at": "pelvis.head",
@@ -92,7 +90,7 @@
    ],
    "outline": [
     {
-     "at": "hip_bone.L.head"
+     "at": "ilium.L.head"
     },
     {
      "at": "pelvis.head",
@@ -119,35 +117,84 @@
      ]
     },
     {
-     "at": "hip_bone.L.tail"
-    },
-    {
-     "at": "pelvis.head",
-     "offset_h": [
-      0.004,
-      -0.035,
-      -0.03
-     ]
-    },
-    {
-     "at": "pelvis.head",
-     "offset_h": [
-      0.035,
-      0.012,
-      -0.06
-     ]
+     "at": "ilium.L.tail"
     }
    ],
    "outline_closed": true,
-   "description": "Hueso coxal (ilion + isquion + pubis). Cabeza: articulacion sacroiliaca; cola: acetabulo = cabeza femoral. Contorno (en orden): sacroiliaca, espina iliaca posterosuperior, cresta iliaca, espina iliaca anterosuperior, acetabulo, sinfisis del pubis, tuberosidad isquiatica."
+   "description": "Ilion: la mayor parte del hueso coxal. Cabeza: articulacion sacroiliaca; cola: acetabulo = cabeza femoral. Contorno (en orden): sacroiliaca, espina iliaca posterosuperior, cresta iliaca, espina iliaca anterosuperior, acetabulo."
+  },
+  {
+   "name": "ischium.L",
+   "parent": "ilium.L",
+   "anatomical_parent": "ilium.L",
+   "mirror": true,
+   "reference": [
+    "ischium.L"
+   ],
+   "head": {
+    "at": "thigh.L.head"
+   },
+   "tail": {
+    "at": "pelvis.head",
+    "offset_h": [
+     0.035,
+     0.012,
+     -0.06
+    ]
+   },
+   "frame_x_hint": [
+    0,
+    -1,
+    0
+   ],
+   "outline": [
+    {
+     "at": "ischium.L.head"
+    },
+    {
+     "at": "ischium.L.tail"
+    }
+   ],
+   "outline_closed": false,
+   "description": "Isquion: de la parte posteroinferior del acetabulo a la tuberosidad isquiatica (origen de los isquiotibiales y del ligamento sacrotuberoso). Fusionado con el ilion en el acetabulo (cartilago trirradiado)."
+  },
+  {
+   "name": "pubis.L",
+   "parent": "ilium.L",
+   "anatomical_parent": "ilium.L",
+   "mirror": true,
+   "reference": [
+    "pubis.L"
+   ],
+   "head": {
+    "at": "thigh.L.head"
+   },
+   "tail": {
+    "at": "pelvis.head",
+    "offset_h": [
+     0.004,
+     -0.035,
+     -0.03
+    ]
+   },
+   "frame_x_hint": [
+    0,
+    0,
+    1
+   ],
+   "outline": [
+    {
+     "at": "pubis.L.head"
+    },
+    {
+     "at": "pubis.L.tail"
+    }
+   ],
+   "outline_closed": false,
+   "description": "Pubis: del acetabulo a la sinfisis del pubis, delante y casi en la linea media."
   }
  ],
  "anchors": [
-  {
-   "point": "hip_bone.L.tail",
-   "equals": "thigh.L.head",
-   "description": "la cabeza femoral queda anclada en el acetabulo del hueso coxal"
-  },
   {
    "point": "sacrum_fused.head",
    "equals": "spine_lumbar.head",
@@ -157,6 +204,21 @@
    "point": "coccyx_fused.head",
    "equals": "sacrum_fused.tail",
    "description": "union sacrococcigea"
+  },
+  {
+   "point": "ilium.L.tail",
+   "equals": "thigh.L.head",
+   "description": "la cabeza femoral queda anclada en el acetabulo del ilion"
+  },
+  {
+   "point": "ischium.L.head",
+   "equals": "thigh.L.head",
+   "description": "el isquion nace en el acetabulo"
+  },
+  {
+   "point": "pubis.L.head",
+   "equals": "thigh.L.head",
+   "description": "el pubis nace en el acetabulo"
   }
  ]
 }

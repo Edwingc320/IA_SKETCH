@@ -46,9 +46,12 @@ class TestLumbarPelvisStructure(unittest.TestCase):
 
     def test_hierarchy(self):
         self.assertEqual(self.b["sacrum_fused"].parent, "pelvis")  # raiz del bloque pelvico del nivel 1
-        for n in ("coccyx_fused", "hip_bone.L", "hip_bone.R"):
+        for n in ("coccyx_fused", "ilium.L", "ilium.R"):
             self.assertEqual(self.b[n].parent, "sacrum_fused", n)
             self.assertEqual(self.b[n].anatomical_parent, "sacrum_fused", n)
+        for s in "LR":  # el isquion y el pubis nacen en el acetabulo y cuelgan del ilion
+            for n in ("ischium", "pubis"):
+                self.assertEqual(self.b[f"{n}.{s}"].parent, f"ilium.{s}", n)
         chain = ["sacrum_fused"] + LUMBAR + ["T12"]
         for lower, upper in zip(chain, chain[1:]):
             self.assertEqual(self.b[upper].anatomical_parent, lower, upper)  # cadena de abajo arriba
@@ -95,7 +98,7 @@ class TestLumbarPelvisStructure(unittest.TestCase):
         sac = self.b["sacrum_fused"]
         s2 = tuple(a + 0.25 * (b - a) for a, b in zip(sac.head, sac.tail))
         self.assertLess(com[1], s2[1])  # delante de S2
-        crest = [self.b[f"hip_bone.{s}"].outline[2][0] for s in "LR"]
+        crest = [self.b[f"ilium.{s}"].outline[2][0] for s in "LR"]
         self.assertTrue(min(crest) < com[0] < max(crest))  # dentro de la copa pelvica
 
 
@@ -121,7 +124,7 @@ class TestLumbarPelvisUnions(unittest.TestCase):
         for s in "LR":
             self.assertEqual(j[f"coxofemoral.{s}"].rig_driver, f"hip.{s}")
             self.assertLess(length(sub(j[f"coxofemoral.{s}"].center, self.base.joints[f"hip.{s}"].pivot)), 1e-12)
-            self.assertLess(length(sub(j[f"sacroiliac.{s}"].center, self.anat.bones[f"hip_bone.{s}"].head)), 1e-12)
+            self.assertLess(length(sub(j[f"sacroiliac.{s}"].center, self.anat.bones[f"ilium.{s}"].head)), 1e-12)
         self.assertAlmostEqual(j["pubic_symphysis"].center[0], 0.0, places=12)  # linea media
 
     def test_published_ranges_units_and_sources(self):
@@ -145,10 +148,12 @@ class TestLumbarPelvisUnions(unittest.TestCase):
     def test_ligaments_attach_where_described(self):
         lg, b = self.art.ligaments, self.anat.bones
         for s in "LR":
-            self.assertEqual((lg[f"iliolumbar.{s}"].from_bone, lg[f"iliolumbar.{s}"].to_bone), ("L5", f"hip_bone.{s}"))
-            self.assertLess(length(sub(lg[f"sacrotuberous.{s}"].b, b[f"hip_bone.{s}"].outline[6])), 1e-12)  # tuberosidad isquiatica
+            self.assertEqual((lg[f"iliolumbar.{s}"].from_bone, lg[f"iliolumbar.{s}"].to_bone), ("L5", f"ilium.{s}"))
+            self.assertEqual(lg[f"sacrotuberous.{s}"].to_bone, f"ischium.{s}")
+            self.assertLess(length(sub(lg[f"sacrotuberous.{s}"].b, b[f"ischium.{s}"].tail)), 1e-12)  # tuberosidad isquiatica
+            self.assertEqual((lg[f"pubofemoral.{s}"].from_bone, lg[f"ischiofemoral.{s}"].from_bone), (f"pubis.{s}", f"ischium.{s}"))
             self.assertEqual(lg[f"iliofemoral.{s}"].to_bone, f"femur.{s}")
-            self.assertLess(lg[f"sacrospinous.{s}"].b[2], b[f"hip_bone.{s}"].tail[2])  # espina isquiatica por debajo del acetabulo
+            self.assertLess(lg[f"sacrospinous.{s}"].b[2], b[f"ilium.{s}"].tail[2])  # espina isquiatica por debajo del acetabulo
 
     def test_symmetry(self):
         for store, pts in ((self.art.joints, lambda x: [x.center]), (self.art.ligaments, lambda x: [x.a, x.b]),

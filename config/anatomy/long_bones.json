@@ -2,7 +2,7 @@
  "schema_version": 2,
  "level": 1,
  "region": "long_bones",
- "description": "Nivel 1, region 5: cintura escapular (escapula) y huesos largos (humero, radio, cubito, femur, rotula, tibia, perone). anatomical_parent recoge la jerarquia anatomica pedida (escapula -> clavicula por la articulacion acromioclavicular, humero -> escapula, radio/cubito -> humero, femur -> coxal, tibia/perone/rotula -> femur). Padre en el RIG: el segmento base que los mueve (escapula: clavicle; humero: upper_arm; radio/cubito: forearm; femur/rotula: thigh; tibia/perone: shin), para que sigan cualquier pose de la base. Humero, femur y tibia coinciden exactamente con sus segmentos base; mano y pie base (congelados) quedan unidos geometricamente al extremo distal de radio/cubito y tibia/perone. Valores APROXIMADOS.",
+ "description": "Nivel 1, region 5: cintura escapular (escapula) y huesos largos (humero, radio, cubito, femur, rotula, tibia, perone). anatomical_parent recoge la jerarquia anatomica pedida (escapula -> clavicula por la articulacion acromioclavicular, humero -> escapula, radio/cubito -> humero, femur -> ilion, tibia/perone/rotula -> femur). Padre en el RIG: el segmento base que los mueve (escapula: clavicle; humero: upper_arm; radio/cubito: forearm; femur/rotula: thigh; tibia/perone: shin), para que sigan cualquier pose de la base. Humero, femur y tibia coinciden exactamente con sus segmentos base; mano y pie base (congelados) quedan unidos geometricamente al extremo distal de radio/cubito y tibia/perone. Valores APROXIMADOS.",
  "bones": [
   {
    "name": "scapula.L",
@@ -143,7 +143,7 @@
   {
    "name": "femur.L",
    "parent": "thigh.L",
-   "anatomical_parent": "hip_bone.L",
+   "anatomical_parent": "ilium.L",
    "mirror": true,
    "reference": [
     "femur.L"
@@ -324,7 +324,7 @@
   },
   {
    "point": "femur.L.head",
-   "equals": "hip_bone.L.tail",
+   "equals": "ilium.L.tail",
    "description": "cabeza femoral en el acetabulo"
   },
   {

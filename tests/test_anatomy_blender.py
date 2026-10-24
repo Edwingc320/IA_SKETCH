@@ -64,7 +64,9 @@ class TestAnatomyInBlender(unittest.TestCase):
         for n, b in self.anat.bones.items():
             self.assertEqual(bones[n].parent.name, b.parent, n)
             self.assertEqual(bones[n].get("ac_layer"), "anatomy_L1")
-        self.assertEqual(bones["hip_bone.L"].parent.name, "sacrum_fused")  # los coxales cuelgan del sacro
+        self.assertEqual(bones["ilium.L"].parent.name, "sacrum_fused")  # el ilion cuelga del sacro (sacroiliaca)
+        self.assertEqual(bones["ischium.L"].parent.name, "ilium.L")
+        self.assertEqual(bones["pubis.R"].parent.name, "ilium.R")
         self.assertEqual(bones["sacrum_fused"].parent.name, "pelvis")
         self.assertEqual(bones["sacrum_fused"].parent.name, "pelvis")
         # la base sigue siendo la misma: 20 huesos sin marca de nivel 1, en la coleccion L0_base
@@ -101,14 +103,14 @@ class TestAnatomyInBlender(unittest.TestCase):
         rest = arm.data.bones["pelvis"].matrix_local
         delta = ev.pose.bones["pelvis"].matrix @ rest.inverted()
         moved = 0
-        for n in ("sacrum_fused", "coccyx_fused", "hip_bone.L", "hip_bone.R"):
+        for n in ("sacrum_fused", "coccyx_fused", "ilium.L", "ilium.R", "ischium.L", "ischium.R", "pubis.L", "pubis.R"):
             b = self.anat.bones[n]
             self.assertLess(dist(ev.pose.bones[n].head, delta @ Vector(b.head)), TOL, n)
             self.assertLess(dist(ev.pose.bones[n].tail, delta @ Vector(b.tail)), TOL, n)
             vis = bpy.data.objects[f"ANA_{n}"]
             self.assertLess(dist(self.evaluated(vis).matrix_world @ vis.data.vertices[0].co, delta @ Vector(b.head)), TOL, n)
             moved += dist(delta @ Vector(b.head), b.head) > 0.01
-        self.assertEqual(moved, 4)  # la prueba no es vacua: todo se desplazo
+        self.assertEqual(moved, 8)  # la prueba no es vacua: los 8 huesos pelvicos se desplazaron
 
     def test_05_femoral_head_stays_in_the_acetabulum_when_the_thigh_moves(self):
         import bpy
@@ -121,7 +123,7 @@ class TestAnatomyInBlender(unittest.TestCase):
         bpy.context.view_layer.update()
         ev = self.evaluated(arm)
         for s in "LR":
-            self.assertLess(dist(ev.pose.bones[f"thigh.{s}"].head, ev.pose.bones[f"hip_bone.{s}"].tail), TOL)
+            self.assertLess(dist(ev.pose.bones[f"thigh.{s}"].head, ev.pose.bones[f"ilium.{s}"].tail), TOL)
             self.assertGreater(dist(ev.pose.bones[f"thigh.{s}"].tail, self.base.bones[f"thigh.{s}"].tail), 0.05)
 
     def test_05b_ribs_follow_the_base_segment_of_their_level(self):
@@ -214,7 +216,7 @@ class TestAnatomyInBlender(unittest.TestCase):
         moved = self._check_solidary("spine_lumbar", (0.3, 0.1, -0.2))
         for n in ["L5", "L1", "T12", "T1", "C7", "C1", "cranium", "mandible", "sternum", "rib_07.L", "scapula.R", "humerus.L", "ulna.R", "index_distal.L"]:
             self.assertIn(n, moved)
-        for n in ["sacrum_fused", "hip_bone.L", "femur.R", "tibia.L", "calcaneus.R"]:
+        for n in ["sacrum_fused", "ilium.L", "pubis.R", "femur.R", "tibia.L", "calcaneus.R"]:
             self.assertNotIn(n, moved)
         moved_neck = self._check_solidary("neck", (0.4, 0.0, 0.3))
         self.assertEqual({n for n in moved_neck if n in self.anat.bones and self.anat.bones[n].region == "spine_head"},
@@ -226,7 +228,8 @@ class TestAnatomyInBlender(unittest.TestCase):
         self.assertNotIn("scapula.L", moved)  # la escapula la mueve la clavicula, no el brazo
         moved = self._check_solidary("thigh.R", (0.6, 0.0, 0.0))
         self.assertTrue({"femur.R", "patella.R", "tibia.R", "fibula.R", "talus.R", "toe_1_distal.R"} <= moved)
-        self.assertNotIn("hip_bone.R", moved)
+        for n in ("ilium.R", "ischium.R", "pubis.R"):
+            self.assertNotIn(n, moved)  # el muslo no arrastra a los huesos de la pelvis
         moved = self._check_solidary("clavicle.L", (0.0, 0.0, 0.3))
         self.assertIn("scapula.L", moved)
         moved = self._check_solidary("L2", (0.2, 0.0, 0.0))  # dentro del segmento lumbar la cadena anatomica es la del rig
@@ -371,7 +374,8 @@ class TestAnatomyScript(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stdout[-2000:] + r.stderr[-2000:])
         report = json.loads(out.with_name("anatomy_e2e_report.json").read_text(encoding="utf-8"))
         self.assertIn("pelvic_girdle", report["regions"])
-        self.assertEqual(report["bones"]["hip_bone.L"]["parent"], "sacrum_fused")
+        self.assertEqual(report["bones"]["ilium.L"]["parent"], "sacrum_fused")
+        self.assertEqual(report["bones"]["pubis.L"]["parent"], "ilium.L")
 
     def test_script_fails_when_an_anchor_is_broken(self):
         bad_dir = TEST_OUT / "anatomy_bad_config"
@@ -380,7 +384,7 @@ class TestAnatomyScript(unittest.TestCase):
         shutil.copytree(ROOT / "config" / "anatomy", bad_dir)
         p = bad_dir / "pelvic_girdle.json"
         data = json.loads(p.read_text(encoding="utf-8"))
-        hb = next(b for b in data["bones"] if b["name"] == "hip_bone.L")
+        hb = next(b for b in data["bones"] if b["name"] == "ilium.L")
         hb["tail"] = {"at": "thigh.L.head", "offset_h": [0.01, 0, 0]}  # cabeza femoral fuera del acetabulo
         p.write_text(json.dumps(data), encoding="utf-8")
         out = TEST_OUT / "anatomy_bad.blend"
