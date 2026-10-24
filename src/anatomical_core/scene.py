@@ -17,6 +17,7 @@ import bpy
 from mathutils import Vector
 
 from . import geometry as geo
+from . import rig_limits
 from .pose import PosedSkeleton
 from .skeleton import SkeletonModel
 
@@ -24,6 +25,7 @@ ARMATURE_OBJECT = "AC_Armature"
 COLLECTIONS = ("AC_Skeleton", "AC_BoneVisuals", "AC_JointMarkers", "AC_JointAxes")
 META_KEY = "anatomical_core"
 GENERATOR_VERSION = "0.2.0"
+LIMIT_CONSTRAINT = "AC_LimitRotation"
 
 _COLORS = {  # color de visualizacion por lado (RGBA)
     "L": (0.20, 0.45, 0.95, 1.0),
@@ -79,6 +81,31 @@ def _bone_parent_inverses(scene, arm_obj, bone_names) -> dict:
 def _attach_to_bone(obj, arm_obj, bone_name, inverses) -> None:
     obj.parent, obj.parent_type, obj.parent_bone = arm_obj, "BONE", bone_name
     obj.matrix_parent_inverse = inverses[bone_name]
+
+
+def add_rotation_limits(arm_obj, model: SkeletonModel) -> None:
+    """Una restriccion Limit Rotation (espacio LOCAL) por articulacion, con los limites de joints.json. El orden Euler
+    es el de composicion de los dof y los ejes sin dof quedan bloqueados. Los acoples (rig_couplings.json) NO se
+    implementan con drivers (un driver que lee el propio hueso que limita crea un ciclo de dependencias y el resultado
+    deja de ser determinista): en Blender rige el limite estatico y el acople lo exige la validacion de la pose."""
+    couplings = rig_limits.load_couplings(model)
+    for joint in model.joints.values():
+        pbone = arm_obj.pose.bones[joint.bone]
+        for old in [c for c in pbone.constraints if c.name == LIMIT_CONSTRAINT]:
+            pbone.constraints.remove(old)
+        con = pbone.constraints.new("LIMIT_ROTATION")
+        con.name = LIMIT_CONSTRAINT
+        con.owner_space = "LOCAL"
+        con.euler_order = rig_limits.euler_order(joint)
+        con.use_transform_limit = True  # tambien limita al mover el hueso a mano
+        limits = rig_limits.channel_limits(joint)
+        for axis, lim in limits.items():
+            setattr(con, f"use_limit_{axis}", True)
+            setattr(con, f"min_{axis}", math.radians(lim.min_deg))
+            setattr(con, f"max_{axis}", math.radians(lim.max_deg))
+        for c in couplings:  # el acople no se puede expresar como driver sin crear un ciclo de dependencias: queda como dato
+            if joint.name.split(".")[0] == c.joint:
+                pbone["ac_coupling_" + c.dof] = f"{c.dof} solo con |{c.depends_on}| >= {c.full_at_deg:g} (lineal desde 0); limite estatico {limits[next(d.axis_local for d in joint.dofs if d.name == c.dof)].max_deg:g}"
 
 
 def build_scene(model: SkeletonModel, posed: PosedSkeleton) -> dict:
@@ -170,6 +197,7 @@ def build_scene(model: SkeletonModel, posed: PosedSkeleton) -> dict:
         pbone.rotation_quaternion = pb.local_quat
         if model.bones[name].parent is None:
             pbone.location = pb.local_location
+    add_rotation_limits(arm_obj, model)
     arm_obj["ac_pose"] = json.dumps(
         {
             "name": posed.pose_name,

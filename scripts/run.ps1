@@ -16,7 +16,7 @@
 #>
 param(
     [ValidateSet('All', 'Generate', 'Anatomy', 'Test')][string]$Task = 'All',
-    [double]$Height = 0,
+    [string]$Height = '',
     [string[]]$Set = @(),
     [string[]]$Pose = @(),
     [switch]$Neutral,
@@ -73,7 +73,7 @@ $exit = 0
 if ($Task -in 'All', 'Generate') {
     $blend = Join-Path $OutDir 'skeleton_core.blend'
     $a = @('-b', '--factory-startup', '--python', (Join-Path $Root 'scripts\generate_skeleton.py'), '--', '--output', $blend)
-    if ($Height -gt 0) { $a += @('--height', "$Height") }
+    if ($Height) { $a += @('--height', "$Height") }
     foreach ($s in $Set) { $a += @('--set', $s) }
     foreach ($p in $Pose) { $a += @('--pose', $p) }
     if ($Neutral) { $a += '--neutral' }
@@ -90,6 +90,7 @@ if ($Task -in 'All', 'Anatomy') {
     # Nivel 1 (anatomia sobre la base): archivo propio; no toca skeleton_core.blend
     $ablend = Join-Path $OutDir 'anatomy_level1.blend'
     $a = @('-b', '--factory-startup', '--python', (Join-Path $Root 'scripts\generate_anatomy.py'), '--', '--output', $ablend)
+    if ($Height) { $a += @('--height', "$Height") }
     if ($NoPreview) { $a += '--no-preview' }
     $code = Invoke-Blender 'anatomy' $a
     if ($code -ne 0) { if ($exit -eq 0) { $exit = $code } } else {

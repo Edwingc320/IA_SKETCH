@@ -38,7 +38,7 @@
       {"name": "axial",     "axis": "y", "sign": 1,  "min_deg": -90, "max_deg": 90,  "positive_motion": "axial",    "description": "rotacion axial del humero"}
     ]},
     {"name": "elbow", "bone": "forearm", "mirror": true, "dofs": [
-      {"name": "pronation", "axis": "y", "sign": 1,  "min_deg": -90, "max_deg": 90,  "positive_motion": "axial",    "description": "pronacion/supinacion (signo segun regla de la mano derecha); va PRIMERO para girar sobre el eje real del antebrazo antes de flexionar el codo"},
+      {"name": "pronation", "axis": "y", "sign": 1,  "min_deg": -80, "max_deg": 80,  "positive_motion": "axial",    "description": "pronacion/supinacion (signo segun regla de la mano derecha); va PRIMERO para girar sobre el eje real del antebrazo antes de flexionar el codo"},
       {"name": "flexion",   "axis": "x", "sign": -1, "min_deg": 0,   "max_deg": 145, "positive_motion": "anterior", "description": "flexion del codo (+, mano hacia delante/arriba); 0 = brazo extendido"}
     ]},
     {"name": "wrist", "bone": "hand", "mirror": true, "dofs": [
@@ -47,7 +47,7 @@
     ]},
 
     {"name": "hip", "bone": "thigh", "mirror": true, "dofs": [
-      {"name": "flexion",   "axis": "x", "sign": -1, "min_deg": -20, "max_deg": 120, "positive_motion": "anterior", "description": "flexion (+, muslo hacia delante) / extension (-)"},
+      {"name": "flexion",   "axis": "x", "sign": -1, "min_deg": -15, "max_deg": 120, "positive_motion": "anterior", "description": "flexion (+, muslo hacia delante) / extension (-)"},
       {"name": "abduction", "axis": "z", "sign": -1, "min_deg": -30, "max_deg": 45,  "positive_motion": "lateral",  "description": "abduccion (+) / aduccion (-)"},
       {"name": "axial",     "axis": "y", "sign": 1,  "min_deg": -40, "max_deg": 45,  "positive_motion": "axial",    "description": "rotacion axial del femur"}
     ]},

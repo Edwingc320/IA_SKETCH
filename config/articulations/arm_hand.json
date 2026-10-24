@@ -321,6 +321,37 @@
    "notes": "Pisiforme: sesamoideo dentro del tendon del flexor cubital del carpo; se articula solo con el piramidal (kenhub_pisiform) y no entra en la mediocarpiana."
   },
   {
+   "name": "pisotriquetral.L",
+   "mirror": true,
+   "kind": "sinovial plana (pisiforme sobre el piramidal)",
+   "bones": [
+    "pisiform.L",
+    "triquetrum.L"
+   ],
+   "carrier": "pisiform.L",
+   "center": {
+    "at": "pisiform.L.head"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "el pisiforme desliza sobre el piramidal; sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "pisohamate.L",
+    "pisometacarpal.L"
+   ],
+   "sources": [
+    "kenhub_pisiform"
+   ],
+   "notes": "El pisiforme es un sesamoideo del tendon del flexor cubital del carpo y se articula solo con el piramidal."
+  },
+  {
    "name": "carpometacarpal_1.L",
    "mirror": true,
    "kind": "sinovial en silla de montar (trapecio - 1er metacarpiano)",

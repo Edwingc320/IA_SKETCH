@@ -21,7 +21,7 @@ def main(argv):
     p = argparse.ArgumentParser(prog="generate_skeleton")
     p.add_argument("--output", default=str(ROOT / "output" / "skeleton_core.blend"))
     p.add_argument("--config-dir", default=None)
-    p.add_argument("--height", type=float, default=None, help="altura total en metros")
+    p.add_argument("--height", default=None, help="altura total: metros (1.70) o con unidades (170cm, 5ft7in)")
     p.add_argument("--set", action="append", default=[], metavar="HUESO=FRACCION",
                    help="sustituye una longitud (fraccion de la altura), p. ej. thigh=0.25")
     p.add_argument("--pose", action="append", default=[], metavar="ARTICULACION.DOF=GRADOS",

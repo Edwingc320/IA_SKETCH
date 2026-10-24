@@ -11,6 +11,7 @@ from dataclasses import dataclass
 from .geometry import (
     cross, dot, is_finite, length, mat_vec, mirror_frame, mirror_point, normalize, rotation_matrix, scale, sub,
 )
+from . import rig_limits
 from .pose import PosedSkeleton, metrics
 from .skeleton import REQUIRED_BONES, SkeletonModel
 
@@ -284,12 +285,17 @@ def validate_model(model: SkeletonModel) -> list:
 def validate_pose(model: SkeletonModel, posed: PosedSkeleton) -> list:
     """Valida la pose aplicada: limites, rigidez, pivotes sin desplazar, simetria, pies y separacion."""
     out = []
+    couplings = rig_limits.load_couplings(model)
     # 1. angulos dentro de los limites articulares (medidos desde el neutro)
     for jn, dofs in posed.angles.items():
         for dn, deg in dofs.items():
             d = next(x for x in model.joints[jn].dofs if x.name == dn)
             if not (d.min_deg <= deg <= d.max_deg):
                 out.append(Issue("error", "POSE_OUT_OF_LIMITS", f"Pose: '{jn}.{dn}' = {deg} fuera de [{d.min_deg}, {d.max_deg}]"))
+            else:
+                lo, hi = rig_limits.allowed_range(model, couplings, jn, dn, dofs)
+                if not (lo - 1e-9 <= deg <= hi + 1e-9):
+                    out.append(Issue("error", "POSE_COUPLED_LIMIT", f"Pose: '{jn}.{dn}' = {deg} fuera de [{lo:.1f}, {hi:.1f}] con los demas angulos de la articulacion"))
     # 2. rigidez y pivotes: la cabeza posada es la imagen de la cabeza neutra por la transformacion del padre
     for name, b in model.bones.items():
         pb = posed.bones[name]

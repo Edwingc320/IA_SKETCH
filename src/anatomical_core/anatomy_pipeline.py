@@ -60,13 +60,13 @@ def known_limitations(base, anat) -> dict:
 
 
 def generate(output_blend, config_dir=None, anatomy_dir=None, reference_path=None, preview=True, log=print,
-             articulations_dir=None) -> AnatomyResult:
+             articulations_dir=None, height_m=None) -> AnatomyResult:
     output_blend = Path(output_blend).resolve()
     output_blend.parent.mkdir(parents=True, exist_ok=True)
     if output_blend.exists():
         log(f"[INFO] Se regenera (sobrescribe) el archivo de anatomia: {output_blend}")
 
-    base = build_model(load_config(config_dir))
+    base = build_model(load_config(config_dir, height_m))
     base_issues = validation.validate_model(base)
     if validation.errors(base_issues):
         raise AnatomyGenerationError("La base no supera la validacion", base_issues)

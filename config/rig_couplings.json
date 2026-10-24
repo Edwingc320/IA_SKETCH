@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "description": "Limites de rotacion que dependen de otro angulo de la misma articulacion. 'full_at_deg': con |depends_on| >= ese valor el limite del dof es completo; por debajo crece linealmente desde 0. Se aplican en Blender como drivers de las restricciones Limit Rotation y en la validacion de la pose. El dof que habilita debe ser una bisagra (eje x local) y listarse antes que el dof acoplado en joints.json.",
+  "couplings": [
+    {
+      "joint": "knee",
+      "dof": "axial",
+      "depends_on": "flexion",
+      "full_at_deg": 30,
+      "source": "https://wikimsk.org/wiki/Knee_Biomechanics",
+      "note": "La rotacion axial de la tibia casi no existe con la rodilla extendida (mecanismo de bloqueo, 'screw-home') y es maxima a 30-40 grados de flexion, constante hasta unos 120."
+    }
+  ]
+}

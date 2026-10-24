@@ -8,6 +8,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -114,6 +115,35 @@ def _finite(value, where: str) -> float:
     return out
 
 
+_FT_IN = re.compile(r"^(\d+(?:\.\d+)?)\s*(?:ft|feet|foot|')\s*(?:(\d+(?:\.\d+)?)\s*(?:in|inch|inches|\"|'')?)?$")
+_UNIT = re.compile(r"^(\d+(?:\.\d+)?)\s*(m|cm|mm|in|inch|inches)$")
+_UNIT_TO_M = {"m": 1.0, "cm": 0.01, "mm": 0.001, "in": 0.0254, "inch": 0.0254, "inches": 0.0254}
+
+
+def parse_height(value) -> float:
+    """Altura en metros a partir de un numero (metros) o de un texto con unidades: '1.70', '1.70m', '170cm',
+    "5'7\"", '5ft7in', '5 ft 7', '67in'. Un numero sin unidades son metros; fuera de 0.3-3 m se rechaza
+    (asi '170' no se confunde con 170 m)."""
+    if isinstance(value, (int, float)):
+        meters = _finite(value, "altura")
+    else:
+        text = str(value).strip().lower().replace(",", ".")
+        m = _UNIT.match(text)
+        f = _FT_IN.match(text)
+        try:
+            if f:
+                meters = (float(f.group(1)) * 12.0 + float(f.group(2) or 0.0)) * 0.0254
+            elif m:
+                meters = float(m.group(1)) * _UNIT_TO_M[m.group(2)]
+            else:
+                meters = float(text)
+        except ValueError as exc:
+            raise ConfigError(f"Altura no reconocida {value!r}: usa metros (1.70) o unidades (170cm, 5ft7in)") from exc
+    if not 0.3 <= meters <= 3.0:
+        raise ConfigError(f"Altura fuera de rango ({meters:.3f} m): indica la unidad (p. ej. 170cm, 5ft7in)")
+    return meters
+
+
 def _require(d: dict, key: str, where: str):
     if key not in d:
         raise ConfigError(f"{where}: falta la clave '{key}'")
@@ -138,7 +168,7 @@ def load_config(
     jnt = _read_json(cdir / "joints.json")
     pose_raw = _read_json(cdir / "pose_a.json")
 
-    height = _finite(height_m if height_m is not None else _require(prop, "reference_height_m", "proportions"), "altura")
+    height = _finite(parse_height(height_m) if height_m is not None else _require(prop, "reference_height_m", "proportions"), "altura")
     if height <= 0:
         raise ConfigError(f"La altura debe ser positiva y finita (recibido {height!r})")
 

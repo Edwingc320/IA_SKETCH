@@ -36,7 +36,7 @@ En la posición anatómica la palma mira al frente. En la pose A el brazo cuelga
 
 **Cambio de la base (Nivel 0), aprobado como parte de esta sección.** Los dof del codo pasan de `[flexion, pronation]` a `[pronation, flexion]`. Los dof se componen en el orden listado sobre ejes locales fijos, así que con el orden antiguo la pronación giraba sobre el eje del antebrazo **sin flexionar**, y al flexionar el codo 12° el eje real quedaba inclinado: la punta del antebrazo se desplazaba al pronar. Con el orden nuevo la pronación gira sobre el eje real del antebrazo (su punta no se mueve) y después se flexiona. El diff de `tests/golden/base_skeleton.json` solo reordena los dof del codo en los dos lados y cambia las dos firmas; pivotes, longitudes y límites no cambian.
 
-## 3. Articulaciones naturales independientes (24 por lado)
+## 3. Articulaciones naturales independientes (25 por lado)
 
 | Articulación | Tipo | Rango publicado | Motor actual |
 |---|---|---|---|
@@ -45,6 +45,7 @@ En la posición anatómica la palma mira al frente. En la pose A el brazo cuelga
 | Radiocubital distal | pivote | rotación total 150–180° ([StatPearls](https://www.statpearls.com/point-of-care/32401)) | — |
 | Radiocarpiana | elipsoidea | flexión 73,9–80°, extensión 65,9–70°, desviación radial 18,6–20° y cubital 28,3–30° (medidas en [120 adultos](https://synapse.koreamed.org/articles/1122791); la cifra mayor es la de texto, [Enlyte](https://enlyte.com/print/pdf/node/33601)); funcional: 54 / 60 / 17 / 40° ([Ryu 1991](https://mayoclinic.elsevierpure.com/en/publications/functional-ranges-of-motion-of-the-wrist-joint/)) | `wrist` |
 | Mediocarpiana | compuesta | sin cifra en las fuentes | — |
+| Pisopiramidal | plana (el pisiforme desliza sobre el piramidal) | sin cifra | — |
 | Carpometacarpiana 1 (trapecio–1.er metacarpiano) | en silla | flexión 45–50°, abducción 60–70°; oposición sin cifra propia | — |
 | Carpometacarpianas 2–5 | plana | sin cifra; la 2.ª y la 3.ª son casi fijas y la 4.ª y la 5.ª ganan movilidad hacia el borde cubital | — |
 | MCF del pulgar / IF del pulgar | bisagra | flexión 50–61° / 80–81° | — |

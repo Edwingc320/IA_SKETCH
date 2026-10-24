@@ -114,7 +114,7 @@ class TestArmHandUnions(unittest.TestCase):
         return {n: x for n, x in store.items() if x.region == "arm_hand"}
 
     def test_counts_and_validation(self):
-        self.assertEqual(len(self.region(self.art.joints)), 24 * 2)
+        self.assertEqual(len(self.region(self.art.joints)), 25 * 2)
         self.assertEqual(len(self.region(self.art.ligaments)), 42 * 2)
         self.assertEqual(len(self.region(self.art.attachments)), 8 * 2)  # solo hitos oseos; los tendones estan en muscle-model
         issues = validation.validate_articulations(self.base, self.anat, self.art)
