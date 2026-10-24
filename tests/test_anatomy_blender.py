@@ -139,7 +139,7 @@ class TestAnatomyInBlender(unittest.TestCase):
             if b.region != "thoracic_cage":
                 continue
             got = ev.pose.bones[n].tail
-            if b.parent == "thorax":
+            if "thorax" in self._rig_ancestors(n)[1:]:  # costillas 1-6 (via T1-T6) y esternon (via T4)
                 self.assertLess(dist(got, delta @ Vector(b.tail)), TOL, n)
                 self.assertGreater(dist(got, b.tail), 0.005, n)
             else:
@@ -240,6 +240,37 @@ class TestAnatomyInBlender(unittest.TestCase):
             self.assertEqual(arm.data.bones[n]["ac_anatomical_parent"], b.anatomical_parent or b.parent, n)
         self.assertEqual(arm.data.bones["cranium"]["ac_anatomical_parent"], "C1")
         self.assertEqual(arm.data.bones["humerus.R"]["ac_anatomical_parent"], "scapula.R")
+
+    def test_05g_union_markers_are_saved_and_follow_their_bone(self):
+        """Articulaciones, ligamentos e inserciones: en el .blend, en su sitio y moviendose con su hueso."""
+        import bpy
+        from mathutils import Euler, Vector
+        from anatomical_core import articulations, articulations_scene, validation
+        art = articulations.build_articulations(self.base, self.anat, articulations.load_articulation_data())
+        self.open()
+        self.assertEqual(validation.validate_articulations_snapshot(art, articulations_scene.read_back_articulations()), [])
+        for col in ("AC_Articulations", "AC_Ligaments", "AC_Attachments"):
+            self.assertIn(col, bpy.data.collections)
+        self.assertEqual(json.loads(bpy.data.objects["ART_glenohumeral.L"]["ac_dofs"])[0]["source"], "magee_rom")
+        arm = self.open()
+        for n, e in (("thorax", (0.3, 0.0, 0.2)), ("clavicle.L", (0.0, 0.0, 0.4)), ("upper_arm.L", (0.6, 0.0, 0.0))):
+            pb = arm.pose.bones[n]
+            pb.rotation_mode = "XYZ"
+            pb.rotation_euler = Euler(e)
+        bpy.context.view_layer.update()
+        snap = articulations_scene.read_back_articulations()
+        ev = self.evaluated(arm)
+        moved = lambda obj, ref: dist(snap[obj]["points"][0], ref) > 0.002  # noqa: E731
+        self.assertTrue(moved("ART_costovertebral_03.L", art.joints["costovertebral_03.L"].center))  # T3 -> thorax
+        self.assertFalse(moved("ART_costovertebral_09.L", art.joints["costovertebral_09.L"].center))  # T9 -> spine_thoracic
+        self.assertTrue(moved("ART_acromioclavicular.L", art.joints["acromioclavicular.L"].center))  # lo lleva la clavicula
+        self.assertTrue(moved("ATT_inferior_angle.L", art.attachments["inferior_angle.L"].point))  # escapula -> clavicula
+        self.assertTrue(moved("ATT_greater_tubercle.L", art.attachments["greater_tubercle.L"].point))  # humero -> upper_arm
+        # la clavicula derecha (sin rotacion propia) cuelga del thorax base: su marcador sigue exactamente al torax
+        thorax_delta = ev.pose.bones["thorax"].matrix @ arm.data.bones["thorax"].matrix_local.inverted()
+        self.assertLess(dist(snap["ART_acromioclavicular.R"]["points"][0], thorax_delta @ Vector(art.joints["acromioclavicular.R"].center)), TOL)
+        # el marcador glenohumeral lo lleva la escapula (clavicula): sigue al pivote del hombro posado
+        self.assertLess(dist(snap["ART_glenohumeral.L"]["points"][0], ev.pose.bones["upper_arm.L"].head), TOL)
 
     def test_06_visuals_and_outlines_are_parented_without_double_transform(self):
         import bpy

@@ -164,11 +164,14 @@ class TestThoracicCage(unittest.TestCase):
     def test_bones_parents_and_traceability(self):
         region = {n for n, x in self.b.items() if x.region == "thoracic_cage"}
         self.assertEqual(region, {"sternum"} | {f"rib_{k:02d}.{s}" for k in range(1, 13) for s in "LR"})
-        self.assertEqual(self.b["sternum"].parent, "thorax")
+        # especificacion torax/cintura escapular: cada costilla cuelga de su vertebra; el esternon de T4
+        self.assertEqual(self.b["sternum"].parent, "T4")
+        self.assertEqual(base_ancestor(self.anat, "sternum"), "thorax")
         self.assertEqual(self.b["sternum"].reference, ("manubrium", "sternum_body", "xiphoid_process"))
         for s in "LR":
             for k, rib in enumerate(self.ribs[s], start=1):
-                self.assertEqual(rib.parent, "thorax" if k <= 6 else "spine_thoracic", rib.name)
+                self.assertEqual(rib.parent, f"T{k}", rib.name)
+                self.assertEqual(base_ancestor(self.anat, rib.name), "thorax" if k <= 6 else "spine_thoracic", rib.name)
                 self.assertEqual(rib.reference, (f"rib_{k:02d}.{s}",))
         cov = anatomy.coverage(self.anat, self.base)["implemented"]
         for r in ["manubrium", "sternum_body", "xiphoid_process"] + [f"rib_{k:02d}.{s}" for k in range(1, 13) for s in "LR"]:
@@ -185,9 +188,13 @@ class TestThoracicCage(unittest.TestCase):
         mean = sum(gaps) / len(gaps)
         for g in gaps:
             self.assertLess(abs(g - mean) / mean, 0.05)  # niveles vertebrales uniformes
-        for r in self.ribs["L"]:  # cada cabeza costal pegada a la columna (articulacion costovertebral)
-            seg = self.base.bones[r.parent]
+        for k, r in enumerate(self.ribs["L"], start=1):  # cada cabeza costal pegada a su vertebra (costovertebral)
+            seg = self.base.bones[base_ancestor(self.anat, r.name)]
             self.assertLess(perp_distance(r.head, seg.head, seg.tail), 0.02 * H)
+            t = self.b[f"T{k}"]
+            mid = tuple((a + c) / 2 for a, c in zip(t.head, t.tail))
+            self.assertLess(abs(length(sub(r.head, mid)) - 0.012 * H), 1e-9)  # a 0.012 H del eje de T_k
+            self.assertAlmostEqual(r.head[2], mid[2], places=9)  # a media altura de su vertebra
 
     def test_the_torso_now_has_anteroposterior_depth(self):
         spine_y = self.base.bones["thorax"].tail[1]
@@ -460,7 +467,7 @@ class TestSpineHead(unittest.TestCase):
 class TestLongBones(unittest.TestCase):
     """Region 5: escapula y huesos largos."""
 
-    SPEC_ANATOMICAL = {"scapula": "T2", "humerus": "scapula", "radius": "humerus", "ulna": "humerus",
+    SPEC_ANATOMICAL = {"scapula": "clavicle", "humerus": "scapula", "radius": "humerus", "ulna": "humerus",
                        "femur": "hip_bone", "patella": "femur", "tibia": "femur", "fibula": "femur"}
     RIG = {"scapula": "clavicle", "humerus": "upper_arm", "radius": "forearm", "ulna": "forearm",
            "femur": "thigh", "patella": "thigh", "tibia": "shin", "fibula": "shin"}
@@ -487,7 +494,7 @@ class TestLongBones(unittest.TestCase):
     def test_anatomical_hierarchy_as_specified_and_rig_carriers(self):
         for s in "LR":
             for bone, ap in self.SPEC_ANATOMICAL.items():
-                expected = ap if ap == "T2" else f"{ap}.{s}"
+                expected = f"{ap}.{s}"
                 self.assertEqual(self.b[f"{bone}.{s}"].anatomical_parent, expected, bone)
                 self.assertEqual(self.b[f"{bone}.{s}"].parent, f"{self.RIG[bone]}.{s}", bone)
 

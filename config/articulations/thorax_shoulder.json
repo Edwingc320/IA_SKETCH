@@ -1,0 +1,3084 @@
+{
+ "schema_version": 2,
+ "region": "thorax_shoulder",
+ "description": "Puntos de union del torax y la cintura escapular para poses y musculos futuros: articulaciones naturales independientes (centro, huesos, rangos citados y la articulacion de la base que hoy la mueve), ligamentos (origen-insercion) e inserciones tendinosas/musculares. Los rangos son los publicados por las fuentes ('sources', con su fiabilidad); sin cifra cuando la fuente no la da. Son DATOS: no anaden movimiento al rig. Coordenadas: +X izquierda, +Y atras (anterior = -Y), +Z arriba.",
+ "sources": {
+  "gpnotebook_sc": {
+   "url": "https://gpnotebook.com/pages/musculoskeletal-medicine/sternoclavicular-joint-anatomy/movements",
+   "reliability": "media",
+   "title": "GPnotebook - Sternoclavicular joint: movements"
+  },
+  "kenhub_sc": {
+   "url": "https://kenhub.com/en/library/anatomy/sternoclavicular-joint",
+   "reliability": "media",
+   "title": "Kenhub - Sternoclavicular joint"
+  },
+  "rjme_ccl": {
+   "url": "https://rjme.ro/archive/50/3/22/",
+   "reliability": "alta",
+   "title": "The costoclavicular ligament revisited (Rom J Morphol Embryol, 2009)"
+  },
+  "kenhub_cc": {
+   "url": "https://kenhub.com/en/library/anatomy/coracoclavicular-ligament",
+   "reliability": "media",
+   "title": "Kenhub - Coracoclavicular ligament"
+  },
+  "ajsm_ac_cc": {
+   "url": "https://www.ovid.com/journals/ajsm/pdf/10.1177/0363546512458571~the-function-of-the-acromioclavicular-and-coracoclavicular",
+   "reliability": "alta",
+   "title": "AJSM 2012 - Function of the AC and CC ligaments in shoulder motion (whole cadaver)"
+  },
+  "wjg_shr": {
+   "url": "https://wjgnet.com/2218-5836/abstract/v3/i6/87.htm",
+   "reliability": "alta",
+   "title": "World J Orthop - scapulohumeral rhythm (2:1, 120 GH + 60 ST)"
+  },
+  "kurume_shr": {
+   "url": "https://kurume.repo.nii.ac.jp/record/136/files/37104A1215.pdf",
+   "reliability": "alta",
+   "title": "Madokoro et al. - scapulohumeral rhythm 2.34:1 (variable)"
+  },
+  "pmc_scap_kin": {
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC155505",
+   "reliability": "alta",
+   "title": "PMC - Scapular kinematics during humeral elevation"
+  },
+  "msk_glenoid": {
+   "url": "https://musculoskeletalkey.com/glenoid/",
+   "reliability": "media",
+   "title": "Musculoskeletal Key - Glenoid (escapula ~30 grados anterior al plano coronal)"
+  },
+  "msk_dyskinesis": {
+   "url": "https://musculoskeletalkey.com/scapular-dyskinesis/",
+   "reliability": "media",
+   "title": "Musculoskeletal Key - Scapular dyskinesis (inclinacion/rotacion en reposo)"
+  },
+  "kenhub_cv": {
+   "url": "https://kenhub.com/en/library/anatomy/costovertebral-joints",
+   "reliability": "media",
+   "title": "Kenhub - Costovertebral and costotransverse joints"
+  },
+  "wikimsk_rib": {
+   "url": "https://wikimsk.org/wiki/Ribcage_Biomechanics",
+   "reliability": "media",
+   "title": "WikiMSK - Ribcage biomechanics (bomba / asa de cubo)"
+  },
+  "wilke_2017": {
+   "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5433776/",
+   "reliability": "alta",
+   "title": "Wilke et al. 2017 - In vitro segmental flexibility of the thoracic spine (68 FSU, 7.5 Nm)"
+  },
+  "magee_rom": {
+   "url": "https://www.scribd.com/document/959377537/Normal-Ranges1-1",
+   "reliability": "media",
+   "title": "Tabla de rangos normales basada en Magee (hombro con escapula libre)"
+  },
+  "radiopaedia_arm": {
+   "url": "https://images.radiopaedia.org/articles/movements-of-the-arm?lang=gb",
+   "reliability": "media",
+   "title": "Radiopaedia - Movements of the arm"
+  },
+  "gpnotebook_scap": {
+   "url": "https://gpnotebook.com/pages/musculoskeletal-medicine/bony-palpation/borders-of-scapula-examination",
+   "reliability": "media",
+   "title": "GPnotebook - Borders of scapula (angulo superior costilla 2, inferior costilla 7)"
+  },
+  "dartmouth_thorax": {
+   "url": "https://humananatomy.host.dartmouth.edu/BHA/public_html/part_4/chapter_19.html",
+   "reliability": "alta",
+   "title": "Dartmouth - The skeleton of the thorax"
+  },
+  "statpearls_louis": {
+   "url": "https://dev2.statpearls.com/articlelibrary/viewarticle/36706",
+   "reliability": "alta",
+   "title": "StatPearls - Angle of Louis (angulo esternal T4-T5, 2a costilla)"
+  },
+  "wiki_levator": {
+   "url": "https://en.wikipedia.org/wiki/Levator_scapulae_muscle",
+   "reliability": "media",
+   "title": "Wikipedia - Levator scapulae"
+  },
+  "wiki_rhomboid_major": {
+   "url": "https://en.wikipedia.org/wiki/Rhomboid_major_muscle",
+   "reliability": "media",
+   "title": "Wikipedia - Rhomboid major"
+  },
+  "ttuhsc_upperlimb": {
+   "url": "https://anatomy.ttuhscep.edu/anatomytables/bones_upperlimb.html",
+   "reliability": "alta",
+   "title": "TTUHSC - Bones of the upper limb (tuberculos supra/infraglenoideo)"
+  },
+  "shoulderdoc_muscles": {
+   "url": "https://shoulderdoc.co.uk/pages/muscles-of-the-shoulder-arm",
+   "reliability": "media",
+   "title": "Shoulderdoc - Muscles of the shoulder and arm"
+  },
+  "anatomyzone_biceps": {
+   "url": "https://anatomyzone.com/articles/biceps-brachii-short-head/",
+   "reliability": "media",
+   "title": "AnatomyZone - Biceps brachii short head (coracoides)"
+  },
+  "libretexts_cuff": {
+   "url": "https://bio.libretexts.org/Bookshelves/Human_Biology/Human_Anatomy_Lab/09%3A_The_Appendicular_Muscles/9.01%3A_Muscles_of_the_Rotator_Cuff",
+   "reliability": "media",
+   "title": "LibreTexts - Muscles of the rotator cuff"
+  },
+  "radiopaedia_teres_minor": {
+   "url": "https://images.radiopaedia.org/articles/teres-minor",
+   "reliability": "media",
+   "title": "Radiopaedia - Teres minor (borde lateral, tercio medio)"
+  },
+  "uw_pec_minor": {
+   "url": "https://rad.uw.edu/muscle-atlas/pectoralis-minor",
+   "reliability": "alta",
+   "title": "University of Washington muscle atlas - Pectoralis minor"
+  },
+  "brainscape_shoulder": {
+   "url": "https://brainscape.com/flashcards/shoulder-muscles-7099645/packs/11463296",
+   "reliability": "baja",
+   "title": "Tarjetas de estudio - deltoides, trapecio, redondo mayor (VERIFICAR en un atlas)"
+  }
+ },
+ "joints": [
+  {
+   "name": "sternoclavicular.L",
+   "mirror": true,
+   "kind": "sinovial en silla de montar, con disco articular",
+   "bones": [
+    "clavicle.L",
+    "sternum"
+   ],
+   "carrier": "sternum",
+   "center": {
+    "at": "clavicle.L.head"
+   },
+   "tolerance_m": 0.1,
+   "dofs": [
+    {
+     "name": "elevacion_depresion",
+     "total_deg": 60,
+     "source": "gpnotebook_sc"
+    },
+    {
+     "name": "protraccion_retraccion",
+     "total_deg": 35,
+     "source": "gpnotebook_sc"
+    },
+    {
+     "name": "rotacion_axial",
+     "total_deg": 40,
+     "source": "gpnotebook_sc",
+     "note": "la produce la escapula a traves de los ligamentos coracoclaviculares"
+    }
+   ],
+   "rig_driver": "sternoclavicular.L",
+   "ligaments": [
+    "costoclavicular.L",
+    "interclavicular"
+   ],
+   "sources": [
+    "gpnotebook_sc",
+    "kenhub_sc",
+    "rjme_ccl"
+   ],
+   "notes": "Unica union osea del miembro superior con el tronco. Pivote de elevacion y protraccion: el ligamento costoclavicular. Ligamentos esternoclaviculares anterior y posterior (capsulares), interclavicular y costoclavicular. Rangos de una sola fuente clinica (GPnotebook).",
+   "known_limitation": "la clavicula base (congelada) nace casi en el plano de la columna; el manubrio esta delante"
+  },
+  {
+   "name": "acromioclavicular.L",
+   "mirror": true,
+   "kind": "sinovial plana",
+   "bones": [
+    "clavicle.L",
+    "scapula.L"
+   ],
+   "carrier": "clavicle.L",
+   "center": {
+    "at": "clavicle.L.tail",
+    "offset_h": [
+     0.00286,
+     0.01143,
+     0.01257
+    ]
+   },
+   "tolerance_m": 0.035,
+   "dofs": [
+    {
+     "name": "rotacion_escapular_anterior_posterior",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "deslizamiento + rotacion; sin cifra fiable en las fuentes consultadas"
+    },
+    {
+     "name": "inclinacion_escapular_anterior_posterior",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "el conoide limita sobre todo la protraccion y la inclinacion posterior (estudios cadavericos)"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "acromioclavicular_ligament.L",
+    "coracoclavicular_conoid.L",
+    "coracoclavicular_trapezoid.L"
+   ],
+   "sources": [
+    "kenhub_cc",
+    "ajsm_ac_cc"
+   ],
+   "notes": "Union clavicula-acromion. Estabilidad vertical por los ligamentos coracoclaviculares (conoide y trapezoide); los textos clasicos asignan al trapezoide la rotacion anterior y al conoide la posterior, pero los estudios cadavericos muestran papeles dependientes del plano.",
+   "known_limitation": "en la base la clavicula termina en el centro glenohumeral; el acromion queda unos 3 cm por encima y por detras"
+  },
+  {
+   "name": "glenohumeral.L",
+   "mirror": true,
+   "kind": "sinovial esferoidea (enartrosis)",
+   "bones": [
+    "humerus.L",
+    "scapula.L"
+   ],
+   "carrier": "scapula.L",
+   "center": {
+    "at": "upper_arm.L.head"
+   },
+   "tolerance_m": 0.005,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": [
+      160,
+      180
+     ],
+     "source": "magee_rom",
+     "note": "brazo completo con la escapula libre"
+    },
+    {
+     "name": "extension",
+     "total_deg": [
+      50,
+      60
+     ],
+     "source": "magee_rom"
+    },
+    {
+     "name": "abduccion",
+     "total_deg": [
+      170,
+      180
+     ],
+     "source": "magee_rom",
+     "note": "brazo completo con la escapula libre"
+    },
+    {
+     "name": "aduccion",
+     "total_deg": [
+      50,
+      75
+     ],
+     "source": "magee_rom"
+    },
+    {
+     "name": "rotacion_interna",
+     "total_deg": [
+      60,
+      100
+     ],
+     "source": "magee_rom"
+    },
+    {
+     "name": "rotacion_externa",
+     "total_deg": [
+      80,
+      90
+     ],
+     "source": "magee_rom"
+    },
+    {
+     "name": "abduccion_solo_glenohumeral",
+     "total_deg": 120,
+     "source": "wjg_shr",
+     "note": "ritmo escapulohumeral 2:1: 120 glenohumeral + 60 escapulotoracico"
+    }
+   ],
+   "rig_driver": "shoulder.L",
+   "ligaments": [],
+   "sources": [
+    "magee_rom",
+    "radiopaedia_arm",
+    "wjg_shr"
+   ],
+   "notes": "Cabeza humeral en la cavidad glenoidea. Hoy la mueve la articulacion 'shoulder' de la base (su pivote coincide exactamente)."
+  },
+  {
+   "name": "scapulothoracic.L",
+   "mirror": true,
+   "kind": "funcional (no sinovial): deslizamiento de la escapula sobre la pared toracica",
+   "bones": [
+    "scapula.L",
+    "rib_05.L"
+   ],
+   "carrier": "scapula.L",
+   "center": {
+    "at": "scapula.L.head",
+    "offset_h": [
+     -0.0619,
+     0.03985,
+     -0.06172
+    ]
+   },
+   "tolerance_m": 0.06,
+   "dofs": [
+    {
+     "name": "rotacion_superior_inferior",
+     "total_deg": 60,
+     "source": "wjg_shr",
+     "note": "60 de 180 de abduccion (2:1); la proporcion varia con el angulo (2.34:1 de media, kurume_shr)"
+    },
+    {
+     "name": "protraccion_retraccion",
+     "total_deg": null,
+     "no_numeric_source": true
+    },
+    {
+     "name": "elevacion_depresion",
+     "total_deg": null,
+     "no_numeric_source": true
+    },
+    {
+     "name": "inclinacion_anterior_posterior",
+     "total_deg": null,
+     "no_numeric_source": true
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wjg_shr",
+    "kurume_shr",
+    "pmc_scap_kin",
+    "msk_glenoid",
+    "msk_dyskinesis",
+    "gpnotebook_scap"
+   ],
+   "notes": "Plano escapular ~30 grados anterior al plano coronal; en reposo inclinacion anterior 10-20 y rotacion interna 30-40 (msk_dyskinesis). Angulo superior a la altura de la 2a costilla (T2) e inferior de la 7a (T7). Los primeros ~30 grados de elevacion del brazo la escapula apenas gira."
+  },
+  {
+   "name": "manubriosternal",
+   "mirror": false,
+   "kind": "cartilaginosa (sinfisis)",
+   "bones": [
+    "sternum"
+   ],
+   "carrier": "sternum",
+   "center": {
+    "lerp": [
+     "sternum.head",
+     "sternum.tail",
+     0.26684555148535216
+    ],
+    "offset_h": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.005,
+   "dofs": [],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "statpearls_louis",
+    "dartmouth_thorax"
+   ],
+   "notes": "Angulo esternal (de Louis) a la altura del disco T4-T5 y de la 2a costilla; angulo medio 163.4 grados en hombres y 165.0 en mujeres (cadaver). Movimiento minimo (respiracion)."
+  },
+  {
+   "name": "xiphisternal",
+   "mirror": false,
+   "kind": "cartilaginosa (sincondrosis)",
+   "bones": [
+    "sternum"
+   ],
+   "carrier": "sternum",
+   "center": {
+    "lerp": [
+     "sternum.head",
+     "sternum.tail",
+     0.8667904338756565
+    ],
+    "offset_h": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.005,
+   "dofs": [],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "dartmouth_thorax"
+   ],
+   "notes": "A la altura de T9; la punta del xifoides llega a T10."
+  },
+  {
+   "name": "costovertebral_01.L",
+   "mirror": true,
+   "kind": "sinovial plana (cabeza costal - cuerpo vertebral)",
+   "bones": [
+    "rib_01.L",
+    "T1"
+   ],
+   "carrier": "T1",
+   "center": {
+    "at": "rib_01.L.head"
+   },
+   "tolerance_m": 0.03,
+   "dofs": [
+    {
+     "name": "bomba_eje_transversal",
+     "total_deg": [
+      10,
+      16
+     ],
+     "source": "wikimsk_rib",
+     "note": "costillas superiores, TC de capacidad residual a capacidad total"
+    },
+    {
+     "name": "asa_de_cubo_eje_anteroposterior",
+     "total_deg": [
+      8,
+      14
+     ],
+     "source": "wikimsk_rib",
+     "note": "costillas superiores"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "kenhub_cv",
+    "wikimsk_rib"
+   ],
+   "notes": "Ligamento radiado (y, salvo en las costillas 1, 10-12, intraarticular). Junto a la costotransversa forma una unidad funcional."
+  },
+  {
+   "name": "costotransverse_01.L",
+   "mirror": true,
+   "kind": "sinovial plana (tuberculo costal - apofisis transversa)",
+   "bones": [
+    "rib_01.L",
+    "T1"
+   ],
+   "carrier": "T1",
+   "center": {
+    "at": "rib_01.L.head",
+    "offset_h": [
+     0.00914,
+     0.00686,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.05,
+   "dofs": [],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "kenhub_cv"
+   ],
+   "notes": "Ligamentos costotransversos. Las costillas 11-12 no la tienen. La apofisis transversa no esta modelada (por eso la tolerancia mayor)."
+  },
+  {
+   "name": "sternocostal_01.L",
+   "mirror": true,
+   "kind": "cartilaginosa (sincondrosis)",
+   "bones": [
+    "rib_01.L",
+    "sternum"
+   ],
+   "carrier": "sternum",
+   "center": {
+    "lerp": [
+     "sternum.head",
+     "sternum.tail",
+     0.05
+    ],
+    "offset_h": [
+     0.012,
+     0.0,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.025,
+   "dofs": [],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wikimsk_rib",
+    "dartmouth_thorax"
+   ],
+   "notes": "Cartilago costal de una costilla verdadera unido directamente al esternon."
+  },
+  {
+   "name": "costovertebral_02.L",
+   "mirror": true,
+   "kind": "sinovial plana (cabeza costal - cuerpo vertebral)",
+   "bones": [
+    "rib_02.L",
+    "T2"
+   ],
+   "carrier": "T2",
+   "center": {
+    "at": "rib_02.L.head"
+   },
+   "tolerance_m": 0.03,
+   "dofs": [
+    {
+     "name": "bomba_eje_transversal",
+     "total_deg": [
+      10,
+      16
+     ],
+     "source": "wikimsk_rib",
+     "note": "costillas superiores, TC de capacidad residual a capacidad total"
+    },
+    {
+     "name": "asa_de_cubo_eje_anteroposterior",
+     "total_deg": [
+      8,
+      14
+     ],
+     "source": "wikimsk_rib",
+     "note": "costillas superiores"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "kenhub_cv",
+    "wikimsk_rib"
+   ],
+   "notes": "Ligamento radiado (y, salvo en las costillas 1, 10-12, intraarticular). Junto a la costotransversa forma una unidad funcional."
+  },
+  {
+   "name": "costotransverse_02.L",
+   "mirror": true,
+   "kind": "sinovial plana (tuberculo costal - apofisis transversa)",
+   "bones": [
+    "rib_02.L",
+    "T2"
+   ],
+   "carrier": "T2",
+   "center": {
+    "at": "rib_02.L.head",
+    "offset_h": [
+     0.00914,
+     0.00686,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.05,
+   "dofs": [],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "kenhub_cv"
+   ],
+   "notes": "Ligamentos costotransversos. Las costillas 11-12 no la tienen. La apofisis transversa no esta modelada (por eso la tolerancia mayor)."
+  },
+  {
+   "name": "sternocostal_02.L",
+   "mirror": true,
+   "kind": "sinovial plana",
+   "bones": [
+    "rib_02.L",
+    "sternum"
+   ],
+   "carrier": "sternum",
+   "center": {
+    "lerp": [
+     "sternum.head",
+     "sternum.tail",
+     0.2668
+    ],
+    "offset_h": [
+     0.012,
+     0.0,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.025,
+   "dofs": [],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wikimsk_rib",
+    "dartmouth_thorax"
+   ],
+   "notes": "Cartilago costal de una costilla verdadera unido directamente al esternon."
+  },
+  {
+   "name": "costovertebral_03.L",
+   "mirror": true,
+   "kind": "sinovial plana (cabeza costal - cuerpo vertebral)",
+   "bones": [
+    "rib_03.L",
+    "T3"
+   ],
+   "carrier": "T3",
+   "center": {
+    "at": "rib_03.L.head"
+   },
+   "tolerance_m": 0.03,
+   "dofs": [
+    {
+     "name": "bomba_eje_transversal",
+     "total_deg": [
+      10,
+      16
+     ],
+     "source": "wikimsk_rib",
+     "note": "costillas superiores, TC de capacidad residual a capacidad total"
+    },
+    {
+     "name": "asa_de_cubo_eje_anteroposterior",
+     "total_deg": [
+      8,
+      14
+     ],
+     "source": "wikimsk_rib",
+     "note": "costillas superiores"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "kenhub_cv",
+    "wikimsk_rib"
+   ],
+   "notes": "Ligamento radiado (y, salvo en las costillas 1, 10-12, intraarticular). Junto a la costotransversa forma una unidad funcional."
+  },
+  {
+   "name": "costotransverse_03.L",
+   "mirror": true,
+   "kind": "sinovial plana (tuberculo costal - apofisis transversa)",
+   "bones": [
+    "rib_03.L",
+    "T3"
+   ],
+   "carrier": "T3",
+   "center": {
+    "at": "rib_03.L.head",
+    "offset_h": [
+     0.00914,
+     0.00686,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.05,
+   "dofs": [],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "kenhub_cv"
+   ],
+   "notes": "Ligamentos costotransversos. Las costillas 11-12 no la tienen. La apofisis transversa no esta modelada (por eso la tolerancia mayor)."
+  },
+  {
+   "name": "sternocostal_03.L",
+   "mirror": true,
+   "kind": "sinovial plana",
+   "bones": [
+    "rib_03.L",
+    "sternum"
+   ],
+   "carrier": "sternum",
+   "center": {
+    "lerp": [
+     "sternum.head",
+     "sternum.tail",
+     0.38
+    ],
+    "offset_h": [
+     0.012,
+     0.0,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.025,
+   "dofs": [],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wikimsk_rib",
+    "dartmouth_thorax"
+   ],
+   "notes": "Cartilago costal de una costilla verdadera unido directamente al esternon."
+  },
+  {
+   "name": "costovertebral_04.L",
+   "mirror": true,
+   "kind": "sinovial plana (cabeza costal - cuerpo vertebral)",
+   "bones": [
+    "rib_04.L",
+    "T4"
+   ],
+   "carrier": "T4",
+   "center": {
+    "at": "rib_04.L.head"
+   },
+   "tolerance_m": 0.03,
+   "dofs": [
+    {
+     "name": "bomba_eje_transversal",
+     "total_deg": [
+      10,
+      16
+     ],
+     "source": "wikimsk_rib",
+     "note": "costillas superiores, TC de capacidad residual a capacidad total"
+    },
+    {
+     "name": "asa_de_cubo_eje_anteroposterior",
+     "total_deg": [
+      8,
+      14
+     ],
+     "source": "wikimsk_rib",
+     "note": "costillas superiores"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "kenhub_cv",
+    "wikimsk_rib"
+   ],
+   "notes": "Ligamento radiado (y, salvo en las costillas 1, 10-12, intraarticular). Junto a la costotransversa forma una unidad funcional."
+  },
+  {
+   "name": "costotransverse_04.L",
+   "mirror": true,
+   "kind": "sinovial plana (tuberculo costal - apofisis transversa)",
+   "bones": [
+    "rib_04.L",
+    "T4"
+   ],
+   "carrier": "T4",
+   "center": {
+    "at": "rib_04.L.head",
+    "offset_h": [
+     0.00914,
+     0.00686,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.05,
+   "dofs": [],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "kenhub_cv"
+   ],
+   "notes": "Ligamentos costotransversos. Las costillas 11-12 no la tienen. La apofisis transversa no esta modelada (por eso la tolerancia mayor)."
+  },
+  {
+   "name": "sternocostal_04.L",
+   "mirror": true,
+   "kind": "sinovial plana",
+   "bones": [
+    "rib_04.L",
+    "sternum"
+   ],
+   "carrier": "sternum",
+   "center": {
+    "lerp": [
+     "sternum.head",
+     "sternum.tail",
+     0.52
+    ],
+    "offset_h": [
+     0.012,
+     0.0,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.025,
+   "dofs": [],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wikimsk_rib",
+    "dartmouth_thorax"
+   ],
+   "notes": "Cartilago costal de una costilla verdadera unido directamente al esternon."
+  },
+  {
+   "name": "costovertebral_05.L",
+   "mirror": true,
+   "kind": "sinovial plana (cabeza costal - cuerpo vertebral)",
+   "bones": [
+    "rib_05.L",
+    "T5"
+   ],
+   "carrier": "T5",
+   "center": {
+    "at": "rib_05.L.head"
+   },
+   "tolerance_m": 0.03,
+   "dofs": [
+    {
+     "name": "bomba_eje_transversal",
+     "total_deg": [
+      10,
+      16
+     ],
+     "source": "wikimsk_rib",
+     "note": "costillas superiores, TC de capacidad residual a capacidad total"
+    },
+    {
+     "name": "asa_de_cubo_eje_anteroposterior",
+     "total_deg": [
+      8,
+      14
+     ],
+     "source": "wikimsk_rib",
+     "note": "costillas superiores"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "kenhub_cv",
+    "wikimsk_rib"
+   ],
+   "notes": "Ligamento radiado (y, salvo en las costillas 1, 10-12, intraarticular). Junto a la costotransversa forma una unidad funcional."
+  },
+  {
+   "name": "costotransverse_05.L",
+   "mirror": true,
+   "kind": "sinovial plana (tuberculo costal - apofisis transversa)",
+   "bones": [
+    "rib_05.L",
+    "T5"
+   ],
+   "carrier": "T5",
+   "center": {
+    "at": "rib_05.L.head",
+    "offset_h": [
+     0.00914,
+     0.00686,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.05,
+   "dofs": [],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "kenhub_cv"
+   ],
+   "notes": "Ligamentos costotransversos. Las costillas 11-12 no la tienen. La apofisis transversa no esta modelada (por eso la tolerancia mayor)."
+  },
+  {
+   "name": "sternocostal_05.L",
+   "mirror": true,
+   "kind": "sinovial plana",
+   "bones": [
+    "rib_05.L",
+    "sternum"
+   ],
+   "carrier": "sternum",
+   "center": {
+    "lerp": [
+     "sternum.head",
+     "sternum.tail",
+     0.65
+    ],
+    "offset_h": [
+     0.012,
+     0.0,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.025,
+   "dofs": [],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wikimsk_rib",
+    "dartmouth_thorax"
+   ],
+   "notes": "Cartilago costal de una costilla verdadera unido directamente al esternon."
+  },
+  {
+   "name": "costovertebral_06.L",
+   "mirror": true,
+   "kind": "sinovial plana (cabeza costal - cuerpo vertebral)",
+   "bones": [
+    "rib_06.L",
+    "T6"
+   ],
+   "carrier": "T6",
+   "center": {
+    "at": "rib_06.L.head"
+   },
+   "tolerance_m": 0.03,
+   "dofs": [
+    {
+     "name": "bomba_eje_transversal",
+     "total_deg": [
+      10,
+      16
+     ],
+     "source": "wikimsk_rib",
+     "note": "costillas superiores, TC de capacidad residual a capacidad total"
+    },
+    {
+     "name": "asa_de_cubo_eje_anteroposterior",
+     "total_deg": [
+      8,
+      14
+     ],
+     "source": "wikimsk_rib",
+     "note": "costillas superiores"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "kenhub_cv",
+    "wikimsk_rib"
+   ],
+   "notes": "Ligamento radiado (y, salvo en las costillas 1, 10-12, intraarticular). Junto a la costotransversa forma una unidad funcional."
+  },
+  {
+   "name": "costotransverse_06.L",
+   "mirror": true,
+   "kind": "sinovial plana (tuberculo costal - apofisis transversa)",
+   "bones": [
+    "rib_06.L",
+    "T6"
+   ],
+   "carrier": "T6",
+   "center": {
+    "at": "rib_06.L.head",
+    "offset_h": [
+     0.00914,
+     0.00686,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.05,
+   "dofs": [],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "kenhub_cv"
+   ],
+   "notes": "Ligamentos costotransversos. Las costillas 11-12 no la tienen. La apofisis transversa no esta modelada (por eso la tolerancia mayor)."
+  },
+  {
+   "name": "sternocostal_06.L",
+   "mirror": true,
+   "kind": "sinovial plana",
+   "bones": [
+    "rib_06.L",
+    "sternum"
+   ],
+   "carrier": "sternum",
+   "center": {
+    "lerp": [
+     "sternum.head",
+     "sternum.tail",
+     0.78
+    ],
+    "offset_h": [
+     0.012,
+     0.0,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.025,
+   "dofs": [],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wikimsk_rib",
+    "dartmouth_thorax"
+   ],
+   "notes": "Cartilago costal de una costilla verdadera unido directamente al esternon."
+  },
+  {
+   "name": "costovertebral_07.L",
+   "mirror": true,
+   "kind": "sinovial plana (cabeza costal - cuerpo vertebral)",
+   "bones": [
+    "rib_07.L",
+    "T7"
+   ],
+   "carrier": "T7",
+   "center": {
+    "at": "rib_07.L.head"
+   },
+   "tolerance_m": 0.03,
+   "dofs": [
+    {
+     "name": "asa_de_cubo_eje_anteroposterior",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "en las costillas inferiores predomina el deslizamiento en asa de cubo (sin cifra en la fuente)"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "kenhub_cv",
+    "wikimsk_rib"
+   ],
+   "notes": "Ligamento radiado (y, salvo en las costillas 1, 10-12, intraarticular). Junto a la costotransversa forma una unidad funcional."
+  },
+  {
+   "name": "costotransverse_07.L",
+   "mirror": true,
+   "kind": "sinovial plana (tuberculo costal - apofisis transversa)",
+   "bones": [
+    "rib_07.L",
+    "T7"
+   ],
+   "carrier": "T7",
+   "center": {
+    "at": "rib_07.L.head",
+    "offset_h": [
+     0.00914,
+     0.00686,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.05,
+   "dofs": [],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "kenhub_cv"
+   ],
+   "notes": "Ligamentos costotransversos. Las costillas 11-12 no la tienen. La apofisis transversa no esta modelada (por eso la tolerancia mayor)."
+  },
+  {
+   "name": "sternocostal_07.L",
+   "mirror": true,
+   "kind": "sinovial plana",
+   "bones": [
+    "rib_07.L",
+    "sternum"
+   ],
+   "carrier": "sternum",
+   "center": {
+    "lerp": [
+     "sternum.head",
+     "sternum.tail",
+     0.9
+    ],
+    "offset_h": [
+     0.012,
+     0.0,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.025,
+   "dofs": [],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wikimsk_rib",
+    "dartmouth_thorax"
+   ],
+   "notes": "Cartilago costal de una costilla verdadera unido directamente al esternon."
+  },
+  {
+   "name": "costovertebral_08.L",
+   "mirror": true,
+   "kind": "sinovial plana (cabeza costal - cuerpo vertebral)",
+   "bones": [
+    "rib_08.L",
+    "T8"
+   ],
+   "carrier": "T8",
+   "center": {
+    "at": "rib_08.L.head"
+   },
+   "tolerance_m": 0.03,
+   "dofs": [
+    {
+     "name": "asa_de_cubo_eje_anteroposterior",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "en las costillas inferiores predomina el deslizamiento en asa de cubo (sin cifra en la fuente)"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "kenhub_cv",
+    "wikimsk_rib"
+   ],
+   "notes": "Ligamento radiado (y, salvo en las costillas 1, 10-12, intraarticular). Junto a la costotransversa forma una unidad funcional."
+  },
+  {
+   "name": "costotransverse_08.L",
+   "mirror": true,
+   "kind": "sinovial plana (tuberculo costal - apofisis transversa)",
+   "bones": [
+    "rib_08.L",
+    "T8"
+   ],
+   "carrier": "T8",
+   "center": {
+    "at": "rib_08.L.head",
+    "offset_h": [
+     0.00914,
+     0.00686,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.05,
+   "dofs": [],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "kenhub_cv"
+   ],
+   "notes": "Ligamentos costotransversos. Las costillas 11-12 no la tienen. La apofisis transversa no esta modelada (por eso la tolerancia mayor)."
+  },
+  {
+   "name": "interchondral_08.L",
+   "mirror": true,
+   "kind": "sinovial plana (cartilago con cartilago)",
+   "bones": [
+    "rib_08.L",
+    "rib_07.L"
+   ],
+   "carrier": "rib_08.L",
+   "center": {
+    "at": "sternum.tail",
+    "offset_h": [
+     0.03,
+     0.0,
+     -0.01
+    ]
+   },
+   "tolerance_m": 0.06,
+   "dofs": [],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wikimsk_rib"
+   ],
+   "notes": "Costilla falsa: su cartilago se une al de la costilla superior (union indirecta con el esternon)."
+  },
+  {
+   "name": "costovertebral_09.L",
+   "mirror": true,
+   "kind": "sinovial plana (cabeza costal - cuerpo vertebral)",
+   "bones": [
+    "rib_09.L",
+    "T9"
+   ],
+   "carrier": "T9",
+   "center": {
+    "at": "rib_09.L.head"
+   },
+   "tolerance_m": 0.03,
+   "dofs": [
+    {
+     "name": "asa_de_cubo_eje_anteroposterior",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "en las costillas inferiores predomina el deslizamiento en asa de cubo (sin cifra en la fuente)"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "kenhub_cv",
+    "wikimsk_rib"
+   ],
+   "notes": "Ligamento radiado (y, salvo en las costillas 1, 10-12, intraarticular). Junto a la costotransversa forma una unidad funcional."
+  },
+  {
+   "name": "costotransverse_09.L",
+   "mirror": true,
+   "kind": "sinovial plana (tuberculo costal - apofisis transversa)",
+   "bones": [
+    "rib_09.L",
+    "T9"
+   ],
+   "carrier": "T9",
+   "center": {
+    "at": "rib_09.L.head",
+    "offset_h": [
+     0.00914,
+     0.00686,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.05,
+   "dofs": [],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "kenhub_cv"
+   ],
+   "notes": "Ligamentos costotransversos. Las costillas 11-12 no la tienen. La apofisis transversa no esta modelada (por eso la tolerancia mayor)."
+  },
+  {
+   "name": "interchondral_09.L",
+   "mirror": true,
+   "kind": "sinovial plana (cartilago con cartilago)",
+   "bones": [
+    "rib_09.L",
+    "rib_08.L"
+   ],
+   "carrier": "rib_09.L",
+   "center": {
+    "at": "sternum.tail",
+    "offset_h": [
+     0.045,
+     0.0,
+     -0.03
+    ]
+   },
+   "tolerance_m": 0.06,
+   "dofs": [],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wikimsk_rib"
+   ],
+   "notes": "Costilla falsa: su cartilago se une al de la costilla superior (union indirecta con el esternon)."
+  },
+  {
+   "name": "costovertebral_10.L",
+   "mirror": true,
+   "kind": "sinovial plana (cabeza costal - cuerpo vertebral)",
+   "bones": [
+    "rib_10.L",
+    "T10"
+   ],
+   "carrier": "T10",
+   "center": {
+    "at": "rib_10.L.head"
+   },
+   "tolerance_m": 0.03,
+   "dofs": [
+    {
+     "name": "asa_de_cubo_eje_anteroposterior",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "en las costillas inferiores predomina el deslizamiento en asa de cubo (sin cifra en la fuente)"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "kenhub_cv",
+    "wikimsk_rib"
+   ],
+   "notes": "Ligamento radiado (y, salvo en las costillas 1, 10-12, intraarticular). Junto a la costotransversa forma una unidad funcional."
+  },
+  {
+   "name": "costotransverse_10.L",
+   "mirror": true,
+   "kind": "sinovial plana (tuberculo costal - apofisis transversa)",
+   "bones": [
+    "rib_10.L",
+    "T10"
+   ],
+   "carrier": "T10",
+   "center": {
+    "at": "rib_10.L.head",
+    "offset_h": [
+     0.00914,
+     0.00686,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.05,
+   "dofs": [],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "kenhub_cv"
+   ],
+   "notes": "Ligamentos costotransversos. Las costillas 11-12 no la tienen. La apofisis transversa no esta modelada (por eso la tolerancia mayor)."
+  },
+  {
+   "name": "interchondral_10.L",
+   "mirror": true,
+   "kind": "sinovial plana (cartilago con cartilago)",
+   "bones": [
+    "rib_10.L",
+    "rib_09.L"
+   ],
+   "carrier": "rib_10.L",
+   "center": {
+    "at": "sternum.tail",
+    "offset_h": [
+     0.055,
+     0.0,
+     -0.05
+    ]
+   },
+   "tolerance_m": 0.06,
+   "dofs": [],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wikimsk_rib"
+   ],
+   "notes": "Costilla falsa: su cartilago se une al de la costilla superior (union indirecta con el esternon)."
+  },
+  {
+   "name": "costovertebral_11.L",
+   "mirror": true,
+   "kind": "sinovial plana (cabeza costal - cuerpo vertebral)",
+   "bones": [
+    "rib_11.L",
+    "T11"
+   ],
+   "carrier": "T11",
+   "center": {
+    "at": "rib_11.L.head"
+   },
+   "tolerance_m": 0.03,
+   "dofs": [
+    {
+     "name": "asa_de_cubo_eje_anteroposterior",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "en las costillas inferiores predomina el deslizamiento en asa de cubo (sin cifra en la fuente)"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "kenhub_cv",
+    "wikimsk_rib"
+   ],
+   "notes": "Ligamento radiado (y, salvo en las costillas 1, 10-12, intraarticular). Junto a la costotransversa forma una unidad funcional."
+  },
+  {
+   "name": "costovertebral_12.L",
+   "mirror": true,
+   "kind": "sinovial plana (cabeza costal - cuerpo vertebral)",
+   "bones": [
+    "rib_12.L",
+    "T12"
+   ],
+   "carrier": "T12",
+   "center": {
+    "at": "rib_12.L.head"
+   },
+   "tolerance_m": 0.03,
+   "dofs": [
+    {
+     "name": "asa_de_cubo_eje_anteroposterior",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "en las costillas inferiores predomina el deslizamiento en asa de cubo (sin cifra en la fuente)"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "kenhub_cv",
+    "wikimsk_rib"
+   ],
+   "notes": "Ligamento radiado (y, salvo en las costillas 1, 10-12, intraarticular). Junto a la costotransversa forma una unidad funcional."
+  },
+  {
+   "name": "intervertebral_C7_T1",
+   "mirror": false,
+   "kind": "disco intervertebral + articulaciones facetarias",
+   "bones": [
+    "T1",
+    "C7"
+   ],
+   "carrier": "T1",
+   "center": {
+    "at": "C7.head"
+   },
+   "tolerance_m": 0.001,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "union de transicion: sin cifra por nivel en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": "neck",
+   "ligaments": [],
+   "sources": [
+    "wilke_2017"
+   ],
+   "notes": "Rango total por segmento medido in vitro (Wilke 2017, +-7.5 Nm); in vivo suele ser menor. Ligamentos longitudinales, amarillo, interespinoso y supraespinoso."
+  },
+  {
+   "name": "intervertebral_T1_T2",
+   "mirror": false,
+   "kind": "disco intervertebral + articulaciones facetarias",
+   "bones": [
+    "T2",
+    "T1"
+   ],
+   "carrier": "T2",
+   "center": {
+    "at": "T1.head"
+   },
+   "tolerance_m": 0.001,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": 14,
+     "source": "wilke_2017"
+    },
+    {
+     "name": "inclinacion_lateral",
+     "total_deg": [
+      10,
+      12
+     ],
+     "source": "wilke_2017"
+    },
+    {
+     "name": "rotacion_axial",
+     "total_deg": [
+      10,
+      12
+     ],
+     "source": "wilke_2017"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wilke_2017"
+   ],
+   "notes": "Rango total por segmento medido in vitro (Wilke 2017, +-7.5 Nm); in vivo suele ser menor. Ligamentos longitudinales, amarillo, interespinoso y supraespinoso."
+  },
+  {
+   "name": "intervertebral_T2_T3",
+   "mirror": false,
+   "kind": "disco intervertebral + articulaciones facetarias",
+   "bones": [
+    "T3",
+    "T2"
+   ],
+   "carrier": "T3",
+   "center": {
+    "at": "T2.head"
+   },
+   "tolerance_m": 0.001,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": [
+      6,
+      8
+     ],
+     "source": "wilke_2017"
+    },
+    {
+     "name": "inclinacion_lateral",
+     "total_deg": [
+      10,
+      12
+     ],
+     "source": "wilke_2017"
+    },
+    {
+     "name": "rotacion_axial",
+     "total_deg": [
+      10,
+      12
+     ],
+     "source": "wilke_2017"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wilke_2017"
+   ],
+   "notes": "Rango total por segmento medido in vitro (Wilke 2017, +-7.5 Nm); in vivo suele ser menor. Ligamentos longitudinales, amarillo, interespinoso y supraespinoso."
+  },
+  {
+   "name": "intervertebral_T3_T4",
+   "mirror": false,
+   "kind": "disco intervertebral + articulaciones facetarias",
+   "bones": [
+    "T4",
+    "T3"
+   ],
+   "carrier": "T4",
+   "center": {
+    "at": "T3.head"
+   },
+   "tolerance_m": 0.001,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": [
+      6,
+      8
+     ],
+     "source": "wilke_2017"
+    },
+    {
+     "name": "inclinacion_lateral",
+     "total_deg": [
+      10,
+      12
+     ],
+     "source": "wilke_2017"
+    },
+    {
+     "name": "rotacion_axial",
+     "total_deg": [
+      10,
+      12
+     ],
+     "source": "wilke_2017"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wilke_2017"
+   ],
+   "notes": "Rango total por segmento medido in vitro (Wilke 2017, +-7.5 Nm); in vivo suele ser menor. Ligamentos longitudinales, amarillo, interespinoso y supraespinoso."
+  },
+  {
+   "name": "intervertebral_T4_T5",
+   "mirror": false,
+   "kind": "disco intervertebral + articulaciones facetarias",
+   "bones": [
+    "T5",
+    "T4"
+   ],
+   "carrier": "T5",
+   "center": {
+    "at": "T4.head"
+   },
+   "tolerance_m": 0.001,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": [
+      6,
+      8
+     ],
+     "source": "wilke_2017"
+    },
+    {
+     "name": "inclinacion_lateral",
+     "total_deg": [
+      10,
+      12
+     ],
+     "source": "wilke_2017"
+    },
+    {
+     "name": "rotacion_axial",
+     "total_deg": [
+      10,
+      12
+     ],
+     "source": "wilke_2017"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wilke_2017"
+   ],
+   "notes": "Rango total por segmento medido in vitro (Wilke 2017, +-7.5 Nm); in vivo suele ser menor. Ligamentos longitudinales, amarillo, interespinoso y supraespinoso."
+  },
+  {
+   "name": "intervertebral_T5_T6",
+   "mirror": false,
+   "kind": "disco intervertebral + articulaciones facetarias",
+   "bones": [
+    "T6",
+    "T5"
+   ],
+   "carrier": "T6",
+   "center": {
+    "at": "T5.head"
+   },
+   "tolerance_m": 0.001,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": [
+      6,
+      8
+     ],
+     "source": "wilke_2017"
+    },
+    {
+     "name": "inclinacion_lateral",
+     "total_deg": [
+      10,
+      12
+     ],
+     "source": "wilke_2017"
+    },
+    {
+     "name": "rotacion_axial",
+     "total_deg": [
+      10,
+      12
+     ],
+     "source": "wilke_2017"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wilke_2017"
+   ],
+   "notes": "Rango total por segmento medido in vitro (Wilke 2017, +-7.5 Nm); in vivo suele ser menor. Ligamentos longitudinales, amarillo, interespinoso y supraespinoso."
+  },
+  {
+   "name": "intervertebral_T6_T7",
+   "mirror": false,
+   "kind": "disco intervertebral + articulaciones facetarias",
+   "bones": [
+    "T7",
+    "T6"
+   ],
+   "carrier": "T7",
+   "center": {
+    "at": "T6.head"
+   },
+   "tolerance_m": 0.001,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": [
+      6,
+      8
+     ],
+     "source": "wilke_2017"
+    },
+    {
+     "name": "inclinacion_lateral",
+     "total_deg": [
+      10,
+      12
+     ],
+     "source": "wilke_2017"
+    },
+    {
+     "name": "rotacion_axial",
+     "total_deg": [
+      10,
+      12
+     ],
+     "source": "wilke_2017"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wilke_2017"
+   ],
+   "notes": "Rango total por segmento medido in vitro (Wilke 2017, +-7.5 Nm); in vivo suele ser menor. Ligamentos longitudinales, amarillo, interespinoso y supraespinoso."
+  },
+  {
+   "name": "intervertebral_T7_T8",
+   "mirror": false,
+   "kind": "disco intervertebral + articulaciones facetarias",
+   "bones": [
+    "T8",
+    "T7"
+   ],
+   "carrier": "T8",
+   "center": {
+    "at": "T7.head"
+   },
+   "tolerance_m": 0.001,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": [
+      6,
+      8
+     ],
+     "source": "wilke_2017"
+    },
+    {
+     "name": "inclinacion_lateral",
+     "total_deg": [
+      8,
+      9
+     ],
+     "source": "wilke_2017"
+    },
+    {
+     "name": "rotacion_axial",
+     "total_deg": [
+      10,
+      12
+     ],
+     "source": "wilke_2017"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wilke_2017"
+   ],
+   "notes": "Rango total por segmento medido in vitro (Wilke 2017, +-7.5 Nm); in vivo suele ser menor. Ligamentos longitudinales, amarillo, interespinoso y supraespinoso."
+  },
+  {
+   "name": "intervertebral_T8_T9",
+   "mirror": false,
+   "kind": "disco intervertebral + articulaciones facetarias",
+   "bones": [
+    "T9",
+    "T8"
+   ],
+   "carrier": "T9",
+   "center": {
+    "at": "T8.head"
+   },
+   "tolerance_m": 0.001,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": [
+      6,
+      8
+     ],
+     "source": "wilke_2017"
+    },
+    {
+     "name": "inclinacion_lateral",
+     "total_deg": [
+      8,
+      9
+     ],
+     "source": "wilke_2017"
+    },
+    {
+     "name": "rotacion_axial",
+     "total_deg": [
+      10,
+      12
+     ],
+     "source": "wilke_2017"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wilke_2017"
+   ],
+   "notes": "Rango total por segmento medido in vitro (Wilke 2017, +-7.5 Nm); in vivo suele ser menor. Ligamentos longitudinales, amarillo, interespinoso y supraespinoso."
+  },
+  {
+   "name": "intervertebral_T9_T10",
+   "mirror": false,
+   "kind": "disco intervertebral + articulaciones facetarias",
+   "bones": [
+    "T10",
+    "T9"
+   ],
+   "carrier": "T10",
+   "center": {
+    "at": "T9.head"
+   },
+   "tolerance_m": 0.001,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": [
+      6,
+      8
+     ],
+     "source": "wilke_2017"
+    },
+    {
+     "name": "inclinacion_lateral",
+     "total_deg": [
+      8,
+      9
+     ],
+     "source": "wilke_2017"
+    },
+    {
+     "name": "rotacion_axial",
+     "total_deg": [
+      10,
+      12
+     ],
+     "source": "wilke_2017"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wilke_2017"
+   ],
+   "notes": "Rango total por segmento medido in vitro (Wilke 2017, +-7.5 Nm); in vivo suele ser menor. Ligamentos longitudinales, amarillo, interespinoso y supraespinoso."
+  },
+  {
+   "name": "intervertebral_T10_T11",
+   "mirror": false,
+   "kind": "disco intervertebral + articulaciones facetarias",
+   "bones": [
+    "T11",
+    "T10"
+   ],
+   "carrier": "T11",
+   "center": {
+    "at": "T10.head"
+   },
+   "tolerance_m": 0.001,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": [
+      6,
+      8
+     ],
+     "source": "wilke_2017"
+    },
+    {
+     "name": "inclinacion_lateral",
+     "total_deg": [
+      8,
+      9
+     ],
+     "source": "wilke_2017"
+    },
+    {
+     "name": "rotacion_axial",
+     "total_deg": [
+      7,
+      8
+     ],
+     "source": "wilke_2017"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wilke_2017"
+   ],
+   "notes": "Rango total por segmento medido in vitro (Wilke 2017, +-7.5 Nm); in vivo suele ser menor. Ligamentos longitudinales, amarillo, interespinoso y supraespinoso."
+  },
+  {
+   "name": "intervertebral_T11_T12",
+   "mirror": false,
+   "kind": "disco intervertebral + articulaciones facetarias",
+   "bones": [
+    "T12",
+    "T11"
+   ],
+   "carrier": "T12",
+   "center": {
+    "at": "T11.head"
+   },
+   "tolerance_m": 0.001,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": [
+      6,
+      8
+     ],
+     "source": "wilke_2017"
+    },
+    {
+     "name": "inclinacion_lateral",
+     "total_deg": [
+      8,
+      9
+     ],
+     "source": "wilke_2017"
+    },
+    {
+     "name": "rotacion_axial",
+     "total_deg": [
+      7,
+      8
+     ],
+     "source": "wilke_2017"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wilke_2017"
+   ],
+   "notes": "Rango total por segmento medido in vitro (Wilke 2017, +-7.5 Nm); in vivo suele ser menor. Ligamentos longitudinales, amarillo, interespinoso y supraespinoso."
+  },
+  {
+   "name": "intervertebral_T12_L1",
+   "mirror": false,
+   "kind": "disco intervertebral + articulaciones facetarias",
+   "bones": [
+    "L1",
+    "T12"
+   ],
+   "carrier": "L1",
+   "center": {
+    "at": "T12.head"
+   },
+   "tolerance_m": 0.001,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "union de transicion: sin cifra por nivel en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": "thoracic",
+   "ligaments": [],
+   "sources": [
+    "wilke_2017"
+   ],
+   "notes": "Rango total por segmento medido in vitro (Wilke 2017, +-7.5 Nm); in vivo suele ser menor. Ligamentos longitudinales, amarillo, interespinoso y supraespinoso."
+  }
+ ],
+ "ligaments": [
+  {
+   "name": "costoclavicular.L",
+   "mirror": true,
+   "from": {
+    "bone": "clavicle.L",
+    "point": {
+     "lerp": [
+      "clavicle.L.head",
+      "clavicle.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.00343
+     ]
+    }
+   },
+   "to": {
+    "bone": "rib_01.L",
+    "point": {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.012,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "sternoclavicular.L",
+   "sources": [
+    "rjme_ccl",
+    "kenhub_sc"
+   ],
+   "notes": "Fulcro de la elevacion y la protraccion de la clavicula; presente en el 94% de los lados disecados. Aqui es largo por el hueco de la clavicula base.",
+   "tolerance_m": 0.03,
+   "typical_length_m": 0.015
+  },
+  {
+   "name": "interclavicular",
+   "mirror": false,
+   "from": {
+    "bone": "clavicle.L",
+    "point": {
+     "at": "clavicle.L.head"
+    }
+   },
+   "to": {
+    "bone": "clavicle.R",
+    "point": {
+     "at": "clavicle.R.head"
+    }
+   },
+   "joint": "sternoclavicular.L",
+   "sources": [
+    "kenhub_sc"
+   ],
+   "notes": "Une ambas clavículas por encima del manubrio.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "coracoclavicular_conoid.L",
+   "mirror": true,
+   "from": {
+    "bone": "clavicle.L",
+    "point": {
+     "lerp": [
+      "clavicle.L.head",
+      "clavicle.L.tail",
+      0.78
+     ],
+     "offset_h": [
+      0.0,
+      0.00229,
+      -0.00229
+     ]
+    }
+   },
+   "to": {
+    "bone": "scapula.L",
+    "point": {
+     "at": "scapula.L.head",
+     "offset_h": [
+      -0.00686,
+      -0.00686,
+      -0.00343
+     ]
+    }
+   },
+   "joint": "acromioclavicular.L",
+   "sources": [
+    "kenhub_cc",
+    "ajsm_ac_cc"
+   ],
+   "notes": "Restriccion clave de la protraccion escapular y de la inclinacion posterior.",
+   "tolerance_m": 0.035
+  },
+  {
+   "name": "coracoclavicular_trapezoid.L",
+   "mirror": true,
+   "from": {
+    "bone": "clavicle.L",
+    "point": {
+     "lerp": [
+      "clavicle.L.head",
+      "clavicle.L.tail",
+      0.88
+     ],
+     "offset_h": [
+      0.0,
+      -0.00229,
+      -0.00229
+     ]
+    }
+   },
+   "to": {
+    "bone": "scapula.L",
+    "point": {
+     "at": "scapula.L.head",
+     "offset_h": [
+      -0.00914,
+      -0.01343,
+      -0.00514
+     ]
+    }
+   },
+   "joint": "acromioclavicular.L",
+   "sources": [
+    "kenhub_cc",
+    "ajsm_ac_cc"
+   ],
+   "notes": "Contribuye a la rotacion externa escapular (estudio cadaverico); clasicamente, limita la rotacion anterior.",
+   "tolerance_m": 0.035
+  },
+  {
+   "name": "acromioclavicular_ligament.L",
+   "mirror": true,
+   "from": {
+    "bone": "clavicle.L",
+    "point": {
+     "at": "clavicle.L.tail"
+    }
+   },
+   "to": {
+    "bone": "scapula.L",
+    "point": {
+     "at": "scapula.L.head",
+     "offset_h": [
+      0.00286,
+      0.01143,
+      0.01257
+     ]
+    }
+   },
+   "joint": "acromioclavicular.L",
+   "sources": [
+    "kenhub_cc"
+   ],
+   "notes": "Capsular, refuerza la articulacion acromioclavicular.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "coracoacromial.L",
+   "mirror": true,
+   "from": {
+    "bone": "scapula.L",
+    "point": {
+     "at": "scapula.L.head",
+     "offset_h": [
+      -0.01143,
+      -0.02,
+      -0.00686
+     ]
+    }
+   },
+   "to": {
+    "bone": "scapula.L",
+    "point": {
+     "at": "scapula.L.head",
+     "offset_h": [
+      0.00286,
+      0.01143,
+      0.01257
+     ]
+    }
+   },
+   "joint": null,
+   "sources": [
+    "kenhub_cc"
+   ],
+   "notes": "Ligamento intrinseco de la escapula: techo del espacio subacromial.",
+   "tolerance_m": 0.05
+  }
+ ],
+ "attachments": [
+  {
+   "name": "coracoid_process.L",
+   "mirror": true,
+   "bone": "scapula.L",
+   "point": {
+    "at": "scapula.L.head",
+    "offset_h": [
+     -0.01143,
+     -0.02,
+     -0.00686
+    ]
+   },
+   "structures": [
+    "biceps braquial cabeza corta (origen)",
+    "coracobraquial (origen)",
+    "pectoral menor (insercion)"
+   ],
+   "sources": [
+    "anatomyzone_biceps",
+    "shoulderdoc_muscles",
+    "uw_pec_minor"
+   ],
+   "notes": "La apofisis coracoides no esta en la lamina simplificada.",
+   "tolerance_m": 0.05
+  },
+  {
+   "name": "supraglenoid_tubercle.L",
+   "mirror": true,
+   "bone": "scapula.L",
+   "point": {
+    "at": "scapula.L.head",
+    "offset_h": [
+     0.0,
+     0.0,
+     0.00857
+    ]
+   },
+   "structures": [
+    "biceps braquial cabeza larga (origen)"
+   ],
+   "sources": [
+    "ttuhsc_upperlimb",
+    "shoulderdoc_muscles"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "infraglenoid_tubercle.L",
+   "mirror": true,
+   "bone": "scapula.L",
+   "point": {
+    "at": "scapula.L.head",
+    "offset_h": [
+     -0.00229,
+     0.00229,
+     -0.01143
+    ]
+   },
+   "structures": [
+    "triceps braquial cabeza larga (origen)"
+   ],
+   "sources": [
+    "ttuhsc_upperlimb"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "acromion.L",
+   "mirror": true,
+   "bone": "scapula.L",
+   "point": {
+    "at": "scapula.L.head",
+    "offset_h": [
+     0.00286,
+     0.01143,
+     0.01257
+    ]
+   },
+   "structures": [
+    "deltoides fibras medias (origen)",
+    "trapecio (insercion)"
+   ],
+   "sources": [
+    "brainscape_shoulder"
+   ],
+   "notes": "Fuente debil (tarjetas de estudio): verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "scapular_spine.L",
+   "mirror": true,
+   "bone": "scapula.L",
+   "point": {
+    "at": "scapula.L.head",
+    "offset_h": [
+     -0.03027,
+     0.02586,
+     -0.01395
+    ]
+   },
+   "structures": [
+    "deltoides fibras posteriores (origen)",
+    "trapecio (insercion)"
+   ],
+   "sources": [
+    "brainscape_shoulder"
+   ],
+   "notes": "Espina de la escapula, de la raiz (T3) al acromion. Fuente debil: verificar.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "supraspinous_fossa.L",
+   "mirror": true,
+   "bone": "scapula.L",
+   "point": {
+    "at": "scapula.L.head",
+    "offset_h": [
+     -0.0426,
+     0.02696,
+     -0.02226
+    ]
+   },
+   "structures": [
+    "supraespinoso (origen)"
+   ],
+   "sources": [
+    "libretexts_cuff"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "infraspinous_fossa.L",
+   "mirror": true,
+   "bone": "scapula.L",
+   "point": {
+    "at": "scapula.L.head",
+    "offset_h": [
+     -0.04027,
+     0.02626,
+     -0.05531
+    ]
+   },
+   "structures": [
+    "infraespinoso (origen)"
+   ],
+   "sources": [
+    "libretexts_cuff"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "subscapular_fossa.L",
+   "mirror": true,
+   "bone": "scapula.L",
+   "point": {
+    "at": "scapula.L.head",
+    "offset_h": [
+     -0.04127,
+     0.02199,
+     -0.04115
+    ]
+   },
+   "structures": [
+    "subescapular (origen, cara anterior)"
+   ],
+   "sources": [
+    "libretexts_cuff"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "lateral_border.L",
+   "mirror": true,
+   "bone": "scapula.L",
+   "point": {
+    "at": "scapula.L.head",
+    "offset_h": [
+     -0.0297,
+     0.01955,
+     -0.04857
+    ]
+   },
+   "structures": [
+    "redondo menor (origen, tercio medio del borde lateral)"
+   ],
+   "sources": [
+    "radiopaedia_teres_minor",
+    "libretexts_cuff"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "inferior_angle.L",
+   "mirror": true,
+   "bone": "scapula.L",
+   "point": {
+    "at": "scapula.L.tail"
+   },
+   "structures": [
+    "redondo mayor (origen)",
+    "serrato anterior (digitaciones inferiores, insercion)"
+   ],
+   "sources": [
+    "brainscape_shoulder"
+   ],
+   "notes": "Fuente debil para el redondo mayor: verificar.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "superior_angle.L",
+   "mirror": true,
+   "bone": "scapula.L",
+   "point": {
+    "at": "scapula.L.head",
+    "offset_h": [
+     -0.0644,
+     0.0406,
+     -0.02632
+    ]
+   },
+   "structures": [
+    "elevador de la escapula (insercion)"
+   ],
+   "sources": [
+    "wiki_levator",
+    "gpnotebook_scap"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "medial_border_spine_root.L",
+   "mirror": true,
+   "bone": "scapula.L",
+   "point": {
+    "at": "scapula.L.head",
+    "offset_h": [
+     -0.0634,
+     0.0403,
+     -0.04048
+    ]
+   },
+   "structures": [
+    "romboides menor (insercion)"
+   ],
+   "sources": [
+    "wiki_rhomboid_major"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "medial_border.L",
+   "mirror": true,
+   "bone": "scapula.L",
+   "point": {
+    "at": "scapula.L.head",
+    "offset_h": [
+     -0.0614,
+     0.0397,
+     -0.06881
+    ]
+   },
+   "structures": [
+    "romboides mayor (insercion, por debajo del menor)",
+    "serrato anterior (insercion, cara anterior)"
+   ],
+   "sources": [
+    "wiki_rhomboid_major"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "greater_tubercle.L",
+   "mirror": true,
+   "bone": "humerus.L",
+   "point": {
+    "at": "upper_arm.L.head",
+    "offset_h": [
+     0.01143,
+     -0.00229,
+     -0.00686
+    ]
+   },
+   "structures": [
+    "supraespinoso",
+    "infraespinoso",
+    "redondo menor (inserciones)"
+   ],
+   "sources": [
+    "libretexts_cuff"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "lesser_tubercle.L",
+   "mirror": true,
+   "bone": "humerus.L",
+   "point": {
+    "at": "upper_arm.L.head",
+    "offset_h": [
+     0.00343,
+     -0.01143,
+     -0.008
+    ]
+   },
+   "structures": [
+    "subescapular (insercion)",
+    "redondo mayor (insercion, cresta)"
+   ],
+   "sources": [
+    "libretexts_cuff",
+    "brainscape_shoulder"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "deltoid_tuberosity.L",
+   "mirror": true,
+   "bone": "humerus.L",
+   "point": {
+    "lerp": [
+     "upper_arm.L.head",
+     "upper_arm.L.tail",
+     0.45
+    ],
+    "offset_h": [
+     0.00686,
+     0.0,
+     0.0
+    ]
+   },
+   "structures": [
+    "deltoides (insercion)"
+   ],
+   "sources": [
+    "brainscape_shoulder"
+   ],
+   "notes": "Fuente debil: verificar.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "coracobrachialis_insertion.L",
+   "mirror": true,
+   "bone": "humerus.L",
+   "point": {
+    "lerp": [
+     "upper_arm.L.head",
+     "upper_arm.L.tail",
+     0.5
+    ],
+    "offset_h": [
+     -0.00686,
+     0.0,
+     0.0
+    ]
+   },
+   "structures": [
+    "coracobraquial (insercion, tercio medio cara medial)"
+   ],
+   "sources": [
+    "shoulderdoc_muscles"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "radial_tuberosity.L",
+   "mirror": true,
+   "bone": "radius.L",
+   "point": {
+    "lerp": [
+     "radius.L.head",
+     "radius.L.tail",
+     0.12
+    ],
+    "offset_h": [
+     -0.00229,
+     -0.00229,
+     0.0
+    ]
+   },
+   "structures": [
+    "biceps braquial (insercion comun)"
+   ],
+   "sources": [
+    "shoulderdoc_muscles"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "clavicle_lateral_third.L",
+   "mirror": true,
+   "bone": "clavicle.L",
+   "point": {
+    "lerp": [
+     "clavicle.L.head",
+     "clavicle.L.tail",
+     0.8
+    ],
+    "offset_h": [
+     0.0,
+     -0.00343,
+     0.0
+    ]
+   },
+   "structures": [
+    "deltoides fibras anteriores (origen)",
+    "trapecio (insercion)"
+   ],
+   "sources": [
+    "brainscape_shoulder"
+   ],
+   "notes": "Fuente debil: verificar.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "serratus_anterior_rib_01.L",
+   "mirror": true,
+   "bone": "rib_01.L",
+   "point": {
+    "lerp": [
+     "thorax.head",
+     "thorax.tail",
+     0.921296
+    ],
+    "offset_h": [
+     0.035,
+     -0.02,
+     -0.0138
+    ]
+   },
+   "structures": [
+    "serrato anterior (origen, cara externa)"
+   ],
+   "sources": [
+    "brainscape_shoulder"
+   ],
+   "notes": "Las fuentes dan costillas 1-8 o 1-9. Fuente debil (tarjetas de estudio): verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "serratus_anterior_rib_02.L",
+   "mirror": true,
+   "bone": "rib_02.L",
+   "point": {
+    "lerp": [
+     "thorax.head",
+     "thorax.tail",
+     0.763889
+    ],
+    "offset_h": [
+     0.05,
+     -0.02,
+     -0.0193
+    ]
+   },
+   "structures": [
+    "serrato anterior (origen, cara externa)"
+   ],
+   "sources": [
+    "brainscape_shoulder"
+   ],
+   "notes": "Las fuentes dan costillas 1-8 o 1-9. Fuente debil (tarjetas de estudio): verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "serratus_anterior_rib_03.L",
+   "mirror": true,
+   "bone": "rib_03.L",
+   "point": {
+    "lerp": [
+     "thorax.head",
+     "thorax.tail",
+     0.606481
+    ],
+    "offset_h": [
+     0.06,
+     -0.02,
+     -0.0248
+    ]
+   },
+   "structures": [
+    "serrato anterior (origen, cara externa)"
+   ],
+   "sources": [
+    "brainscape_shoulder"
+   ],
+   "notes": "Las fuentes dan costillas 1-8 o 1-9. Fuente debil (tarjetas de estudio): verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "serratus_anterior_rib_04.L",
+   "mirror": true,
+   "bone": "rib_04.L",
+   "point": {
+    "lerp": [
+     "thorax.head",
+     "thorax.tail",
+     0.449074
+    ],
+    "offset_h": [
+     0.066,
+     -0.02,
+     -0.0275
+    ]
+   },
+   "structures": [
+    "serrato anterior (origen, cara externa)"
+   ],
+   "sources": [
+    "brainscape_shoulder"
+   ],
+   "notes": "Las fuentes dan costillas 1-8 o 1-9. Fuente debil (tarjetas de estudio): verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "serratus_anterior_rib_05.L",
+   "mirror": true,
+   "bone": "rib_05.L",
+   "point": {
+    "lerp": [
+     "thorax.head",
+     "thorax.tail",
+     0.291667
+    ],
+    "offset_h": [
+     0.07,
+     -0.02,
+     -0.0303
+    ]
+   },
+   "structures": [
+    "serrato anterior (origen, cara externa)"
+   ],
+   "sources": [
+    "brainscape_shoulder"
+   ],
+   "notes": "Las fuentes dan costillas 1-8 o 1-9. Fuente debil (tarjetas de estudio): verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "serratus_anterior_rib_06.L",
+   "mirror": true,
+   "bone": "rib_06.L",
+   "point": {
+    "lerp": [
+     "thorax.head",
+     "thorax.tail",
+     0.134259
+    ],
+    "offset_h": [
+     0.073,
+     -0.02,
+     -0.0319
+    ]
+   },
+   "structures": [
+    "serrato anterior (origen, cara externa)"
+   ],
+   "sources": [
+    "brainscape_shoulder"
+   ],
+   "notes": "Las fuentes dan costillas 1-8 o 1-9. Fuente debil (tarjetas de estudio): verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "serratus_anterior_rib_07.L",
+   "mirror": true,
+   "bone": "rib_07.L",
+   "point": {
+    "lerp": [
+     "spine_thoracic.head",
+     "spine_thoracic.tail",
+     0.973958
+    ],
+    "offset_h": [
+     0.075,
+     -0.02,
+     -0.033
+    ]
+   },
+   "structures": [
+    "serrato anterior (origen, cara externa)"
+   ],
+   "sources": [
+    "brainscape_shoulder"
+   ],
+   "notes": "Las fuentes dan costillas 1-8 o 1-9. Fuente debil (tarjetas de estudio): verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "serratus_anterior_rib_08.L",
+   "mirror": true,
+   "bone": "rib_08.L",
+   "point": {
+    "lerp": [
+     "spine_thoracic.head",
+     "spine_thoracic.tail",
+     0.796875
+    ],
+    "offset_h": [
+     0.075,
+     -0.02,
+     -0.0319
+    ]
+   },
+   "structures": [
+    "serrato anterior (origen, cara externa)"
+   ],
+   "sources": [
+    "brainscape_shoulder"
+   ],
+   "notes": "Las fuentes dan costillas 1-8 o 1-9. Fuente debil (tarjetas de estudio): verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "pectoralis_minor_rib_03.L",
+   "mirror": true,
+   "bone": "rib_03.L",
+   "point": {
+    "at": "rib_03.L.tail"
+   },
+   "structures": [
+    "pectoral menor (origen)"
+   ],
+   "sources": [
+    "uw_pec_minor"
+   ],
+   "notes": "Cara externa, cerca de los cartilagos costales.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "pectoralis_minor_rib_04.L",
+   "mirror": true,
+   "bone": "rib_04.L",
+   "point": {
+    "at": "rib_04.L.tail"
+   },
+   "structures": [
+    "pectoral menor (origen)"
+   ],
+   "sources": [
+    "uw_pec_minor"
+   ],
+   "notes": "Cara externa, cerca de los cartilagos costales.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "pectoralis_minor_rib_05.L",
+   "mirror": true,
+   "bone": "rib_05.L",
+   "point": {
+    "at": "rib_05.L.tail"
+   },
+   "structures": [
+    "pectoral menor (origen)"
+   ],
+   "sources": [
+    "uw_pec_minor"
+   ],
+   "notes": "Cara externa, cerca de los cartilagos costales.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "rhomboid_major_origin_T2",
+   "mirror": false,
+   "bone": "T2",
+   "point": {
+    "lerp": [
+     "T2.head",
+     "T2.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.0,
+     0.01714,
+     0.0
+    ]
+   },
+   "structures": [
+    "romboides mayor (origen, apofisis espinosa)"
+   ],
+   "sources": [
+    "wiki_rhomboid_major"
+   ],
+   "notes": "Apofisis espinosa no modelada (a ~3 cm por detras del cuerpo vertebral).",
+   "tolerance_m": 0.035
+  },
+  {
+   "name": "rhomboid_major_origin_T3",
+   "mirror": false,
+   "bone": "T3",
+   "point": {
+    "lerp": [
+     "T3.head",
+     "T3.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.0,
+     0.01714,
+     0.0
+    ]
+   },
+   "structures": [
+    "romboides mayor (origen, apofisis espinosa)"
+   ],
+   "sources": [
+    "wiki_rhomboid_major"
+   ],
+   "notes": "Apofisis espinosa no modelada (a ~3 cm por detras del cuerpo vertebral).",
+   "tolerance_m": 0.035
+  },
+  {
+   "name": "rhomboid_major_origin_T4",
+   "mirror": false,
+   "bone": "T4",
+   "point": {
+    "lerp": [
+     "T4.head",
+     "T4.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.0,
+     0.01714,
+     0.0
+    ]
+   },
+   "structures": [
+    "romboides mayor (origen, apofisis espinosa)"
+   ],
+   "sources": [
+    "wiki_rhomboid_major"
+   ],
+   "notes": "Apofisis espinosa no modelada (a ~3 cm por detras del cuerpo vertebral).",
+   "tolerance_m": 0.035
+  },
+  {
+   "name": "rhomboid_major_origin_T5",
+   "mirror": false,
+   "bone": "T5",
+   "point": {
+    "lerp": [
+     "T5.head",
+     "T5.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.0,
+     0.01714,
+     0.0
+    ]
+   },
+   "structures": [
+    "romboides mayor (origen, apofisis espinosa)"
+   ],
+   "sources": [
+    "wiki_rhomboid_major"
+   ],
+   "notes": "Apofisis espinosa no modelada (a ~3 cm por detras del cuerpo vertebral).",
+   "tolerance_m": 0.035
+  },
+  {
+   "name": "rhomboid_minor_origin_C7",
+   "mirror": false,
+   "bone": "C7",
+   "point": {
+    "lerp": [
+     "C7.head",
+     "C7.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.0,
+     0.01714,
+     0.0
+    ]
+   },
+   "structures": [
+    "romboides menor (origen, apofisis espinosa)"
+   ],
+   "sources": [
+    "wiki_rhomboid_major"
+   ],
+   "notes": "Apofisis espinosa no modelada.",
+   "tolerance_m": 0.035
+  },
+  {
+   "name": "rhomboid_minor_origin_T1",
+   "mirror": false,
+   "bone": "T1",
+   "point": {
+    "lerp": [
+     "T1.head",
+     "T1.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.0,
+     0.01714,
+     0.0
+    ]
+   },
+   "structures": [
+    "romboides menor (origen, apofisis espinosa)"
+   ],
+   "sources": [
+    "wiki_rhomboid_major"
+   ],
+   "notes": "Apofisis espinosa no modelada.",
+   "tolerance_m": 0.035
+  },
+  {
+   "name": "levator_scapulae_origin_C1.L",
+   "mirror": true,
+   "bone": "C1",
+   "point": {
+    "lerp": [
+     "C1.head",
+     "C1.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.02,
+     0.00286,
+     0.0
+    ]
+   },
+   "structures": [
+    "elevador de la escapula (origen, tuberculo posterior de la apofisis transversa)"
+   ],
+   "sources": [
+    "wiki_levator"
+   ],
+   "notes": "Apofisis transversa no modelada.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "levator_scapulae_origin_C2.L",
+   "mirror": true,
+   "bone": "C2",
+   "point": {
+    "lerp": [
+     "C2.head",
+     "C2.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.01429,
+     0.00286,
+     0.0
+    ]
+   },
+   "structures": [
+    "elevador de la escapula (origen, tuberculo posterior de la apofisis transversa)"
+   ],
+   "sources": [
+    "wiki_levator"
+   ],
+   "notes": "Apofisis transversa no modelada.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "levator_scapulae_origin_C3.L",
+   "mirror": true,
+   "bone": "C3",
+   "point": {
+    "lerp": [
+     "C3.head",
+     "C3.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.01429,
+     0.00286,
+     0.0
+    ]
+   },
+   "structures": [
+    "elevador de la escapula (origen, tuberculo posterior de la apofisis transversa)"
+   ],
+   "sources": [
+    "wiki_levator"
+   ],
+   "notes": "Apofisis transversa no modelada.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "levator_scapulae_origin_C4.L",
+   "mirror": true,
+   "bone": "C4",
+   "point": {
+    "lerp": [
+     "C4.head",
+     "C4.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.01429,
+     0.00286,
+     0.0
+    ]
+   },
+   "structures": [
+    "elevador de la escapula (origen, tuberculo posterior de la apofisis transversa)"
+   ],
+   "sources": [
+    "wiki_levator"
+   ],
+   "notes": "Apofisis transversa no modelada.",
+   "tolerance_m": 0.04
+  }
+ ]
+}

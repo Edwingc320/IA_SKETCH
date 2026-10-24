@@ -10,7 +10,7 @@ import json
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from . import anatomy, anatomy_scene, scene, validation
+from . import anatomy, anatomy_scene, articulations, articulations_scene, scene, validation
 from . import pose as pose_mod
 from .config import PoseDef, load_config
 from .skeleton import build_model
@@ -52,10 +52,15 @@ def known_limitations(base, anat) -> dict:
         out["sternoclavicular_gap_m"] = gap
         out["sternoclavicular_note"] = ("La clavicula base (congelada) nace casi en el plano de la columna; el manubrio "
                                         "esta delante. Se corregira al rehacer la cintura escapular.")
+    for side in ("L", "R"):
+        gap = anatomy.scapula_rib_clearance(anat, side)
+        if gap is not None:
+            out[f"scapula_rib_clearance_{side}_m"] = gap
     return out
 
 
-def generate(output_blend, config_dir=None, anatomy_dir=None, reference_path=None, preview=True, log=print) -> AnatomyResult:
+def generate(output_blend, config_dir=None, anatomy_dir=None, reference_path=None, preview=True, log=print,
+             articulations_dir=None) -> AnatomyResult:
     output_blend = Path(output_blend).resolve()
     output_blend.parent.mkdir(parents=True, exist_ok=True)
     if output_blend.exists():
@@ -77,15 +82,32 @@ def generate(output_blend, config_dir=None, anatomy_dir=None, reference_path=Non
     log(f"[INFO] Nivel 1: regiones {list(anat.regions)}, {len(anat.bones)} huesos; referencia: "
         f"{len(cov['implemented'])} representados, {len(cov['base'])} en la base, {len(cov['pending'])} pendientes")
 
+    art = None
+    art_data = articulations.load_articulation_data(articulations_dir)
+    if art_data:
+        art = articulations.build_articulations(base, anat, art_data)
+        art_issues = validation.validate_articulations(base, anat, art)
+        for i in art_issues:
+            log(str(i))
+        issues += art_issues
+        if validation.errors(art_issues):
+            raise AnatomyGenerationError("Los puntos de union no superan la validacion", art_issues)
+        log(f"[INFO] Puntos de union: {len(art.joints)} articulaciones, {len(art.ligaments)} ligamentos, "
+            f"{len(art.attachments)} inserciones, {len(art.sources)} fuentes")
+
     scene.reset_scene()
     scene.build_scene(base, neutral)
     anatomy_scene.add_anatomy(anat, list(base.bones))
+    if art is not None:
+        articulations_scene.add_articulations(art, base.height_m)
     scene.save_blend(output_blend)
     log(f"[INFO] Guardado: {output_blend} ({output_blend.stat().st_size} bytes)")
 
     scene.open_blend(output_blend)
     base_blend = validation.validate_blend_snapshot(base, base_part_of_snapshot(scene.read_back(), base), neutral)
     anat_blend = validation.validate_anatomy_snapshot(anat, anatomy_scene.read_back_anatomy())
+    if art is not None:
+        anat_blend += validation.validate_articulations_snapshot(art, articulations_scene.read_back_articulations())
     for i in base_blend + anat_blend:
         log(str(i))
     issues += base_blend + anat_blend
@@ -104,6 +126,19 @@ def generate(output_blend, config_dir=None, anatomy_dir=None, reference_path=Non
         "anchors": [{"point": p, "equals": q, "description": d} for p, q, d in anat.anchors],
         "coverage": cov,
         "known_limitations": known_limitations(base, anat),
+        "articulations": None if art is None else {
+            "signature": art.signature(),
+            "sources": art.sources,
+            "joints": {n: {"kind": j.kind, "bones": list(j.bones), "carrier": j.carrier, "center": list(j.center),
+                           "rig_driver": j.rig_driver, "known_limitation": j.known_limitation,
+                           "dofs": [{"name": d.name, "total_deg": d.total_deg, "source": d.source, "note": d.note} for d in j.dofs],
+                           "ligaments": list(j.ligaments), "sources": list(j.sources), "notes": j.notes}
+                       for n, j in art.joints.items()},
+            "ligaments": {n: {"from": l.from_bone, "to": l.to_bone, "a": list(l.a), "b": list(l.b), "joint": l.joint,
+                              "sources": list(l.sources), "notes": l.notes} for n, l in art.ligaments.items()},
+            "attachments": {n: {"bone": a.bone, "point": list(a.point), "structures": list(a.structures),
+                                "sources": list(a.sources), "notes": a.notes} for n, a in art.attachments.items()},
+        },
         "issues": [str(i) for i in issues],
         "disclaimer": "Nivel 1 aproximado sobre la base; no es anatomicamente exacto.",
     }

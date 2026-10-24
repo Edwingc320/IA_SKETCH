@@ -188,6 +188,19 @@ def render_anatomy_previews(base, out_dir, prefix: str = "anatomy", anat: Anatom
         ("level1_front", body_c, Vector((0.0, -1.0, 0.0)), 1.15 * height_m, every),
         ("level1_side", body_c, Vector((1.0, 0.0, 0.0)), 1.15 * height_m, every),
     ]
+    if anat is not None:  # torax + cintura escapular con sus puntos de union (articulaciones, ligamentos, inserciones)
+        thorax = {n for n, b in anat.bones.items() if b.region == "thoracic_cage" or (n.startswith("T") and n[1:].isdigit())
+                  or n.startswith(("scapula", "humerus", "C7"))}
+        unions = {o.name for o in bpy.data.objects if o.name.split("_", 1)[0] in ("ART", "LIG", "ATT")}
+        thorax_c = Vector((0.0, 0.0, base.bones["thorax"].head[2]))
+        close.append(("thorax_shoulder_34", thorax_c, Vector((1.2, -1.6, 0.9)), 0.42 * height_m,
+                      {*thorax, "__objects__", *(f"__obj__{u}" for u in unions), "__obj__VIS_clavicle.L", "__obj__VIS_clavicle.R"}))
+        # cabeza + columna cervical con sus puntos de union (vista lateral izquierda, algo de frente)
+        head_neck = {f"C{k}" for k in range(1, 8)} | {"cranium", "mandible"}
+        hn_unions = {o.name for o in bpy.data.objects if o.get("ac_region") == "head_neck"}
+        head_c = Vector(base.bones["head"].head) + Vector((0.0, 0.0, 0.04 * height_m))
+        close.append(("head_neck_lateral", head_c, Vector((1.0, -0.35, 0.1)), 0.26 * height_m,
+                      {*head_neck, *(f"__obj__{u}" for u in hn_unions)}))
     views += [(n, None, o, None, (t, d, keep)) for n, t, d, o, keep in close]
     paths = []
     for name, cz, ortho, loc, rot in views:
@@ -196,7 +209,8 @@ def render_anatomy_previews(base, out_dir, prefix: str = "anatomy", anat: Anatom
         if isinstance(rot, tuple) and len(rot) == 3 and isinstance(rot[0], Vector):  # vista de cerca
             target, direction, bones_kept = rot
             if anat is not None:  # aislar: solo se renderizan esos huesos del nivel 1 (y sus contornos)
-                keep = {f"ANA_{n}" for n in bones_kept} | {f"ANA_outline_{n}" for n in bones_kept}
+                keep = {f"ANA_{n}" for n in bones_kept} | {f"ANA_outline_{n}" for n in bones_kept} | \
+                       {n[len("__obj__"):] for n in bones_kept if n.startswith("__obj__")}  # objetos extra por nombre
                 for o in bpy.data.objects:
                     if o.type == "MESH" and o.name not in keep:
                         hidden[o.name] = o.hide_render

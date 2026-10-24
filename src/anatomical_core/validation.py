@@ -423,6 +423,7 @@ def validate_blend_snapshot(model: SkeletonModel, snap: dict, posed: PosedSkelet
 
 # --- Nivel 1 (anatomia) ------------------------------------------------------------------------
 ANCHOR_TOL = 1e-9
+SCAPULA_RIB_CLEARANCE_M = 0.01  # holgura minima lamina escapular <-> arcos costales
 
 
 def validate_anatomy(base: SkeletonModel, anat) -> list:
@@ -486,6 +487,13 @@ def validate_anatomy(base: SkeletonModel, anat) -> list:
             continue
         if length(sub(p, q)) > ANCHOR_TOL:
             out.append(Issue("error", "ANAT_ANCHOR", f"{point} != {equals} ({length(sub(p, q)) * 1000:.3f} mm): {desc}"))
+    # la escapula flota sobre la cara posterior del torax sin atravesar las costillas
+    from .anatomy import scapula_rib_clearance
+    for side in ("L", "R"):
+        gap = scapula_rib_clearance(anat, side)
+        if gap is not None and gap < SCAPULA_RIB_CLEARANCE_M:
+            out.append(Issue("error", "ANAT_SCAPULA_RIB_COLLISION",
+                             f"La escapula {side} queda a {gap * 1000:.1f} mm de las costillas (minimo {SCAPULA_RIB_CLEARANCE_M * 1000:.0f} mm)"))
     # trazabilidad
     known = set(anat.reference_names)
     claimed: dict[str, str] = {}
@@ -499,6 +507,115 @@ def validate_anatomy(base: SkeletonModel, anat) -> list:
                 claimed[r] = n
             if r in base.bones:
                 out.append(Issue("error", "ANAT_REFERENCE_IN_BASE", f"'{r}' ya es un hueso de la base; no se duplica en el nivel 1"))
+    return out
+
+
+JOINT_GAP_WARN_M = 0.02  # un centro articular mas lejos de uno de sus huesos se documenta como hueco
+POINT_ON_BONE_TOL_M = 0.03  # inserciones y extremos de ligamento: distancia maxima a su hueso
+
+
+def validate_articulations(base: SkeletonModel, anat, art) -> list:
+    """Puntos de union: huesos existentes, centros sobre sus huesos, rangos con fuente, motor del rig
+    coherente con su pivote, extremos de ligamentos e inserciones sobre su hueso, simetria L/R."""
+    from .articulations import bone_distance
+
+    out = []
+    known = set(base.bones) | set(anat.bones)
+    for key, s in art.sources.items():
+        if not str(s.get("url", "")).startswith("https://"):
+            out.append(Issue("error", "ART_SOURCE_URL", f"Fuente '{key}' sin URL https"))
+        if s.get("reliability") not in ("alta", "media", "baja"):
+            out.append(Issue("error", "ART_SOURCE_RELIABILITY", f"Fuente '{key}': reliability debe ser alta|media|baja"))
+
+    def check_sources(owner, keys):
+        for k in keys:
+            if k not in art.sources:
+                out.append(Issue("error", "ART_SOURCE_UNKNOWN", f"'{owner}' cita la fuente desconocida '{k}'"))
+
+    for n, j in art.joints.items():
+        check_sources(n, j.sources)
+        for b in list(j.bones) + [j.carrier]:
+            if b not in known:
+                out.append(Issue("error", "ART_BONE_UNKNOWN", f"Articulacion '{n}': hueso inexistente '{b}'"))
+        for b in j.bones:
+            if b not in known:
+                continue
+            d = bone_distance(j.center, b, base, anat)
+            if d > j.tolerance_m:
+                out.append(Issue("error", "ART_JOINT_FAR", f"'{n}': el centro esta a {d * 1000:.1f} mm de '{b}' (tolerancia {j.tolerance_m * 1000:.0f} mm)"))
+            elif d > JOINT_GAP_WARN_M and j.known_limitation:
+                out.append(Issue("warning", "ART_JOINT_GAP", f"'{n}': hueco de {d * 1000:.1f} mm hasta '{b}': {j.known_limitation}"))
+        if j.rig_driver is not None:
+            bj = base.joints.get(j.rig_driver)
+            if bj is None:
+                out.append(Issue("error", "ART_RIG_DRIVER_UNKNOWN", f"'{n}': la base no tiene la articulacion '{j.rig_driver}'"))
+            elif length(sub(bj.pivot, j.center)) > ANCHOR_TOL:
+                out.append(Issue("error", "ART_RIG_DRIVER_PIVOT", f"'{n}': su centro no coincide con el pivote de '{j.rig_driver}'"))
+        names = [d.name for d in j.dofs]
+        if len(names) != len(set(names)):
+            out.append(Issue("error", "ART_DOF_DUPLICATE", f"'{n}': grados de libertad repetidos"))
+        for d in j.dofs:
+            if d.total_deg is not None:
+                lo, hi = d.total_deg
+                if not (0 < lo <= hi <= (360 if d.unit == "deg" else 100)):
+                    out.append(Issue("error", "ART_DOF_RANGE", f"'{n}.{d.name}': rango invalido {d.total_deg}"))
+                if not d.source:
+                    out.append(Issue("error", "ART_DOF_NO_SOURCE", f"'{n}.{d.name}': cifra sin fuente"))
+            if d.source:
+                check_sources(f"{n}.{d.name}", [d.source])
+    for n, lg in art.ligaments.items():
+        check_sources(n, lg.sources)
+        if lg.joint is not None and lg.joint not in art.joints:
+            out.append(Issue("error", "ART_LIGAMENT_JOINT", f"Ligamento '{n}': articulacion inexistente '{lg.joint}'"))
+        for label, bone, p in (("origen", lg.from_bone, lg.a), ("insercion", lg.to_bone, lg.b)):
+            if bone not in known:
+                out.append(Issue("error", "ART_BONE_UNKNOWN", f"Ligamento '{n}': hueso inexistente '{bone}'"))
+            elif bone_distance(p, bone, base, anat) > lg.tolerance_m:
+                out.append(Issue("error", "ART_LIGAMENT_OFF_BONE", f"Ligamento '{n}': el {label} no esta sobre '{bone}'"))
+        span = length(sub(lg.b, lg.a))
+        if lg.typical_length_m and span > 3 * lg.typical_length_m:
+            out.append(Issue("warning", "ART_LIGAMENT_LENGTH", f"Ligamento '{n}' mide {span * 1000:.0f} mm (tipico ~{lg.typical_length_m * 1000:.0f} mm): limitacion documentada"))
+    for n, at in art.attachments.items():
+        check_sources(n, at.sources)
+        if at.bone not in known:
+            out.append(Issue("error", "ART_BONE_UNKNOWN", f"Insercion '{n}': hueso inexistente '{at.bone}'"))
+        elif bone_distance(at.point, at.bone, base, anat) > at.tolerance_m:
+            out.append(Issue("error", "ART_ATTACHMENT_OFF_BONE", f"Insercion '{n}' no esta sobre '{at.bone}'"))
+        if not at.structures:
+            out.append(Issue("error", "ART_ATTACHMENT_EMPTY", f"Insercion '{n}' sin estructuras"))
+    # simetria
+    for store, pts in ((art.joints, lambda x: [x.center]), (art.ligaments, lambda x: [x.a, x.b]), (art.attachments, lambda x: [x.point])):
+        for n, x in store.items():
+            if ".L" in n and n.replace(".L", ".R") in store:
+                for p, q in zip(pts(x), pts(store[n.replace(".L", ".R")])):
+                    if length(sub(mirror_point(p), q)) > FRAME_TOL * 10:
+                        out.append(Issue("error", "ART_ASYMMETRIC", f"'{n}' no es simetrico respecto a su .R"))
+    return out
+
+
+def validate_articulations_snapshot(art, snap: dict) -> list:
+    """Compara los marcadores de union leidos de Blender con el modelo (posicion y padre)."""
+    out = []
+    expected = {}
+    for n, j in art.joints.items():
+        expected[f"ART_{n}"] = (j.carrier, [j.center])
+    for n, lg in art.ligaments.items():
+        expected[f"LIG_{n}"] = (lg.from_bone, [lg.a, lg.b])
+    for n, at in art.attachments.items():
+        expected[f"ATT_{n}"] = (at.bone, [at.point])
+    for obj, (bone, pts) in expected.items():
+        s = snap.get(obj)
+        if s is None:
+            out.append(Issue("error", "ART_BLEND_MISSING", f"Falta el objeto '{obj}'"))
+            continue
+        if s["parent_bone"] != bone:
+            out.append(Issue("error", "ART_BLEND_PARENT", f"'{obj}' no esta emparentado a '{bone}'"))
+        for p, q in zip(pts, s["points"]):
+            if length(sub(p, tuple(q))) > BLEND_TOL:
+                out.append(Issue("error", "ART_BLEND_POSITION", f"'{obj}' desplazado respecto al modelo"))
+    extra = set(snap) - set(expected)
+    if extra:
+        out.append(Issue("error", "ART_BLEND_EXTRA", f"Objetos de union no esperados: {sorted(extra)[:5]}"))
     return out
 
 

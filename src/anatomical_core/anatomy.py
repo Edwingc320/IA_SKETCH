@@ -33,7 +33,7 @@ from .skeleton import SkeletonModel
 REFERENCE_FILE = PROJECT_ROOT / "config" / "reference" / "human_skeleton_reference.json"
 ANATOMY_DIR = PROJECT_ROOT / "config" / "anatomy"
 # Orden de construccion del nivel 1: una region puede usar puntos de las anteriores.
-REGION_ORDER = ("pelvic_girdle", "thoracic_cage", "hands_feet", "spine_head", "long_bones")
+REGION_ORDER = ("pelvic_girdle", "spine_head", "thoracic_cage", "hands_feet", "long_bones")  # costillas tras las vertebras
 LAYER = "anatomy_L1"
 
 
@@ -266,6 +266,32 @@ def build_anatomy(base: SkeletonModel, cfg: AnatomyConfig) -> AnatomyModel:
         if ".L" in a.point or ".L" in a.equals:
             anchors.append((_swap_side(a.point, "R"), _swap_side(a.equals, "R"), a.description))
     return AnatomyModel(base.signature(), base.height_m, cfg.regions, bones, tuple(anchors), cfg.reference_names, cfg.signature)
+
+
+def point_segment_distance(p: Vec3, a: Vec3, b: Vec3) -> float:
+    ab = sub(b, a)
+    den = sum(c * c for c in ab)
+    t = 0.0 if den <= 0 else max(0.0, min(1.0, sum(x * y for x, y in zip(sub(p, a), ab)) / den))
+    return length(sub(p, add(a, scale(ab, t))))
+
+
+def scapula_rib_clearance(anat: AnatomyModel, side: str, samples: int = 12) -> float | None:
+    """Distancia minima (m) entre la lamina de la escapula (triangulo glenoide - angulo superior -
+    angulo inferior, muestreado) y los arcos costales (contornos de las costillas) de ese lado.
+    None si falta la escapula o las costillas."""
+    sc = anat.bones.get(f"scapula.{side}")
+    ribs = [b for n, b in anat.bones.items() if n.startswith("rib_") and n.endswith(f".{side}")]
+    if sc is None or not ribs or len(sc.outline) < 3:
+        return None
+    a, b, c = sc.head, sc.outline[2], sc.tail  # glenoide, angulo superior, angulo inferior
+    pts = []
+    for i in range(samples + 1):
+        for j in range(samples + 1 - i):
+            u, v = i / samples, j / samples
+            w = 1.0 - u - v
+            pts.append(tuple(w * x + u * y + v * z for x, y, z in zip(a, b, c)))
+    segs = [(r.outline[i], r.outline[i + 1]) for r in ribs for i in range(len(r.outline) - 1)]
+    return min(point_segment_distance(p, s0, s1) for p in pts for s0, s1 in segs)
 
 
 def coverage(anat: AnatomyModel, base: SkeletonModel) -> dict:
