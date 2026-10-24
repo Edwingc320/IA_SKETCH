@@ -96,8 +96,10 @@ class TestPelvicGirdle(unittest.TestCase):
                          {"sacrum_fused", "coccyx_fused", "hip_bone.L", "hip_bone.R"})
         self.assertEqual(self.b["sacrum_fused"].parent, "pelvis")
         self.assertEqual(self.b["coccyx_fused"].parent, "sacrum_fused")
-        self.assertEqual(self.b["hip_bone.L"].parent, "pelvis")
-        self.assertEqual(self.b["hip_bone.R"].parent, "pelvis")
+        # especificacion lumbar/pelvis: los coxales cuelgan del sacro (que cuelga de la pelvis base)
+        self.assertEqual(self.b["hip_bone.L"].parent, "sacrum_fused")
+        self.assertEqual(self.b["hip_bone.R"].parent, "sacrum_fused")
+        self.assertEqual(base_ancestor(self.anat, "hip_bone.L"), "pelvis")
         self.assertEqual(self.b["hip_bone.R"].reference, ("ilium.R", "ischium.R", "pubis.R"))
         cov = anatomy.coverage(self.anat, self.base)["implemented"]
         for r in ("sacrum_fused", "coccyx_fused", "ilium.L", "ischium.L", "pubis.L", "ilium.R", "ischium.R", "pubis.R"):
@@ -433,7 +435,7 @@ class TestSpineHead(unittest.TestCase):
         self.assertEqual(lumbar.index(min(lumbar)), 2)  # vertice en L3
         self.assertIn(thoracic.index(max(thoracic)), (5, 6))  # vertice en T7-T6
         self.assertEqual(cervical.index(min(cervical)), 3)  # vertice en C4
-        self.assertTrue(0.008 * H < -min(lumbar) < 0.013 * H)
+        self.assertTrue(0.004 * H < -min(lumbar) < 0.007 * H)  # calibrada para LL L1-S1 = 51.9 grados (test_lumbar_pelvis)
         self.assertTrue(0.006 * H < max(thoracic) < 0.011 * H)
         self.assertTrue(0.002 * H < -min(cervical) < 0.006 * H)
         for n in VERTEBRAE + ["cranium", "mandible"]:  # todo en el plano medio (X = 0)

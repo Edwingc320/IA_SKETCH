@@ -109,7 +109,13 @@ La suite corre **dentro de Blender** y compara números reales, no solo que Blen
 
 - **`test_anatomy.py`** y **`test_anatomy_blender.py`**: nivel 1 (ver más abajo): referencia y nombres, jerarquía enraizada en la base, anclajes exactos, forma y simetría de pelvis y caja torácica, y en Blender que los huesos del nivel 1 son hijos reales de la base.
 
-Resumen esperado: `[SUMMARY] ejecutadas=143 fallos=0 errores=0 omitidas=0` y `RESULTADO FINAL: OK`. Las pruebas fijan los valores **por defecto** de `config\`; si editas la configuración, ejecuta `-Task Generate` (la validación interna siempre corre) y, si un test de valores por defecto falla por tus cambios, es esperado.
+- **`test_articulations.py`**: puntos de unión del tórax y la cintura escapular (articulaciones, ligamentos, inserciones), rangos con fuente, motores coincidentes con los pivotes de la base, hitos del esternón y holgura escápula–costillas.
+
+- **`test_head_neck.py`**: cabeza y columna cervical: jerarquía, lordosis (Cobb C2–C7 = 17,1°), plano de Frankfort horizontal, centro de gravedad de la cabeza, pivote exacto de la mandíbula en la ATM y sus puntos de unión.
+
+- **`test_lumbar_pelvis.py`**: columna lumbar, sacro y pelvis: jerarquía, parámetros espinopélvicos (pendiente sacra 37°, lordosis L1–S1 51,9°), centro de masas y puntos de unión.
+
+Resumen esperado: `[SUMMARY] ejecutadas=178 fallos=0 errores=0 omitidas=0` y `RESULTADO FINAL: OK`. Las pruebas fijan los valores **por defecto** de `config\`; si editas la configuración, ejecuta `-Task Generate` (la validación interna siempre corre) y, si un test de valores por defecto falla por tus cambios, es esperado.
 
 ## Modificar las proporciones y la pose
 
@@ -173,6 +179,14 @@ Regiones (orden aprobado):
 | 4 | Columna + cabeza | hecho | `C1`–`C7`, `T1`–`T12`, `L1`–`L5` (C1/C2 representan `C1_atlas`/`C2_axis`), `cranium`, `mandible`. Cadena continua de abajo arriba (sacro → L5 → … → C1 → cráneo → mandíbula): cada vértebra nace en la cola de la inferior. Repartidas por igual sobre sus segmentos base; las torácicas coinciden con los niveles de las costillas. Curva en S sagital (lordosis lumbar y cervical, cifosis torácica), nula en las uniones con la base. |
 | 5 | Huesos largos + cintura escapular | hecho | `scapula`, `humerus`, `radius`, `ulna`, `femur`, `patella`, `tibia`, `fibula` (.L/.R). Húmero, fémur y tibia coinciden con sus segmentos base; radio lateral y cúbito medial (supinación), la muñeca queda entre sus extremos distales; el tobillo, entre los maléolos de tibia y peroné; rótula delante de la rodilla; escápula detrás de las costillas, de la glenoide (= pivote del hombro) al ángulo inferior (T7). |
 
+**Tórax y cintura escapular** (especificación completa con fuentes en `docs\anatomia_torax_cintura_escapular.md`): cada costilla cuelga de su vértebra T1–T12, el esternón de T4 y la escápula de la clavícula; el esternón sigue los niveles publicados (escotadura yugular T2–T3, ángulo esternal T4–T5 con la 2.ª costilla, xifoides T10) y la escápula no toca las costillas (holgura medida 29 mm).
+
+**Cabeza y cuello** (especificación con fuentes en `docs\anatomia_cabeza_cuello.md`): lordosis cervical calibrada a 17,1° de Cobb (media publicada), cráneo mirando hacia delante con el plano de Frankfort horizontal y el centro de gravedad por delante de los cóndilos, y mandíbula con su pivote exactamente en el eje de las dos ATM.
+
+**Columna lumbar, sacro y pelvis** (`docs\anatomia_lumbar_sacro_pelvis.md`): sacro como raíz del bloque pélvico (los coxales y el cóccix cuelgan de él), L5 sobre la meseta de S1, pendiente sacra de 37° y lordosis L1–S1 de 51,9° (medias de dos cohortes asintomáticas). Limitación: la inclinación pélvica queda en ≈ 0° por la columna de la base.
+
+**Puntos de unión para poses futuras** (`config\articulations\thorax_shoulder.json`, `head_neck.json` y `lumbar_pelvis.json`): 107 articulaciones naturales (tórax y cintura escapular: esternoclavicular, acromioclavicular, glenohumeral, escapulotorácica, costovertebrales, costotransversas, esternocostales, intercondrales, intervertebrales C7/T1–T12/L1, manubrioesternal, xifoesternal; cabeza y cuello: atlantooccipital, atlantoaxial, intervertebrales C2–C7, temporomandibulares; lumbar y pelvis: intervertebrales L1–S1, sacroilíacas, sacrococcígea, sínfisis del pubis, coxofemorales), 37 ligamentos y 146 inserciones e hitos, con 69 fuentes citadas y su fiabilidad. Las tolerancias de anclaje se definen para 1,75 m y escalan con la altura. Los rangos pueden ir en grados o en mm (mandíbula), y se marca cuando la fuente los da por lado. Cada rango numérico lleva su fuente; sin cifra publicada, el rango queda vacío. En Blender: colecciones `AC_Articulations`, `AC_Ligaments`, `AC_Attachments` (objetos `ART_`, `LIG_`, `ATT_`, emparentados a su hueso; propiedades con tipo, rangos y fuentes). Son datos: todavía no mueven el rig.
+
 **Padre del rig y padre anatómico.** Cada hueso tiene dos relaciones:
 
 - `parent` (la jerarquía real de Blender): el **segmento base que lo mueve** (o un hueso rígido que cuelga de él). Así todo el nivel 1 sigue cualquier pose de la base: girar `spine_lumbar` arrastra L1–L5 y todo lo que está encima (vértebras, cráneo, costillas, escápulas, brazos), girar `neck` arrastra C1–C7, cráneo y mandíbula, girar `upper_arm` arrastra húmero, radio, cúbito y mano.
@@ -182,7 +196,7 @@ Si coinciden (p. ej. dentro de un mismo segmento base: L5 → L4 → … → L1)
 
 **Limitaciones conocidas** (heredadas de la base congelada; se miden en el reporte o en las pruebas):
 
-- La clavícula base nace casi en el plano de la columna: hueco de unos 8 cm entre su pivote esternoclavicular y el manubrio (`sternoclavicular_gap_m`).
+- La clavícula base nace casi en el plano de la columna: hueco de unos 8,6 cm entre su pivote esternoclavicular y el esternón (`sternoclavicular_gap_m`); el acromion queda a 3 cm de la clavícula y el ligamento costoclavicular mide 89 mm (real ≈ 15 mm). Se avisan como `ART_JOINT_GAP` / `ART_LIGAMENT_LENGTH`.
 - El cuello base mide 0.045 H: C1–C7 quedan comprimidas (~11 mm por vértebra) y los cóndilos occipitales quedan unos 5–7 cm más bajos que en un adulto real, por lo que el cráneo es alto y la barbilla queda baja, cerca del esternón.
 - La mano y el pie base no se re-emparentan a radio/cúbito ni a tibia/peroné (cambiaría la base congelada): la unión es geométrica (muñeca entre radio y cúbito distales; tobillo entre los maléolos) y cinemática (los mueve el mismo segmento base).
 

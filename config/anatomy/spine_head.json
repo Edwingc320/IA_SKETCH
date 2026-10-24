@@ -2,7 +2,7 @@
  "schema_version": 2,
  "level": 1,
  "region": "spine_head",
- "description": "Nivel 1, region 4: columna (C1-C7, T1-T12, L1-L5) y cabeza (cranium, mandible). Cadena vertebral de ABAJO A ARRIBA (sacro -> L5 -> ... -> L1 -> T12 -> ... -> T1 -> C7 -> ... -> C1 -> cranium -> mandible) en anatomical_parent; cada vertebra nace exactamente en la cola de la inferior. Padre en el RIG: el segmento base que la mueve (spine_lumbar: L1-L5; spine_thoracic: T7-T12; thorax: T1-T6; neck: C1-C7; head: cranium) y, dentro de cada segmento, la vertebra inferior. Las vertebras de cada tramo se reparten por igual sobre sus segmentos base (las toracicas coinciden con los niveles de las costillas) y se aplica una curva en S sagital: lordosis lumbar (+-0.012 H hacia delante), cifosis toracica (0.010 H hacia atras) y lordosis cervical (0.0025 H hacia delante: Cobb C2-C7 de 17.1 grados, media de 307 adultos asintomaticos, Zhu et al. 2020), nula en las uniones con la base, el sacro y el craneo. Valores APROXIMADOS. LIMITACION de la base congelada: el cuello base mide 0.045 H, por lo que C1-C7 quedan comprimidas (~11 mm por vertebra) y C1 (condilos) queda unos 5-7 cm mas baja que en un adulto real; el craneo va de C1 al vertex de la cabeza base.",
+ "description": "Nivel 1, region 4: columna (C1-C7, T1-T12, L1-L5) y cabeza (cranium, mandible). Cadena vertebral de ABAJO A ARRIBA (sacro -> L5 -> ... -> L1 -> T12 -> ... -> T1 -> C7 -> ... -> C1 -> cranium -> mandible) en anatomical_parent; cada vertebra nace exactamente en la cola de la inferior. Padre en el RIG: el segmento base que la mueve (spine_lumbar: L1-L5; spine_thoracic: T7-T12; thorax: T1-T6; neck: C1-C7; head: cranium) y, dentro de cada segmento, la vertebra inferior. Las vertebras de cada tramo se reparten por igual sobre sus segmentos base (las toracicas coinciden con los niveles de las costillas) y se aplica una curva en S sagital: lordosis lumbar (0.00538 H hacia delante: L1-S1 de 51.9 grados con pendiente sacra de 37, medias de Sudhir 2016 y Cureus 2025), cifosis toracica (0.010 H hacia atras) y lordosis cervical (0.0025 H hacia delante: Cobb C2-C7 de 17.1 grados, media de 307 adultos asintomaticos, Zhu et al. 2020), nula en las uniones con la base, el sacro y el craneo. Valores APROXIMADOS. LIMITACION de la base congelada: el cuello base mide 0.045 H, por lo que C1-C7 quedan comprimidas (~11 mm por vertebra) y C1 (condilos) queda unos 5-7 cm mas baja que en un adulto real; el craneo va de C1 al vertex de la cabeza base.",
  "bones": [
   {
    "name": "L5",
@@ -22,7 +22,7 @@
     ],
     "offset_h": [
      0.0,
-     -0.00705,
+     -0.00316,
      0.0
     ]
    },
@@ -46,7 +46,7 @@
     ],
     "offset_h": [
      0.0,
-     -0.01141,
+     -0.00512,
      0.0
     ]
    },
@@ -70,7 +70,7 @@
     ],
     "offset_h": [
      0.0,
-     -0.01141,
+     -0.00512,
      0.0
     ]
    },
@@ -94,7 +94,7 @@
     ],
     "offset_h": [
      0.0,
-     -0.00705,
+     -0.00316,
      0.0
     ]
    },

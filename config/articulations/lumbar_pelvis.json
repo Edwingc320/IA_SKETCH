@@ -1,0 +1,1029 @@
+{
+ "schema_version": 2,
+ "region": "lumbar_pelvis",
+ "description": "Puntos de union de la columna lumbar, el sacro y la pelvis para poses y musculos futuros: articulaciones naturales (intervertebrales L1-L5, lumbosacra, sacroiliacas, sacrococcigea, sinfisis del pubis, coxofemorales), ligamentos (iliolumbar, sacrotuberoso, sacroespinoso, iliofemoral, pubofemoral, isquiofemoral), inserciones musculares e hito del centro de masas. Rangos con su fuente; sin cifra cuando la fuente no la da. Coordenadas: +X izquierda, +Y atras (anterior = -Y), +Z arriba.",
+ "sources": {
+  "dvorak_pearcy": {
+   "url": "https://cdn.clinicaltrials.gov/large-docs/27/NCT03737227/Prot_SAP_000.pdf",
+   "reliability": "media",
+   "title": "Protocolo NCT03737227 - resume Pearcy 1984 (flexion/extension por nivel, 11 sanos) y Dvorak 1991 (rango total por nivel, 41 sanos)"
+  },
+  "sudhir_2016": {
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4771498",
+   "reliability": "alta",
+   "title": "Sudhir et al. 2016, Global Spine J - 101 asintomaticos: PI 55.48, PT 17.97, SS 35.99, LL 48.84"
+  },
+  "cureus_2025": {
+   "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12499943/",
+   "reliability": "alta",
+   "title": "Cureus 2025 - 250 asintomaticos >50 anos: PI 50.95, PT 13.0, SS 38.11, LL 54.9"
+  },
+  "fraunhofer_sij": {
+   "url": "https://publica.fraunhofer.de/handle/publica/256609",
+   "reliability": "alta",
+   "title": "Estudio cadaverico bajo peso corporal: sacroiliaca 0.16 grados y 0.32 mm"
+  },
+  "abmp_sij": {
+   "url": "https://www.abmp.com/massage-and-bodywork-magazine/current-concepts-sacroiliac-joint-dysfunction",
+   "reliability": "media",
+   "title": "ABMP - Current concepts in sacroiliac joint dysfunction (nutacion 1-4 grados)"
+  },
+  "physiotutors_sij": {
+   "url": "https://www.physiotutors.com/conditions/sacroiliac-joint-pain/",
+   "reliability": "media",
+   "title": "Physiotutors - Sacroiliac joint (nutacion, ligamentos)"
+  },
+  "acta_pubic_1984": {
+   "url": "https://actaorthop.org/actao/article/view/23359",
+   "reliability": "alta",
+   "title": "Acta Orthop 1984 - movilidad de la sinfisis del pubis (traslaciones ~1 mm, rotaciones <1.5 grados, vertical ~2 mm)"
+  },
+  "jbjs_flamingo_2008": {
+   "url": "https://pubmed.ncbi.nlm.nih.gov/18829908/",
+   "reliability": "alta",
+   "title": "JBJS 2008 - radiografias en apoyo monopodal: traslacion de la sinfisis 1.4-3.1 mm (hasta 5 mm fisiologico)"
+  },
+  "statpearls_hip": {
+   "url": "https://statpearls.com/sp/al/39/32220/",
+   "reliability": "alta",
+   "title": "StatPearls - Hip joint (rangos activos y ligamentos capsulares)"
+  },
+  "weill_hip_capsule": {
+   "url": "https://vivo.weill.cornell.edu/display/pubid18237703",
+   "reliability": "alta",
+   "title": "The function of the hip capsular ligaments: a quantitative report"
+  },
+  "pmc_iliolumbar": {
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9705086",
+   "reliability": "alta",
+   "title": "Estudio de diseccion del ligamento iliolumbar (L5 -> cresta iliaca)"
+  },
+  "kenhub_sacrospinous": {
+   "url": "https://kenhub.com/en/library/anatomy/sacrospinous-ligament",
+   "reliability": "media",
+   "title": "Kenhub - Sacrospinous ligament"
+  },
+  "tf_sacrotuberous": {
+   "url": "https://taylorandfrancis.com/knowledge/Medicine_and_healthcare/Anatomy/Sacrotuberous_ligament",
+   "reliability": "media",
+   "title": "Taylor & Francis - Sacrotuberous ligament"
+  },
+  "ditki_le": {
+   "url": "https://ditki.com/course/gross-anatomy/glossary/term/origins-insertions-lower-extremity-anterior",
+   "reliability": "media",
+   "title": "Ditki - Origins & insertions, lower extremity (sartorio, recto femoral, aductor largo)"
+  },
+  "tf_hamstrings": {
+   "url": "https://www.taylorfrancis.com/books/9780429072772/chapters/10.1201/b13351-17",
+   "reliability": "media",
+   "title": "Taylor & Francis - isquiotibiales desde la tuberosidad isquiatica"
+  },
+  "brainscape_pelvis": {
+   "url": "https://brainscape.com/flashcards/thigh-buttock-muscles-2480854/packs/4273407",
+   "reliability": "baja",
+   "title": "Tarjetas de estudio - musculos del muslo y la nalga (VERIFICAR en un atlas)"
+  },
+  "brainscape_post_abdominal": {
+   "url": "https://brainscape.com/flashcards/muscles-of-the-posterior-abdominal-wall-950890/packs/1739035",
+   "reliability": "baja",
+   "title": "Tarjetas de estudio - pared abdominal posterior (psoas, iliaco, cuadrado lumbar; VERIFICAR)"
+  },
+  "atna_com": {
+   "url": "https://atna-mam.utcluj.ro/index.php/Acta/article/download/2746/2161",
+   "reliability": "media",
+   "title": "Revision - centro de masas del cuerpo: 55-57% de la estatura (Palmer 55.7%)"
+  },
+  "revisiondojo_com": {
+   "url": "https://www.revisiondojo.com/ib/ib-sehs/4-3-3-define-the-term-centre-of-mass/notes",
+   "reliability": "baja",
+   "title": "Apuntes - centro de masas delante de S2, ~55% de la estatura"
+  }
+ },
+ "joints": [
+  {
+   "name": "intervertebral_L1_L2",
+   "mirror": false,
+   "kind": "disco intervertebral + articulaciones facetarias",
+   "bones": [
+    "L2",
+    "L1"
+   ],
+   "carrier": "L2",
+   "center": {
+    "at": "L1.head"
+   },
+   "tolerance_m": 0.001,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": 11.9,
+     "source": "dvorak_pearcy",
+     "note": "Dvorak 1991 (pasivo); Pearcy 1984: flexion 8, extension 5"
+    },
+    {
+     "name": "inclinacion_lateral",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "sin cifra por nivel in vivo en las fuentes consultadas"
+    },
+    {
+     "name": "rotacion_axial",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "sin cifra por nivel in vivo en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "dvorak_pearcy"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "intervertebral_L2_L3",
+   "mirror": false,
+   "kind": "disco intervertebral + articulaciones facetarias",
+   "bones": [
+    "L3",
+    "L2"
+   ],
+   "carrier": "L3",
+   "center": {
+    "at": "L2.head"
+   },
+   "tolerance_m": 0.001,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": 14.5,
+     "source": "dvorak_pearcy",
+     "note": "Dvorak 1991 (pasivo); Pearcy 1984: flexion 10, extension 3"
+    },
+    {
+     "name": "inclinacion_lateral",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "sin cifra por nivel in vivo en las fuentes consultadas"
+    },
+    {
+     "name": "rotacion_axial",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "sin cifra por nivel in vivo en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "dvorak_pearcy"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "intervertebral_L3_L4",
+   "mirror": false,
+   "kind": "disco intervertebral + articulaciones facetarias",
+   "bones": [
+    "L4",
+    "L3"
+   ],
+   "carrier": "L4",
+   "center": {
+    "at": "L3.head"
+   },
+   "tolerance_m": 0.001,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": 15.3,
+     "source": "dvorak_pearcy",
+     "note": "Dvorak 1991 (pasivo); Pearcy 1984: flexion 12, extension 1"
+    },
+    {
+     "name": "inclinacion_lateral",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "sin cifra por nivel in vivo en las fuentes consultadas"
+    },
+    {
+     "name": "rotacion_axial",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "sin cifra por nivel in vivo en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "dvorak_pearcy"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "intervertebral_L4_L5",
+   "mirror": false,
+   "kind": "disco intervertebral + articulaciones facetarias",
+   "bones": [
+    "L5",
+    "L4"
+   ],
+   "carrier": "L5",
+   "center": {
+    "at": "L4.head"
+   },
+   "tolerance_m": 0.001,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": 18.2,
+     "source": "dvorak_pearcy",
+     "note": "Dvorak 1991 (pasivo); Pearcy 1984: flexion 13, extension 2"
+    },
+    {
+     "name": "inclinacion_lateral",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "sin cifra por nivel in vivo en las fuentes consultadas"
+    },
+    {
+     "name": "rotacion_axial",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "sin cifra por nivel in vivo en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "dvorak_pearcy"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "lumbosacral_L5_S1",
+   "mirror": false,
+   "kind": "disco L5-S1 + articulaciones facetarias",
+   "bones": [
+    "sacrum_fused",
+    "L5"
+   ],
+   "carrier": "sacrum_fused",
+   "center": {
+    "at": "L5.head"
+   },
+   "tolerance_m": 0.001,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": 17.0,
+     "source": "dvorak_pearcy",
+     "note": "Dvorak 1991; Pearcy 1984: flexion 9, extension 5"
+    },
+    {
+     "name": "inclinacion_lateral",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "sin cifra en las fuentes consultadas"
+    },
+    {
+     "name": "rotacion_axial",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": "lumbar",
+   "ligaments": [
+    "iliolumbar.L",
+    "iliolumbar.R"
+   ],
+   "sources": [
+    "dvorak_pearcy",
+    "sudhir_2016",
+    "cureus_2025"
+   ],
+   "notes": "L5 asienta exactamente sobre la meseta de S1 (cola de la pelvis base); hoy la mueve la articulacion 'lumbar' de la base (pivote identico). Pendiente sacra 37 grados."
+  },
+  {
+   "name": "sacroiliac.L",
+   "mirror": true,
+   "kind": "sinovial (anfiartrosis) muy rigida",
+   "bones": [
+    "hip_bone.L",
+    "sacrum_fused"
+   ],
+   "carrier": "sacrum_fused",
+   "center": {
+    "at": "hip_bone.L.head"
+   },
+   "tolerance_m": 0.03,
+   "dofs": [
+    {
+     "name": "nutacion_contranutacion",
+     "total_deg": [
+      1,
+      4
+     ],
+     "source": "abmp_sij",
+     "note": "en cadaver bajo peso corporal solo 0.16 grados (fraunhofer_sij)"
+    },
+    {
+     "name": "traslacion",
+     "total_deg": 0.32,
+     "source": "fraunhofer_sij",
+     "unit": "mm",
+     "note": "el sacro desciende respecto al ilion bajo carga"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "sacrotuberous.L",
+    "sacrospinous.L",
+    "iliolumbar.L"
+   ],
+   "sources": [
+    "fraunhofer_sij",
+    "abmp_sij",
+    "physiotutors_sij"
+   ],
+   "notes": "La nutacion (sacro hacia delante) tensa los ligamentos interoseo y sacrotuberoso y aumenta la estabilidad."
+  },
+  {
+   "name": "sacrococcygeal",
+   "mirror": false,
+   "kind": "cartilaginosa (sinfisis)",
+   "bones": [
+    "coccyx_fused",
+    "sacrum_fused"
+   ],
+   "carrier": "sacrum_fused",
+   "center": {
+    "at": "coccyx_fused.head"
+   },
+   "tolerance_m": 0.001,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "kenhub_sacrospinous"
+   ],
+   "notes": "Union del vertice del sacro con el coxis."
+  },
+  {
+   "name": "pubic_symphysis",
+   "mirror": false,
+   "kind": "cartilaginosa (sinfisis, disco interpubico)",
+   "bones": [
+    "hip_bone.L",
+    "hip_bone.R"
+   ],
+   "carrier": "sacrum_fused",
+   "center": {
+    "at": "pelvis.head",
+    "offset_h": [
+     0.0,
+     -0.035,
+     -0.03
+    ]
+   },
+   "tolerance_m": 0.01,
+   "dofs": [
+    {
+     "name": "traslacion_total",
+     "total_deg": [
+      1.4,
+      3.1
+     ],
+     "source": "jbjs_flamingo_2008",
+     "unit": "mm",
+     "note": "hombres 1.4, nuliparas 1.6, multiparas 3.1 mm; hasta 5 mm fisiologico"
+    },
+    {
+     "name": "desplazamiento_vertical",
+     "total_deg": 2.0,
+     "source": "acta_pubic_1984",
+     "unit": "mm",
+     "note": "~2 mm en ambos sexos"
+    },
+    {
+     "name": "rotacion",
+     "total_deg": 1.5,
+     "source": "acta_pubic_1984",
+     "note": "menor de 1.5 grados en los planos frontal y sagital"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "acta_pubic_1984",
+    "jbjs_flamingo_2008"
+   ],
+   "notes": "Cierra el anillo pelvico por delante."
+  },
+  {
+   "name": "coxofemoral.L",
+   "mirror": true,
+   "kind": "sinovial esferoidea (enartrosis)",
+   "bones": [
+    "femur.L",
+    "hip_bone.L"
+   ],
+   "carrier": "hip_bone.L",
+   "center": {
+    "at": "thigh.L.head"
+   },
+   "tolerance_m": 0.005,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": 120,
+     "source": "statpearls_hip",
+     "note": "activa; con la rodilla flexionada y de forma pasiva llega a ~145 (tarjetas de estudio)"
+    },
+    {
+     "name": "extension",
+     "total_deg": 10,
+     "source": "statpearls_hip"
+    },
+    {
+     "name": "abduccion",
+     "total_deg": 45,
+     "source": "statpearls_hip"
+    },
+    {
+     "name": "aduccion",
+     "total_deg": 25,
+     "source": "statpearls_hip"
+    },
+    {
+     "name": "rotacion_interna",
+     "total_deg": 15,
+     "source": "statpearls_hip",
+     "note": "otras referencias dan 35-40"
+    },
+    {
+     "name": "rotacion_externa",
+     "total_deg": 35,
+     "source": "statpearls_hip",
+     "note": "otras referencias dan 45-50"
+    }
+   ],
+   "rig_driver": "hip.L",
+   "ligaments": [
+    "iliofemoral.L",
+    "pubofemoral.L",
+    "ischiofemoral.L"
+   ],
+   "sources": [
+    "statpearls_hip",
+    "weill_hip_capsule"
+   ],
+   "notes": "Cabeza femoral en el acetabulo; hoy la mueve la articulacion 'hip' de la base (pivote identico)."
+  }
+ ],
+ "ligaments": [
+  {
+   "name": "iliolumbar.L",
+   "mirror": true,
+   "from": {
+    "bone": "L5",
+    "point": {
+     "lerp": [
+      "L5.head",
+      "L5.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.01257142857142857,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "hip_bone.L",
+    "point": {
+     "at": "pelvis.head",
+     "offset_h": [
+      0.0525,
+      0.024999999999999998,
+      0.060000000000000005
+     ]
+    }
+   },
+   "joint": "lumbosacral_L5_S1",
+   "sources": [
+    "pmc_iliolumbar"
+   ],
+   "notes": "De la apofisis transversa de L5 a la parte anterior/posterior de la cresta iliaca; parte del cuadrado lumbar nace en el.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "sacrotuberous.L",
+   "mirror": true,
+   "from": {
+    "bone": "sacrum_fused",
+    "point": {
+     "lerp": [
+      "sacrum_fused.head",
+      "sacrum_fused.tail",
+      0.7
+     ],
+     "offset_h": [
+      0.008571428571428572,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "hip_bone.L",
+    "point": {
+     "at": "pelvis.head",
+     "offset_h": [
+      0.035,
+      0.012,
+      -0.06
+     ]
+    }
+   },
+   "joint": "sacroiliac.L",
+   "sources": [
+    "tf_sacrotuberous",
+    "physiotutors_sij"
+   ],
+   "notes": "Del borde lateral del sacro/coxis a la tuberosidad isquiatica; se tensa en la nutacion.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "sacrospinous.L",
+   "mirror": true,
+   "from": {
+    "bone": "sacrum_fused",
+    "point": {
+     "lerp": [
+      "sacrum_fused.head",
+      "sacrum_fused.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.006857142857142858,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "hip_bone.L",
+    "point": {
+     "at": "pelvis.head",
+     "offset_h": [
+      0.032,
+      0.0144,
+      -0.03
+     ]
+    }
+   },
+   "joint": "sacroiliac.L",
+   "sources": [
+    "kenhub_sacrospinous"
+   ],
+   "notes": "Triangular: del borde lateral del sacro y el coxis a la espina isquiatica; impide que el promontorio bascule hacia delante.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "iliofemoral.L",
+   "mirror": true,
+   "from": {
+    "bone": "hip_bone.L",
+    "point": {
+     "at": "pelvis.head",
+     "offset_h": [
+      0.061,
+      -0.015,
+      0.0175
+     ]
+    }
+   },
+   "to": {
+    "bone": "femur.L",
+    "point": {
+     "at": "thigh.L.head",
+     "offset_h": [
+      0.017142857142857144,
+      -0.005714285714285714,
+      -0.025714285714285714
+     ]
+    }
+   },
+   "joint": "coxofemoral.L",
+   "sources": [
+    "statpearls_hip",
+    "weill_hip_capsule"
+   ],
+   "notes": "En Y, de la espina iliaca anteroinferior a la linea intertrocanterea: el mas fuerte; limita extension y rotacion externa.",
+   "tolerance_m": 0.035
+  },
+  {
+   "name": "pubofemoral.L",
+   "mirror": true,
+   "from": {
+    "bone": "hip_bone.L",
+    "point": {
+     "at": "pelvis.head",
+     "offset_h": [
+      0.032799999999999996,
+      -0.014000000000000002,
+      -0.012
+     ]
+    }
+   },
+   "to": {
+    "bone": "femur.L",
+    "point": {
+     "at": "thigh.L.head",
+     "offset_h": [
+      0.006857142857142858,
+      -0.002285714285714286,
+      -0.017142857142857144
+     ]
+    }
+   },
+   "joint": "coxofemoral.L",
+   "sources": [
+    "statpearls_hip",
+    "weill_hip_capsule"
+   ],
+   "notes": "De la rama superior del pubis al cuello femoral; limita abduccion y extension.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "ischiofemoral.L",
+   "mirror": true,
+   "from": {
+    "bone": "hip_bone.L",
+    "point": {
+     "at": "pelvis.head",
+     "offset_h": [
+      0.030500000000000003,
+      0.015600000000000001,
+      -0.014999999999999993
+     ]
+    }
+   },
+   "to": {
+    "bone": "femur.L",
+    "point": {
+     "at": "thigh.L.head",
+     "offset_h": [
+      0.02,
+      0.006857142857142858,
+      -0.01257142857142857
+     ]
+    }
+   },
+   "joint": "coxofemoral.L",
+   "sources": [
+    "statpearls_hip",
+    "weill_hip_capsule"
+   ],
+   "notes": "Del isquion al cuello femoral posterior; principal freno de la rotacion interna.",
+   "tolerance_m": 0.035
+  }
+ ],
+ "attachments": [
+  {
+   "name": "anterior_superior_iliac_spine.L",
+   "mirror": true,
+   "bone": "hip_bone.L",
+   "point": {
+    "at": "pelvis.head",
+    "offset_h": [
+     0.07,
+     -0.03,
+     0.035
+    ]
+   },
+   "structures": [
+    "sartorio (origen)"
+   ],
+   "sources": [
+    "ditki_le"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "anterior_inferior_iliac_spine.L",
+   "mirror": true,
+   "bone": "hip_bone.L",
+   "point": {
+    "at": "pelvis.head",
+    "offset_h": [
+     0.061,
+     -0.015,
+     0.0175
+    ]
+   },
+   "structures": [
+    "recto femoral (origen)",
+    "ligamento iliofemoral"
+   ],
+   "sources": [
+    "ditki_le",
+    "statpearls_hip"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "iliac_fossa.L",
+   "mirror": true,
+   "bone": "hip_bone.L",
+   "point": {
+    "at": "pelvis.head",
+    "offset_h": [
+     0.0555,
+     -0.0012499999999999996,
+     0.036250000000000004
+    ]
+   },
+   "structures": [
+    "iliaco (origen)"
+   ],
+   "sources": [
+    "brainscape_post_abdominal"
+   ],
+   "notes": "Cara interna del ilion: la lamina no esta modelada (solo su contorno). Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.045
+  },
+  {
+   "name": "iliac_crest.L",
+   "mirror": true,
+   "bone": "hip_bone.L",
+   "point": {
+    "at": "pelvis.head",
+    "offset_h": [
+     0.075,
+     0.005,
+     0.07
+    ]
+   },
+   "structures": [
+    "cuadrado lumbar (insercion)",
+    "ligamento iliolumbar"
+   ],
+   "sources": [
+    "brainscape_post_abdominal",
+    "pmc_iliolumbar"
+   ],
+   "notes": "Cuadrado lumbar: Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "ischial_tuberosity.L",
+   "mirror": true,
+   "bone": "hip_bone.L",
+   "point": {
+    "at": "pelvis.head",
+    "offset_h": [
+     0.035,
+     0.012,
+     -0.06
+    ]
+   },
+   "structures": [
+    "isquiotibiales (origen)",
+    "ligamento sacrotuberoso"
+   ],
+   "sources": [
+    "tf_hamstrings",
+    "tf_sacrotuberous"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "pubic_body.L",
+   "mirror": true,
+   "bone": "hip_bone.L",
+   "point": {
+    "at": "pelvis.head",
+    "offset_h": [
+     0.016,
+     -0.026250000000000002,
+     -0.0225
+    ]
+   },
+   "structures": [
+    "aductor largo (origen, cuerpo del pubis bajo la cresta pubica)"
+   ],
+   "sources": [
+    "ditki_le"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "lesser_trochanter.L",
+   "mirror": true,
+   "bone": "femur.L",
+   "point": {
+    "at": "thigh.L.head",
+    "offset_h": [
+     0.008571428571428572,
+     0.005714285714285714,
+     -0.03428571428571429
+    ]
+   },
+   "structures": [
+    "psoas mayor e iliaco (insercion)"
+   ],
+   "sources": [
+    "brainscape_post_abdominal"
+   ],
+   "notes": "Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "gluteal_tuberosity.L",
+   "mirror": true,
+   "bone": "femur.L",
+   "point": {
+    "lerp": [
+     "thigh.L.head",
+     "thigh.L.tail",
+     0.2
+    ],
+    "offset_h": [
+     0.008571428571428572,
+     0.006857142857142858,
+     0.0
+    ]
+   },
+   "structures": [
+    "gluteo mayor (insercion parcial; la mayor parte va a la cintilla iliotibial)"
+   ],
+   "sources": [
+    "brainscape_pelvis"
+   ],
+   "notes": "Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "gluteus_maximus_origin_sacrum.L",
+   "mirror": true,
+   "bone": "sacrum_fused",
+   "point": {
+    "lerp": [
+     "sacrum_fused.head",
+     "sacrum_fused.tail",
+     0.6
+    ],
+    "offset_h": [
+     0.011428571428571429,
+     0.005714285714285714,
+     0.0
+    ]
+   },
+   "structures": [
+    "gluteo mayor (origen: cara posterior del sacro y el coxis, ilion posterior)"
+   ],
+   "sources": [
+    "brainscape_pelvis"
+   ],
+   "notes": "Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "psoas_origin_L1.L",
+   "mirror": true,
+   "bone": "L1",
+   "point": {
+    "lerp": [
+     "L1.head",
+     "L1.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.011428571428571429,
+     0.0,
+     0.0
+    ]
+   },
+   "structures": [
+    "psoas mayor (origen: cuerpos y apofisis transversas T12-L4/L5)"
+   ],
+   "sources": [
+    "brainscape_post_abdominal"
+   ],
+   "notes": "Las fuentes dan T12-L4 o T12-L5. Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "psoas_origin_L2.L",
+   "mirror": true,
+   "bone": "L2",
+   "point": {
+    "lerp": [
+     "L2.head",
+     "L2.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.011428571428571429,
+     0.0,
+     0.0
+    ]
+   },
+   "structures": [
+    "psoas mayor (origen: cuerpos y apofisis transversas T12-L4/L5)"
+   ],
+   "sources": [
+    "brainscape_post_abdominal"
+   ],
+   "notes": "Las fuentes dan T12-L4 o T12-L5. Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "psoas_origin_L3.L",
+   "mirror": true,
+   "bone": "L3",
+   "point": {
+    "lerp": [
+     "L3.head",
+     "L3.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.011428571428571429,
+     0.0,
+     0.0
+    ]
+   },
+   "structures": [
+    "psoas mayor (origen: cuerpos y apofisis transversas T12-L4/L5)"
+   ],
+   "sources": [
+    "brainscape_post_abdominal"
+   ],
+   "notes": "Las fuentes dan T12-L4 o T12-L5. Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "psoas_origin_L4.L",
+   "mirror": true,
+   "bone": "L4",
+   "point": {
+    "lerp": [
+     "L4.head",
+     "L4.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.011428571428571429,
+     0.0,
+     0.0
+    ]
+   },
+   "structures": [
+    "psoas mayor (origen: cuerpos y apofisis transversas T12-L4/L5)"
+   ],
+   "sources": [
+    "brainscape_post_abdominal"
+   ],
+   "notes": "Las fuentes dan T12-L4 o T12-L5. Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "body_center_of_mass",
+   "mirror": false,
+   "bone": "sacrum_fused",
+   "point": {
+    "at": "pelvis.head",
+    "offset_h": [
+     0.0,
+     0.0,
+     0.027000000000000024
+    ]
+   },
+   "structures": [
+    "hito: centro de masas del cuerpo en bipedestacion (55.7% de la estatura, delante de S2)"
+   ],
+   "sources": [
+    "atna_com",
+    "revisiondojo_com"
+   ],
+   "notes": "No es un punto oseo: se cuelga del sacro para seguir a la pelvis. La pelvis en copa lo sostiene entre el eje de las caderas y el promontorio.",
+   "tolerance_m": 0.05
+  }
+ ]
+}

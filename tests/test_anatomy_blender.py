@@ -64,7 +64,8 @@ class TestAnatomyInBlender(unittest.TestCase):
         for n, b in self.anat.bones.items():
             self.assertEqual(bones[n].parent.name, b.parent, n)
             self.assertEqual(bones[n].get("ac_layer"), "anatomy_L1")
-        self.assertEqual(bones["hip_bone.L"].parent.name, "pelvis")
+        self.assertEqual(bones["hip_bone.L"].parent.name, "sacrum_fused")  # los coxales cuelgan del sacro
+        self.assertEqual(bones["sacrum_fused"].parent.name, "pelvis")
         self.assertEqual(bones["sacrum_fused"].parent.name, "pelvis")
         # la base sigue siendo la misma: 20 huesos sin marca de nivel 1, en la coleccion L0_base
         base_bones = [b for b in bones if b.get("ac_layer") is None]
@@ -307,6 +308,31 @@ class TestAnatomyInBlender(unittest.TestCase):
         self.assertFalse(moved("ART_atlanto_axial", art.joints["atlanto_axial"].center))  # C2 -> neck: no lo mueve la cabeza
         self.assertFalse(moved("ART_atlanto_occipital", art.joints["atlanto_occipital"].center))  # el pivote no se desplaza
 
+    def test_05i_pelvic_unions_follow_their_bones(self):
+        """Girar el muslo base mueve las inserciones del femur pero no el centro coxofemoral (lo lleva el coxal);
+        girar el segmento lumbar mueve las intervertebrales L1-L5 pero no la lumbosacra (la lleva el sacro)."""
+        import bpy
+        from mathutils import Euler
+        from anatomical_core import articulations, articulations_scene
+        art = articulations.build_articulations(self.base, self.anat, articulations.load_articulation_data())
+        for driver, euler, moving, still in (
+            ("thigh.L", (0.7, 0.0, 0.2), ["ATT_lesser_trochanter.L", "ATT_gluteal_tuberosity.L"],
+             ["ART_coxofemoral.L", "ART_sacroiliac.L", "ATT_ischial_tuberosity.L", "ATT_lesser_trochanter.R"]),
+            ("spine_lumbar", (0.3, 0.0, 0.2), ["ART_intervertebral_L1_L2", "ATT_psoas_origin_L2.R"],
+             ["ART_lumbosacral_L5_S1", "ART_pubic_symphysis", "ATT_body_center_of_mass"]),
+        ):
+            arm = self.open()
+            pb = arm.pose.bones[driver]
+            pb.rotation_mode = "XYZ"
+            pb.rotation_euler = Euler(euler)
+            bpy.context.view_layer.update()
+            snap = articulations_scene.read_back_articulations()
+            ref = lambda obj: (art.joints[obj[4:]].center if obj.startswith("ART_") else art.attachments[obj[4:]].point)  # noqa: E731
+            for obj in moving:
+                self.assertGreater(dist(snap[obj]["points"][0], ref(obj)), 0.002, f"{driver}: {obj}")
+            for obj in still:
+                self.assertLess(dist(snap[obj]["points"][0], ref(obj)), TOL, f"{driver}: {obj}")
+
     def test_06_visuals_and_outlines_are_parented_without_double_transform(self):
         import bpy
         self.open()
@@ -345,7 +371,7 @@ class TestAnatomyScript(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stdout[-2000:] + r.stderr[-2000:])
         report = json.loads(out.with_name("anatomy_e2e_report.json").read_text(encoding="utf-8"))
         self.assertIn("pelvic_girdle", report["regions"])
-        self.assertEqual(report["bones"]["hip_bone.L"]["parent"], "pelvis")
+        self.assertEqual(report["bones"]["hip_bone.L"]["parent"], "sacrum_fused")
 
     def test_script_fails_when_an_anchor_is_broken(self):
         bad_dir = TEST_OUT / "anatomy_bad_config"
