@@ -59,17 +59,36 @@ class TestFrames(unittest.TestCase):
             shin, foot = self.model.bones[f"shin.{side}"], self.model.bones[f"foot.{side}"]
             self.assertAlmostEqual(angle_deg(sub(shin.tail, shin.head), sub(foot.tail, foot.head)), 90.0, places=9)
 
-    def test_structural_tilts_are_preserved_and_documented(self):
-        """D3: columna, cuello y clavicula conservan sus inclinaciones del v0.1 (medidas en la inspeccion)."""
+    def test_structural_tilts_are_documented(self):
+        """Base v2: inclinaciones estructurales del neutro. Pelvis inclinada (PT) compensada por el segmento
+        lumbar; toracica, torax, cuello y cabeza como en la v0.2; clavicula del manubrio al acromion."""
         up = (0.0, 0.0, 1.0)
         tilts = {n: angle_deg(sub(self.model.bones[n].tail, self.model.bones[n].head), up)
-                 for n in ("spine_lumbar", "spine_thoracic", "thorax", "neck", "head")}
-        for n, expected in (("spine_lumbar", 2.3), ("spine_thoracic", 3.4), ("thorax", 1.1), ("neck", 6.8), ("head", 1.1)):
+                 for n in ("pelvis", "spine_lumbar", "spine_thoracic", "thorax", "neck", "head")}
+        for n, expected in (("pelvis", 15.5), ("spine_lumbar", 8.4), ("spine_thoracic", 3.4), ("thorax", 1.1), ("neck", 6.8), ("head", 1.1)):
             self.assertAlmostEqual(tilts[n], expected, delta=0.1, msg=n)
+        pel = sub(self.model.bones["pelvis"].tail, self.model.bones["pelvis"].head)
+        lum = sub(self.model.bones["spine_lumbar"].tail, self.model.bones["spine_lumbar"].head)
+        self.assertGreater(pel[1], 0)  # S1 detras del eje de las caderas (+Y)
+        self.assertLess(lum[1], 0)  # el segmento lumbar vuelve hacia delante y compensa
+        self.assertAlmostEqual(self.model.bones["spine_thoracic"].head[1], 0.004896, places=6)  # el tronco no se mueve
         cl = self.model.bones["clavicle.L"]
         v = sub(cl.tail, cl.head)
-        self.assertAlmostEqual(math.degrees(math.asin(v[2] / length(v))), 9.8, delta=0.1)
+        self.assertAlmostEqual(math.degrees(math.asin(v[2] / length(v))), 22.7, delta=0.1)  # elevacion
+        self.assertGreater(v[1], 0)  # del manubrio (delante) hacia atras hasta el acromion
         self.assertIn("INCLINACIONES ESTRUCTURALES", Path(__file__).resolve().parents[1].joinpath("config", "skeleton_definition.json").read_text(encoding="utf-8"))
+
+    def test_base_v2_keeps_arms_legs_and_stature_where_they_were(self):
+        """El cambio de la base solo mueve pelvis, lumbar, cuello, cabeza y clavicula: el hombro (pivote), el
+        brazo, la pierna y la altura del vertex quedan exactamente donde estaban en la v0.2."""
+        m = self.model
+        self.assertAlmostEqual(m.joints["shoulder.L"].pivot[0], 0.182708, delta=1e-6)
+        self.assertAlmostEqual(m.joints["shoulder.L"].pivot[1], -0.013356, delta=1e-6)
+        self.assertAlmostEqual(m.joints["shoulder.L"].pivot[2], 1.443492, delta=1e-6)
+        self.assertAlmostEqual(max(b.tail[2] for b in m.bones.values()), 1.749011, delta=1e-6)  # vertex
+        self.assertAlmostEqual(m.bones["spine_lumbar"].tail[2], 1.137402, delta=1e-6)
+        self.assertAlmostEqual(m.bones["neck"].length + 0.0, 0.085 * m.height_m, places=9)  # cuello C1-C7: 0.085 H
+        self.assertLess(m.bones["head"].length, 0.10 * m.height_m)  # la cabeza va de los condilos al vertex
 
 
 class TestJointAxes(unittest.TestCase):

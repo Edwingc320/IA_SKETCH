@@ -46,13 +46,18 @@ class TestArticulationData(unittest.TestCase):
         self.assertEqual(len(self.region(self.art.ligaments)), 2 * 5 + 1)  # 5 por lado + interclavicular
         self.assertEqual(len(self.region(self.art.attachments)), 74)
 
-    def test_validation_has_no_errors_and_only_the_documented_warnings(self):
+    def test_validation_has_no_errors_and_no_warnings_on_the_corrected_base(self):
+        """Base v2: la clavicula va del manubrio al acromion, asi que ya no hay huecos ni ligamentos de longitud
+        absurda (antes: 4 avisos de hueco esternoclavicular/acromioclavicular y 2 de ligamento costoclavicular)."""
         issues = validation.validate_articulations(self.base, self.anat, self.art)
         self.assertEqual(codes(issues), [])
-        warnings = collections.Counter(codes(issues, "warning"))
-        self.assertEqual(warnings, {"ART_JOINT_GAP": 4, "ART_LIGAMENT_LENGTH": 2})  # SC y AC por lado; costoclavicular por lado
-        gap_joints = sorted(i.message.split("'")[1] for i in issues if i.code == "ART_JOINT_GAP")
-        self.assertEqual(gap_joints, ["acromioclavicular.L", "acromioclavicular.R", "sternoclavicular.L", "sternoclavicular.R"])
+        self.assertEqual(collections.Counter(codes(issues, "warning")), {})
+        j, lg = self.art.joints, self.art.ligaments
+        for s in "LR":
+            self.assertLess(length(sub(j[f"sternoclavicular.{s}"].center, self.anat.bones["sternum"].head)), 0.025)  # antes 86 mm
+            self.assertLess(length(sub(j[f"acromioclavicular.{s}"].center, self.base.bones[f"clavicle.{s}"].tail)), 1e-9)  # antes 30 mm
+            self.assertLess(length(sub(lg[f"costoclavicular.{s}"].a, lg[f"costoclavicular.{s}"].b)), 0.030)  # antes 89 mm (real ~15)
+        self.assertTrue(all(not x.known_limitation for x in j.values() if x.region == "thorax_shoulder"))
 
     def test_every_number_has_a_source_and_every_source_is_used(self):
         used = set()

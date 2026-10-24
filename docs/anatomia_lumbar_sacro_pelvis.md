@@ -33,16 +33,16 @@ El sacro y la lordosis lumbar estaban fuera de lo publicado (pendiente sacra 28,
 |---|---|---|---|
 | Pendiente sacra (SS) | 35,99° | 38,11° | **37,0°** |
 | Lordosis lumbar (LL, L1–S1) | 48,84° | 54,9° | **51,9°** |
-| Inclinación pélvica (PT) | 17,97° | 13,0° | ≈ 0° (limitación) |
-| Incidencia pélvica (PI) | 55,48° | 50,95° | ≈ 37° (limitación) |
+| Inclinación pélvica (PT) | 17,97° | 13,0° | **15,5°** |
+| Incidencia pélvica (PI = SS + PT) | 55,48° | 50,95° | **52,5°** |
 
 Cohorte 1: [Sudhir et al. 2016](https://pmc.ncbi.nlm.nih.gov/articles/PMC4771498), 101 adultos (PI 55,48 ± 5,31; PT 17,97 ± 7,16; SS 35,99 ± 7,53; LL 48,84 ± 9,82). Cohorte 2: [Cureus 2025](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12499943/), 250 adultos mayores de 50 (PI 50,95 ± 11,72; PT 13,0 ± 7,12; SS 38,11 ± 9,71; LL 54,9 ± 13,7). Las definiciones de LL varían entre estudios (L1–S1 frente a T12–S1) y no hay un «normal» universal.
 
 - **Lordosis lumbar** convexa hacia delante (−Y), con vértice en L3 y valor nulo en las uniones con el sacro y con T12.
-- **Angulación lumbosacra**: L5 se inclina hacia delante sobre el sacro; el ángulo entre el eje de L5 y la normal de S1 supera los 20° (cuña L5–S1).
+- **Angulación lumbosacra**: L5 se inclina hacia delante sobre el sacro; el ángulo entre el eje de L5 y la normal de S1 es de 7,7° con la lordosis calibrada a los datos publicados (cota solo geométrica: el reparto de la lordosis por nivel no está validado con una fuente).
 - **Pelvis en copa**: los coxales rodean el eje de las caderas con crestas ilíacas (a 0,075 H del centro), espinas ilíacas anteriores, sínfisis del pubis delante y tuberosidades isquiáticas debajo. El **centro de masas** del cuerpo se coloca al 55,7 % de la estatura, delante de S2 y entre el eje de las caderas y el promontorio, dentro de la copa ([revisión](https://atna-mam.utcluj.ro/index.php/Acta/article/download/2746/2161); el 55–57 % es coherente entre fuentes educativas).
 
-**Limitación heredada de la base** (medida, no corregible sin tocarla): la columna de la base pasa justo por encima del eje de las caderas, así que S1 queda en la vertical de las caderas y **la inclinación pélvica es ≈ 0°** (publicado 13–18°). Con PT ≈ 0 la incidencia pélvica resulta ≈ SS ≈ 37°, por debajo de los 51–55° publicados. El esqueleto se ve bien proporcionado, pero una pelvis con PT real exigiría desplazar la columna base hacia atrás respecto de las caderas.
+**Corrección de la base (v2).** En la v0.2 la columna de la base pasaba justo por encima del eje de las caderas: la inclinación pélvica era 0° y la incidencia ≈ 37°, por debajo de lo publicado. Ahora la pelvis se inclina 15,5° (S1 queda 23 mm detrás del eje de las caderas) y el segmento lumbar la compensa inclinándose 8,4° hacia delante, de modo que **la columna torácica y todo lo que cuelga de ella no se mueven**. La lordosis L1–S1 se recalibró a 51,9° con ese segmento nuevo.
 
 ## 3. Articulaciones naturales independientes
 

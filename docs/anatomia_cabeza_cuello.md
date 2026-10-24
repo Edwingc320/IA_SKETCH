@@ -69,8 +69,16 @@ Cada fuente lleva su fiabilidad (`alta`, `media`, `baja`) en `head_neck.json`. L
 | «Cadena cervical descendente C1 → C7» y «C1 hijo de C7» | cadena de **abajo arriba** (C7 → … → C1 → cráneo) | las dos frases se contradicen; la de abajo arriba es la aprobada y cumple «cranium hijo de C1» |
 | Delante = «+Y» | delante = **−Y** | convención del proyecto (el personaje mira a −Y) |
 
-## 6. Limitación heredada de la base
+## 6. Corrección de la base (v2)
 
-El cuello de la base congelada mide 0,045 H (79 mm para C1–C7), así que cada vértebra cervical ocupa unos 11 mm incluyendo el disco. Solo los cuerpos vertebrales C3–C7 miden ya 8–12 mm ([estudio de cuerpos vertebrales](https://oajournals.fupress.net/index.php/ijae/article/download/1587/1585/1515)). Por eso los cóndilos occipitales quedan bajos: la bóveda craneal resulta alta (de los cóndilos al vértex hay 0,237 m) y el mentón queda cerca del esternón.
+El cuello de la v0.2 medía 0,045 H (79 mm para C1–C7, unos 11 mm por vértebra incluido el disco) y la cabeza 0,135 H (236 mm de los cóndilos al vértex). Los cóndilos quedaban bajos, la bóveda craneal alta y el mentón cerca del esternón. Se repartió de nuevo conservando la estatura exacta:
 
-Corregirlo exige un **cambio deliberado de la base**: alargar `neck` y acortar `head` en `config/proportions.json` conservando la estatura, junto con el origen de la clavícula en el manubrio (ver la especificación del tórax). Se aplicaría con `py scripts\freeze_base.py --update` y revisando el diff del golden. No se ha hecho: requiere tu aprobación expresa.
+| Medida | Antes | Ahora |
+|---|---|---|
+| Cuello (C1–C7) | 79 mm (0,045 H) | **149 mm (0,085 H)**, ~21 mm por vértebra |
+| Cabeza (cóndilos → vértex) | 236 mm (0,135 H) | **167 mm (0,095 H)** |
+| Cóndilos occipitales (z) | 1,513 m | **1,582 m** |
+| Separación vertical mentón – escotadura yugular | 68 mm | **137 mm** |
+| Vértex | 1,749011 m | 1,749011 m (sin cambio) |
+
+La lordosis cervical se recalibró para el cuello nuevo (Cobb C2–C7 = 17,1°) y la bóveda del cráneo (lambda y bregma) se acortó con la cabeza; la cara y la mandíbula, que cuelgan de los cóndilos, no cambian. **Limitación que queda:** la cabeza base sigue siendo unos 2 cm más larga que un cráneo real, porque conserva toda la estatura (la suma cuello + cabeza es la misma que antes).

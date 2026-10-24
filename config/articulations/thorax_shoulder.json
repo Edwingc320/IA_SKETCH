@@ -152,7 +152,7 @@
    "center": {
     "at": "clavicle.L.head"
    },
-   "tolerance_m": 0.1,
+   "tolerance_m": 0.03,
    "dofs": [
     {
      "name": "elevacion_depresion",
@@ -181,8 +181,7 @@
     "kenhub_sc",
     "rjme_ccl"
    ],
-   "notes": "Unica union osea del miembro superior con el tronco. Pivote de elevacion y protraccion: el ligamento costoclavicular. Ligamentos esternoclaviculares anterior y posterior (capsulares), interclavicular y costoclavicular. Rangos de una sola fuente clinica (GPnotebook).",
-   "known_limitation": "la clavicula base (congelada) nace casi en el plano de la columna; el manubrio esta delante"
+   "notes": "Unica union osea del miembro superior con el tronco. Pivote de elevacion y protraccion: el ligamento costoclavicular. Ligamentos esternoclaviculares anterior y posterior (capsulares), interclavicular y costoclavicular. Rangos de una sola fuente clinica (GPnotebook)."
   },
   {
    "name": "acromioclavicular.L",
@@ -194,12 +193,7 @@
    ],
    "carrier": "clavicle.L",
    "center": {
-    "at": "clavicle.L.tail",
-    "offset_h": [
-     0.00286,
-     0.01143,
-     0.01257
-    ]
+    "at": "clavicle.L.tail"
    },
    "tolerance_m": 0.035,
    "dofs": [
@@ -226,8 +220,7 @@
     "kenhub_cc",
     "ajsm_ac_cc"
    ],
-   "notes": "Union clavicula-acromion. Estabilidad vertical por los ligamentos coracoclaviculares (conoide y trapezoide); los textos clasicos asignan al trapezoide la rotacion anterior y al conoide la posterior, pero los estudios cadavericos muestran papeles dependientes del plano.",
-   "known_limitation": "en la base la clavicula termina en el centro glenohumeral; el acromion queda unos 3 cm por encima y por detras"
+   "notes": "Union clavicula-acromion. Estabilidad vertical por los ligamentos coracoclaviculares (conoide y trapezoide); los textos clasicos asignan al trapezoide la rotacion anterior y al conoide la posterior, pero los estudios cadavericos muestran papeles dependientes del plano."
   },
   {
    "name": "glenohumeral.L",
@@ -374,7 +367,7 @@
     "lerp": [
      "sternum.head",
      "sternum.tail",
-     0.26684555148535216
+     0.26684555148535183
     ],
     "offset_h": [
      0.0,
@@ -404,7 +397,7 @@
     "lerp": [
      "sternum.head",
      "sternum.tail",
-     0.8667904338756565
+     0.8667904338756566
     ],
     "offset_h": [
      0.0,
@@ -1995,7 +1988,7 @@
     "rjme_ccl",
     "kenhub_sc"
    ],
-   "notes": "Fulcro de la elevacion y la protraccion de la clavicula; presente en el 94% de los lados disecados. Aqui es largo por el hueco de la clavicula base.",
+   "notes": "Fulcro de la elevacion y la protraccion de la clavicula; presente en el 94% de los lados disecados. En la base v2 la clavicula nace en el manubrio, por lo que mide ~2 cm.",
    "tolerance_m": 0.03,
    "typical_length_m": 0.015
   },

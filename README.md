@@ -115,7 +115,7 @@ La suite corre **dentro de Blender** y compara números reales, no solo que Blen
 
 - **`test_lumbar_pelvis.py`**: columna lumbar, sacro y pelvis: jerarquía, parámetros espinopélvicos (pendiente sacra 37°, lordosis L1–S1 51,9°), centro de masas y puntos de unión.
 
-Resumen esperado: `[SUMMARY] ejecutadas=178 fallos=0 errores=0 omitidas=0` y `RESULTADO FINAL: OK`. Las pruebas fijan los valores **por defecto** de `config\`; si editas la configuración, ejecuta `-Task Generate` (la validación interna siempre corre) y, si un test de valores por defecto falla por tus cambios, es esperado.
+Resumen esperado: `[SUMMARY] ejecutadas=180 fallos=0 errores=0 omitidas=0` y `RESULTADO FINAL: OK`. Las pruebas fijan los valores **por defecto** de `config\`; si editas la configuración, ejecuta `-Task Generate` (la validación interna siempre corre) y, si un test de valores por defecto falla por tus cambios, es esperado.
 
 ## Modificar las proporciones y la pose
 
@@ -142,13 +142,21 @@ powershell -ExecutionPolicy Bypass -File scripts\run.ps1 -Task Generate -Height 
 
 ## La base congelada (nivel 0)
 
-El esqueleto neutro de 20 huesos y 19 articulaciones es la **base de referencia**: cualquier detalle anatómico posterior se construye *sobre* ella sin modificarla. Su instantánea vive en `tests\golden\base_skeleton.json` (huesos, marcos, pivotes, ejes y límites, con la firma `e6f88af5c6c3…`). Un cambio **deliberado** de la base se hace así (y se revisa el diff del golden):
+El esqueleto neutro de 20 huesos y 19 articulaciones es la **base de referencia**: cualquier detalle anatómico posterior se construye *sobre* ella sin modificarla. Su instantánea vive en `tests\golden\base_skeleton.json` (huesos, marcos, pivotes, ejes y límites, con la firma `aa221b46014f…`). Un cambio **deliberado** de la base se hace así (y se revisa el diff del golden):
 
 ```powershell
 py scripts\freeze_base.py --update
 ```
 
 Sin `--update` el script se niega a sobrescribir la instantánea. Copias locales de los `.blend` anteriores (no se versionan): `output\legacy\skeleton_core_v0.1.blend` y `output\legacy\skeleton_core_v0.2.blend`.
+
+**Historial de cambios deliberados de la base**
+
+| Versión | Qué cambió | Qué se conserva exactamente |
+|---|---|---|
+| v2 | **Pelvis** inclinada 15,5° (PT) con el segmento lumbar compensando; **cuello** 79 → 149 mm y **cabeza** 236 → 167 mm; **clavícula** del manubrio al acromion (175 → 208 mm). Firma `aa221b46014f…` | Pivotes de hombro, codo, muñeca, cadera, rodilla y tobillo; inicio de la columna torácica; estatura (vértex en 1,749011 m); límites articulares |
+
+Para volver a la base anterior: `git checkout main` (la rama de la v2 es `fix/base-level0-v2`) o la etiqueta `v0.1.0` para la v0.1.
 
 ## Nivel 1: anatomía sobre la base
 
@@ -194,10 +202,10 @@ Regiones (orden aprobado):
 
 Si coinciden (p. ej. dentro de un mismo segmento base: L5 → L4 → … → L1), el rig sigue la cadena anatómica. Si el hueso anatómico padre lo mueve otro segmento base (el húmero lo mueve `upper_arm`, no la escápula), el rig usa el segmento base para que la pose de la base no lo deje atrás.
 
-**Limitaciones conocidas** (heredadas de la base congelada; se miden en el reporte o en las pruebas):
+**Limitaciones conocidas** (se miden en el reporte o en las pruebas):
 
-- La clavícula base nace casi en el plano de la columna: hueco de unos 8,6 cm entre su pivote esternoclavicular y el esternón (`sternoclavicular_gap_m`); el acromion queda a 3 cm de la clavícula y el ligamento costoclavicular mide 89 mm (real ≈ 15 mm). Se avisan como `ART_JOINT_GAP` / `ART_LIGAMENT_LENGTH`.
-- El cuello base mide 0.045 H: C1–C7 quedan comprimidas (~11 mm por vértebra) y los cóndilos occipitales quedan unos 5–7 cm más bajos que en un adulto real, por lo que el cráneo es alto y la barbilla queda baja, cerca del esternón.
+- La clavícula (base v2) mide 208 mm, más que una real (≈ 150 mm), porque los hombros de la base son anchos; su extremo coincide con el acromion y su origen queda a 19 mm de la escotadura yugular.
+- La cabeza base sigue siendo unos 2 cm más larga que un cráneo real (conserva toda la estatura; el cuello mide 149 mm).
 - La mano y el pie base no se re-emparentan a radio/cúbito ni a tibia/peroné (cambiaría la base congelada): la unión es geométrica (muñeca entre radio y cúbito distales; tobillo entre los maléolos) y cinemática (los mueve el mismo segmento base).
 
 ## Versiones anteriores y compatibilidad

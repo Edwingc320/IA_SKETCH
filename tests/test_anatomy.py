@@ -435,7 +435,7 @@ class TestSpineHead(unittest.TestCase):
         self.assertEqual(lumbar.index(min(lumbar)), 2)  # vertice en L3
         self.assertIn(thoracic.index(max(thoracic)), (5, 6))  # vertice en T7-T6
         self.assertEqual(cervical.index(min(cervical)), 3)  # vertice en C4
-        self.assertTrue(0.004 * H < -min(lumbar) < 0.007 * H)  # calibrada para LL L1-S1 = 51.9 grados (test_lumbar_pelvis)
+        self.assertTrue(0.008 * H < -min(lumbar) < 0.012 * H)  # calibrada para LL L1-S1 = 51.9 grados sobre la base v2 (test_lumbar_pelvis)
         self.assertTrue(0.006 * H < max(thoracic) < 0.011 * H)
         self.assertTrue(0.002 * H < -min(cervical) < 0.006 * H)
         for n in VERTEBRAE + ["cranium", "mandible"]:  # todo en el plano medio (X = 0)
@@ -507,6 +507,22 @@ class TestLongBones(unittest.TestCase):
                 self.assertLess(length(sub(self.b[f"{bone}.{s}"].tail, self.base.bones[f"{seg}.{s}"].tail)), 1e-12)
             self.assertLess(length(sub(self.b[f"scapula.{s}"].head, self.base.bones[f"upper_arm.{s}"].head)), 1e-12)  # glenoide
             self.assertLess(length(sub(self.b[f"femur.{s}"].head, self.b[f"hip_bone.{s}"].tail)), 1e-12)  # acetabulo
+
+    def test_acromion_coincides_with_the_clavicle_tip_and_the_arm_hangs_from_the_glenoid(self):
+        """Base v2: la clavicula va del manubrio al acromion; la glenoides (= pivote del hombro) queda 2.2 cm por
+        debajo y 2 cm por delante del acromion, que coincide con el extremo de la clavicula."""
+        for s in "LR":
+            clav = self.base.bones[f"clavicle.{s}"]
+            sc = self.b[f"scapula.{s}"]
+            self.assertLess(length(sub(sc.outline[1], clav.tail)), 1e-12)  # acromion = extremo de la clavicula
+            self.assertLess(length(sub(sc.head, self.base.joints[f"shoulder.{s}"].pivot)), 1e-12)  # glenoides = hombro
+            d = sub(sc.outline[1], sc.head)
+            self.assertAlmostEqual(d[2], 0.022, places=6)  # acromion por encima de la glenoides
+            self.assertAlmostEqual(d[1], 0.020, places=6)  # y por detras
+            self.assertAlmostEqual(abs(d[0]), 0.005, places=6)  # y algo lateral
+            arm = self.base.bones[f"upper_arm.{s}"]
+            self.assertEqual(arm.parent, f"clavicle.{s}")
+            self.assertGreater(length(sub(arm.head, clav.tail)), 0.02)  # el brazo ya no nace en el extremo de la clavicula
 
     def test_anatomical_position_and_distal_attachments(self):
         for s, sx in (("L", 1), ("R", -1)):

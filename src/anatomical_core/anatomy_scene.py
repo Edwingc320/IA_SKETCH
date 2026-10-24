@@ -191,7 +191,7 @@ def render_anatomy_previews(base, out_dir, prefix: str = "anatomy", anat: Anatom
     if anat is not None:  # torax + cintura escapular con sus puntos de union (articulaciones, ligamentos, inserciones)
         thorax = {n for n, b in anat.bones.items() if b.region == "thoracic_cage" or (n.startswith("T") and n[1:].isdigit())
                   or n.startswith(("scapula", "humerus", "C7"))}
-        unions = {o.name for o in bpy.data.objects if o.name.split("_", 1)[0] in ("ART", "LIG", "ATT")}
+        unions = {o.name for o in bpy.data.objects if o.get("ac_region") == "thorax_shoulder"}
         thorax_c = Vector((0.0, 0.0, base.bones["thorax"].head[2]))
         close.append(("thorax_shoulder_34", thorax_c, Vector((1.2, -1.6, 0.9)), 0.42 * height_m,
                       {*thorax, "__objects__", *(f"__obj__{u}" for u in unions), "__obj__VIS_clavicle.L", "__obj__VIS_clavicle.R"}))

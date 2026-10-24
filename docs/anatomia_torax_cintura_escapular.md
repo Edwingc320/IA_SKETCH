@@ -86,14 +86,20 @@ Cada fuente lleva su fiabilidad (`alta`, `media`, `baja`) en `thorax_shoulder.js
 | Nombres `rib_L_01` | `rib_01.L` | normalización aprobada (lado como sufijo final); `rib_L_01` queda trazado en `config/reference/` |
 | Cadena «descendente T1 → T12» | cadena de abajo arriba (`T12` → … → `T1`) | es la aprobada en la región 4; con ella girar un segmento arrastra lo que está por encima |
 | Esternón en el plano anterior «+Y» | delante = **−Y** | convención del proyecto (el personaje mira a −Y) |
-| La clavícula nace en el manubrio | no | la clavícula es de la base congelada; ver §6 |
+| La clavícula nace en el manubrio | **sí (base v2)** | la base se corrigió de forma deliberada; ver §6 |
 
-## 6. Limitaciones heredadas de la base y cambio propuesto
+## 6. Corrección de la base (v2)
 
-La clavícula de la base nace casi en el plano de la columna y termina en el centro glenohumeral. Consecuencias medidas (avisos, no errores):
+La clavícula de la v0.2 nacía casi en el plano de la columna y terminaba en el centro glenohumeral. Eso dejaba tres desajustes medidos, que el cambio de la base corrige:
 
-- hueco esternoclavicular de **86 mm** entre el pivote de la clavícula y el esternón;
-- el acromion queda a **30 mm** de la clavícula;
-- el ligamento costoclavicular mide **89 mm** (real ≈ 15 mm).
+| Medida | Antes | Ahora | Referencia |
+|---|---|---|---|
+| Esternoclavicular – escotadura yugular | 86 mm | **19 mm** | clavícula al lado del manubrio |
+| Acromion – extremo de la clavícula | 30 mm | **0 mm** | la clavícula termina en el acromion |
+| Ligamento costoclavicular | 89 mm | **22 mm** | real ≈ 15 mm |
 
-Corregirlo exige un **cambio deliberado de la base** (`py scripts\freeze_base.py --update` y revisar el diff del golden): mover el origen de la clavícula al manubrio manteniendo el pivote del hombro, y —por el mismo motivo— alargar el cuello base (0,045 H) para subir los cóndilos occipitales. No se ha hecho: requiere tu aprobación expresa.
+**Qué se hizo.** La clavícula va ahora del manubrio (esternoclavicular a ±1,9 cm de la línea media, a la altura de la escotadura yugular y 8,6 cm por delante de la columna) al **acromion**, que queda 0,5 cm lateral, 2 cm por detrás y 2,2 cm por encima del centro glenohumeral. El brazo cuelga del glenohumeral, con el **mismo pivote de hombro de siempre**: hombro, codo, muñeca, cadera, rodilla y tobillo no se mueven. La escápula nace en esa glenoides y su acromion coincide exactamente con el extremo de la clavícula.
+
+**Consecuencias.** La clavícula pasa de 175 a 208 mm, con 22,7° de elevación y 28,7° hacia atrás (antes 9,8° y −2,9°): sigue siendo más larga que una clavícula real (≈ 150 mm) porque los hombros de la base son anchos (0,209 H entre pivotes). Esa es la limitación que queda: una clavícula más corta exigiría estrechar el hombro, es decir, mover el brazo.
+
+El cambio se aplicó con `py scriptsreeze_base.py --update` y se revisó el diff del golden: solo cambian pelvis, lumbar, cuello, cabeza y clavícula.
