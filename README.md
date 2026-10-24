@@ -125,11 +125,13 @@ La suite corre **dentro de Blender** y compara números reales, no solo que Blen
 
 - **`test_closure.py`**: volumen del cráneo (cerrado, simétrico, escala con la altura, ancho = índice × longitud), cierre de costillas y cartílagos, anillo pélvico y ningún extremo de hueso sin término.
 
+- **`test_muscles.py`** (solo en `muscle-model`): gluteos anclados a los hitos oseos a menos de 12 mm de la superficie de su hueso, fibras origen-insercion, simetria, escala y seguimiento del hueso en Blender.
+
 - **`test_pelvis_closure.py`**: sacroilíaca sin hueco, ligamentos sacrotuberoso y sacroespinoso cerrando el piso posterior y todo hito pélvico o glúteo a menos de 12 mm de la superficie de su hueso.
 
 - **`test_leg_foot.py`**: piernas y pies: jerarquía anatómica (fémur → ilion, tibia y peroné → fémur, rótula delante de la rodilla, astrágalo → tibia, tarso y metatarso, cadenas de dedos exactas con las puntas a menos de 12 mm del suelo) y puntos de unión.
 
-Resumen esperado: `[SUMMARY] ejecutadas=258 fallos=0 errores=0 omitidas=0` y `RESULTADO FINAL: OK`. Las pruebas fijan los valores **por defecto** de `config\`; si editas la configuración, ejecuta `-Task Generate` (la validación interna siempre corre) y, si un test de valores por defecto falla por tus cambios, es esperado.
+Resumen esperado: `[SUMMARY] ejecutadas=267 fallos=0 errores=0 omitidas=0` y `RESULTADO FINAL: OK`. Las pruebas fijan los valores **por defecto** de `config\`; si editas la configuración, ejecuta `-Task Generate` (la validación interna siempre corre) y, si un test de valores por defecto falla por tus cambios, es esperado.
 
 ## Modificar las proporciones y la pose
 
@@ -267,6 +269,6 @@ output/  logs/     resultados y registros (no se versionan; son reproducibles)
 Solo hay dos lineas de trabajo, una por cada parte del cuerpo:
 
 - **`main`: modelo de estructura osea.** Base (nivel 0), huesos del nivel 1, articulaciones, ligamentos y hitos oseos. No contiene musculos ni tendones (una prueba lo vigila).
-- **`muscle-model`: modelo de estructura muscular.** Sale del ultimo commit de `main` que aun llevaba los origenes e inserciones musculares con sus fuentes (`81f52ee`) y es independiente: no se le fusiona `main`, porque eso borraria esos datos. Pendiente alli: verificar en un atlas lo apoyado en fuentes debiles (deltoides, trapecio, masetero, temporal, semiespinoso, esplenio, psoas, iliaco, cuadrado lumbar, gluteo mayor, abductor largo y extensores del pulgar, capuchon extensor y otros).
+- **`muscle-model`: modelo de estructura muscular.** Es `main` mas una capa muscular propia (`config/muscles/`, `muscles.py`, `muscles_scene.py`, `tests/test_muscles.py`): cada origen e insercion nace de un hito oseo de `main`. Como esos archivos no existen en `main`, **`main` se puede fusionar en `muscle-model`** sin perder nada. Hoy contiene los gluteos (`docs/musculos_gluteos.md`). Pendiente: el resto de musculos, y verificar en un atlas lo apoyado en fuentes debiles (la cintilla iliotibial en el tuberculo de Gerdy, deltoides, trapecio, masetero, temporal, psoas, etc.; los datos antiguos estan en el historial, commit `81f52ee`).
 
 Las ramas de trabajo se fusionan en `main` y se borran; el tag `v0.1.0` se conserva.

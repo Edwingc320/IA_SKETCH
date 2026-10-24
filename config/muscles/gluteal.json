@@ -1,0 +1,176 @@
+{
+ "schema_version": 2,
+ "region": "gluteal",
+ "description": "Musculos gluteos (mayor, mediano y menor): origenes e inserciones anclados a los hitos oseos del modelo oseo (rama muscle-model). Cada fibra une un origen con una insercion. Coordenadas: +X izquierda, +Y atras (anterior = -Y), +Z arriba.",
+ "sources": {
+  "wiki_gluteal": {
+   "url": "https://en.wikipedia.org/wiki/Gluteal_muscles",
+   "reliability": "media",
+   "title": "Wikipedia - Gluteal muscles (origenes e inserciones de los tres gluteos)"
+  },
+  "radiopaedia_gluteal": {
+   "url": "https://www.radiopaedia.org/articles/gluteal-muscles",
+   "reliability": "media",
+   "title": "Radiopaedia - Gluteal muscles"
+  },
+  "wikimsk_gmed": {
+   "url": "https://wikimsk.org/wiki/Gluteus_Medius",
+   "reliability": "media",
+   "title": "WikiMSK - Gluteus medius (facetas lateral y posterosuperior del trocanter mayor)"
+  },
+  "anatomyzone_gmed": {
+   "url": "https://anatomyzone.com/lower-limb/pelvic-girdle-and-gluteal-region/gluteus-medius/",
+   "reliability": "media",
+   "title": "AnatomyZone - Gluteus medius"
+  },
+  "abmp_glutes": {
+   "url": "https://www.abmp.com/massage-and-bodywork-magazine/issues/julyaugust-2015/maximus-medius-and-minimus",
+   "reliability": "media",
+   "title": "ABMP - The maximus, medius, and minimus"
+  }
+ },
+ "muscles": [
+  {
+   "name": "gluteus_maximus.L",
+   "mirror": true,
+   "sources": [
+    "wiki_gluteal",
+    "radiopaedia_gluteal",
+    "abmp_glutes"
+   ],
+   "notes": "Origen en la cara externa del ilion por detras de la linea glutea posterior, la masa lateral del sacro y la aponeurosis toracolumbar (cresta iliaca posterior); insercion en la tuberosidad glutea del femur y en la cintilla iliotibial. Las fuentes discrepan en el detalle del origen (coxis, ligamento sacrotuberoso): se modelan los sitios comunes a todas.",
+   "sites": [
+    {
+     "kind": "origin",
+     "structure": "cara externa del ilion, por detras de la linea glutea posterior",
+     "landmark": "posterior_gluteal_line.L",
+     "sources": [
+      "wiki_gluteal",
+      "radiopaedia_gluteal"
+     ]
+    },
+    {
+     "kind": "origin",
+     "structure": "masa lateral del sacro",
+     "landmark": "sacral_lateral_mass.L",
+     "sources": [
+      "wiki_gluteal",
+      "radiopaedia_gluteal"
+     ]
+    },
+    {
+     "kind": "origin",
+     "structure": "aponeurosis toracolumbar (cresta iliaca)",
+     "landmark": "iliac_crest.L",
+     "sources": [
+      "wiki_gluteal",
+      "radiopaedia_gluteal"
+     ],
+     "notes": "La aponeurosis es fascia: se ancla a la cresta iliaca, el hueso donde se inserta."
+    },
+    {
+     "kind": "insertion",
+     "structure": "tuberosidad glutea del femur",
+     "landmark": "gluteal_tuberosity.L",
+     "sources": [
+      "wiki_gluteal",
+      "radiopaedia_gluteal"
+     ]
+    },
+    {
+     "kind": "insertion",
+     "structure": "cintilla iliotibial (hasta el tuberculo de Gerdy)",
+     "landmark": "gerdy_tubercle.L",
+     "sources": [
+      "wiki_gluteal"
+     ],
+     "notes": "La cintilla iliotibial es fascia: se ancla a su destino oseo, el tuberculo de Gerdy (dato no recogido por las fuentes consultadas: verificar en un atlas)."
+    }
+   ]
+  },
+  {
+   "name": "gluteus_medius.L",
+   "mirror": true,
+   "sources": [
+    "wiki_gluteal",
+    "wikimsk_gmed",
+    "anatomyzone_gmed"
+   ],
+   "notes": "Origen en la cara externa del ilion entre las lineas gluteas anterior y posterior; insercion en la cara lateral del trocanter mayor (facetas lateral y posterosuperior).",
+   "sites": [
+    {
+     "kind": "origin",
+     "structure": "cara externa del ilion, linea glutea posterior",
+     "landmark": "posterior_gluteal_line.L",
+     "sources": [
+      "wiki_gluteal",
+      "anatomyzone_gmed"
+     ]
+    },
+    {
+     "kind": "origin",
+     "structure": "cara externa del ilion, linea glutea anterior",
+     "landmark": "anterior_gluteal_line.L",
+     "sources": [
+      "wiki_gluteal",
+      "anatomyzone_gmed"
+     ]
+    },
+    {
+     "kind": "insertion",
+     "structure": "cara lateral del trocanter mayor",
+     "landmark": "greater_trochanter.L",
+     "sources": [
+      "wikimsk_gmed",
+      "wiki_gluteal"
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0017142857142857144,
+      0.002285714285714286
+     ]
+    }
+   ]
+  },
+  {
+   "name": "gluteus_minimus.L",
+   "mirror": true,
+   "sources": [
+    "wiki_gluteal",
+    "radiopaedia_gluteal"
+   ],
+   "notes": "Origen en la cara externa del ilion entre las lineas gluteas anterior e inferior; insercion en la faceta anterior del trocanter mayor (por delante de la del mediano).",
+   "sites": [
+    {
+     "kind": "origin",
+     "structure": "cara externa del ilion, linea glutea anterior",
+     "landmark": "anterior_gluteal_line.L",
+     "sources": [
+      "wiki_gluteal"
+     ]
+    },
+    {
+     "kind": "origin",
+     "structure": "cara externa del ilion, linea glutea inferior",
+     "landmark": "inferior_gluteal_line.L",
+     "sources": [
+      "wiki_gluteal"
+     ]
+    },
+    {
+     "kind": "insertion",
+     "structure": "cara anterior del trocanter mayor",
+     "landmark": "greater_trochanter.L",
+     "sources": [
+      "wiki_gluteal"
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   ]
+  }
+ ]
+}

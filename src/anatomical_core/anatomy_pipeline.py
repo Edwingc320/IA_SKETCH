@@ -10,7 +10,7 @@ import json
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from . import anatomy, anatomy_scene, articulations, articulations_scene, scene, validation
+from . import anatomy, anatomy_scene, articulations, articulations_scene, muscles, muscles_scene, scene, validation
 from . import pose as pose_mod
 from .config import PoseDef, load_config
 from .skeleton import build_model
@@ -95,11 +95,25 @@ def generate(output_blend, config_dir=None, anatomy_dir=None, reference_path=Non
         log(f"[INFO] Puntos de union: {len(art.joints)} articulaciones, {len(art.ligaments)} ligamentos, "
             f"{len(art.attachments)} inserciones, {len(art.sources)} fuentes")
 
+    mus = None
+    mus_data = muscles.load_muscle_data()
+    if mus_data and art is not None:
+        mus = muscles.build_muscles(base, anat, art, mus_data)
+        mus_issues = muscles.validate_muscles(base, anat, art, mus)
+        for i in mus_issues:
+            log(str(i))
+        issues += mus_issues
+        if validation.errors(mus_issues):
+            raise AnatomyGenerationError("La capa muscular no supera la validacion", mus_issues)
+        log(f"[INFO] Capa muscular: {len(mus.muscles)} musculos, {sum(len(m.sites) for m in mus.muscles.values())} sitios, {len(mus.sources)} fuentes")
+
     scene.reset_scene()
     scene.build_scene(base, neutral)
     anatomy_scene.add_anatomy(anat, list(base.bones))
     if art is not None:
         articulations_scene.add_articulations(art, base.height_m)
+    if mus is not None:
+        muscles_scene.add_muscles(mus)
     scene.save_blend(output_blend)
     log(f"[INFO] Guardado: {output_blend} ({output_blend.stat().st_size} bytes)")
 
@@ -108,6 +122,8 @@ def generate(output_blend, config_dir=None, anatomy_dir=None, reference_path=Non
     anat_blend = validation.validate_anatomy_snapshot(anat, anatomy_scene.read_back_anatomy())
     if art is not None:
         anat_blend += validation.validate_articulations_snapshot(art, articulations_scene.read_back_articulations())
+    if mus is not None:
+        anat_blend += muscles.validate_muscles_snapshot(mus, muscles_scene.read_back_muscles())
     for i in base_blend + anat_blend:
         log(str(i))
     issues += base_blend + anat_blend
