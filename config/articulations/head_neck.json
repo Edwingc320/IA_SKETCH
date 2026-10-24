@@ -1,0 +1,1472 @@
+{
+ "schema_version": 2,
+ "region": "head_neck",
+ "description": "Puntos de union de la cabeza y la columna cervical para poses y musculos futuros: articulaciones naturales (atlantooccipital, atlantoaxial, intervertebrales C2-C7, temporomandibulares), ligamentos craneovertebrales, nucal y de la ATM, inserciones musculares e hitos craneometricos (plano de Frankfort, centro de gravedad). Rangos con su fuente; 'per_side' = valor hacia un lado; 'unit' mm para la mandibula. Sin cifra cuando la fuente no la da. Coordenadas: +X izquierda, +Y atras (anterior = -Y), +Z arriba.",
+ "sources": {
+  "panjabi_1988": {
+   "url": "https://wbldb.lievers.net/10194076.html",
+   "reliability": "alta",
+   "title": "Panjabi et al. 1988, Spine 13(7) - Three-dimensional movements of the upper cervical spine (cadaver; flexion y extension por separado, inclinacion y rotacion a un lado)"
+  },
+  "schops_1997": {
+   "url": "https://www.thieme-connect.de/products/ejournals/pdf/10.1055/s-2008-1061881.pdf",
+   "reliability": "alta",
+   "title": "Schops et al. 1997 - valores normativos C0-C1 y C1-C2 (aleman)"
+  },
+  "kenhub_ao": {
+   "url": "https://www.kenhub.com/en/library/anatomy/atlanto-occipital-joint",
+   "reliability": "media",
+   "title": "Kenhub - Atlanto-occipital joint"
+  },
+  "wo_2021_fe": {
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8317600/table/T2",
+   "reliability": "media",
+   "title": "Wo et al. 2021, Front Bioeng Biotechnol - modelo de elementos finitos cervical intacto (tabla no accesible para verificacion directa)"
+  },
+  "zhao_2013": {
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3701975",
+   "reliability": "alta",
+   "title": "Zhao et al. 2013, Arch Med Sci - rotacion segmentaria cervical in vivo (TC 3D, 16 voluntarios; a un lado)"
+  },
+  "zhu_2020": {
+   "url": "https://josr-online.biomedcentral.com/articles/10.1186/s13018-019-1526-x",
+   "reliability": "alta",
+   "title": "Zhu et al. 2020, J Orthop Surg Res - lordosis C2-C7 17.11 +- 6.31 grados en 307 adultos asintomaticos"
+  },
+  "rsna_cvj": {
+   "url": "https://pubs.rsna.org/radiographics/doi/10.1148/rg.230137",
+   "reliability": "alta",
+   "title": "RadioGraphics - craniovertebral junction (ligamentos)"
+  },
+  "kenhub_cvj": {
+   "url": "https://www.kenhub.com/en/start/craniovertebral-ligaments-and-joints",
+   "reliability": "media",
+   "title": "Kenhub - Craniovertebral ligaments and joints"
+  },
+  "kenhub_nuchal": {
+   "url": "https://kenhub.com/en/library/anatomy/nuchal-ligament",
+   "reliability": "media",
+   "title": "Kenhub - Nuchal ligament"
+  },
+  "elsevier_nuchal": {
+   "url": "https://elsevier.com/resources/anatomy/connective-tissue/joints-of-vertebral-column/nuchal-ligament/16761",
+   "reliability": "media",
+   "title": "Elsevier - Nuchal ligament"
+  },
+  "nepal_mmo": {
+   "url": "https://nepmed.nhrc.gov.np/entities/publication/f36a70eb-584e-4926-a156-8f5572c5cff6/full",
+   "reliability": "media",
+   "title": "Estudio de 145 estudiantes de odontologia (Nepal): apertura, protrusion y lateralidad"
+  },
+  "swiss_tmd": {
+   "url": "https://old.swissdentaljournal.org/magazin/artikel/maximum-mandibular-mobility-in-patients-with-temporomandibular-disorders.html",
+   "reliability": "media",
+   "title": "Swiss Dental Journal - movilidad mandibular maxima en 500 pacientes con TTM"
+  },
+  "teachme_tmj": {
+   "url": "https://teachmeanatomy.info/head/temporomandibular-joint/",
+   "reliability": "media",
+   "title": "TeachMeAnatomy - Temporomandibular joint"
+  },
+  "usmf_tmj": {
+   "url": "https://stomortopedica.usmf.md/sites/default/files/inline-files/TEMPOROMANDIBULAR%20JOINT.pdf",
+   "reliability": "media",
+   "title": "USMF - Temporomandibular joint (apuntes universitarios)"
+  },
+  "wiki_porion": {
+   "url": "https://en.wikipedia.org/wiki/Porion",
+   "reliability": "media",
+   "title": "Wikipedia - Porion (plano de Frankfort: porion y orbitale)"
+  },
+  "wiki_nhp": {
+   "url": "https://en.wikipedia.org/wiki/Natural_head_position",
+   "reliability": "media",
+   "title": "Wikipedia - Natural head position"
+  },
+  "acta_odont_head": {
+   "url": "https://medicaljournalssweden.se/actaodontologica/article/download/37863/43029/95612",
+   "reliability": "alta",
+   "title": "Acta Odontologica - 87 hombres suecos: bicigomatica 133.4 mm, bigoniaca 111.5 mm"
+  },
+  "springer_head_cog": {
+   "url": "https://link.springer.com/doi/10.1007/BF02427845",
+   "reliability": "alta",
+   "title": "1986, 6 craneos de cadaver - centro de gravedad de la cabeza (punto medio nasion-inion)"
+  },
+  "sohag_neck": {
+   "url": "https://staffsites.sohag-univ.edu.eg/uploads/1270/1540974321%20-%208.pdf",
+   "reliability": "media",
+   "title": "Universidad de Sohag - musculos del cuello (apuntes)"
+  },
+  "qpercom_neck": {
+   "url": "https://www.qpercom.com/?p=5953",
+   "reliability": "baja",
+   "title": "Qpercom - Muscles of the neck region (VERIFICAR en un atlas)"
+  },
+  "radiopaedia_scalenes": {
+   "url": "https://radiopaedia.org/articles/scalene-muscles",
+   "reliability": "media",
+   "title": "Radiopaedia - Scalene muscles"
+  },
+  "wiki_digastric": {
+   "url": "https://en.wikipedia.org/wiki/Digastric_muscle",
+   "reliability": "media",
+   "title": "Wikipedia - Digastric muscle"
+  },
+  "brainscape_mastication": {
+   "url": "https://brainscape.com/flashcards/12-muscles-of-mastication-8717544/packs/14874043",
+   "reliability": "baja",
+   "title": "Tarjetas de estudio - musculos de la masticacion (VERIFICAR en un atlas)"
+  }
+ },
+ "joints": [
+  {
+   "name": "atlanto_occipital",
+   "mirror": false,
+   "kind": "sinovial elipsoidea (condilos occipitales - masas laterales del atlas)",
+   "bones": [
+    "cranium",
+    "C1"
+   ],
+   "carrier": "C1",
+   "center": {
+    "at": "C1.tail"
+   },
+   "tolerance_m": 0.005,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": [
+      14,
+      18
+     ],
+     "source": "schops_1997",
+     "note": "normativo; en cadaver: flexion 3.5 + extension 21.0 (panjabi_1988)"
+    },
+    {
+     "name": "inclinacion_lateral",
+     "total_deg": [
+      4,
+      6
+     ],
+     "source": "schops_1997",
+     "per_side": true,
+     "note": "en cadaver 5.5 (panjabi_1988)"
+    },
+    {
+     "name": "rotacion_axial",
+     "total_deg": [
+      2,
+      5
+     ],
+     "source": "schops_1997",
+     "per_side": true,
+     "note": "en cadaver 7.2 (panjabi_1988); muy limitada por la profundidad de las fosas del atlas"
+    }
+   ],
+   "rig_driver": "head",
+   "ligaments": [
+    "anterior_atlanto_occipital_membrane",
+    "posterior_atlanto_occipital_membrane",
+    "alar.L",
+    "alar.R",
+    "apical",
+    "tectorial_membrane"
+   ],
+   "sources": [
+    "schops_1997",
+    "panjabi_1988",
+    "kenhub_ao"
+   ],
+   "notes": "Movimiento principal: asentir. Hoy la mueve la articulacion 'head' de la base (su pivote coincide)."
+  },
+  {
+   "name": "atlanto_axial",
+   "mirror": false,
+   "kind": "sinovial: mediana (pivote, diente del axis) y laterales (planas)",
+   "bones": [
+    "C1",
+    "C2"
+   ],
+   "carrier": "C2",
+   "center": {
+    "at": "C2.tail"
+   },
+   "tolerance_m": 0.005,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": [
+      12,
+      15
+     ],
+     "source": "schops_1997",
+     "note": "en cadaver: flexion 11.5 y extension 10.9 (panjabi_1988)"
+    },
+    {
+     "name": "inclinacion_lateral",
+     "total_deg": [
+      5,
+      7
+     ],
+     "source": "schops_1997",
+     "per_side": true,
+     "note": "en cadaver 6.7 (panjabi_1988)"
+    },
+    {
+     "name": "rotacion_axial",
+     "total_deg": [
+      40,
+      45
+     ],
+     "source": "schops_1997",
+     "per_side": true,
+     "note": "en cadaver 38.9 (panjabi_1988); aporta la mayor parte de la rotacion del cuello"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "transverse_atlas",
+    "alar.L",
+    "alar.R",
+    "apical",
+    "tectorial_membrane"
+   ],
+   "sources": [
+    "schops_1997",
+    "panjabi_1988",
+    "zhao_2013"
+   ],
+   "notes": "Sin motor propio en la base: hoy C1 y C2 se mueven juntos con el segmento 'neck'."
+  },
+  {
+   "name": "intervertebral_C2_C3",
+   "mirror": false,
+   "kind": "disco intervertebral + articulaciones facetarias (uncovertebrales)",
+   "bones": [
+    "C3",
+    "C2"
+   ],
+   "carrier": "C3",
+   "center": {
+    "at": "C2.head"
+   },
+   "tolerance_m": 0.001,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": 6.3,
+     "source": "wo_2021_fe",
+     "note": "modelo de elementos finitos intacto (no medido in vivo)"
+    },
+    {
+     "name": "inclinacion_lateral",
+     "total_deg": 4.9,
+     "source": "wo_2021_fe",
+     "note": "modelo de elementos finitos; convencion de la fuente"
+    },
+    {
+     "name": "rotacion_axial",
+     "total_deg": 3.1,
+     "source": "zhao_2013",
+     "per_side": true,
+     "note": "media maxima in vivo hacia un lado (texto completo; el resumen da 1.6-38.5 por nivel)"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wo_2021_fe",
+    "zhao_2013",
+    "zhu_2020"
+   ],
+   "notes": "Ligamentos longitudinales anterior y posterior, amarillo, interespinoso y nucal (linea media posterior). Alineacion en lordosis: Cobb C2-C7 de 17.1 grados (zhu_2020)."
+  },
+  {
+   "name": "intervertebral_C3_C4",
+   "mirror": false,
+   "kind": "disco intervertebral + articulaciones facetarias (uncovertebrales)",
+   "bones": [
+    "C4",
+    "C3"
+   ],
+   "carrier": "C4",
+   "center": {
+    "at": "C3.head"
+   },
+   "tolerance_m": 0.001,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": 7.9,
+     "source": "wo_2021_fe",
+     "note": "modelo de elementos finitos intacto (no medido in vivo)"
+    },
+    {
+     "name": "inclinacion_lateral",
+     "total_deg": 4.5,
+     "source": "wo_2021_fe",
+     "note": "modelo de elementos finitos; convencion de la fuente"
+    },
+    {
+     "name": "rotacion_axial",
+     "total_deg": 4.0,
+     "source": "zhao_2013",
+     "per_side": true,
+     "note": "media maxima in vivo hacia un lado (texto completo; el resumen da 1.6-38.5 por nivel)"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wo_2021_fe",
+    "zhao_2013",
+    "zhu_2020"
+   ],
+   "notes": "Ligamentos longitudinales anterior y posterior, amarillo, interespinoso y nucal (linea media posterior). Alineacion en lordosis: Cobb C2-C7 de 17.1 grados (zhu_2020)."
+  },
+  {
+   "name": "intervertebral_C4_C5",
+   "mirror": false,
+   "kind": "disco intervertebral + articulaciones facetarias (uncovertebrales)",
+   "bones": [
+    "C5",
+    "C4"
+   ],
+   "carrier": "C5",
+   "center": {
+    "at": "C4.head"
+   },
+   "tolerance_m": 0.001,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": 8.0,
+     "source": "wo_2021_fe",
+     "note": "modelo de elementos finitos intacto (no medido in vivo)"
+    },
+    {
+     "name": "inclinacion_lateral",
+     "total_deg": 4.2,
+     "source": "wo_2021_fe",
+     "note": "modelo de elementos finitos; convencion de la fuente"
+    },
+    {
+     "name": "rotacion_axial",
+     "total_deg": 5.3,
+     "source": "zhao_2013",
+     "per_side": true,
+     "note": "media maxima in vivo hacia un lado (texto completo; el resumen da 1.6-38.5 por nivel)"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wo_2021_fe",
+    "zhao_2013",
+    "zhu_2020"
+   ],
+   "notes": "Ligamentos longitudinales anterior y posterior, amarillo, interespinoso y nucal (linea media posterior). Alineacion en lordosis: Cobb C2-C7 de 17.1 grados (zhu_2020)."
+  },
+  {
+   "name": "intervertebral_C5_C6",
+   "mirror": false,
+   "kind": "disco intervertebral + articulaciones facetarias (uncovertebrales)",
+   "bones": [
+    "C6",
+    "C5"
+   ],
+   "carrier": "C6",
+   "center": {
+    "at": "C5.head"
+   },
+   "tolerance_m": 0.001,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": 8.4,
+     "source": "wo_2021_fe",
+     "note": "modelo de elementos finitos intacto (no medido in vivo)"
+    },
+    {
+     "name": "inclinacion_lateral",
+     "total_deg": 3.7,
+     "source": "wo_2021_fe",
+     "note": "modelo de elementos finitos; convencion de la fuente"
+    },
+    {
+     "name": "rotacion_axial",
+     "total_deg": 4.6,
+     "source": "zhao_2013",
+     "per_side": true,
+     "note": "media maxima in vivo hacia un lado (texto completo; el resumen da 1.6-38.5 por nivel)"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wo_2021_fe",
+    "zhao_2013",
+    "zhu_2020"
+   ],
+   "notes": "Ligamentos longitudinales anterior y posterior, amarillo, interespinoso y nucal (linea media posterior). Alineacion en lordosis: Cobb C2-C7 de 17.1 grados (zhu_2020)."
+  },
+  {
+   "name": "intervertebral_C6_C7",
+   "mirror": false,
+   "kind": "disco intervertebral + articulaciones facetarias (uncovertebrales)",
+   "bones": [
+    "C7",
+    "C6"
+   ],
+   "carrier": "C7",
+   "center": {
+    "at": "C6.head"
+   },
+   "tolerance_m": 0.001,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": 7.9,
+     "source": "wo_2021_fe",
+     "note": "modelo de elementos finitos intacto (no medido in vivo)"
+    },
+    {
+     "name": "inclinacion_lateral",
+     "total_deg": 3.7,
+     "source": "wo_2021_fe",
+     "note": "modelo de elementos finitos; convencion de la fuente"
+    },
+    {
+     "name": "rotacion_axial",
+     "total_deg": 2.3,
+     "source": "zhao_2013",
+     "per_side": true,
+     "note": "media maxima in vivo hacia un lado (texto completo; el resumen da 1.6-38.5 por nivel)"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wo_2021_fe",
+    "zhao_2013",
+    "zhu_2020"
+   ],
+   "notes": "Ligamentos longitudinales anterior y posterior, amarillo, interespinoso y nucal (linea media posterior). Alineacion en lordosis: Cobb C2-C7 de 17.1 grados (zhu_2020)."
+  },
+  {
+   "name": "temporomandibular.L",
+   "mirror": true,
+   "kind": "sinovial bicondilea con disco articular (rotacion + traslacion)",
+   "bones": [
+    "mandible",
+    "cranium"
+   ],
+   "carrier": "cranium",
+   "center": {
+    "at": "mandible.head",
+    "offset_h": [
+     0.028571428571428574,
+     0.0,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.065,
+   "dofs": [
+    {
+     "name": "apertura_interincisal",
+     "total_deg": 44.8,
+     "source": "nepal_mmo",
+     "unit": "mm",
+     "note": "media +-5.8 mm en 145 estudiantes; en pacientes con TTM 49.3 mm (swiss_tmd)"
+    },
+    {
+     "name": "protrusion",
+     "total_deg": 5.65,
+     "source": "nepal_mmo",
+     "unit": "mm",
+     "note": "en pacientes con TTM 8.8 mm (swiss_tmd)"
+    },
+    {
+     "name": "lateralidad",
+     "total_deg": [
+      8.23,
+      8.7
+     ],
+     "source": "nepal_mmo",
+     "unit": "mm",
+     "per_side": true,
+     "note": "derecha 8.23, izquierda 8.70 mm"
+    },
+    {
+     "name": "rotacion_del_condilo",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "primera fase de la apertura; sin cifra en las fuentes consultadas"
+    },
+    {
+     "name": "traslacion_del_condilo",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "segunda fase (el condilo avanza sobre la eminencia); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "temporomandibular_lateral.L",
+    "sphenomandibular.L",
+    "stylomandibular.L"
+   ],
+   "sources": [
+    "nepal_mmo",
+    "swiss_tmd",
+    "teachme_tmj",
+    "usmf_tmj"
+   ],
+   "notes": "Las dos ATM forman un unico eje de bisagra: el hueso 'mandible' nace en el centro de ese eje y su eje local X es la recta entre condilos. El craneo se modela como perfil medio-sagital: las estructuras laterales quedan a unos 5-7 cm de el."
+  }
+ ],
+ "ligaments": [
+  {
+   "name": "alar.L",
+   "mirror": true,
+   "from": {
+    "bone": "C2",
+    "point": {
+     "at": "C2.tail",
+     "offset_h": [
+      0.0,
+      -0.002285714285714286,
+      0.005714285714285714
+     ]
+    }
+   },
+   "to": {
+    "bone": "cranium",
+    "point": {
+     "at": "head.head",
+     "offset_h": [
+      0.006857142857142858,
+      0.0,
+      0.001142857142857143
+     ]
+    }
+   },
+   "joint": "atlanto_axial",
+   "sources": [
+    "rsna_cvj",
+    "kenhub_cvj"
+   ],
+   "notes": "Limita la rotacion atlantoaxial; al girar se tensa y arrastra el occipucio en inclinacion.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "transverse_atlas",
+   "mirror": false,
+   "from": {
+    "bone": "C1",
+    "point": {
+     "lerp": [
+      "C1.head",
+      "C1.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.006857142857142858,
+      0.002285714285714286,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C1",
+    "point": {
+     "lerp": [
+      "C1.head",
+      "C1.tail",
+      0.5
+     ],
+     "offset_h": [
+      -0.006857142857142858,
+      0.002285714285714286,
+      0.0
+     ]
+    }
+   },
+   "joint": "atlanto_axial",
+   "sources": [
+    "rsna_cvj"
+   ],
+   "notes": "Estabilizador principal: sujeta el diente del axis contra el arco anterior del atlas (banda transversa del ligamento cruciforme).",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "apical",
+   "mirror": false,
+   "from": {
+    "bone": "C2",
+    "point": {
+     "at": "C2.tail",
+     "offset_h": [
+      0.0,
+      -0.002285714285714286,
+      0.005714285714285714
+     ]
+    }
+   },
+   "to": {
+    "bone": "cranium",
+    "point": {
+     "at": "head.head",
+     "offset_h": [
+      0.0,
+      -0.004571428571428572,
+      0.002285714285714286
+     ]
+    }
+   },
+   "joint": "atlanto_occipital",
+   "sources": [
+    "rsna_cvj"
+   ],
+   "notes": "Del vertice del diente al borde anterior del agujero magno; puede faltar hasta en el 20% de las personas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "tectorial_membrane",
+   "mirror": false,
+   "from": {
+    "bone": "C2",
+    "point": {
+     "lerp": [
+      "C2.head",
+      "C2.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "cranium",
+    "point": {
+     "at": "head.head",
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.006857142857142858
+     ]
+    }
+   },
+   "joint": "atlanto_occipital",
+   "sources": [
+    "rsna_cvj"
+   ],
+   "notes": "Continuacion del ligamento longitudinal posterior; protege la medula del diente.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "anterior_atlanto_occipital_membrane",
+   "mirror": false,
+   "from": {
+    "bone": "C1",
+    "point": {
+     "lerp": [
+      "C1.head",
+      "C1.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "cranium",
+    "point": {
+     "at": "head.head",
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.001142857142857143
+     ]
+    }
+   },
+   "joint": "atlanto_occipital",
+   "sources": [
+    "rsna_cvj"
+   ],
+   "notes": "Del arco anterior del atlas al borde anterior del agujero magno; limita la hiperextension.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "posterior_atlanto_occipital_membrane",
+   "mirror": false,
+   "from": {
+    "bone": "C1",
+    "point": {
+     "lerp": [
+      "C1.head",
+      "C1.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.011428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "cranium",
+    "point": {
+     "at": "head.head",
+     "offset_h": [
+      0.0,
+      0.02,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "atlanto_occipital",
+   "sources": [
+    "rsna_cvj"
+   ],
+   "notes": "Del arco posterior del atlas al borde posterior del agujero magno (opistion).",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "nuchal",
+   "mirror": false,
+   "from": {
+    "bone": "C7",
+    "point": {
+     "lerp": [
+      "C7.head",
+      "C7.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.017142857142857144,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "cranium",
+    "point": {
+     "at": "head.head",
+     "offset_h": [
+      0.0,
+      0.05142857142857143,
+      0.017142857142857144
+     ]
+    }
+   },
+   "joint": null,
+   "sources": [
+    "kenhub_nuchal",
+    "elsevier_nuchal"
+   ],
+   "notes": "De la apofisis espinosa de C7 a la protuberancia occipital externa; resiste la hiperflexion. Apofisis espinosa no modelada.",
+   "tolerance_m": 0.035
+  },
+  {
+   "name": "temporomandibular_lateral.L",
+   "mirror": true,
+   "from": {
+    "bone": "cranium",
+    "point": {
+     "at": "head.head",
+     "offset_h": [
+      0.028571428571428574,
+      -0.017142857142857144,
+      0.006857142857142858
+     ]
+    }
+   },
+   "to": {
+    "bone": "mandible",
+    "point": {
+     "at": "head.head",
+     "offset_h": [
+      0.028571428571428574,
+      -0.009142857142857144,
+      -0.001142857142857143
+     ]
+    }
+   },
+   "joint": "temporomandibular.L",
+   "sources": [
+    "teachme_tmj",
+    "usmf_tmj"
+   ],
+   "notes": "Del tuberculo articular al cuello del condilo; limita el desplazamiento posterior. El craneo se modela como perfil medio-sagital: las estructuras laterales quedan a unos 5-7 cm de el.",
+   "tolerance_m": 0.065
+  },
+  {
+   "name": "sphenomandibular.L",
+   "mirror": true,
+   "from": {
+    "bone": "cranium",
+    "point": {
+     "at": "head.head",
+     "offset_h": [
+      0.01257142857142857,
+      -0.006857142857142858,
+      0.006857142857142858
+     ]
+    }
+   },
+   "to": {
+    "bone": "mandible",
+    "point": {
+     "at": "head.head",
+     "offset_h": [
+      0.025714285714285714,
+      -0.017142857142857144,
+      -0.014285714285714287
+     ]
+    }
+   },
+   "joint": "temporomandibular.L",
+   "sources": [
+    "usmf_tmj"
+   ],
+   "notes": "De la espina del esfenoides a la lingula de la mandibula. El craneo se modela como perfil medio-sagital: las estructuras laterales quedan a unos 5-7 cm de el.",
+   "tolerance_m": 0.065
+  },
+  {
+   "name": "stylomandibular.L",
+   "mirror": true,
+   "from": {
+    "bone": "cranium",
+    "point": {
+     "at": "head.head",
+     "offset_h": [
+      0.02,
+      0.002857142857142857,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "mandible",
+    "point": {
+     "at": "head.head",
+     "offset_h": [
+      0.031714285714285716,
+      -0.002857142857142857,
+      -0.025714285714285714
+     ]
+    }
+   },
+   "joint": "temporomandibular.L",
+   "sources": [
+    "usmf_tmj"
+   ],
+   "notes": "De la apofisis estiloides al angulo de la mandibula (engrosamiento de fascia). El craneo se modela como perfil medio-sagital: las estructuras laterales quedan a unos 5-7 cm de el.",
+   "tolerance_m": 0.065
+  }
+ ],
+ "attachments": [
+  {
+   "name": "porion.L",
+   "mirror": true,
+   "bone": "cranium",
+   "point": {
+    "at": "head.head",
+    "offset_h": [
+     0.03142857142857143,
+     0.002857142857142857,
+     0.011428571428571429
+    ]
+   },
+   "structures": [
+    "hito: porion (techo del conducto auditivo externo) - plano de Frankfort"
+   ],
+   "sources": [
+    "wiki_porion"
+   ],
+   "notes": "El craneo se modela como perfil medio-sagital: las estructuras laterales quedan a unos 5-7 cm de el.",
+   "tolerance_m": 0.07
+  },
+  {
+   "name": "orbitale.L",
+   "mirror": true,
+   "bone": "cranium",
+   "point": {
+    "at": "head.head",
+    "offset_h": [
+     0.018285714285714287,
+     -0.04857142857142858,
+     0.011428571428571429
+    ]
+   },
+   "structures": [
+    "hito: orbitale (punto mas bajo del borde orbitario) - plano de Frankfort"
+   ],
+   "sources": [
+    "wiki_porion",
+    "wiki_nhp"
+   ],
+   "notes": "El craneo se modela como perfil medio-sagital: las estructuras laterales quedan a unos 5-7 cm de el.",
+   "tolerance_m": 0.07
+  },
+  {
+   "name": "nasion",
+   "mirror": false,
+   "bone": "cranium",
+   "point": {
+    "at": "head.head",
+    "offset_h": [
+     0.0,
+     -0.056,
+     0.025714285714285714
+    ]
+   },
+   "structures": [
+    "hito: nasion"
+   ],
+   "sources": [
+    "springer_head_cog"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "head_center_of_gravity",
+   "mirror": false,
+   "bone": "cranium",
+   "point": {
+    "at": "head.head",
+    "offset_h": [
+     0.0,
+     -0.0022857142857142876,
+     0.02142857142857143
+    ]
+   },
+   "structures": [
+    "hito: centro de gravedad de la cabeza (punto medio nasion-inion)"
+   ],
+   "sources": [
+    "springer_head_cog"
+   ],
+   "notes": "Queda por delante de los condilos occipitales: los extensores del cuello y el ligamento nucal equilibran la cabeza.",
+   "tolerance_m": 0.06
+  },
+  {
+   "name": "external_occipital_protuberance",
+   "mirror": false,
+   "bone": "cranium",
+   "point": {
+    "at": "head.head",
+    "offset_h": [
+     0.0,
+     0.05142857142857143,
+     0.017142857142857144
+    ]
+   },
+   "structures": [
+    "trapecio (origen)",
+    "ligamento nucal"
+   ],
+   "sources": [
+    "sohag_neck",
+    "kenhub_nuchal"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "superior_nuchal_line.L",
+   "mirror": true,
+   "bone": "cranium",
+   "point": {
+    "at": "head.head",
+    "offset_h": [
+     0.017142857142857144,
+     0.04857142857142858,
+     0.014285714285714287
+    ]
+   },
+   "structures": [
+    "trapecio (origen, parte medial)",
+    "esternocleidomastoideo (insercion, parte lateral)",
+    "esplenio de la cabeza (insercion)"
+   ],
+   "sources": [
+    "sohag_neck",
+    "qpercom_neck"
+   ],
+   "notes": "El craneo se modela como perfil medio-sagital: las estructuras laterales quedan a unos 5-7 cm de el.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "semispinalis_capitis_insertion.L",
+   "mirror": true,
+   "bone": "cranium",
+   "point": {
+    "at": "head.head",
+    "offset_h": [
+     0.011428571428571429,
+     0.04285714285714286,
+     0.005714285714285714
+    ]
+   },
+   "structures": [
+    "semiespinoso de la cabeza (insercion, entre las lineas nucales)"
+   ],
+   "sources": [
+    "qpercom_neck"
+   ],
+   "notes": "Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "mastoid_process.L",
+   "mirror": true,
+   "bone": "cranium",
+   "point": {
+    "at": "head.head",
+    "offset_h": [
+     0.028571428571428574,
+     0.011428571428571429,
+     -0.002857142857142857
+    ]
+   },
+   "structures": [
+    "esternocleidomastoideo (insercion)",
+    "esplenio de la cabeza (insercion)",
+    "digastrico vientre posterior (escotadura mastoidea)"
+   ],
+   "sources": [
+    "qpercom_neck",
+    "wiki_digastric"
+   ],
+   "notes": "El craneo se modela como perfil medio-sagital: las estructuras laterales quedan a unos 5-7 cm de el.",
+   "tolerance_m": 0.065
+  },
+  {
+   "name": "zygomatic_arch.L",
+   "mirror": true,
+   "bone": "cranium",
+   "point": {
+    "at": "head.head",
+    "offset_h": [
+     0.038,
+     -0.025714285714285714,
+     0.008571428571428572
+    ]
+   },
+   "structures": [
+    "masetero (origen)"
+   ],
+   "sources": [
+    "acta_odont_head",
+    "brainscape_mastication"
+   ],
+   "notes": "Anchura bicigomatica 133 mm (acta_odont_head). Masetero: Fuente debil: verificar en un atlas. El craneo se modela como perfil medio-sagital: las estructuras laterales quedan a unos 5-7 cm de el.",
+   "tolerance_m": 0.08
+  },
+  {
+   "name": "temporal_fossa.L",
+   "mirror": true,
+   "bone": "cranium",
+   "point": {
+    "at": "head.head",
+    "offset_h": [
+     0.037142857142857144,
+     -0.017142857142857144,
+     0.045714285714285714
+    ]
+   },
+   "structures": [
+    "temporal (origen)"
+   ],
+   "sources": [
+    "brainscape_mastication"
+   ],
+   "notes": "Fuente debil: verificar en un atlas. El craneo se modela como perfil medio-sagital: las estructuras laterales quedan a unos 5-7 cm de el.",
+   "tolerance_m": 0.08
+  },
+  {
+   "name": "coronoid_process.L",
+   "mirror": true,
+   "bone": "mandible",
+   "point": {
+    "at": "head.head",
+    "offset_h": [
+     0.025714285714285714,
+     -0.022857142857142857,
+     -0.002857142857142857
+    ]
+   },
+   "structures": [
+    "temporal (insercion)"
+   ],
+   "sources": [
+    "brainscape_mastication"
+   ],
+   "notes": "Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "mandibular_angle.L",
+   "mirror": true,
+   "bone": "mandible",
+   "point": {
+    "at": "head.head",
+    "offset_h": [
+     0.031714285714285716,
+     -0.002857142857142857,
+     -0.025714285714285714
+    ]
+   },
+   "structures": [
+    "masetero (insercion)",
+    "ligamento estilomandibular"
+   ],
+   "sources": [
+    "acta_odont_head",
+    "brainscape_mastication"
+   ],
+   "notes": "Anchura bigoniaca 111.5 mm (acta_odont_head). Masetero: Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "condylar_neck.L",
+   "mirror": true,
+   "bone": "mandible",
+   "point": {
+    "at": "head.head",
+    "offset_h": [
+     0.02742857142857143,
+     -0.011428571428571429,
+     -0.001142857142857143
+    ]
+   },
+   "structures": [
+    "pterigoideo lateral (insercion en el cuello del condilo y el disco)"
+   ],
+   "sources": [
+    "teachme_tmj",
+    "usmf_tmj"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "digastric_fossa.L",
+   "mirror": true,
+   "bone": "mandible",
+   "point": {
+    "at": "head.head",
+    "offset_h": [
+     0.005714285714285714,
+     -0.04685714285714286,
+     -0.03314285714285715
+    ]
+   },
+   "structures": [
+    "digastrico vientre anterior (insercion)"
+   ],
+   "sources": [
+    "wiki_digastric"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "sternocleidomastoid_sternal_head.L",
+   "mirror": true,
+   "bone": "sternum",
+   "point": {
+    "at": "sternum.head",
+    "offset_h": [
+     0.006857142857142858,
+     0.0,
+     0.0
+    ]
+   },
+   "structures": [
+    "esternocleidomastoideo (origen, cabeza esternal: manubrio)"
+   ],
+   "sources": [
+    "sohag_neck",
+    "qpercom_neck"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "sternocleidomastoid_clavicular_head.L",
+   "mirror": true,
+   "bone": "clavicle.L",
+   "point": {
+    "lerp": [
+     "clavicle.L.head",
+     "clavicle.L.tail",
+     0.2
+    ],
+    "offset_h": [
+     0,
+     0,
+     0
+    ]
+   },
+   "structures": [
+    "esternocleidomastoideo (origen, cabeza clavicular)"
+   ],
+   "sources": [
+    "sohag_neck",
+    "qpercom_neck"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "scalene_origin_C3.L",
+   "mirror": true,
+   "bone": "C3",
+   "point": {
+    "lerp": [
+     "C3.head",
+     "C3.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.014285714285714287,
+     0.0,
+     0.0
+    ]
+   },
+   "structures": [
+    "escalenos (origen, apofisis transversas cervicales)"
+   ],
+   "sources": [
+    "radiopaedia_scalenes"
+   ],
+   "notes": "Apofisis transversa no modelada.",
+   "tolerance_m": 0.035
+  },
+  {
+   "name": "scalene_origin_C4.L",
+   "mirror": true,
+   "bone": "C4",
+   "point": {
+    "lerp": [
+     "C4.head",
+     "C4.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.014285714285714287,
+     0.0,
+     0.0
+    ]
+   },
+   "structures": [
+    "escalenos (origen, apofisis transversas cervicales)"
+   ],
+   "sources": [
+    "radiopaedia_scalenes"
+   ],
+   "notes": "Apofisis transversa no modelada.",
+   "tolerance_m": 0.035
+  },
+  {
+   "name": "scalene_origin_C5.L",
+   "mirror": true,
+   "bone": "C5",
+   "point": {
+    "lerp": [
+     "C5.head",
+     "C5.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.014285714285714287,
+     0.0,
+     0.0
+    ]
+   },
+   "structures": [
+    "escalenos (origen, apofisis transversas cervicales)"
+   ],
+   "sources": [
+    "radiopaedia_scalenes"
+   ],
+   "notes": "Apofisis transversa no modelada.",
+   "tolerance_m": 0.035
+  },
+  {
+   "name": "scalene_origin_C6.L",
+   "mirror": true,
+   "bone": "C6",
+   "point": {
+    "lerp": [
+     "C6.head",
+     "C6.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.014285714285714287,
+     0.0,
+     0.0
+    ]
+   },
+   "structures": [
+    "escalenos (origen, apofisis transversas cervicales)"
+   ],
+   "sources": [
+    "radiopaedia_scalenes"
+   ],
+   "notes": "Apofisis transversa no modelada.",
+   "tolerance_m": 0.035
+  },
+  {
+   "name": "scalene_insertion_rib_01.L",
+   "mirror": true,
+   "bone": "rib_01.L",
+   "point": {
+    "at": "rib_01.L.tail"
+   },
+   "structures": [
+    "escalenos anterior y medio (insercion, 1a costilla)"
+   ],
+   "sources": [
+    "radiopaedia_scalenes"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "scalene_insertion_rib_02.L",
+   "mirror": true,
+   "bone": "rib_02.L",
+   "point": {
+    "at": "rib_02.L.tail",
+    "offset_h": [
+     0,
+     0.011428571428571429,
+     0.005714285714285714
+    ]
+   },
+   "structures": [
+    "escaleno posterior (insercion, 2a costilla)"
+   ],
+   "sources": [
+    "radiopaedia_scalenes"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "splenius_capitis_origin_C7",
+   "mirror": false,
+   "bone": "C7",
+   "point": {
+    "lerp": [
+     "C7.head",
+     "C7.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.0,
+     0.017142857142857144,
+     0.0
+    ]
+   },
+   "structures": [
+    "esplenio de la cabeza (origen, apofisis espinosa)"
+   ],
+   "sources": [
+    "qpercom_neck"
+   ],
+   "notes": "Apofisis espinosa no modelada. Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.035
+  },
+  {
+   "name": "splenius_capitis_origin_T1",
+   "mirror": false,
+   "bone": "T1",
+   "point": {
+    "lerp": [
+     "T1.head",
+     "T1.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.0,
+     0.017142857142857144,
+     0.0
+    ]
+   },
+   "structures": [
+    "esplenio de la cabeza (origen, apofisis espinosa)"
+   ],
+   "sources": [
+    "qpercom_neck"
+   ],
+   "notes": "Apofisis espinosa no modelada. Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.035
+  },
+  {
+   "name": "splenius_capitis_origin_T2",
+   "mirror": false,
+   "bone": "T2",
+   "point": {
+    "lerp": [
+     "T2.head",
+     "T2.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.0,
+     0.017142857142857144,
+     0.0
+    ]
+   },
+   "structures": [
+    "esplenio de la cabeza (origen, apofisis espinosa)"
+   ],
+   "sources": [
+    "qpercom_neck"
+   ],
+   "notes": "Apofisis espinosa no modelada. Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.035
+  },
+  {
+   "name": "splenius_capitis_origin_T3",
+   "mirror": false,
+   "bone": "T3",
+   "point": {
+    "lerp": [
+     "T3.head",
+     "T3.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.0,
+     0.017142857142857144,
+     0.0
+    ]
+   },
+   "structures": [
+    "esplenio de la cabeza (origen, apofisis espinosa)"
+   ],
+   "sources": [
+    "qpercom_neck"
+   ],
+   "notes": "Apofisis espinosa no modelada. Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.035
+  }
+ ]
+}

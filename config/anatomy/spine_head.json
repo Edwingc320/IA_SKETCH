@@ -2,7 +2,7 @@
  "schema_version": 2,
  "level": 1,
  "region": "spine_head",
- "description": "Nivel 1, region 4: columna (C1-C7, T1-T12, L1-L5) y cabeza (cranium, mandible). Cadena vertebral de ABAJO A ARRIBA (sacro -> L5 -> ... -> L1 -> T12 -> ... -> T1 -> C7 -> ... -> C1 -> cranium -> mandible) en anatomical_parent; cada vertebra nace exactamente en la cola de la inferior. Padre en el RIG: el segmento base que la mueve (spine_lumbar: L1-L5; spine_thoracic: T7-T12; thorax: T1-T6; neck: C1-C7; head: cranium) y, dentro de cada segmento, la vertebra inferior. Las vertebras de cada tramo se reparten por igual sobre sus segmentos base (las toracicas coinciden con los niveles de las costillas) y se aplica una curva en S sagital: lordosis lumbar (+-0.012 H hacia delante), cifosis toracica (0.010 H hacia atras) y lordosis cervical (0.005 H hacia delante), nula en las uniones con la base, el sacro y el craneo. Valores APROXIMADOS. LIMITACION de la base congelada: el cuello base mide 0.045 H, por lo que C1-C7 quedan comprimidas (~11 mm por vertebra) y C1 (condilos) queda unos 5-7 cm mas baja que en un adulto real; el craneo va de C1 al vertex de la cabeza base.",
+ "description": "Nivel 1, region 4: columna (C1-C7, T1-T12, L1-L5) y cabeza (cranium, mandible). Cadena vertebral de ABAJO A ARRIBA (sacro -> L5 -> ... -> L1 -> T12 -> ... -> T1 -> C7 -> ... -> C1 -> cranium -> mandible) en anatomical_parent; cada vertebra nace exactamente en la cola de la inferior. Padre en el RIG: el segmento base que la mueve (spine_lumbar: L1-L5; spine_thoracic: T7-T12; thorax: T1-T6; neck: C1-C7; head: cranium) y, dentro de cada segmento, la vertebra inferior. Las vertebras de cada tramo se reparten por igual sobre sus segmentos base (las toracicas coinciden con los niveles de las costillas) y se aplica una curva en S sagital: lordosis lumbar (+-0.012 H hacia delante), cifosis toracica (0.010 H hacia atras) y lordosis cervical (0.0025 H hacia delante: Cobb C2-C7 de 17.1 grados, media de 307 adultos asintomaticos, Zhu et al. 2020), nula en las uniones con la base, el sacro y el craneo. Valores APROXIMADOS. LIMITACION de la base congelada: el cuello base mide 0.045 H, por lo que C1-C7 quedan comprimidas (~11 mm por vertebra) y C1 (condilos) queda unos 5-7 cm mas baja que en un adulto real; el craneo va de C1 al vertex de la cabeza base.",
  "bones": [
   {
    "name": "L5",
@@ -412,7 +412,7 @@
     ],
     "offset_h": [
      0.0,
-     -0.00217,
+     -0.00108,
      0.0
     ]
    },
@@ -436,7 +436,7 @@
     ],
     "offset_h": [
      0.0,
-     -0.00391,
+     -0.00195,
      0.0
     ]
    },
@@ -460,7 +460,7 @@
     ],
     "offset_h": [
      0.0,
-     -0.00487,
+     -0.00244,
      0.0
     ]
    },
@@ -484,7 +484,7 @@
     ],
     "offset_h": [
      0.0,
-     -0.00487,
+     -0.00244,
      0.0
     ]
    },
@@ -508,7 +508,7 @@
     ],
     "offset_h": [
      0.0,
-     -0.00391,
+     -0.00195,
      0.0
     ]
    },
@@ -532,7 +532,7 @@
     ],
     "offset_h": [
      0.0,
-     -0.00217,
+     -0.00108,
      0.0
     ]
    },
@@ -574,16 +574,24 @@
      "at": "head.head",
      "offset_h": [
       0.0,
-      0.04857,
-      0.02
+      0.02,
+      -0.00286
      ]
     },
     {
      "at": "head.head",
      "offset_h": [
       0.0,
-      0.04286,
-      0.08571
+      0.05143,
+      0.01714
+     ]
+    },
+    {
+     "at": "head.head",
+     "offset_h": [
+      0.0,
+      0.04571,
+      0.07429
      ]
     },
     {
@@ -593,16 +601,8 @@
      "at": "head.head",
      "offset_h": [
       0.0,
-      -0.03143,
-      0.11714
-     ]
-    },
-    {
-     "at": "head.head",
-     "offset_h": [
-      0.0,
-      -0.06,
-      0.06
+      -0.02286,
+      0.11429
      ]
     },
     {
@@ -610,15 +610,23 @@
      "offset_h": [
       0.0,
       -0.05714,
-      0.04857
+      0.03714
      ]
     },
     {
      "at": "head.head",
      "offset_h": [
       0.0,
-      -0.06,
-      0.02
+      -0.056,
+      0.02571
+     ]
+    },
+    {
+     "at": "head.head",
+     "offset_h": [
+      0.0,
+      -0.05714,
+      -0.00571
      ]
     },
     {
@@ -626,12 +634,12 @@
      "offset_h": [
       0.0,
       -0.05429,
-      0.00286
+      -0.01714
      ]
     }
    ],
    "outline_closed": true,
-   "description": "Craneo (neurocraneo + macizo facial): de los condilos occipitales (cima de C1) al vertex (cola de la cabeza base). Contorno: perfil medio-sagital (inion, lambda, vertex, bregma, glabela, nasion, espina nasal, arcada superior)."
+   "description": "Craneo (neurocraneo + macizo facial): de los condilos occipitales (cima de C1) al vertex. Contorno medio-sagital, en orden: condilos/basion, opistion (borde posterior del agujero magno), inion, lambda, vertex, bregma, glabela, nasion, espina nasal anterior, prostion. Cara orientada hacia delante (-Y); plano de Frankfort (porion-orbitale) horizontal a +2 cm de los condilos (hitos en config/articulations/head_neck.json)."
   },
   {
    "name": "mandible",
@@ -658,17 +666,17 @@
    },
    "outline": [
     {
-     "at": "head.head",
+     "at": "mandible.head",
      "offset_h": [
-      0.02857,
-      -0.01029,
-      0.00571
+      0.028571428571428574,
+      0.0,
+      0.0
      ]
     },
     {
      "at": "head.head",
      "offset_h": [
-      0.02686,
+      0.03171,
       -0.00286,
       -0.02571
      ]
@@ -695,22 +703,22 @@
     {
      "at": "head.head",
      "offset_h": [
-      -0.02686,
+      -0.03171,
       -0.00286,
       -0.02571
      ]
     },
     {
-     "at": "head.head",
+     "at": "mandible.head",
      "offset_h": [
-      -0.02857,
-      -0.01029,
-      0.00571
+      -0.028571428571428574,
+      0.0,
+      0.0
      ]
     }
    ],
    "outline_closed": false,
-   "description": "Mandibula: cabeza = centro del eje de las dos articulaciones temporomandibulares (ATM); cola = menton. Contorno en U: condilo, angulo (gonion), cuerpo y menton de cada lado."
+   "description": "Mandibula: cabeza = centro del eje de bisagra entre las dos articulaciones temporomandibulares (ATM, condilos a +-5 cm); su eje local X es ese eje de bisagra. Cola = menton. Contorno en U: condilo, angulo (gonion, anchura bigoniaca 111 mm, fuente en head_neck.json), cuerpo y menton."
   }
  ],
  "anchors": [

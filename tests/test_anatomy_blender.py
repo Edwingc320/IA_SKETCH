@@ -272,6 +272,41 @@ class TestAnatomyInBlender(unittest.TestCase):
         # el marcador glenohumeral lo lleva la escapula (clavicula): sigue al pivote del hombro posado
         self.assertLess(dist(snap["ART_glenohumeral.L"]["points"][0], ev.pose.bones["upper_arm.L"].head), TOL)
 
+    def test_05h_mandible_hinges_on_the_tmj_and_head_markers_follow_the_head(self):
+        """Abrir la boca (girar la mandibula sobre su eje local X) no mueve los condilos (estan en el eje de
+        bisagra) y baja el menton; girar la cabeza base arrastra craneo, mandibula y sus marcadores, no C1."""
+        import bpy
+        from mathutils import Euler, Quaternion, Vector
+        from anatomical_core import articulations, articulations_scene
+        art = articulations.build_articulations(self.base, self.anat, articulations.load_articulation_data())
+        arm = self.open()
+        pb = arm.pose.bones["mandible"]
+        pb.rotation_mode = "QUATERNION"
+        pb.rotation_quaternion = Quaternion((1.0, 0.0, 0.0), 0.35)  # eje local X de la mandibula
+        bpy.context.view_layer.update()
+        ev = self.evaluated(arm)
+        delta = ev.pose.bones["mandible"].matrix @ arm.data.bones["mandible"].matrix_local.inverted()
+        for s in "LR":
+            c = Vector(art.joints[f"temporomandibular.{s}"].center)
+            self.assertLess(dist(delta @ c, c), 1e-4, s)  # el condilo no se mueve: pivote exacto en la ATM
+        md = self.anat.bones["mandible"]
+        chin = ev.pose.bones["mandible"].tail
+        self.assertGreater(dist(chin, md.tail), 0.02)  # el menton si se mueve
+        snap = articulations_scene.read_back_articulations()
+        self.assertGreater(dist(snap["ATT_digastric_fossa.L"]["points"][0], art.attachments["digastric_fossa.L"].point), 0.01)
+        arm = self.open()
+        hb = arm.pose.bones["head"]
+        hb.rotation_mode = "XYZ"
+        hb.rotation_euler = Euler((0.3, 0.0, 0.4))
+        bpy.context.view_layer.update()
+        snap = articulations_scene.read_back_articulations()
+        moved = lambda obj, ref: dist(snap[obj]["points"][0], ref) > 0.002  # noqa: E731
+        self.assertTrue(moved("ATT_porion.L", art.attachments["porion.L"].point))  # craneo -> head
+        self.assertTrue(moved("ATT_mandibular_angle.R", art.attachments["mandibular_angle.R"].point))  # mandibula -> craneo -> head
+        self.assertTrue(moved("ART_temporomandibular.L", art.joints["temporomandibular.L"].center))
+        self.assertFalse(moved("ART_atlanto_axial", art.joints["atlanto_axial"].center))  # C2 -> neck: no lo mueve la cabeza
+        self.assertFalse(moved("ART_atlanto_occipital", art.joints["atlanto_occipital"].center))  # el pivote no se desplaza
+
     def test_06_visuals_and_outlines_are_parented_without_double_transform(self):
         import bpy
         self.open()
