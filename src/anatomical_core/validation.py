@@ -11,7 +11,7 @@ from dataclasses import dataclass
 from .geometry import (
     cross, dot, is_finite, length, mat_vec, mirror_frame, mirror_point, normalize, rotation_matrix, scale, sub,
 )
-from . import rig_limits
+from . import rig_limits, volumes
 from .pose import PosedSkeleton, metrics
 from .skeleton import REQUIRED_BONES, SkeletonModel
 
@@ -513,8 +513,60 @@ def validate_anatomy(base: SkeletonModel, anat) -> list:
                 claimed[r] = n
             if r in base.bones:
                 out.append(Issue("error", "ANAT_REFERENCE_IN_BASE", f"'{r}' ya es un hueso de la base; no se duplica en el nivel 1"))
+    out += validate_closures(anat)
     return out
 
+
+def validate_closures(anat) -> list:
+    """Cierres estructurales del nivel 1: cartilagos costales, anillo pelvico y formas volumetricas."""
+    from .anatomy import point_segment_distance
+
+    out = []
+    tol = 1e-6 * max(1.0, anat.height_m)
+    st = anat.bones.get("sternum")
+    for side in "LR":
+        for k in range(1, 13):
+            rib = anat.bones.get(f"rib_{k:02d}.{side}")
+            if rib is None:
+                continue
+            if k > 10:  # flotantes: terminan libres en la pared abdominal
+                if rib.cartilage:
+                    out.append(Issue("error", "CLOSURE_FLOATING_RIB", f"'{rib.name}' es flotante y no debe llevar cartilago"))
+                continue
+            if len(rib.cartilage) < 2 or length(sub(rib.cartilage[0], rib.tail)) > tol:
+                out.append(Issue("error", "CLOSURE_RIB_TAIL", f"'{rib.name}': el cartilago debe nacer exactamente en la cola del hueso"))
+                continue
+            end = rib.cartilage[-1]
+            if k <= 7:  # verdaderas: terminan sobre el borde del esternon
+                pts = list(st.outline) + [st.outline[0]]
+                d = min(point_segment_distance(end, a, b) for a, b in zip(pts, pts[1:]))
+                if d > 1e-5 * max(1.0, anat.height_m):
+                    out.append(Issue("error", "CLOSURE_TRUE_RIB", f"'{rib.name}': el cartilago no termina en el borde del esternon ({d * 1000:.2f} mm)"))
+            else:  # falsas: terminan sobre el cartilago de la costilla superior
+                above = anat.bones[f"rib_{k - 1:02d}.{side}"].cartilage
+                d = point_segment_distance(end, above[0], above[-1]) if len(above) >= 2 else float("inf")
+                if d > tol:
+                    out.append(Issue("error", "CLOSURE_FALSE_RIB", f"'{rib.name}': el cartilago no termina en el de la costilla {k - 1} ({d * 1000:.2f} mm)"))
+    sac = anat.bones.get("sacrum")
+    for side, sx in (("L", 1), ("R", -1)):
+        ilium, pubis = anat.bones.get(f"ilium.{side}"), anat.bones.get(f"pubis.{side}")
+        if sac is None or ilium is None or pubis is None:
+            continue
+        corner = min(sac.outline, key=lambda p: length(sub(p, ilium.head)))
+        if length(sub(corner, ilium.head)) > tol or corner[0] * sx <= 0:
+            out.append(Issue("error", "CLOSURE_SACROILIAC", f"'{ilium.name}': su cabeza no es la esquina lateral del sacro (anillo pelvico abierto)"))
+        if abs(pubis.tail[0]) > tol:
+            out.append(Issue("error", "CLOSURE_SYMPHYSIS", f"'{pubis.name}': su cola no esta en la linea media (anillo pelvico abierto)"))
+    for n, b in anat.bones.items():
+        if b.volume:
+            try:
+                verts, faces = volumes.volume_mesh(b)
+            except volumes.VolumeError as exc:
+                out.append(Issue("error", "VOLUME_INVALID", f"'{n}': {exc}"))
+                continue
+            if volumes.euler_characteristic(verts, faces) != 2 or volumes.signed_volume(verts, faces) <= 0:
+                out.append(Issue("error", "VOLUME_NOT_CLOSED", f"'{n}': la forma volumetrica no es una superficie cerrada"))
+    return out
 
 JOINT_GAP_WARN_M = 0.02  # un centro articular mas lejos de uno de sus huesos se documenta como hueco
 POINT_ON_BONE_TOL_M = 0.03  # inserciones y extremos de ligamento: distancia maxima a su hueso
@@ -649,8 +701,19 @@ def validate_anatomy_snapshot(anat, snap: dict) -> list:
         v = snap.get("visuals", {}).get(f"ANA_{n}")
         if v is None or v["parent_bone"] != n:
             out.append(Issue("error", "ANAT_VIS_PARENT", f"ANA_{n} falta o no esta emparentado a '{n}'"))
+        elif b.volume:  # forma volumetrica: se compara la caja envolvente y el numero de vertices con la malla del modelo
+            verts, _ = volumes.volume_mesh(b)
+            lo, hi = volumes.bounding_box(verts)
+            if v.get("n_verts") != len(verts) or any(abs(x - y) > BLEND_TOL for x, y in zip(lo + hi, tuple(v["bbox"][0]) + tuple(v["bbox"][1]))):
+                out.append(Issue("error", "ANAT_VOLUME_MISMATCH", f"ANA_{n}: la forma volumetrica del .blend no coincide con la del modelo"))
         elif length(sub(b.head, tuple(v["head"]))) > BLEND_TOL or length(sub(b.tail, tuple(v["tail"]))) > BLEND_TOL:
             out.append(Issue("error", "ANAT_VIS_POSITION", f"ANA_{n} no coincide con el hueso"))
+        if b.cartilage:
+            c = snap.get("cartilage", {}).get(f"ANA_cartilage_{n}")
+            if c is None or c["parent_bone"] != n:
+                out.append(Issue("error", "ANAT_CARTILAGE_PARENT", f"ANA_cartilage_{n} falta o no esta emparentado a '{n}'"))
+            elif length(sub(b.cartilage[0], tuple(c["first"]))) > BLEND_TOL or length(sub(b.cartilage[-1], tuple(c["last"]))) > BLEND_TOL:
+                out.append(Issue("error", "ANAT_CARTILAGE_POSITION", f"ANA_cartilage_{n} desplazado respecto al modelo"))
         if b.outline:
             o = snap.get("outlines", {}).get(f"ANA_outline_{n}")
             if o is None or o["parent_bone"] != n:

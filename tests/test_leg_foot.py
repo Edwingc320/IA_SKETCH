@@ -92,7 +92,7 @@ class TestLegFootUnions(unittest.TestCase):
     def test_counts_and_validation(self):
         self.assertEqual(len(self.region(self.art.joints)), 28 * 2)
         self.assertEqual(len(self.region(self.art.ligaments)), 29 * 2)
-        self.assertEqual(len(self.region(self.art.attachments)), 11 * 2)
+        self.assertEqual(len(self.region(self.art.attachments)), 17 * 2)  # 11 hitos + 5 tuberosidades distales + base de la rotula
         issues = validation.validate_articulations(self.base, self.anat, self.art)
         self.assertEqual([i for i in issues if i.severity == "error"], [])
 
@@ -131,7 +131,7 @@ class TestLegFootUnions(unittest.TestCase):
         weak = {k for k, s in self.art.sources.items() if s["reliability"] == "baja"}
         for store in (self.art.ligaments, self.art.attachments):
             for x in self.region(store).values():
-                if set(x.sources) <= weak:
+                if x.sources and set(x.sources) <= weak:  # sin fuente = extremo definicional del hueso
                     self.assertIn("verificar", x.notes.lower(), x.name)
         self.assertIn("verificar", d("talonavicular.L")["inversion_eversion_mediotarsiana"].note.lower())
 

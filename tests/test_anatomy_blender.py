@@ -342,11 +342,15 @@ class TestAnatomyInBlender(unittest.TestCase):
         for n, b in self.anat.bones.items():
             vis = bpy.data.objects[f"ANA_{n}"]
             self.assertEqual(vis.parent_bone, n)
-            self.assertLess(dist(self.evaluated(vis).matrix_world @ vis.data.vertices[5].co, b.tail), TOL, n)
+            if b.volume:  # forma volumetrica: se prueba aparte (test_06c)
+                self.assertEqual(vis["ac_role"], "visualization_volume", n)
+            else:
+                self.assertLess(dist(self.evaluated(vis).matrix_world @ vis.data.vertices[5].co, b.tail), TOL, n)
             if b.outline:
                 o = bpy.data.objects[f"ANA_outline_{n}"]
                 self.assertEqual((o.parent_bone, o["ac_role"]), (n, "reference_geometry"))
         self.assertIn("AC_Anatomy_Outlines", bpy.data.collections)
+        self.assertIn("AC_Anatomy_Cartilage", bpy.data.collections)
 
     def test_07_base_file_is_not_touched(self):
         """El nivel 1 vive en su propio archivo: la base de skeleton_core.blend no contiene huesos de nivel 1."""
@@ -357,6 +361,66 @@ class TestAnatomyInBlender(unittest.TestCase):
         self.scene.open_blend(base_blend)
         names = {b.name for b in bpy.data.objects["AC_Armature"].data.bones}
         self.assertEqual(names, set(self.base.bones))
+
+
+    def test_06c_cranium_is_a_rounded_volume_parented_to_its_bone(self):
+        import bpy
+        from anatomical_core import volumes
+        arm = self.open()
+        obj = bpy.data.objects["ANA_cranium"]
+        self.assertEqual((obj.parent, obj.parent_type, obj.parent_bone), (arm, "BONE", "cranium"))
+        verts, faces = volumes.volume_mesh(self.anat.bones["cranium"])
+        self.assertEqual((len(obj.data.vertices), len(obj.data.polygons)), (len(verts), len(faces)))
+        self.assertGreater(len(obj.data.vertices), 500)  # ya no es el octaedro de 6 vertices
+        ev = self.evaluated(obj)
+        world = [ev.matrix_world @ v.co for v in obj.data.vertices]
+        lo, hi = volumes.bounding_box(verts)
+        for i in range(3):
+            self.assertAlmostEqual(min(w[i] for w in world), lo[i], delta=TOL)
+            self.assertAlmostEqual(max(w[i] for w in world), hi[i], delta=TOL)
+        self.assertIn("cranium", [b.name for b in arm.data.collections_all["L1_spine_head"].bones])
+        self.assertTrue(all(pl.use_smooth for pl in obj.data.polygons))
+
+    def test_06d_cranium_volume_follows_the_head_and_the_jaw_hinge_is_unchanged(self):
+        import bpy
+        from mathutils import Euler, Vector
+        arm = self.open()
+        obj = bpy.data.objects["ANA_cranium"]
+
+        def measure():
+            bpy.context.view_layer.update()
+            ev_arm, ev = self.evaluated(arm), self.evaluated(obj)
+            center = sum((ev.matrix_world @ v.co for v in obj.data.vertices), Vector()) / len(obj.data.vertices)
+            return (center - ev_arm.pose.bones["cranium"].head).length, (ev_arm.pose.bones["mandible"].head - ev_arm.pose.bones["cranium"].head).length
+
+        before = measure()
+        pb = arm.pose.bones["head"]
+        pb.rotation_mode = "XYZ"
+        pb.rotation_euler = Euler((0.3, 0.0, 0.4))
+        after = measure()
+        self.assertAlmostEqual(before[0], after[0], delta=TOL)  # la forma gira con la cabeza (rigida)
+        self.assertAlmostEqual(before[1], after[1], delta=TOL)  # y la mandibula conserva su distancia al craneo (eje de la ATM)
+
+    def test_06e_costal_cartilage_objects_close_every_rib(self):
+        import bpy
+        from mathutils import Vector
+        arm = self.open()
+        for s in "LR":
+            for k in range(1, 13):
+                name = f"rib_{k:02d}.{s}"
+                obj = bpy.data.objects.get(f"ANA_cartilage_{name}")
+                if k > 10:
+                    self.assertIsNone(obj, name)  # flotantes: sin cartilago
+                    continue
+                self.assertIsNotNone(obj, name)
+                self.assertEqual((obj.parent, obj.parent_type, obj.parent_bone), (arm, "BONE", name))
+                ev = self.evaluated(obj)
+                n = self.pipeline.anatomy_scene.OUTLINE_SIDES
+                first = sum((ev.matrix_world @ v.co for v in obj.data.vertices[:n]), Vector()) / n
+                last = sum((ev.matrix_world @ v.co for v in obj.data.vertices[-n:]), Vector()) / n
+                bone = self.anat.bones[name]
+                self.assertLess(dist(first, bone.tail), TOL, name)  # nace en la cola del hueso
+                self.assertLess(dist(last, bone.cartilage[-1]), TOL, name)  # y termina en el esternon / cartilago superior
 
 
 @unittest.skipUnless(HAVE_BPY, "requiere Blender (bpy)")

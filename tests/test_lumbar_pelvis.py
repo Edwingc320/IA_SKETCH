@@ -112,7 +112,7 @@ class TestLumbarPelvisUnions(unittest.TestCase):
     def test_counts_and_validation(self):
         self.assertEqual(len(self.region(self.art.joints)), 4 + 1 + 2 + 1 + 1 + 2)
         self.assertEqual(len(self.region(self.art.ligaments)), 6 * 2)
-        self.assertEqual(len(self.region(self.art.attachments)), 8 * 2 + 1)  # hitos oseos + centro de masas
+        self.assertEqual(len(self.region(self.art.attachments)), 8 * 2 + 2)  # hitos oseos + centro de masas + apice del coccix
         issues = validation.validate_articulations(self.base, self.anat, self.art)
         self.assertEqual([i for i in issues if i.severity == "error"], [])
         self.assertFalse([i for i in issues if any(n in i.message for n in self.region(self.art.joints))])
@@ -142,7 +142,7 @@ class TestLumbarPelvisUnions(unittest.TestCase):
         self.assertIsNone(d("intervertebral_L2_L3")["rotacion_axial"].total_deg)  # sin cifra por nivel: no se inventa
         weak = {k for k, s in self.art.sources.items() if s["reliability"] == "baja"}
         for a in self.region(self.art.attachments).values():
-            if set(a.sources) <= weak:
+            if a.sources and set(a.sources) <= weak:  # sin fuente = extremo definicional del hueso
                 self.assertIn("verificar", a.notes.lower(), a.name)
 
     def test_ligaments_attach_where_described(self):

@@ -44,7 +44,7 @@ class TestArticulationData(unittest.TestCase):
         central = 2 + 13  # manubrioesternal, xifoesternal + 13 segmentos intervertebrales C7/T1..T12/L1
         self.assertEqual(len(self.region(self.art.joints)), 2 * per_side + central)
         self.assertEqual(len(self.region(self.art.ligaments)), 2 * 5 + 1)  # 5 por lado + interclavicular
-        self.assertEqual(len(self.region(self.art.attachments)), 36)  # 18 hitos oseos por lado; los musculos estan en muscle-model
+        self.assertEqual(len(self.region(self.art.attachments)), 37)  # 18 hitos oseos por lado + escotadura yugular; los musculos estan en muscle-model
 
     def test_validation_has_no_errors_and_no_warnings_on_the_corrected_base(self):
         """Base v2: la clavicula va del manubrio al acromion, asi que ya no hay huecos ni ligamentos de longitud
@@ -75,7 +75,7 @@ class TestArticulationData(unittest.TestCase):
             self.assertIn(s["reliability"], ("alta", "media", "baja"))
         weak = {k for k, s in self.art.sources.items() if s["reliability"] == "baja"}
         for a in self.art.attachments.values():  # lo que solo se apoya en fuentes debiles lo dice en la nota
-            if set(a.sources) <= weak:
+            if a.sources and set(a.sources) <= weak:  # sin fuente = extremo definicional del hueso
                 self.assertIn("verificar", a.notes.lower(), a.name)
 
     def test_rig_drivers_coincide_with_the_base_pivots(self):

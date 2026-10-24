@@ -77,3 +77,12 @@ El cuello de la v0.2 medía 0,045 H (79 mm para C1–C7, unos 11 mm por vértebr
 | Vértex | 1,749011 m | 1,749011 m (sin cambio) |
 
 La lordosis cervical se recalibró para el cuello nuevo (Cobb C2–C7 = 17,1°) y la bóveda del cráneo (lambda y bregma) se acortó con la cabeza; la cara y la mandíbula, que cuelgan de los cóndilos, no cambian. **Limitación que queda:** la cabeza base sigue siendo unos 2 cm más larga que un cráneo real, porque conserva toda la estatura (la suma cuello + cabeza es la misma que antes).
+
+## Volumen de la bóveda craneal
+
+El cráneo ya no es un octaedro fino con un contorno: lleva una **forma volumétrica paramétrica** (`volume` en `config/anatomy/spine_head.json`, malla en `src/anatomical_core/volumes.py`, objeto `ANA_cranium` emparentado al hueso `cranium`). El origen del hueso sigue en C1 / cóndilos occipitales, y la jerarquía (`cranium` → `head`; `mandible` → `cranium`) y el pivote de la mandíbula en el eje de las dos ATM no cambian.
+
+- **Corte medio-sagital**: el contorno del cráneo redondeado con una B-spline cúbica cerrada (las esquinas del vertex y del prostion quedan algo por dentro).
+- **Ancho biparietal (X)** = índice cefálico × longitud frente-occipucio (Y). Índice 0,78: mesocéfalo (75–80; media medida de 79,4 en hombres, [Sri Lanka](https://slaj.sljol.info/en/articles/10.4038/slaj.v2i2.4); fuente de fiabilidad media y de cabeza viva, no de cráneo seco). Resultado a 1,75 m: ancho ≈ 142 mm, longitud ≈ 182 mm, volumen ≈ 2,2 L.
+- Malla cerrada (característica de Euler 2), simétrica en X y escalada linealmente con la altura. No usa *Custom Shape*: es un objeto malla emparentado al hueso, que sigue la pose y se renderiza.
+

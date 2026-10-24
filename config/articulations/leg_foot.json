@@ -2384,6 +2384,90 @@
    ],
    "notes": "",
    "tolerance_m": 0.03
+  },
+  {
+   "name": "distal_phalanx_tuft_toe_1.L",
+   "mirror": true,
+   "bone": "toe_1_distal.L",
+   "point": {
+    "at": "toe_1_distal.L.tail"
+   },
+   "structures": [
+    "hito oseo: distal phalanx tuft toe 1"
+   ],
+   "sources": [],
+   "notes": "Tuberosidad de la falange distal: extremo del dedo del pie. Es el termino de la cadena de falanges.",
+   "tolerance_m": 0.01
+  },
+  {
+   "name": "distal_phalanx_tuft_toe_2.L",
+   "mirror": true,
+   "bone": "toe_2_distal.L",
+   "point": {
+    "at": "toe_2_distal.L.tail"
+   },
+   "structures": [
+    "hito oseo: distal phalanx tuft toe 2"
+   ],
+   "sources": [],
+   "notes": "Tuberosidad de la falange distal: extremo del dedo del pie. Es el termino de la cadena de falanges.",
+   "tolerance_m": 0.01
+  },
+  {
+   "name": "distal_phalanx_tuft_toe_3.L",
+   "mirror": true,
+   "bone": "toe_3_distal.L",
+   "point": {
+    "at": "toe_3_distal.L.tail"
+   },
+   "structures": [
+    "hito oseo: distal phalanx tuft toe 3"
+   ],
+   "sources": [],
+   "notes": "Tuberosidad de la falange distal: extremo del dedo del pie. Es el termino de la cadena de falanges.",
+   "tolerance_m": 0.01
+  },
+  {
+   "name": "distal_phalanx_tuft_toe_4.L",
+   "mirror": true,
+   "bone": "toe_4_distal.L",
+   "point": {
+    "at": "toe_4_distal.L.tail"
+   },
+   "structures": [
+    "hito oseo: distal phalanx tuft toe 4"
+   ],
+   "sources": [],
+   "notes": "Tuberosidad de la falange distal: extremo del dedo del pie. Es el termino de la cadena de falanges.",
+   "tolerance_m": 0.01
+  },
+  {
+   "name": "distal_phalanx_tuft_toe_5.L",
+   "mirror": true,
+   "bone": "toe_5_distal.L",
+   "point": {
+    "at": "toe_5_distal.L.tail"
+   },
+   "structures": [
+    "hito oseo: distal phalanx tuft toe 5"
+   ],
+   "sources": [],
+   "notes": "Tuberosidad de la falange distal: extremo del dedo del pie. Es el termino de la cadena de falanges.",
+   "tolerance_m": 0.01
+  },
+  {
+   "name": "patella_base.L",
+   "mirror": true,
+   "bone": "patella.L",
+   "point": {
+    "at": "patella.L.head"
+   },
+   "structures": [
+    "hito oseo: patella base"
+   ],
+   "sources": [],
+   "notes": "Base de la rotula (borde superior). Es su extremo libre: alli se inserta el tendon cuadricipital (modelo muscular).",
+   "tolerance_m": 0.01
   }
  ]
 }

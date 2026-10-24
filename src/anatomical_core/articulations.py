@@ -177,7 +177,7 @@ def build_articulations(base: SkeletonModel, anat: AnatomyModel, data_list) -> A
 
 
 def bone_distance(p: Vec3, bone: str, base: SkeletonModel, anat: AnatomyModel) -> float:
-    """Distancia de un punto a la geometria de un hueso: su segmento y, en el nivel 1, su contorno."""
+    """Distancia de un punto a la geometria de un hueso: su segmento y, en el nivel 1, su contorno y su cartilago."""
     b = anat.bones.get(bone) or base.bones.get(bone)
     if b is None:
         return float("inf")
@@ -186,4 +186,7 @@ def bone_distance(p: Vec3, bone: str, base: SkeletonModel, anat: AnatomyModel) -
     if outline:
         pts = list(outline) + ([outline[0]] if getattr(b, "outline_closed", False) else [])
         d = min([d] + [point_segment_distance(p, a, c) for a, c in zip(pts, pts[1:])])
+    cartilage = getattr(b, "cartilage", ())  # el cartilago costal forma parte de la costilla
+    if cartilage:
+        d = min([d] + [point_segment_distance(p, a, c) for a, c in zip(cartilage, cartilage[1:])])
     return d

@@ -116,7 +116,7 @@ class TestArmHandUnions(unittest.TestCase):
     def test_counts_and_validation(self):
         self.assertEqual(len(self.region(self.art.joints)), 25 * 2)
         self.assertEqual(len(self.region(self.art.ligaments)), 42 * 2)
-        self.assertEqual(len(self.region(self.art.attachments)), 8 * 2)  # solo hitos oseos; los tendones estan en muscle-model
+        self.assertEqual(len(self.region(self.art.attachments)), 13 * 2)  # hitos oseos (8) + tuberosidades distales (5); los tendones estan en muscle-model
         issues = validation.validate_articulations(self.base, self.anat, self.art)
         self.assertEqual([i for i in issues if i.severity == "error"], [])
 
@@ -158,7 +158,7 @@ class TestArmHandUnions(unittest.TestCase):
         weak = {k for k, s in self.art.sources.items() if s["reliability"] == "baja"} | {"hand_rom"}
         for store in (self.art.ligaments, self.art.attachments):
             for x in self.region(store).values():
-                if set(x.sources) <= weak:
+                if x.sources and set(x.sources) <= weak:  # sin fuente = extremo definicional del hueso
                     self.assertIn("verificar", x.notes.lower(), x.name)
 
     def test_ligaments_attach_where_described(self):

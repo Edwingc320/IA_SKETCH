@@ -897,6 +897,20 @@
    ],
    "notes": "No es un punto oseo: se cuelga del sacro para seguir a la pelvis. La pelvis en copa lo sostiene entre el eje de las caderas y el promontorio.",
    "tolerance_m": 0.05
+  },
+  {
+   "name": "coccyx_apex",
+   "mirror": false,
+   "bone": "coccyx",
+   "point": {
+    "at": "coccyx.tail"
+   },
+   "structures": [
+    "hito oseo: coccyx apex"
+   ],
+   "sources": [],
+   "notes": "Apice del coccix: extremo libre de la columna.",
+   "tolerance_m": 0.01
   }
  ]
 }

@@ -91,3 +91,14 @@ La clavícula de la v0.2 nacía casi en el plano de la columna y terminaba en el
 **Consecuencias.** La clavícula pasa de 175 a 208 mm, con 22,7° de elevación y 28,7° hacia atrás (antes 9,8° y −2,9°): sigue siendo más larga que una clavícula real (≈ 150 mm) porque los hombros de la base son anchos (0,209 H entre pivotes). Esa es la limitación que queda: una clavícula más corta exigiría estrechar el hombro, es decir, mover el brazo.
 
 El cambio se aplicó con `py scriptsreeze_base.py --update` y se revisó el diff del golden: solo cambian pelvis, lumbar, cuello, cabeza y clavícula.
+
+## Cierre anterior de las costillas
+
+Cada costilla del 1 al 10 lleva un **cartílago costal** como trayecto propio (`cartilage` en `thoracic_cage.json`, objeto `ANA_cartilage_<costilla>`) que **nace exactamente en la cola del hueso** y termina así:
+
+- **Verdaderas (1–7)**: en el borde lateral del contorno del esternón.
+- **Falsas (8–10)**: sobre el cartílago de la costilla superior (al 60 % de su recorrido), formando el reborde costal.
+- **Flotantes (11–12)**: sin cartílago; terminan libres en la pared abdominal, por anatomía.
+
+Las articulaciones esternocostales e intercondrales tienen su centro en el extremo del cartílago. Una prueba comprueba que cada costilla llega al esternón por su cadena.
+

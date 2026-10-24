@@ -13,16 +13,18 @@ import bpy
 from mathutils import Vector
 
 from . import geometry as geo
-from . import scene
+from . import scene, volumes
 from .anatomy import LAYER, AnatomyModel
 
 COLLECTION_VISUALS = "AC_Anatomy_Visuals"
 COLLECTION_OUTLINES = "AC_Anatomy_Outlines"
+COLLECTION_CARTILAGE = "AC_Anatomy_Cartilage"
 BASE_BONE_COLLECTION = "L0_base"
 OUTLINE_SIDES = 4
 
 _BONE_COLOR = (0.92, 0.88, 0.76, 1.0)  # hueso (marfil)
 _OUTLINE_COLOR = (0.55, 0.45, 0.30, 1.0)
+_CARTILAGE_COLOR = (0.62, 0.78, 0.86, 1.0)  # cartilago costal (azul palido)
 
 
 def add_anatomy(anat: AnatomyModel, base_bone_names) -> None:
@@ -32,8 +34,10 @@ def add_anatomy(anat: AnatomyModel, base_bone_names) -> None:
     arm = arm_obj.data
     vis_col = bpy.data.collections.new(COLLECTION_VISUALS)
     out_col = bpy.data.collections.new(COLLECTION_OUTLINES)
+    cart_col = bpy.data.collections.new(COLLECTION_CARTILAGE)
     sc.collection.children.link(vis_col)
     sc.collection.children.link(out_col)
+    sc.collection.children.link(cart_col)
 
     bpy.context.view_layer.objects.active = arm_obj
     bpy.ops.object.mode_set(mode="EDIT")
@@ -66,15 +70,25 @@ def add_anatomy(anat: AnatomyModel, base_bone_names) -> None:
     inverses = scene._bone_parent_inverses(sc, arm_obj, list(anat.bones))
     mat = scene._material("AC_Mat_anatomy", _BONE_COLOR)
     mat_outline = scene._material("AC_Mat_anatomy_outline", _OUTLINE_COLOR)
+    mat_cartilage = scene._material("AC_Mat_anatomy_cartilage", _CARTILAGE_COLOR)
     k = anat.height_m / 1.75
     for b in anat.bones.values():
-        verts, faces = geo.bone_shape(b.head, b.tail, width_ratio=0.08)  # fina: no tapa los contornos
-        obj = scene._mesh_object(f"ANA_{b.name}", verts, faces, vis_col, mat, "visualization_only")
+        if b.volume:  # forma volumetrica (boveda craneal) en lugar del octaedro fino
+            verts, faces = volumes.volume_mesh(b)
+            obj = scene._mesh_object(f"ANA_{b.name}", verts, faces, vis_col, mat, "visualization_volume")
+            obj.data.polygons.foreach_set("use_smooth", [True] * len(obj.data.polygons))
+        else:
+            verts, faces = geo.bone_shape(b.head, b.tail, width_ratio=0.08)  # fina: no tapa los contornos
+            obj = scene._mesh_object(f"ANA_{b.name}", verts, faces, vis_col, mat, "visualization_only")
         scene._attach_to_bone(obj, arm_obj, b.name, inverses)
         if b.outline:
             verts, faces = geo.polyline_tube(b.outline, 0.004 * k, closed=b.outline_closed, sides=OUTLINE_SIDES)
             o = scene._mesh_object(f"ANA_outline_{b.name}", verts, faces, out_col, mat_outline, "reference_geometry")
             scene._attach_to_bone(o, arm_obj, b.name, inverses)
+        if b.cartilage:
+            verts, faces = geo.polyline_tube(b.cartilage, 0.006 * k, closed=False, sides=OUTLINE_SIDES)
+            c = scene._mesh_object(f"ANA_cartilage_{b.name}", verts, faces, cart_col, mat_cartilage, "costal_cartilage")
+            scene._attach_to_bone(c, arm_obj, b.name, inverses)
 
     meta = json.loads(sc.get(scene.META_KEY, "{}"))
     meta["anatomy"] = {
@@ -92,7 +106,7 @@ def read_back_anatomy() -> dict:
     """Lee del .blend abierto los huesos de nivel 1 y su visualizacion (posicion mundial evaluada)."""
     bpy.context.view_layer.update()
     arm_obj = bpy.data.objects.get(scene.ARMATURE_OBJECT)
-    snap = {"bones": {}, "visuals": {}, "outlines": {}, "bone_collections": {}, "meta": {}}
+    snap = {"bones": {}, "visuals": {}, "outlines": {}, "cartilage": {}, "bone_collections": {}, "meta": {}}
     if arm_obj is None:
         return snap
     for b in arm_obj.data.bones:
@@ -112,13 +126,19 @@ def read_back_anatomy() -> dict:
             continue
         ev = o.evaluated_get(dg)
         parent_bone = o.parent_bone if o.parent is arm_obj and o.parent_type == "BONE" else None
-        if o.name.startswith("ANA_outline_"):
+        if o.name.startswith("ANA_cartilage_"):
+            verts = [ev.matrix_world @ v.co for v in o.data.vertices]
+            first, last = verts[:OUTLINE_SIDES], verts[-OUTLINE_SIDES:]
+            snap["cartilage"][o.name] = {"parent_bone": parent_bone, "first": tuple(sum(first, Vector()) / len(first)),
+                                         "last": tuple(sum(last, Vector()) / len(last))}
+        elif o.name.startswith("ANA_outline_"):
             ring = [ev.matrix_world @ o.data.vertices[i].co for i in range(OUTLINE_SIDES)]
             snap["outlines"][o.name] = {"parent_bone": parent_bone, "first_point": tuple(sum(ring, Vector()) / len(ring))}
         else:
-            snap["visuals"][o.name] = {"parent_bone": parent_bone,
-                                       "head": tuple(ev.matrix_world @ o.data.vertices[0].co),
-                                       "tail": tuple(ev.matrix_world @ o.data.vertices[5].co)}
+            world = [ev.matrix_world @ v.co for v in o.data.vertices]
+            snap["visuals"][o.name] = {"parent_bone": parent_bone, "head": tuple(world[0]), "tail": tuple(world[5]) if len(world) > 5 else tuple(world[-1]),
+                                       "n_verts": len(world), "bbox": [tuple(min(v[i] for v in world) for i in range(3)),
+                                                                       tuple(max(v[i] for v in world) for i in range(3))]}
     raw = bpy.context.scene.get(scene.META_KEY)
     if raw:
         snap["meta"] = json.loads(raw)

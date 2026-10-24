@@ -26,7 +26,7 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 
-from .config import PROJECT_ROOT, ConfigError, _read_json, _vec3
+from .config import PROJECT_ROOT, ConfigError, _finite, _read_json, _vec3
 from .geometry import Frame, Vec3, add, frame_from_direction, length, mirror_frame, mirror_point, scale, sub
 from .skeleton import SkeletonModel
 
@@ -93,6 +93,8 @@ class AnatomyBoneDef:
     outline: tuple  # PointSpec
     outline_closed: bool
     anatomical_parent: str
+    cartilage: tuple = ()  # PointSpec: trayecto del cartilago (costal) que cierra el hueso, de su cola a su destino
+    volume: dict | None = None  # forma volumetrica parametrica (p. ej. la boveda craneal), ver volumes.py
 
 
 @dataclass(frozen=True)
@@ -125,6 +127,20 @@ def _point_spec(raw, where: str) -> PointSpec:
     raise ConfigError(f"{where}: usa exactamente una de 'at' o 'lerp'")
 
 
+def _volume_spec(raw, where: str):
+    if raw is None:
+        return None
+    if not isinstance(raw, dict) or raw.get("type") != "cranium_dome":
+        raise ConfigError(f"{where}: solo se admite {{'type': 'cranium_dome', ...}}")
+    ci = _finite(raw.get("cephalic_index"), f"{where}.cephalic_index")
+    if not 0.6 <= ci <= 1.0:
+        raise ConfigError(f"{where}.cephalic_index fuera de rango (0.6-1.0): {ci}")
+    for key in ("theta_segments", "lateral_segments"):
+        if int(raw.get(key, 0)) < 8:
+            raise ConfigError(f"{where}.{key}: minimo 8")
+    return dict(raw)
+
+
 def load_anatomy_config(anatomy_dir: Path | str | None = None, reference_path: Path | str | None = None) -> AnatomyConfig:
     adir = Path(anatomy_dir) if anatomy_dir else ANATOMY_DIR
     reference = tuple(normalize_reference_name(n) for n in load_reference(reference_path))
@@ -151,6 +167,8 @@ def load_anatomy_config(anatomy_dir: Path | str | None = None, reference_path: P
                 outline=tuple(_point_spec(p, f"{w}.outline[{k}]") for k, p in enumerate(b.get("outline", []))),
                 outline_closed=bool(b.get("outline_closed", True)),
                 anatomical_parent=str(b.get("anatomical_parent", b["parent"])),
+                cartilage=tuple(_point_spec(p, f"{w}.cartilage[{k}]") for k, p in enumerate(b.get("cartilage", []))),
+                volume=_volume_spec(b.get("volume"), f"{w}.volume"),
             ))
         for i, a in enumerate(data.get("anchors", [])):
             anchors.append(AnchorDef(str(a["point"]), str(a["equals"]), str(a.get("description", ""))))
@@ -172,6 +190,8 @@ class AnatomyBone:
     outline: tuple  # puntos (Vec3) del contorno de referencia, en el neutro
     outline_closed: bool
     anatomical_parent: str | None = None  # relacion anatomica (None = igual que parent)
+    cartilage: tuple = ()  # puntos (Vec3) del cartilago costal: el primero es la cola del hueso
+    volume: dict | None = None  # especificacion de la forma volumetrica (None = octaedro fino de visualizacion)
 
     @property
     def side(self) -> str | None:
@@ -194,6 +214,7 @@ class AnatomyModel:
             "base": self.base_signature,
             "bones": {n: [b.parent, r(b.head), r(b.tail), [r(a) for a in b.frame], list(b.reference), [r(p) for p in b.outline]]
                       + ([b.anatomical_parent] if b.anatomical_parent not in (None, b.parent) else [])
+                      + ([[r(p) for p in b.cartilage]] if b.cartilage else []) + ([b.volume] if b.volume else [])
                       for n, b in sorted(self.bones.items())},
         }
         return hashlib.sha256(json.dumps(payload, sort_keys=True).encode("utf-8")).hexdigest()
@@ -208,11 +229,18 @@ def _swap_side(text: str, side: str) -> str:
 
 def resolve_point_ref(ref: str, base: SkeletonModel, built: dict) -> Vec3:
     name, _, which = ref.rpartition(".")
-    if which not in ("head", "tail") or not name:
-        raise ConfigError(f"Referencia de punto invalida '{ref}': usa hueso.head o hueso.tail")
+    special = re.fullmatch(r"cartilage_end|outline_end|outline_\d+", which or "")
+    if (which not in ("head", "tail") and not special) or not name:
+        raise ConfigError(f"Referencia de punto invalida '{ref}': usa hueso.head, hueso.tail, hueso.outline_<n>, hueso.outline_end o hueso.cartilage_end")
     bone = built.get(name) or base.bones.get(name)
     if bone is None:
         raise ConfigError(f"Referencia de punto '{ref}': el hueso '{name}' no existe (o aun no se ha construido)")
+    if special:
+        points = bone.cartilage if which == "cartilage_end" else getattr(bone, "outline", ())
+        index = -1 if which.endswith("_end") else int(which.split("_")[1])
+        if not points or not -len(points) <= index < len(points):
+            raise ConfigError(f"Referencia de punto '{ref}': '{name}' no tiene ese punto (aun no construido o sin {'cartilago' if which == 'cartilage_end' else 'contorno'})")
+        return points[index]
     return bone.head if which == "head" else bone.tail
 
 
@@ -246,7 +274,8 @@ def build_anatomy(base: SkeletonModel, cfg: AnatomyConfig) -> AnatomyModel:
             if side == "R":
                 b = left
                 bone = AnatomyBone(name, parent, mirror_point(b.head), mirror_point(b.tail), b.length, mirror_frame(b.frame),
-                                   d.region, reference, tuple(mirror_point(p) for p in b.outline), b.outline_closed, anat_parent)
+                                   d.region, reference, tuple(mirror_point(p) for p in b.outline), b.outline_closed, anat_parent,
+                                   tuple(mirror_point(p) for p in b.cartilage), b.volume)
             else:
                 head, tail = _eval(d.head, base, bones), _eval(d.tail, base, bones)
                 ln = length(sub(tail, head))
@@ -259,7 +288,10 @@ def build_anatomy(base: SkeletonModel, cfg: AnatomyConfig) -> AnatomyModel:
                 bone = AnatomyBone(name, parent, head, tail, ln, frame, d.region, reference, (), d.outline_closed, anat_parent)
                 bones[name] = bone  # el contorno puede usar la cabeza/cola del propio hueso
                 outline = tuple(_eval(p, base, bones) for p in d.outline)
-                bone = AnatomyBone(name, parent, head, tail, ln, frame, d.region, reference, outline, d.outline_closed, anat_parent)
+                bone = AnatomyBone(name, parent, head, tail, ln, frame, d.region, reference, outline, d.outline_closed, anat_parent, (), d.volume)
+                bones[name] = bone
+                cartilage = tuple(_eval(p, base, bones) for p in d.cartilage)
+                bone = AnatomyBone(name, parent, head, tail, ln, frame, d.region, reference, outline, d.outline_closed, anat_parent, cartilage, d.volume)
                 left = bone
             bones[name] = bone
     anchors = []

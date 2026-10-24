@@ -10,6 +10,7 @@ sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "tests"))
 
 from anatomical_core import anatomy, validation  # noqa: E402
+from anatomical_core.anatomy import point_segment_distance  # noqa: E402
 from anatomical_core.config import ConfigError, load_config  # noqa: E402
 from anatomical_core.geometry import length, mirror_point, sub  # noqa: E402
 from anatomical_core.skeleton import build_model  # noqa: E402
@@ -162,6 +163,12 @@ class TestPelvicGirdle(unittest.TestCase):
         self.assertLess(length(sub(anat3.bones["sacrum"].head, base3.bones["spine_lumbar"].head)), 1e-12)
 
 
+def point_polyline_distance(p, points, closed=True):
+    """Distancia minima de un punto a una poligonal (cerrada por defecto)."""
+    pairs = list(zip(points, points[1:] + (points[:1] if closed else ())))
+    return min(point_segment_distance(p, a, b) for a, b in pairs)
+
+
 def perp_distance(p, a, b):
     """Distancia del punto p a la recta a-b."""
     from anatomical_core.geometry import cross, normalize
@@ -222,18 +229,25 @@ class TestThoracicCage(unittest.TestCase):
         self.assertGreater(max(ys), spine_y)  # los angulos costales quedan por detras de la columna
 
     def test_costal_cartilages(self):
+        """El cartilago cierra cada costilla: nace exactamente en su cola y termina sobre el borde del esternon (verdaderas 1-7) o
+        sobre el cartilago de la costilla superior (falsas 8-10); las flotantes 11-12 terminan libres en su cola."""
         st = self.b["sternum"]
         for s, sx in (("L", 1), ("R", -1)):
             for k, rib in enumerate(self.ribs[s], start=1):
-                end = rib.outline[-1]
-                if k <= 7:  # verdaderas: el cartilago llega al borde del esternon
-                    self.assertAlmostEqual(perp_distance(end, st.head, st.tail), 0.012 * H, places=9, msg=rib.name)
-                    self.assertGreater(end[0] * sx, 0)
-                elif k <= 10:  # falsas: reborde costal, por debajo de la punta del esternon
-                    self.assertLess(end[2], st.tail[2], rib.name)
-                    self.assertGreater(end[0] * sx, 0)
-                else:  # flotantes: el contorno termina en la cola del hueso
-                    self.assertLess(length(sub(end, rib.tail)), 1e-12, rib.name)
+                if k > 10:  # flotantes: sin cartilago; el contorno termina en la cola del hueso
+                    self.assertEqual(rib.cartilage, (), rib.name)
+                    self.assertLess(length(sub(rib.outline[-1], rib.tail)), 1e-12, rib.name)
+                    continue
+                self.assertEqual(len(rib.cartilage), 2, rib.name)
+                self.assertLess(length(sub(rib.cartilage[0], rib.tail)), 1e-12, rib.name)  # sin hueco con el hueso
+                end = rib.cartilage[-1]
+                self.assertGreater(end[0] * sx, 0)
+                if k <= 7:  # verdaderas: el borde lateral del contorno del esternon
+                    self.assertLess(point_polyline_distance(end, st.outline), 1e-9, rib.name)
+                else:  # falsas: sobre el cartilago de la costilla superior, por debajo de la punta del esternon
+                    above = self.ribs[s][k - 2].cartilage
+                    self.assertLess(point_segment_distance(end, above[0], above[1]), 1e-9, rib.name)
+                    self.assertLess(end[2], st.tail[2] + 0.03 * H, rib.name)
 
     def test_cage_shape_widens_then_narrows(self):
         width = [max(p[0] for p in r.outline) for r in self.ribs["L"]]

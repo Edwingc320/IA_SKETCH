@@ -82,3 +82,8 @@ Espinas ilíacas anterosuperior e inferior, fosa y cresta ilíacas, tuberosidad 
 | «L5 hijo de L4 en orden descendente» | cadena de abajo arriba (L5 sobre el sacro) | cumple «sacro raíz» y «L5 sobre la meseta de S1» |
 | «Lordosis hacia +Y» | convexa hacia **−Y** (delante) | convención del proyecto: el personaje mira a −Y |
 | Los huesos ilíacos cuelgan del sacro | aplicado | el ilion cuelga de `sacrum`; isquion y pubis, del ilion (el rig los sigue moviendo `pelvis`) |
+
+## Anillo pélvico cerrado
+
+El anillo es continuo: la esquina lateral del contorno del sacro **es** la cabeza del ilion (sacroilíaca), ilion, isquion y pubis confluyen exactamente en el acetábulo, y las colas de los dos pubis coinciden en la línea media (sínfisis); el cóccix cuelga de la punta del sacro. Los hitos pélvicos (cresta, espinas, tuberosidad isquiática, cuerpo del pubis, trocánter menor y tuberosidad glútea) están sobre estos huesos, y el ápice del cóccix tiene su propio hito.
+

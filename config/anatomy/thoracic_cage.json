@@ -233,6 +233,13 @@
       -0.04,
       -0.025
      ]
+    }
+   ],
+   "outline_closed": false,
+   "description": "Costilla 1 (verdadera: su cartilago llega al borde del esternon (t=0.05)). Cabeza: articulacion costovertebral sobre la vertebra T1; cola: extremo oseo anterior. Contorno: arco costal (hueso). Padre: T1. Cartilago costal: de la cola al borde lateral del esternon (config 'cartilage').",
+   "cartilage": [
+    {
+     "at": "rib_01.L.tail"
     },
     {
      "lerp": [
@@ -241,14 +248,12 @@
       0.05
      ],
      "offset_h": [
-      0.012,
+      0.015600000000000001,
       0,
       0
      ]
     }
-   ],
-   "outline_closed": false,
-   "description": "Costilla 1 (verdadera: su cartilago llega al borde del esternon (t=0.05)). Cabeza: articulacion costovertebral sobre la vertebra T1; cola: extremo oseo anterior. Contorno: arco costal + cartilago. Padre: T1."
+   ]
   },
   {
    "name": "rib_02.L",
@@ -346,6 +351,13 @@
       -0.05,
       -0.035
      ]
+    }
+   ],
+   "outline_closed": false,
+   "description": "Costilla 2 (verdadera: su cartilago llega al borde del esternon (t=0.2668, angulo esternal)). Cabeza: articulacion costovertebral sobre la vertebra T2; cola: extremo oseo anterior. Contorno: arco costal (hueso). Padre: T2. Cartilago costal: de la cola al borde lateral del esternon (config 'cartilage').",
+   "cartilage": [
+    {
+     "at": "rib_02.L.tail"
     },
     {
      "lerp": [
@@ -354,14 +366,12 @@
       0.2668
      ],
      "offset_h": [
-      0.012,
+      0.0101344,
       0,
       0
      ]
     }
-   ],
-   "outline_closed": false,
-   "description": "Costilla 2 (verdadera: su cartilago llega al borde del esternon (t=0.2668, angulo esternal)). Cabeza: articulacion costovertebral sobre la vertebra T2; cola: extremo oseo anterior. Contorno: arco costal + cartilago. Padre: T2."
+   ]
   },
   {
    "name": "rib_03.L",
@@ -459,6 +469,13 @@
       -0.054,
       -0.045
      ]
+    }
+   ],
+   "outline_closed": false,
+   "description": "Costilla 3 (verdadera: su cartilago llega al borde del esternon (t=0.38)). Cabeza: articulacion costovertebral sobre la vertebra T3; cola: extremo oseo anterior. Contorno: arco costal (hueso). Padre: T3. Cartilago costal: de la cola al borde lateral del esternon (config 'cartilage').",
+   "cartilage": [
+    {
+     "at": "rib_03.L.tail"
     },
     {
      "lerp": [
@@ -467,14 +484,12 @@
       0.38
      ],
      "offset_h": [
-      0.012,
+      0.011040000000000001,
       0,
       0
      ]
     }
-   ],
-   "outline_closed": false,
-   "description": "Costilla 3 (verdadera: su cartilago llega al borde del esternon (t=0.38)). Cabeza: articulacion costovertebral sobre la vertebra T3; cola: extremo oseo anterior. Contorno: arco costal + cartilago. Padre: T3."
+   ]
   },
   {
    "name": "rib_04.L",
@@ -572,6 +587,13 @@
       -0.056,
       -0.05
      ]
+    }
+   ],
+   "outline_closed": false,
+   "description": "Costilla 4 (verdadera: su cartilago llega al borde del esternon (t=0.52)). Cabeza: articulacion costovertebral sobre la vertebra T4; cola: extremo oseo anterior. Contorno: arco costal (hueso). Padre: T4. Cartilago costal: de la cola al borde lateral del esternon (config 'cartilage').",
+   "cartilage": [
+    {
+     "at": "rib_04.L.tail"
     },
     {
      "lerp": [
@@ -580,14 +602,12 @@
       0.52
      ],
      "offset_h": [
-      0.012,
+      0.01216,
       0,
       0
      ]
     }
-   ],
-   "outline_closed": false,
-   "description": "Costilla 4 (verdadera: su cartilago llega al borde del esternon (t=0.52)). Cabeza: articulacion costovertebral sobre la vertebra T4; cola: extremo oseo anterior. Contorno: arco costal + cartilago. Padre: T4."
+   ]
   },
   {
    "name": "rib_05.L",
@@ -685,6 +705,13 @@
       -0.056,
       -0.055
      ]
+    }
+   ],
+   "outline_closed": false,
+   "description": "Costilla 5 (verdadera: su cartilago llega al borde del esternon (t=0.65)). Cabeza: articulacion costovertebral sobre la vertebra T5; cola: extremo oseo anterior. Contorno: arco costal (hueso). Padre: T5. Cartilago costal: de la cola al borde lateral del esternon (config 'cartilage').",
+   "cartilage": [
+    {
+     "at": "rib_05.L.tail"
     },
     {
      "lerp": [
@@ -693,14 +720,12 @@
       0.65
      ],
      "offset_h": [
-      0.012,
+      0.0132,
       0,
       0
      ]
     }
-   ],
-   "outline_closed": false,
-   "description": "Costilla 5 (verdadera: su cartilago llega al borde del esternon (t=0.65)). Cabeza: articulacion costovertebral sobre la vertebra T5; cola: extremo oseo anterior. Contorno: arco costal + cartilago. Padre: T5."
+   ]
   },
   {
    "name": "rib_06.L",
@@ -798,6 +823,13 @@
       -0.054,
       -0.058
      ]
+    }
+   ],
+   "outline_closed": false,
+   "description": "Costilla 6 (verdadera: su cartilago llega al borde del esternon (t=0.78)). Cabeza: articulacion costovertebral sobre la vertebra T6; cola: extremo oseo anterior. Contorno: arco costal (hueso). Padre: T6. Cartilago costal: de la cola al borde lateral del esternon (config 'cartilage').",
+   "cartilage": [
+    {
+     "at": "rib_06.L.tail"
     },
     {
      "lerp": [
@@ -806,14 +838,12 @@
       0.78
      ],
      "offset_h": [
-      0.012,
+      0.0124,
       0,
       0
      ]
     }
-   ],
-   "outline_closed": false,
-   "description": "Costilla 6 (verdadera: su cartilago llega al borde del esternon (t=0.78)). Cabeza: articulacion costovertebral sobre la vertebra T6; cola: extremo oseo anterior. Contorno: arco costal + cartilago. Padre: T6."
+   ]
   },
   {
    "name": "rib_07.L",
@@ -911,6 +941,13 @@
       -0.052,
       -0.06
      ]
+    }
+   ],
+   "outline_closed": false,
+   "description": "Costilla 7 (verdadera: su cartilago llega al borde del esternon (t=0.9)). Cabeza: articulacion costovertebral sobre la vertebra T7; cola: extremo oseo anterior. Contorno: arco costal (hueso). Padre: T7. Cartilago costal: de la cola al borde lateral del esternon (config 'cartilage').",
+   "cartilage": [
+    {
+     "at": "rib_07.L.tail"
     },
     {
      "lerp": [
@@ -919,14 +956,12 @@
       0.9
      ],
      "offset_h": [
-      0.012,
+      0.006,
       0,
       0
      ]
     }
-   ],
-   "outline_closed": false,
-   "description": "Costilla 7 (verdadera: su cartilago llega al borde del esternon (t=0.9)). Cabeza: articulacion costovertebral sobre la vertebra T7; cola: extremo oseo anterior. Contorno: arco costal + cartilago. Padre: T7."
+   ]
   },
   {
    "name": "rib_08.L",
@@ -1024,18 +1059,27 @@
       -0.045,
       -0.058
      ]
-    },
-    {
-     "at": "sternum.tail",
-     "offset_h": [
-      0.03,
-      0.0,
-      -0.01
-     ]
     }
    ],
    "outline_closed": false,
-   "description": "Costilla 8 (falsa: su cartilago se une al reborde costal). Cabeza: articulacion costovertebral sobre la vertebra T8; cola: extremo oseo anterior. Contorno: arco costal + cartilago. Padre: T8."
+   "description": "Costilla 8 (falsa: su cartilago se une al reborde costal). Cabeza: articulacion costovertebral sobre la vertebra T8; cola: extremo oseo anterior. Contorno: arco costal (hueso). Padre: T8. Cartilago costal: de la cola al cartilago de la costilla 7 (reborde costal).",
+   "cartilage": [
+    {
+     "at": "rib_08.L.tail"
+    },
+    {
+     "lerp": [
+      "rib_07.L.tail",
+      "rib_07.L.cartilage_end",
+      0.6
+     ],
+     "offset_h": [
+      0,
+      0,
+      0
+     ]
+    }
+   ]
   },
   {
    "name": "rib_09.L",
@@ -1133,18 +1177,27 @@
       -0.038,
       -0.052
      ]
-    },
-    {
-     "at": "sternum.tail",
-     "offset_h": [
-      0.045,
-      0.0,
-      -0.03
-     ]
     }
    ],
    "outline_closed": false,
-   "description": "Costilla 9 (falsa: su cartilago se une al reborde costal). Cabeza: articulacion costovertebral sobre la vertebra T9; cola: extremo oseo anterior. Contorno: arco costal + cartilago. Padre: T9."
+   "description": "Costilla 9 (falsa: su cartilago se une al reborde costal). Cabeza: articulacion costovertebral sobre la vertebra T9; cola: extremo oseo anterior. Contorno: arco costal (hueso). Padre: T9. Cartilago costal: de la cola al cartilago de la costilla 8 (reborde costal).",
+   "cartilage": [
+    {
+     "at": "rib_09.L.tail"
+    },
+    {
+     "lerp": [
+      "rib_08.L.tail",
+      "rib_08.L.cartilage_end",
+      0.6
+     ],
+     "offset_h": [
+      0,
+      0,
+      0
+     ]
+    }
+   ]
   },
   {
    "name": "rib_10.L",
@@ -1242,18 +1295,27 @@
       -0.03,
       -0.045
      ]
-    },
-    {
-     "at": "sternum.tail",
-     "offset_h": [
-      0.055,
-      0.0,
-      -0.05
-     ]
     }
    ],
    "outline_closed": false,
-   "description": "Costilla 10 (falsa: su cartilago se une al reborde costal). Cabeza: articulacion costovertebral sobre la vertebra T10; cola: extremo oseo anterior. Contorno: arco costal + cartilago. Padre: T10."
+   "description": "Costilla 10 (falsa: su cartilago se une al reborde costal). Cabeza: articulacion costovertebral sobre la vertebra T10; cola: extremo oseo anterior. Contorno: arco costal (hueso). Padre: T10. Cartilago costal: de la cola al cartilago de la costilla 9 (reborde costal).",
+   "cartilage": [
+    {
+     "at": "rib_10.L.tail"
+    },
+    {
+     "lerp": [
+      "rib_09.L.tail",
+      "rib_09.L.cartilage_end",
+      0.6
+     ],
+     "offset_h": [
+      0,
+      0,
+      0
+     ]
+    }
+   ]
   },
   {
    "name": "rib_11.L",
@@ -1354,7 +1416,7 @@
     }
    ],
    "outline_closed": false,
-   "description": "Costilla 11 (flotante: sin cartilago anterior). Cabeza: articulacion costovertebral sobre la vertebra T11; cola: extremo oseo anterior. Contorno: arco costal + cartilago. Padre: T11."
+   "description": "Costilla 11 (flotante: sin cartilago anterior). Cabeza: articulacion costovertebral sobre la vertebra T11; cola: extremo oseo anterior. Contorno: arco costal + cartilago. Padre: T11. Extremo libre por anatomia (costilla flotante): termina en la pared abdominal sin cartilago."
   },
   {
    "name": "rib_12.L",
@@ -1455,7 +1517,7 @@
     }
    ],
    "outline_closed": false,
-   "description": "Costilla 12 (flotante: sin cartilago anterior). Cabeza: articulacion costovertebral sobre la vertebra T12; cola: extremo oseo anterior. Contorno: arco costal + cartilago. Padre: T12."
+   "description": "Costilla 12 (flotante: sin cartilago anterior). Cabeza: articulacion costovertebral sobre la vertebra T12; cola: extremo oseo anterior. Contorno: arco costal + cartilago. Padre: T12. Extremo libre por anatomia (costilla flotante): termina en la pared abdominal sin cartilago."
   }
  ],
  "anchors": []

@@ -639,7 +639,15 @@
     }
    ],
    "outline_closed": true,
-   "description": "Craneo (neurocraneo + macizo facial): de los condilos occipitales (cima de C1) al vertex (0.167 m en la base v2). Contorno medio-sagital, en orden: condilos/basion, opistion (borde posterior del agujero magno), inion, lambda, vertex, bregma, glabela, nasion, espina nasal anterior, prostion. Cara orientada hacia delante (-Y); plano de Frankfort (porion-orbitale) horizontal a +2 cm de los condilos (hitos en config/articulations/head_neck.json)."
+   "description": "Craneo (neurocraneo + macizo facial): de los condilos occipitales (cima de C1) al vertex (0.167 m en la base v2). Contorno medio-sagital, en orden: condilos/basion, opistion (borde posterior del agujero magno), inion, lambda, vertex, bregma, glabela, nasion, espina nasal anterior, prostion. Cara orientada hacia delante (-Y); plano de Frankfort (porion-orbitale) horizontal a +2 cm de los condilos (hitos en config/articulations/head_neck.json). Forma volumetrica: boveda craneal parametrica (ver 'volume').",
+   "volume": {
+    "type": "cranium_dome",
+    "cephalic_index": 0.78,
+    "theta_segments": 48,
+    "lateral_segments": 16,
+    "source": "https://slaj.sljol.info/en/articles/10.4038/slaj.v2i2.4",
+    "note": "Boveda redondeada: corte medio-sagital = contorno del craneo redondeado con una B-spline cubica; anchura biparietal = indice cefalico x longitud frente-occipucio. Indice 0.78: mesocefalico (75-80; medias medidas en adultos 79.4 en hombres, fuente de fiabilidad media y de cabeza viva, no de craneo seco)."
+   }
   },
   {
    "name": "mandible",

@@ -491,18 +491,9 @@
    ],
    "carrier": "sternum",
    "center": {
-    "lerp": [
-     "sternum.head",
-     "sternum.tail",
-     0.05
-    ],
-    "offset_h": [
-     0.012,
-     0.0,
-     0.0
-    ]
+    "at": "rib_01.L.cartilage_end"
    },
-   "tolerance_m": 0.025,
+   "tolerance_m": 0.01,
    "dofs": [],
    "rig_driver": null,
    "ligaments": [],
@@ -510,7 +501,7 @@
     "wikimsk_rib",
     "dartmouth_thorax"
    ],
-   "notes": "Cartilago costal de una costilla verdadera unido directamente al esternon."
+   "notes": "Cartilago costal de una costilla verdadera unido directamente al esternon. Centro = extremo del cartilago costal (union con el esternon o con el cartilago superior)."
   },
   {
    "name": "costovertebral_02.L",
@@ -589,18 +580,9 @@
    ],
    "carrier": "sternum",
    "center": {
-    "lerp": [
-     "sternum.head",
-     "sternum.tail",
-     0.2668
-    ],
-    "offset_h": [
-     0.012,
-     0.0,
-     0.0
-    ]
+    "at": "rib_02.L.cartilage_end"
    },
-   "tolerance_m": 0.025,
+   "tolerance_m": 0.01,
    "dofs": [],
    "rig_driver": null,
    "ligaments": [],
@@ -608,7 +590,7 @@
     "wikimsk_rib",
     "dartmouth_thorax"
    ],
-   "notes": "Cartilago costal de una costilla verdadera unido directamente al esternon."
+   "notes": "Cartilago costal de una costilla verdadera unido directamente al esternon. Centro = extremo del cartilago costal (union con el esternon o con el cartilago superior)."
   },
   {
    "name": "costovertebral_03.L",
@@ -687,18 +669,9 @@
    ],
    "carrier": "sternum",
    "center": {
-    "lerp": [
-     "sternum.head",
-     "sternum.tail",
-     0.38
-    ],
-    "offset_h": [
-     0.012,
-     0.0,
-     0.0
-    ]
+    "at": "rib_03.L.cartilage_end"
    },
-   "tolerance_m": 0.025,
+   "tolerance_m": 0.01,
    "dofs": [],
    "rig_driver": null,
    "ligaments": [],
@@ -706,7 +679,7 @@
     "wikimsk_rib",
     "dartmouth_thorax"
    ],
-   "notes": "Cartilago costal de una costilla verdadera unido directamente al esternon."
+   "notes": "Cartilago costal de una costilla verdadera unido directamente al esternon. Centro = extremo del cartilago costal (union con el esternon o con el cartilago superior)."
   },
   {
    "name": "costovertebral_04.L",
@@ -785,18 +758,9 @@
    ],
    "carrier": "sternum",
    "center": {
-    "lerp": [
-     "sternum.head",
-     "sternum.tail",
-     0.52
-    ],
-    "offset_h": [
-     0.012,
-     0.0,
-     0.0
-    ]
+    "at": "rib_04.L.cartilage_end"
    },
-   "tolerance_m": 0.025,
+   "tolerance_m": 0.01,
    "dofs": [],
    "rig_driver": null,
    "ligaments": [],
@@ -804,7 +768,7 @@
     "wikimsk_rib",
     "dartmouth_thorax"
    ],
-   "notes": "Cartilago costal de una costilla verdadera unido directamente al esternon."
+   "notes": "Cartilago costal de una costilla verdadera unido directamente al esternon. Centro = extremo del cartilago costal (union con el esternon o con el cartilago superior)."
   },
   {
    "name": "costovertebral_05.L",
@@ -883,18 +847,9 @@
    ],
    "carrier": "sternum",
    "center": {
-    "lerp": [
-     "sternum.head",
-     "sternum.tail",
-     0.65
-    ],
-    "offset_h": [
-     0.012,
-     0.0,
-     0.0
-    ]
+    "at": "rib_05.L.cartilage_end"
    },
-   "tolerance_m": 0.025,
+   "tolerance_m": 0.01,
    "dofs": [],
    "rig_driver": null,
    "ligaments": [],
@@ -902,7 +857,7 @@
     "wikimsk_rib",
     "dartmouth_thorax"
    ],
-   "notes": "Cartilago costal de una costilla verdadera unido directamente al esternon."
+   "notes": "Cartilago costal de una costilla verdadera unido directamente al esternon. Centro = extremo del cartilago costal (union con el esternon o con el cartilago superior)."
   },
   {
    "name": "costovertebral_06.L",
@@ -981,18 +936,9 @@
    ],
    "carrier": "sternum",
    "center": {
-    "lerp": [
-     "sternum.head",
-     "sternum.tail",
-     0.78
-    ],
-    "offset_h": [
-     0.012,
-     0.0,
-     0.0
-    ]
+    "at": "rib_06.L.cartilage_end"
    },
-   "tolerance_m": 0.025,
+   "tolerance_m": 0.01,
    "dofs": [],
    "rig_driver": null,
    "ligaments": [],
@@ -1000,7 +946,7 @@
     "wikimsk_rib",
     "dartmouth_thorax"
    ],
-   "notes": "Cartilago costal de una costilla verdadera unido directamente al esternon."
+   "notes": "Cartilago costal de una costilla verdadera unido directamente al esternon. Centro = extremo del cartilago costal (union con el esternon o con el cartilago superior)."
   },
   {
    "name": "costovertebral_07.L",
@@ -1067,18 +1013,9 @@
    ],
    "carrier": "sternum",
    "center": {
-    "lerp": [
-     "sternum.head",
-     "sternum.tail",
-     0.9
-    ],
-    "offset_h": [
-     0.012,
-     0.0,
-     0.0
-    ]
+    "at": "rib_07.L.cartilage_end"
    },
-   "tolerance_m": 0.025,
+   "tolerance_m": 0.01,
    "dofs": [],
    "rig_driver": null,
    "ligaments": [],
@@ -1086,7 +1023,7 @@
     "wikimsk_rib",
     "dartmouth_thorax"
    ],
-   "notes": "Cartilago costal de una costilla verdadera unido directamente al esternon."
+   "notes": "Cartilago costal de una costilla verdadera unido directamente al esternon. Centro = extremo del cartilago costal (union con el esternon o con el cartilago superior)."
   },
   {
    "name": "costovertebral_08.L",
@@ -1153,21 +1090,16 @@
    ],
    "carrier": "rib_08.L",
    "center": {
-    "at": "sternum.tail",
-    "offset_h": [
-     0.03,
-     0.0,
-     -0.01
-    ]
+    "at": "rib_08.L.cartilage_end"
    },
-   "tolerance_m": 0.06,
+   "tolerance_m": 0.01,
    "dofs": [],
    "rig_driver": null,
    "ligaments": [],
    "sources": [
     "wikimsk_rib"
    ],
-   "notes": "Costilla falsa: su cartilago se une al de la costilla superior (union indirecta con el esternon)."
+   "notes": "Costilla falsa: su cartilago se une al de la costilla superior (union indirecta con el esternon). Centro = extremo del cartilago costal (union con el esternon o con el cartilago superior)."
   },
   {
    "name": "costovertebral_09.L",
@@ -1234,21 +1166,16 @@
    ],
    "carrier": "rib_09.L",
    "center": {
-    "at": "sternum.tail",
-    "offset_h": [
-     0.045,
-     0.0,
-     -0.03
-    ]
+    "at": "rib_09.L.cartilage_end"
    },
-   "tolerance_m": 0.06,
+   "tolerance_m": 0.01,
    "dofs": [],
    "rig_driver": null,
    "ligaments": [],
    "sources": [
     "wikimsk_rib"
    ],
-   "notes": "Costilla falsa: su cartilago se une al de la costilla superior (union indirecta con el esternon)."
+   "notes": "Costilla falsa: su cartilago se une al de la costilla superior (union indirecta con el esternon). Centro = extremo del cartilago costal (union con el esternon o con el cartilago superior)."
   },
   {
    "name": "costovertebral_10.L",
@@ -1315,21 +1242,16 @@
    ],
    "carrier": "rib_10.L",
    "center": {
-    "at": "sternum.tail",
-    "offset_h": [
-     0.055,
-     0.0,
-     -0.05
-    ]
+    "at": "rib_10.L.cartilage_end"
    },
-   "tolerance_m": 0.06,
+   "tolerance_m": 0.01,
    "dofs": [],
    "rig_driver": null,
    "ligaments": [],
    "sources": [
     "wikimsk_rib"
    ],
-   "notes": "Costilla falsa: su cartilago se une al de la costilla superior (union indirecta con el esternon)."
+   "notes": "Costilla falsa: su cartilago se une al de la costilla superior (union indirecta con el esternon). Centro = extremo del cartilago costal (union con el esternon o con el cartilago superior)."
   },
   {
    "name": "costovertebral_11.L",
@@ -2538,6 +2460,20 @@
    ],
    "notes": "Fuente debil: verificar en un atlas.",
    "tolerance_m": 0.03
+  },
+  {
+   "name": "jugular_notch",
+   "mirror": false,
+   "bone": "sternum",
+   "point": {
+    "at": "sternum.head"
+   },
+   "structures": [
+    "hito oseo: jugular notch"
+   ],
+   "sources": [],
+   "notes": "Escotadura yugular: borde superior del manubrio del esternon.",
+   "tolerance_m": 0.01
   }
  ]
 }

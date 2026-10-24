@@ -147,7 +147,7 @@ class TestHeadNeckUnions(unittest.TestCase):
         self.assertEqual(at["mandibular_angle.R"].bone, "mandible")
         weak = {k for k, s in self.art.sources.items() if s["reliability"] == "baja"}
         for a in self.region(at).values():
-            if set(a.sources) <= weak:
+            if a.sources and set(a.sources) <= weak:  # sin fuente = extremo definicional del hueso
                 self.assertIn("verificar", a.notes.lower(), a.name)
 
     def test_symmetry(self):

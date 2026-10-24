@@ -2885,6 +2885,76 @@
    ],
    "notes": "",
    "tolerance_m": 0.03
+  },
+  {
+   "name": "distal_phalanx_tuft_thumb.L",
+   "mirror": true,
+   "bone": "thumb_distal.L",
+   "point": {
+    "at": "thumb_distal.L.tail"
+   },
+   "structures": [
+    "hito oseo: distal phalanx tuft thumb"
+   ],
+   "sources": [],
+   "notes": "Tuberosidad de la falange distal: extremo del dedo (donde descansa la yema). Es el termino de la cadena de falanges.",
+   "tolerance_m": 0.01
+  },
+  {
+   "name": "distal_phalanx_tuft_index.L",
+   "mirror": true,
+   "bone": "index_distal.L",
+   "point": {
+    "at": "index_distal.L.tail"
+   },
+   "structures": [
+    "hito oseo: distal phalanx tuft index"
+   ],
+   "sources": [],
+   "notes": "Tuberosidad de la falange distal: extremo del dedo (donde descansa la yema). Es el termino de la cadena de falanges.",
+   "tolerance_m": 0.01
+  },
+  {
+   "name": "distal_phalanx_tuft_middle.L",
+   "mirror": true,
+   "bone": "middle_distal.L",
+   "point": {
+    "at": "middle_distal.L.tail"
+   },
+   "structures": [
+    "hito oseo: distal phalanx tuft middle"
+   ],
+   "sources": [],
+   "notes": "Tuberosidad de la falange distal: extremo del dedo (donde descansa la yema). Es el termino de la cadena de falanges.",
+   "tolerance_m": 0.01
+  },
+  {
+   "name": "distal_phalanx_tuft_ring.L",
+   "mirror": true,
+   "bone": "ring_distal.L",
+   "point": {
+    "at": "ring_distal.L.tail"
+   },
+   "structures": [
+    "hito oseo: distal phalanx tuft ring"
+   ],
+   "sources": [],
+   "notes": "Tuberosidad de la falange distal: extremo del dedo (donde descansa la yema). Es el termino de la cadena de falanges.",
+   "tolerance_m": 0.01
+  },
+  {
+   "name": "distal_phalanx_tuft_little.L",
+   "mirror": true,
+   "bone": "little_distal.L",
+   "point": {
+    "at": "little_distal.L.tail"
+   },
+   "structures": [
+    "hito oseo: distal phalanx tuft little"
+   ],
+   "sources": [],
+   "notes": "Tuberosidad de la falange distal: extremo del dedo (donde descansa la yema). Es el termino de la cadena de falanges.",
+   "tolerance_m": 0.01
   }
  ]
 }
