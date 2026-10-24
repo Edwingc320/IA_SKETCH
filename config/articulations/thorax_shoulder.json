@@ -2162,9 +2162,7 @@
     ]
    },
    "structures": [
-    "biceps braquial cabeza corta (origen)",
-    "coracobraquial (origen)",
-    "pectoral menor (insercion)"
+    "hito oseo: coracoid process"
    ],
    "sources": [
     "anatomyzone_biceps",
@@ -2187,7 +2185,7 @@
     ]
    },
    "structures": [
-    "biceps braquial cabeza larga (origen)"
+    "hito oseo: supraglenoid tubercle"
    ],
    "sources": [
     "ttuhsc_upperlimb",
@@ -2209,7 +2207,7 @@
     ]
    },
    "structures": [
-    "triceps braquial cabeza larga (origen)"
+    "hito oseo: infraglenoid tubercle"
    ],
    "sources": [
     "ttuhsc_upperlimb"
@@ -2230,13 +2228,12 @@
     ]
    },
    "structures": [
-    "deltoides fibras medias (origen)",
-    "trapecio (insercion)"
+    "hito oseo: acromion"
    ],
    "sources": [
     "brainscape_shoulder"
    ],
-   "notes": "Fuente debil (tarjetas de estudio): verificar en un atlas.",
+   "notes": "Fuente debil: verificar en un atlas.",
    "tolerance_m": 0.03
   },
   {
@@ -2252,13 +2249,12 @@
     ]
    },
    "structures": [
-    "deltoides fibras posteriores (origen)",
-    "trapecio (insercion)"
+    "hito oseo: scapular spine"
    ],
    "sources": [
     "brainscape_shoulder"
    ],
-   "notes": "Espina de la escapula, de la raiz (T3) al acromion. Fuente debil: verificar.",
+   "notes": "Fuente debil: verificar en un atlas.",
    "tolerance_m": 0.03
   },
   {
@@ -2274,7 +2270,7 @@
     ]
    },
    "structures": [
-    "supraespinoso (origen)"
+    "hito oseo: supraspinous fossa"
    ],
    "sources": [
     "libretexts_cuff"
@@ -2295,7 +2291,7 @@
     ]
    },
    "structures": [
-    "infraespinoso (origen)"
+    "hito oseo: infraspinous fossa"
    ],
    "sources": [
     "libretexts_cuff"
@@ -2316,7 +2312,7 @@
     ]
    },
    "structures": [
-    "subescapular (origen, cara anterior)"
+    "hito oseo: subscapular fossa"
    ],
    "sources": [
     "libretexts_cuff"
@@ -2337,7 +2333,7 @@
     ]
    },
    "structures": [
-    "redondo menor (origen, tercio medio del borde lateral)"
+    "hito oseo: lateral border"
    ],
    "sources": [
     "radiopaedia_teres_minor",
@@ -2354,13 +2350,12 @@
     "at": "scapula.L.tail"
    },
    "structures": [
-    "redondo mayor (origen)",
-    "serrato anterior (digitaciones inferiores, insercion)"
+    "hito oseo: inferior angle"
    ],
    "sources": [
     "brainscape_shoulder"
    ],
-   "notes": "Fuente debil para el redondo mayor: verificar.",
+   "notes": "Fuente debil: verificar en un atlas.",
    "tolerance_m": 0.03
   },
   {
@@ -2376,7 +2371,7 @@
     ]
    },
    "structures": [
-    "elevador de la escapula (insercion)"
+    "hito oseo: superior angle"
    ],
    "sources": [
     "wiki_levator",
@@ -2398,7 +2393,7 @@
     ]
    },
    "structures": [
-    "romboides menor (insercion)"
+    "hito oseo: medial border spine root"
    ],
    "sources": [
     "wiki_rhomboid_major"
@@ -2419,8 +2414,7 @@
     ]
    },
    "structures": [
-    "romboides mayor (insercion, por debajo del menor)",
-    "serrato anterior (insercion, cara anterior)"
+    "hito oseo: medial border"
    ],
    "sources": [
     "wiki_rhomboid_major"
@@ -2441,9 +2435,7 @@
     ]
    },
    "structures": [
-    "supraespinoso",
-    "infraespinoso",
-    "redondo menor (inserciones)"
+    "hito oseo: greater tubercle"
    ],
    "sources": [
     "libretexts_cuff"
@@ -2464,12 +2456,10 @@
     ]
    },
    "structures": [
-    "subescapular (insercion)",
-    "redondo mayor (insercion, cresta)"
+    "hito oseo: lesser tubercle"
    ],
    "sources": [
-    "libretexts_cuff",
-    "brainscape_shoulder"
+    "libretexts_cuff"
    ],
    "notes": "",
    "tolerance_m": 0.03
@@ -2491,37 +2481,12 @@
     ]
    },
    "structures": [
-    "deltoides (insercion)"
+    "hito oseo: deltoid tuberosity"
    ],
    "sources": [
     "brainscape_shoulder"
    ],
-   "notes": "Fuente debil: verificar.",
-   "tolerance_m": 0.03
-  },
-  {
-   "name": "coracobrachialis_insertion.L",
-   "mirror": true,
-   "bone": "humerus.L",
-   "point": {
-    "lerp": [
-     "upper_arm.L.head",
-     "upper_arm.L.tail",
-     0.5
-    ],
-    "offset_h": [
-     -0.00686,
-     0.0,
-     0.0
-    ]
-   },
-   "structures": [
-    "coracobraquial (insercion, tercio medio cara medial)"
-   ],
-   "sources": [
-    "shoulderdoc_muscles"
-   ],
-   "notes": "",
+   "notes": "Fuente debil: verificar en un atlas.",
    "tolerance_m": 0.03
   },
   {
@@ -2541,7 +2506,7 @@
     ]
    },
    "structures": [
-    "biceps braquial (insercion comun)"
+    "hito oseo: radial tuberosity"
    ],
    "sources": [
     "shoulderdoc_muscles"
@@ -2566,512 +2531,13 @@
     ]
    },
    "structures": [
-    "deltoides fibras anteriores (origen)",
-    "trapecio (insercion)"
+    "hito oseo: clavicle lateral third"
    ],
    "sources": [
     "brainscape_shoulder"
    ],
-   "notes": "Fuente debil: verificar.",
+   "notes": "Fuente debil: verificar en un atlas.",
    "tolerance_m": 0.03
-  },
-  {
-   "name": "serratus_anterior_rib_01.L",
-   "mirror": true,
-   "bone": "rib_01.L",
-   "point": {
-    "lerp": [
-     "thorax.head",
-     "thorax.tail",
-     0.921296
-    ],
-    "offset_h": [
-     0.035,
-     -0.02,
-     -0.0138
-    ]
-   },
-   "structures": [
-    "serrato anterior (origen, cara externa)"
-   ],
-   "sources": [
-    "brainscape_shoulder"
-   ],
-   "notes": "Las fuentes dan costillas 1-8 o 1-9. Fuente debil (tarjetas de estudio): verificar en un atlas.",
-   "tolerance_m": 0.03
-  },
-  {
-   "name": "serratus_anterior_rib_02.L",
-   "mirror": true,
-   "bone": "rib_02.L",
-   "point": {
-    "lerp": [
-     "thorax.head",
-     "thorax.tail",
-     0.763889
-    ],
-    "offset_h": [
-     0.05,
-     -0.02,
-     -0.0193
-    ]
-   },
-   "structures": [
-    "serrato anterior (origen, cara externa)"
-   ],
-   "sources": [
-    "brainscape_shoulder"
-   ],
-   "notes": "Las fuentes dan costillas 1-8 o 1-9. Fuente debil (tarjetas de estudio): verificar en un atlas.",
-   "tolerance_m": 0.03
-  },
-  {
-   "name": "serratus_anterior_rib_03.L",
-   "mirror": true,
-   "bone": "rib_03.L",
-   "point": {
-    "lerp": [
-     "thorax.head",
-     "thorax.tail",
-     0.606481
-    ],
-    "offset_h": [
-     0.06,
-     -0.02,
-     -0.0248
-    ]
-   },
-   "structures": [
-    "serrato anterior (origen, cara externa)"
-   ],
-   "sources": [
-    "brainscape_shoulder"
-   ],
-   "notes": "Las fuentes dan costillas 1-8 o 1-9. Fuente debil (tarjetas de estudio): verificar en un atlas.",
-   "tolerance_m": 0.03
-  },
-  {
-   "name": "serratus_anterior_rib_04.L",
-   "mirror": true,
-   "bone": "rib_04.L",
-   "point": {
-    "lerp": [
-     "thorax.head",
-     "thorax.tail",
-     0.449074
-    ],
-    "offset_h": [
-     0.066,
-     -0.02,
-     -0.0275
-    ]
-   },
-   "structures": [
-    "serrato anterior (origen, cara externa)"
-   ],
-   "sources": [
-    "brainscape_shoulder"
-   ],
-   "notes": "Las fuentes dan costillas 1-8 o 1-9. Fuente debil (tarjetas de estudio): verificar en un atlas.",
-   "tolerance_m": 0.03
-  },
-  {
-   "name": "serratus_anterior_rib_05.L",
-   "mirror": true,
-   "bone": "rib_05.L",
-   "point": {
-    "lerp": [
-     "thorax.head",
-     "thorax.tail",
-     0.291667
-    ],
-    "offset_h": [
-     0.07,
-     -0.02,
-     -0.0303
-    ]
-   },
-   "structures": [
-    "serrato anterior (origen, cara externa)"
-   ],
-   "sources": [
-    "brainscape_shoulder"
-   ],
-   "notes": "Las fuentes dan costillas 1-8 o 1-9. Fuente debil (tarjetas de estudio): verificar en un atlas.",
-   "tolerance_m": 0.03
-  },
-  {
-   "name": "serratus_anterior_rib_06.L",
-   "mirror": true,
-   "bone": "rib_06.L",
-   "point": {
-    "lerp": [
-     "thorax.head",
-     "thorax.tail",
-     0.134259
-    ],
-    "offset_h": [
-     0.073,
-     -0.02,
-     -0.0319
-    ]
-   },
-   "structures": [
-    "serrato anterior (origen, cara externa)"
-   ],
-   "sources": [
-    "brainscape_shoulder"
-   ],
-   "notes": "Las fuentes dan costillas 1-8 o 1-9. Fuente debil (tarjetas de estudio): verificar en un atlas.",
-   "tolerance_m": 0.03
-  },
-  {
-   "name": "serratus_anterior_rib_07.L",
-   "mirror": true,
-   "bone": "rib_07.L",
-   "point": {
-    "lerp": [
-     "spine_thoracic.head",
-     "spine_thoracic.tail",
-     0.973958
-    ],
-    "offset_h": [
-     0.075,
-     -0.02,
-     -0.033
-    ]
-   },
-   "structures": [
-    "serrato anterior (origen, cara externa)"
-   ],
-   "sources": [
-    "brainscape_shoulder"
-   ],
-   "notes": "Las fuentes dan costillas 1-8 o 1-9. Fuente debil (tarjetas de estudio): verificar en un atlas.",
-   "tolerance_m": 0.03
-  },
-  {
-   "name": "serratus_anterior_rib_08.L",
-   "mirror": true,
-   "bone": "rib_08.L",
-   "point": {
-    "lerp": [
-     "spine_thoracic.head",
-     "spine_thoracic.tail",
-     0.796875
-    ],
-    "offset_h": [
-     0.075,
-     -0.02,
-     -0.0319
-    ]
-   },
-   "structures": [
-    "serrato anterior (origen, cara externa)"
-   ],
-   "sources": [
-    "brainscape_shoulder"
-   ],
-   "notes": "Las fuentes dan costillas 1-8 o 1-9. Fuente debil (tarjetas de estudio): verificar en un atlas.",
-   "tolerance_m": 0.03
-  },
-  {
-   "name": "pectoralis_minor_rib_03.L",
-   "mirror": true,
-   "bone": "rib_03.L",
-   "point": {
-    "at": "rib_03.L.tail"
-   },
-   "structures": [
-    "pectoral menor (origen)"
-   ],
-   "sources": [
-    "uw_pec_minor"
-   ],
-   "notes": "Cara externa, cerca de los cartilagos costales.",
-   "tolerance_m": 0.03
-  },
-  {
-   "name": "pectoralis_minor_rib_04.L",
-   "mirror": true,
-   "bone": "rib_04.L",
-   "point": {
-    "at": "rib_04.L.tail"
-   },
-   "structures": [
-    "pectoral menor (origen)"
-   ],
-   "sources": [
-    "uw_pec_minor"
-   ],
-   "notes": "Cara externa, cerca de los cartilagos costales.",
-   "tolerance_m": 0.03
-  },
-  {
-   "name": "pectoralis_minor_rib_05.L",
-   "mirror": true,
-   "bone": "rib_05.L",
-   "point": {
-    "at": "rib_05.L.tail"
-   },
-   "structures": [
-    "pectoral menor (origen)"
-   ],
-   "sources": [
-    "uw_pec_minor"
-   ],
-   "notes": "Cara externa, cerca de los cartilagos costales.",
-   "tolerance_m": 0.03
-  },
-  {
-   "name": "rhomboid_major_origin_T2",
-   "mirror": false,
-   "bone": "T2",
-   "point": {
-    "lerp": [
-     "T2.head",
-     "T2.tail",
-     0.5
-    ],
-    "offset_h": [
-     0.0,
-     0.01714,
-     0.0
-    ]
-   },
-   "structures": [
-    "romboides mayor (origen, apofisis espinosa)"
-   ],
-   "sources": [
-    "wiki_rhomboid_major"
-   ],
-   "notes": "Apofisis espinosa no modelada (a ~3 cm por detras del cuerpo vertebral).",
-   "tolerance_m": 0.035
-  },
-  {
-   "name": "rhomboid_major_origin_T3",
-   "mirror": false,
-   "bone": "T3",
-   "point": {
-    "lerp": [
-     "T3.head",
-     "T3.tail",
-     0.5
-    ],
-    "offset_h": [
-     0.0,
-     0.01714,
-     0.0
-    ]
-   },
-   "structures": [
-    "romboides mayor (origen, apofisis espinosa)"
-   ],
-   "sources": [
-    "wiki_rhomboid_major"
-   ],
-   "notes": "Apofisis espinosa no modelada (a ~3 cm por detras del cuerpo vertebral).",
-   "tolerance_m": 0.035
-  },
-  {
-   "name": "rhomboid_major_origin_T4",
-   "mirror": false,
-   "bone": "T4",
-   "point": {
-    "lerp": [
-     "T4.head",
-     "T4.tail",
-     0.5
-    ],
-    "offset_h": [
-     0.0,
-     0.01714,
-     0.0
-    ]
-   },
-   "structures": [
-    "romboides mayor (origen, apofisis espinosa)"
-   ],
-   "sources": [
-    "wiki_rhomboid_major"
-   ],
-   "notes": "Apofisis espinosa no modelada (a ~3 cm por detras del cuerpo vertebral).",
-   "tolerance_m": 0.035
-  },
-  {
-   "name": "rhomboid_major_origin_T5",
-   "mirror": false,
-   "bone": "T5",
-   "point": {
-    "lerp": [
-     "T5.head",
-     "T5.tail",
-     0.5
-    ],
-    "offset_h": [
-     0.0,
-     0.01714,
-     0.0
-    ]
-   },
-   "structures": [
-    "romboides mayor (origen, apofisis espinosa)"
-   ],
-   "sources": [
-    "wiki_rhomboid_major"
-   ],
-   "notes": "Apofisis espinosa no modelada (a ~3 cm por detras del cuerpo vertebral).",
-   "tolerance_m": 0.035
-  },
-  {
-   "name": "rhomboid_minor_origin_C7",
-   "mirror": false,
-   "bone": "C7",
-   "point": {
-    "lerp": [
-     "C7.head",
-     "C7.tail",
-     0.5
-    ],
-    "offset_h": [
-     0.0,
-     0.01714,
-     0.0
-    ]
-   },
-   "structures": [
-    "romboides menor (origen, apofisis espinosa)"
-   ],
-   "sources": [
-    "wiki_rhomboid_major"
-   ],
-   "notes": "Apofisis espinosa no modelada.",
-   "tolerance_m": 0.035
-  },
-  {
-   "name": "rhomboid_minor_origin_T1",
-   "mirror": false,
-   "bone": "T1",
-   "point": {
-    "lerp": [
-     "T1.head",
-     "T1.tail",
-     0.5
-    ],
-    "offset_h": [
-     0.0,
-     0.01714,
-     0.0
-    ]
-   },
-   "structures": [
-    "romboides menor (origen, apofisis espinosa)"
-   ],
-   "sources": [
-    "wiki_rhomboid_major"
-   ],
-   "notes": "Apofisis espinosa no modelada.",
-   "tolerance_m": 0.035
-  },
-  {
-   "name": "levator_scapulae_origin_C1.L",
-   "mirror": true,
-   "bone": "C1",
-   "point": {
-    "lerp": [
-     "C1.head",
-     "C1.tail",
-     0.5
-    ],
-    "offset_h": [
-     0.02,
-     0.00286,
-     0.0
-    ]
-   },
-   "structures": [
-    "elevador de la escapula (origen, tuberculo posterior de la apofisis transversa)"
-   ],
-   "sources": [
-    "wiki_levator"
-   ],
-   "notes": "Apofisis transversa no modelada.",
-   "tolerance_m": 0.04
-  },
-  {
-   "name": "levator_scapulae_origin_C2.L",
-   "mirror": true,
-   "bone": "C2",
-   "point": {
-    "lerp": [
-     "C2.head",
-     "C2.tail",
-     0.5
-    ],
-    "offset_h": [
-     0.01429,
-     0.00286,
-     0.0
-    ]
-   },
-   "structures": [
-    "elevador de la escapula (origen, tuberculo posterior de la apofisis transversa)"
-   ],
-   "sources": [
-    "wiki_levator"
-   ],
-   "notes": "Apofisis transversa no modelada.",
-   "tolerance_m": 0.04
-  },
-  {
-   "name": "levator_scapulae_origin_C3.L",
-   "mirror": true,
-   "bone": "C3",
-   "point": {
-    "lerp": [
-     "C3.head",
-     "C3.tail",
-     0.5
-    ],
-    "offset_h": [
-     0.01429,
-     0.00286,
-     0.0
-    ]
-   },
-   "structures": [
-    "elevador de la escapula (origen, tuberculo posterior de la apofisis transversa)"
-   ],
-   "sources": [
-    "wiki_levator"
-   ],
-   "notes": "Apofisis transversa no modelada.",
-   "tolerance_m": 0.04
-  },
-  {
-   "name": "levator_scapulae_origin_C4.L",
-   "mirror": true,
-   "bone": "C4",
-   "point": {
-    "lerp": [
-     "C4.head",
-     "C4.tail",
-     0.5
-    ],
-    "offset_h": [
-     0.01429,
-     0.00286,
-     0.0
-    ]
-   },
-   "structures": [
-    "elevador de la escapula (origen, tuberculo posterior de la apofisis transversa)"
-   ],
-   "sources": [
-    "wiki_levator"
-   ],
-   "notes": "Apofisis transversa no modelada.",
-   "tolerance_m": 0.04
   }
  ]
 }

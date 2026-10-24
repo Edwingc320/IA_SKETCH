@@ -53,14 +53,9 @@ C7/T1 está en la especificación del tórax (motor: `neck`). La rotación del c
 
 Fuentes de los ligamentos craneovertebrales: [RadioGraphics](https://pubs.rsna.org/radiographics/doi/10.1148/rg.230137), [Kenhub](https://www.kenhub.com/en/start/craniovertebral-ligaments-and-joints); de la ATM: [TeachMeAnatomy](https://teachmeanatomy.info/head/temporomandibular-joint/), [USMF](https://stomortopedica.usmf.md/sites/default/files/inline-files/TEMPOROMANDIBULAR%20JOINT.pdf).
 
-## 4. Inserciones e hitos
+## 4. Hitos óseos
 
-- **Cráneo**: apófisis mastoides (esternocleidomastoideo, esplenio de la cabeza, digástrico posterior), protuberancia occipital externa y línea nucal superior (trapecio, ligamento nucal), entre líneas nucales (semiespinoso), arco cigomático (masetero), fosa temporal (temporal).
-- **Mandíbula**: apófisis coronoides (temporal), ángulo (masetero), cuello del cóndilo (pterigoideo lateral), fosa digástrica (digástrico anterior).
-- **Cuello y tórax**: cabezas esternal y clavicular del esternocleidomastoideo, apófisis transversas C3–C6 (escalenos) con inserción en la 1.ª y 2.ª costilla ([Radiopaedia](https://radiopaedia.org/articles/scalene-muscles)), espinosas C7–T3 (esplenio).
-- **Hitos**: porion, orbitale, nasion y centro de gravedad de la cabeza.
-
-Cada fuente lleva su fiabilidad (`alta`, `media`, `baja`) en `head_neck.json`. Lo apoyado solo en fuentes de fiabilidad baja (masetero, temporal, semiespinoso, esplenio) lo indica en su nota: **verificar en un atlas**.
+Plano de Frankfort (pórion y orbitario), nasion, centro de gravedad de la cabeza, protuberancia occipital externa, línea nucal superior, apófisis mastoides, arco cigomático, fosa temporal, apófisis coronoides, ángulo y cuello del cóndilo de la mandíbula y fosa digástrica. Los músculos y tendones **no forman parte del modelo óseo**: sus orígenes, inserciones y fuentes están en la rama `muscle-model` (donde sigue pendiente verificar en un atlas lo apoyado en fuentes débiles). Aquí quedan solo los accidentes óseos con nombre propio, que sirven de anclaje a ese modelo.
 
 ## 5. Lo que la especificación pidió y no se aplicó
 

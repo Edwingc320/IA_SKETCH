@@ -70,11 +70,9 @@ Los rangos de Pearcy y Dvorak proceden de un protocolo de ensayo clínico que lo
 | Pubofemoral (×2) | rama superior del pubis → cuello femoral | limita abducción y extensión |
 | Isquiofemoral (×2) | isquion → cuello femoral | principal freno de la rotación interna ([cadáver](https://vivo.weill.cornell.edu/display/pubid18237703)) |
 
-## 5. Inserciones e hitos
+## 5. Hitos óseos
 
-Espinas ilíacas anterosuperior (sartorio) y anteroinferior (recto femoral), fosa ilíaca (ilíaco), cresta ilíaca (cuadrado lumbar), tuberosidad isquiática (isquiotibiales, sacrotuberoso), cuerpo del pubis (aductor largo), trocánter menor (psoas e ilíaco), tuberosidad glútea (glúteo mayor), cara posterior del sacro (glúteo mayor), cuerpos lumbares L1–L4 (psoas mayor) y el hito del centro de masas.
-
-Cada fuente lleva su fiabilidad (`alta`, `media`, `baja`) en `lumbar_pelvis.json`. Lo apoyado solo en fuentes de fiabilidad baja (iliaco, cuadrado lumbar, psoas, glúteo mayor, trocánter menor) lo indica en su nota: **verificar en un atlas**. No pude verificar los orígenes de los glúteos medio y menor ni del recto del abdomen, por eso no están incluidos.
+Espinas ilíacas anterosuperior e inferior, fosa y cresta ilíacas, tuberosidad isquiática, cuerpo del pubis, trocánter menor, tuberosidad glútea y el hito del centro de masas del cuerpo (55,7 % de la estatura). Los músculos y tendones **no forman parte del modelo óseo**: sus orígenes, inserciones y fuentes están en la rama `muscle-model` (donde sigue pendiente verificar en un atlas lo apoyado en fuentes débiles). Aquí quedan solo los accidentes óseos con nombre propio, que sirven de anclaje a ese modelo.
 
 ## 6. Lo que la especificación pidió y no se aplicó
 

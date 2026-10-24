@@ -116,7 +116,7 @@ class TestArmHandUnions(unittest.TestCase):
     def test_counts_and_validation(self):
         self.assertEqual(len(self.region(self.art.joints)), 24 * 2)
         self.assertEqual(len(self.region(self.art.ligaments)), 42 * 2)
-        self.assertEqual(len(self.region(self.art.attachments)), 38 * 2)
+        self.assertEqual(len(self.region(self.art.attachments)), 8 * 2)  # solo hitos oseos; los tendones estan en muscle-model
         issues = validation.validate_articulations(self.base, self.anat, self.art)
         self.assertEqual([i for i in issues if i.severity == "error"], [])
 
@@ -184,7 +184,7 @@ class TestArmHandUnions(unittest.TestCase):
         axis_x = self.anat.bones["humerus.L"].tail[0]
         self.assertLess(at["medial_epicondyle.L"].point[0], axis_x)  # medial = hacia el cuerpo (-X en .L)
         self.assertGreater(at["lateral_epicondyle.L"].point[0], axis_x)
-        self.assertEqual(at["fcu_pisiform.L"].bone, "pisiform.L")
+        self.assertEqual(at["hook_of_hamate.L"].bone, "hamate.L")
         self.assertEqual(at["scaphoid_tubercle.L"].bone, "scaphoid.L")
 
     def test_symmetry(self):

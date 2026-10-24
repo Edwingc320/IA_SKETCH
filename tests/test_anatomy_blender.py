@@ -321,7 +321,7 @@ class TestAnatomyInBlender(unittest.TestCase):
         for driver, euler, moving, still in (
             ("thigh.L", (0.7, 0.0, 0.2), ["ATT_lesser_trochanter.L", "ATT_gluteal_tuberosity.L"],
              ["ART_coxofemoral.L", "ART_sacroiliac.L", "ATT_ischial_tuberosity.L", "ATT_lesser_trochanter.R"]),
-            ("spine_lumbar", (0.3, 0.0, 0.2), ["ART_intervertebral_L1_L2", "ATT_psoas_origin_L2.R"],
+            ("spine_lumbar", (0.3, 0.0, 0.2), ["ART_intervertebral_L1_L2", "ART_intervertebral_L3_L4"],
              ["ART_lumbosacral_L5_S1", "ART_pubic_symphysis", "ATT_body_center_of_mass"]),
         ):
             arm = self.open()

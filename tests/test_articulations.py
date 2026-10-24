@@ -44,7 +44,7 @@ class TestArticulationData(unittest.TestCase):
         central = 2 + 13  # manubrioesternal, xifoesternal + 13 segmentos intervertebrales C7/T1..T12/L1
         self.assertEqual(len(self.region(self.art.joints)), 2 * per_side + central)
         self.assertEqual(len(self.region(self.art.ligaments)), 2 * 5 + 1)  # 5 por lado + interclavicular
-        self.assertEqual(len(self.region(self.art.attachments)), 74)
+        self.assertEqual(len(self.region(self.art.attachments)), 36)  # 18 hitos oseos por lado; los musculos estan en muscle-model
 
     def test_validation_has_no_errors_and_no_warnings_on_the_corrected_base(self):
         """Base v2: la clavicula va del manubrio al acromion, asi que ya no hay huecos ni ligamentos de longitud
@@ -133,14 +133,9 @@ class TestArticulationData(unittest.TestCase):
         self.assertLess(at["coracoid_process.L"].point[1], glen[1])  # coracoides anterior
         self.assertLess(abs(at["superior_angle.L"].point[2] - mid(A["T2"])[2]), 0.01)  # angulo superior ~ T2
         self.assertLess(abs(at["inferior_angle.L"].point[2] - mid(A["T7"])[2]), 0.01)  # angulo inferior ~ T7
-        for k in range(1, 9):
-            self.assertIn(f"serratus_anterior_rib_{k:02d}.R", at)
-        for v in ("T2", "T3", "T4", "T5"):
-            self.assertGreater(at[f"rhomboid_major_origin_{v}"].point[1], mid(A[v])[1])  # apofisis espinosa: detras
-        for v in ("C1", "C2", "C3", "C4"):
-            self.assertEqual(at[f"levator_scapulae_origin_{v}.L"].bone, v)
-            self.assertGreater(at[f"levator_scapulae_origin_{v}.L"].point[0], 0)
-            self.assertLess(at[f"levator_scapulae_origin_{v}.R"].point[0], 0)
+        for n in ("acromion", "greater_tubercle", "deltoid_tuberosity"):
+            self.assertGreater(at[f"{n}.L"].point[0], 0)
+            self.assertLess(at[f"{n}.R"].point[0], 0)
 
     def test_symmetry(self):
         for store, pts in ((self.art.joints, lambda x: [x.center]), (self.art.ligaments, lambda x: [x.a, x.b]),
@@ -205,6 +200,20 @@ class TestArticulationValidatorDetectsProblems(unittest.TestCase):
         from anatomical_core.config import ConfigError
         with self.assertRaises(ConfigError):
             articulations.build_articulations(self.base, self.anat, [data])
+
+
+class TestBoneModelHasNoMuscles(unittest.TestCase):
+    """main es el modelo de estructura osea: los puntos 'attachments' son hitos oseos; los musculos viven en la rama muscle-model."""
+
+    MUSCLE_WORDS = ("origen", "insercion", "tendon", "musculo", "braquial", "trapecio", "deltoides", "triceps", "biceps")
+
+    def test_attachments_are_bone_landmarks_only(self):
+        art = articulations.build_articulations(*(lambda b: (b, anatomy.build_anatomy(b, anatomy.load_anatomy_config())))(build_model(load_config())),
+                                                articulations.load_articulation_data())
+        self.assertTrue(art.attachments)
+        for n, a in art.attachments.items():
+            self.assertTrue(all(s.startswith("hito") for s in a.structures), n)
+            self.assertFalse(any(w in " ".join(a.structures).lower() for w in self.MUSCLE_WORDS), n)
 
 
 if __name__ == "__main__":

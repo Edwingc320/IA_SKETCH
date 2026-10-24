@@ -63,21 +63,9 @@ Orientación escapular en reposo (para las poses): plano escapular unos 30° por
 
 Ligamentos que quedan descritos dentro de su articulación (sin línea propia): esternoclaviculares anterior y posterior, radiado e intraarticular (costovertebral), costotransversos, longitudinales, amarillo, interespinoso y supraespinoso.
 
-## 4. Inserciones tendinosas y musculares
+## 4. Hitos óseos (accidentes de la escápula, la clavícula y el húmero)
 
-| Punto | Estructuras | Fuente |
-|---|---|---|
-| Apófisis coracoides | bíceps cabeza corta y coracobraquial (origen), pectoral menor (inserción) | [AnatomyZone](https://anatomyzone.com/articles/biceps-brachii-short-head/), [Shoulderdoc](https://shoulderdoc.co.uk/pages/muscles-of-the-shoulder-arm), [UW](https://rad.uw.edu/muscle-atlas/pectoralis-minor) |
-| Tubérculo supraglenoideo / infraglenoideo | bíceps cabeza larga / tríceps cabeza larga (origen) | [TTUHSC](https://anatomy.ttuhscep.edu/anatomytables/bones_upperlimb.html) |
-| Fosas supraespinosa, infraespinosa, subescapular; borde lateral | supraespinoso, infraespinoso, subescapular, redondo menor (origen) | [LibreTexts](https://bio.libretexts.org/Bookshelves/Human_Biology/Human_Anatomy_Lab/09%3A_The_Appendicular_Muscles/9.01%3A_Muscles_of_the_Rotator_Cuff), [Radiopaedia](https://images.radiopaedia.org/articles/teres-minor) |
-| Tubérculo mayor / menor del húmero | manguito rotador / subescapular (inserción) | LibreTexts |
-| Ángulo superior; borde medial | elevador de la escápula; romboides menor y mayor, serrato anterior (inserción) | [Wikipedia](https://en.wikipedia.org/wiki/Levator_scapulae_muscle), [Wikipedia](https://en.wikipedia.org/wiki/Rhomboid_major_muscle) |
-| Apófisis espinosas C7–T1 y T2–T5; transversas C1–C4 | romboides menor y mayor; elevador de la escápula (origen) | Wikipedia |
-| Costillas 1–8 (cara lateral); 3–5 (cerca del cartílago) | serrato anterior; pectoral menor (origen) | [UW](https://rad.uw.edu/muscle-atlas/pectoralis-minor) / tarjetas de estudio |
-| Acromion, espina, tercio lateral de la clavícula, tuberosidad deltoidea, ángulo inferior | deltoides, trapecio, redondo mayor | **solo tarjetas de estudio: verificar en un atlas** |
-| Tuberosidad radial | bíceps (inserción) | Shoulderdoc |
-
-Cada fuente lleva su fiabilidad (`alta`, `media`, `baja`) en `thorax_shoulder.json`; lo que solo se apoya en fuentes de fiabilidad baja lo indica en su nota.
+Coracoides, tubérculos supra e infraglenoideo, acromion, espina de la escápula, fosas supra, infra y subescapular, bordes lateral y medial, ángulos superior e inferior, raíz de la espina, tubérculos mayor y menor y tuberosidad deltoidea del húmero, tuberosidad radial y tercio lateral de la clavícula (18 por lado). Los músculos y tendones **no forman parte del modelo óseo**: sus orígenes, inserciones y fuentes están en la rama `muscle-model` (donde sigue pendiente verificar en un atlas lo apoyado en fuentes débiles). Aquí quedan solo los accidentes óseos con nombre propio, que sirven de anclaje a ese modelo.
 
 ## 5. Lo que la especificación pidió y no se aplicó (y por qué)
 

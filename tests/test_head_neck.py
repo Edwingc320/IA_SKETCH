@@ -106,7 +106,7 @@ class TestHeadNeckUnions(unittest.TestCase):
     def test_counts_and_validation(self):
         self.assertEqual(len(self.region(self.art.joints)), 2 + 5 + 2)  # AO, AA, C2/C3..C6/C7, ATM x2
         self.assertEqual(len(self.region(self.art.ligaments)), 7 + 3 * 2 + 1)  # craneovertebrales y nucal, ATM x2, alar.R
-        self.assertEqual(len(self.region(self.art.attachments)), 45)
+        self.assertEqual(len(self.region(self.art.attachments)), 23)  # solo hitos oseos; los musculos estan en muscle-model
         issues = validation.validate_articulations(self.base, self.anat, self.art)
         self.assertEqual([i for i in issues if i.severity == "error"], [])
         regions = collections.Counter(i.message.split("'")[1].split(".")[0] for i in issues)
@@ -144,8 +144,7 @@ class TestHeadNeckUnions(unittest.TestCase):
         self.assertEqual((lg["nuchal"].from_bone, lg["nuchal"].to_bone), ("C7", "cranium"))
         self.assertLess(length(sub(lg["nuchal"].b, at["external_occipital_protuberance"].point)), 1e-12)
         self.assertGreater(at["mastoid_process.L"].point[0], 0.03)  # lateral
-        self.assertEqual(at["sternocleidomastoid_sternal_head.R"].bone, "sternum")
-        self.assertEqual(at["scalene_insertion_rib_01.R"].bone, "rib_01.R")
+        self.assertEqual(at["mandibular_angle.R"].bone, "mandible")
         weak = {k for k, s in self.art.sources.items() if s["reliability"] == "baja"}
         for a in self.region(at).values():
             if set(a.sources) <= weak:

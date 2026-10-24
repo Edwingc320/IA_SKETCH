@@ -715,7 +715,7 @@
     ]
    },
    "structures": [
-    "sartorio (origen)"
+    "hito oseo: anterior superior iliac spine"
    ],
    "sources": [
     "ditki_le"
@@ -736,8 +736,7 @@
     ]
    },
    "structures": [
-    "recto femoral (origen)",
-    "ligamento iliofemoral"
+    "hito oseo: anterior inferior iliac spine"
    ],
    "sources": [
     "ditki_le",
@@ -759,12 +758,12 @@
     ]
    },
    "structures": [
-    "iliaco (origen)"
+    "hito oseo: iliac fossa"
    ],
    "sources": [
     "brainscape_post_abdominal"
    ],
-   "notes": "Cara interna del ilion: la lamina no esta modelada (solo su contorno). Fuente debil: verificar en un atlas.",
+   "notes": "Fuente debil: verificar en un atlas.",
    "tolerance_m": 0.045
   },
   {
@@ -780,14 +779,12 @@
     ]
    },
    "structures": [
-    "cuadrado lumbar (insercion)",
-    "ligamento iliolumbar"
+    "hito oseo: iliac crest"
    ],
    "sources": [
-    "brainscape_post_abdominal",
     "pmc_iliolumbar"
    ],
-   "notes": "Cuadrado lumbar: Fuente debil: verificar en un atlas.",
+   "notes": "",
    "tolerance_m": 0.03
   },
   {
@@ -803,8 +800,7 @@
     ]
    },
    "structures": [
-    "isquiotibiales (origen)",
-    "ligamento sacrotuberoso"
+    "hito oseo: ischial tuberosity"
    ],
    "sources": [
     "tf_hamstrings",
@@ -826,7 +822,7 @@
     ]
    },
    "structures": [
-    "aductor largo (origen, cuerpo del pubis bajo la cresta pubica)"
+    "hito oseo: pubic body"
    ],
    "sources": [
     "ditki_le"
@@ -847,7 +843,7 @@
     ]
    },
    "structures": [
-    "psoas mayor e iliaco (insercion)"
+    "hito oseo: lesser trochanter"
    ],
    "sources": [
     "brainscape_post_abdominal"
@@ -872,137 +868,12 @@
     ]
    },
    "structures": [
-    "gluteo mayor (insercion parcial; la mayor parte va a la cintilla iliotibial)"
+    "hito oseo: gluteal tuberosity"
    ],
    "sources": [
     "brainscape_pelvis"
    ],
    "notes": "Fuente debil: verificar en un atlas.",
-   "tolerance_m": 0.03
-  },
-  {
-   "name": "gluteus_maximus_origin_sacrum.L",
-   "mirror": true,
-   "bone": "sacrum",
-   "point": {
-    "lerp": [
-     "sacrum.head",
-     "sacrum.tail",
-     0.6
-    ],
-    "offset_h": [
-     0.011428571428571429,
-     0.005714285714285714,
-     0.0
-    ]
-   },
-   "structures": [
-    "gluteo mayor (origen: cara posterior del sacro y el coxis, ilion posterior)"
-   ],
-   "sources": [
-    "brainscape_pelvis"
-   ],
-   "notes": "Fuente debil: verificar en un atlas.",
-   "tolerance_m": 0.03
-  },
-  {
-   "name": "psoas_origin_L1.L",
-   "mirror": true,
-   "bone": "L1",
-   "point": {
-    "lerp": [
-     "L1.head",
-     "L1.tail",
-     0.5
-    ],
-    "offset_h": [
-     0.011428571428571429,
-     0.0,
-     0.0
-    ]
-   },
-   "structures": [
-    "psoas mayor (origen: cuerpos y apofisis transversas T12-L4/L5)"
-   ],
-   "sources": [
-    "brainscape_post_abdominal"
-   ],
-   "notes": "Las fuentes dan T12-L4 o T12-L5. Fuente debil: verificar en un atlas.",
-   "tolerance_m": 0.03
-  },
-  {
-   "name": "psoas_origin_L2.L",
-   "mirror": true,
-   "bone": "L2",
-   "point": {
-    "lerp": [
-     "L2.head",
-     "L2.tail",
-     0.5
-    ],
-    "offset_h": [
-     0.011428571428571429,
-     0.0,
-     0.0
-    ]
-   },
-   "structures": [
-    "psoas mayor (origen: cuerpos y apofisis transversas T12-L4/L5)"
-   ],
-   "sources": [
-    "brainscape_post_abdominal"
-   ],
-   "notes": "Las fuentes dan T12-L4 o T12-L5. Fuente debil: verificar en un atlas.",
-   "tolerance_m": 0.03
-  },
-  {
-   "name": "psoas_origin_L3.L",
-   "mirror": true,
-   "bone": "L3",
-   "point": {
-    "lerp": [
-     "L3.head",
-     "L3.tail",
-     0.5
-    ],
-    "offset_h": [
-     0.011428571428571429,
-     0.0,
-     0.0
-    ]
-   },
-   "structures": [
-    "psoas mayor (origen: cuerpos y apofisis transversas T12-L4/L5)"
-   ],
-   "sources": [
-    "brainscape_post_abdominal"
-   ],
-   "notes": "Las fuentes dan T12-L4 o T12-L5. Fuente debil: verificar en un atlas.",
-   "tolerance_m": 0.03
-  },
-  {
-   "name": "psoas_origin_L4.L",
-   "mirror": true,
-   "bone": "L4",
-   "point": {
-    "lerp": [
-     "L4.head",
-     "L4.tail",
-     0.5
-    ],
-    "offset_h": [
-     0.011428571428571429,
-     0.0,
-     0.0
-    ]
-   },
-   "structures": [
-    "psoas mayor (origen: cuerpos y apofisis transversas T12-L4/L5)"
-   ],
-   "sources": [
-    "brainscape_post_abdominal"
-   ],
-   "notes": "Las fuentes dan T12-L4 o T12-L5. Fuente debil: verificar en un atlas.",
    "tolerance_m": 0.03
   },
   {

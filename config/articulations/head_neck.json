@@ -98,16 +98,6 @@
    "reliability": "media",
    "title": "Universidad de Sohag - musculos del cuello (apuntes)"
   },
-  "qpercom_neck": {
-   "url": "https://www.qpercom.com/?p=5953",
-   "reliability": "baja",
-   "title": "Qpercom - Muscles of the neck region (VERIFICAR en un atlas)"
-  },
-  "radiopaedia_scalenes": {
-   "url": "https://radiopaedia.org/articles/scalene-muscles",
-   "reliability": "media",
-   "title": "Radiopaedia - Scalene muscles"
-  },
   "wiki_digastric": {
    "url": "https://en.wikipedia.org/wiki/Digastric_muscle",
    "reliability": "media",
@@ -974,11 +964,9 @@
     ]
    },
    "structures": [
-    "trapecio (origen)",
-    "ligamento nucal"
+    "hito oseo: external occipital protuberance"
    ],
    "sources": [
-    "sohag_neck",
     "kenhub_nuchal"
    ],
    "notes": "",
@@ -997,36 +985,12 @@
     ]
    },
    "structures": [
-    "trapecio (origen, parte medial)",
-    "esternocleidomastoideo (insercion, parte lateral)",
-    "esplenio de la cabeza (insercion)"
+    "hito oseo: superior nuchal line"
    ],
    "sources": [
-    "sohag_neck",
-    "qpercom_neck"
+    "sohag_neck"
    ],
    "notes": "El craneo se modela como perfil medio-sagital: las estructuras laterales quedan a unos 5-7 cm de el.",
-   "tolerance_m": 0.04
-  },
-  {
-   "name": "semispinalis_capitis_insertion.L",
-   "mirror": true,
-   "bone": "cranium",
-   "point": {
-    "at": "head.head",
-    "offset_h": [
-     0.011428571428571429,
-     0.04285714285714286,
-     0.005714285714285714
-    ]
-   },
-   "structures": [
-    "semiespinoso de la cabeza (insercion, entre las lineas nucales)"
-   ],
-   "sources": [
-    "qpercom_neck"
-   ],
-   "notes": "Fuente debil: verificar en un atlas.",
    "tolerance_m": 0.04
   },
   {
@@ -1042,12 +1006,9 @@
     ]
    },
    "structures": [
-    "esternocleidomastoideo (insercion)",
-    "esplenio de la cabeza (insercion)",
-    "digastrico vientre posterior (escotadura mastoidea)"
+    "hito oseo: mastoid process"
    ],
    "sources": [
-    "qpercom_neck",
     "wiki_digastric"
    ],
    "notes": "El craneo se modela como perfil medio-sagital: las estructuras laterales quedan a unos 5-7 cm de el.",
@@ -1066,13 +1027,12 @@
     ]
    },
    "structures": [
-    "masetero (origen)"
+    "hito oseo: zygomatic arch"
    ],
    "sources": [
-    "acta_odont_head",
-    "brainscape_mastication"
+    "acta_odont_head"
    ],
-   "notes": "Anchura bicigomatica 133 mm (acta_odont_head). Masetero: Fuente debil: verificar en un atlas. El craneo se modela como perfil medio-sagital: las estructuras laterales quedan a unos 5-7 cm de el.",
+   "notes": "Anchura bicigomatica 133 mm (acta_odont_head). El craneo se modela como perfil medio-sagital: las estructuras laterales quedan a unos 5-7 cm de el.",
    "tolerance_m": 0.08
   },
   {
@@ -1088,12 +1048,12 @@
     ]
    },
    "structures": [
-    "temporal (origen)"
+    "hito oseo: temporal fossa"
    ],
    "sources": [
     "brainscape_mastication"
    ],
-   "notes": "Fuente debil: verificar en un atlas. El craneo se modela como perfil medio-sagital: las estructuras laterales quedan a unos 5-7 cm de el.",
+   "notes": "El craneo se modela como perfil medio-sagital: las estructuras laterales quedan a unos 5-7 cm de el. Fuente debil: verificar en un atlas.",
    "tolerance_m": 0.08
   },
   {
@@ -1109,7 +1069,7 @@
     ]
    },
    "structures": [
-    "temporal (insercion)"
+    "hito oseo: coronoid process"
    ],
    "sources": [
     "brainscape_mastication"
@@ -1130,14 +1090,12 @@
     ]
    },
    "structures": [
-    "masetero (insercion)",
-    "ligamento estilomandibular"
+    "hito oseo: mandibular angle"
    ],
    "sources": [
-    "acta_odont_head",
-    "brainscape_mastication"
+    "acta_odont_head"
    ],
-   "notes": "Anchura bigoniaca 111.5 mm (acta_odont_head). Masetero: Fuente debil: verificar en un atlas.",
+   "notes": "Anchura bigoniaca 111.5 mm (acta_odont_head).",
    "tolerance_m": 0.03
   },
   {
@@ -1153,7 +1111,7 @@
     ]
    },
    "structures": [
-    "pterigoideo lateral (insercion en el cuello del condilo y el disco)"
+    "hito oseo: condylar neck"
    ],
    "sources": [
     "teachme_tmj",
@@ -1175,298 +1133,13 @@
     ]
    },
    "structures": [
-    "digastrico vientre anterior (insercion)"
+    "hito oseo: digastric fossa"
    ],
    "sources": [
     "wiki_digastric"
    ],
    "notes": "",
    "tolerance_m": 0.03
-  },
-  {
-   "name": "sternocleidomastoid_sternal_head.L",
-   "mirror": true,
-   "bone": "sternum",
-   "point": {
-    "at": "sternum.head",
-    "offset_h": [
-     0.006857142857142858,
-     0.0,
-     0.0
-    ]
-   },
-   "structures": [
-    "esternocleidomastoideo (origen, cabeza esternal: manubrio)"
-   ],
-   "sources": [
-    "sohag_neck",
-    "qpercom_neck"
-   ],
-   "notes": "",
-   "tolerance_m": 0.03
-  },
-  {
-   "name": "sternocleidomastoid_clavicular_head.L",
-   "mirror": true,
-   "bone": "clavicle.L",
-   "point": {
-    "lerp": [
-     "clavicle.L.head",
-     "clavicle.L.tail",
-     0.2
-    ],
-    "offset_h": [
-     0,
-     0,
-     0
-    ]
-   },
-   "structures": [
-    "esternocleidomastoideo (origen, cabeza clavicular)"
-   ],
-   "sources": [
-    "sohag_neck",
-    "qpercom_neck"
-   ],
-   "notes": "",
-   "tolerance_m": 0.03
-  },
-  {
-   "name": "scalene_origin_C3.L",
-   "mirror": true,
-   "bone": "C3",
-   "point": {
-    "lerp": [
-     "C3.head",
-     "C3.tail",
-     0.5
-    ],
-    "offset_h": [
-     0.014285714285714287,
-     0.0,
-     0.0
-    ]
-   },
-   "structures": [
-    "escalenos (origen, apofisis transversas cervicales)"
-   ],
-   "sources": [
-    "radiopaedia_scalenes"
-   ],
-   "notes": "Apofisis transversa no modelada.",
-   "tolerance_m": 0.035
-  },
-  {
-   "name": "scalene_origin_C4.L",
-   "mirror": true,
-   "bone": "C4",
-   "point": {
-    "lerp": [
-     "C4.head",
-     "C4.tail",
-     0.5
-    ],
-    "offset_h": [
-     0.014285714285714287,
-     0.0,
-     0.0
-    ]
-   },
-   "structures": [
-    "escalenos (origen, apofisis transversas cervicales)"
-   ],
-   "sources": [
-    "radiopaedia_scalenes"
-   ],
-   "notes": "Apofisis transversa no modelada.",
-   "tolerance_m": 0.035
-  },
-  {
-   "name": "scalene_origin_C5.L",
-   "mirror": true,
-   "bone": "C5",
-   "point": {
-    "lerp": [
-     "C5.head",
-     "C5.tail",
-     0.5
-    ],
-    "offset_h": [
-     0.014285714285714287,
-     0.0,
-     0.0
-    ]
-   },
-   "structures": [
-    "escalenos (origen, apofisis transversas cervicales)"
-   ],
-   "sources": [
-    "radiopaedia_scalenes"
-   ],
-   "notes": "Apofisis transversa no modelada.",
-   "tolerance_m": 0.035
-  },
-  {
-   "name": "scalene_origin_C6.L",
-   "mirror": true,
-   "bone": "C6",
-   "point": {
-    "lerp": [
-     "C6.head",
-     "C6.tail",
-     0.5
-    ],
-    "offset_h": [
-     0.014285714285714287,
-     0.0,
-     0.0
-    ]
-   },
-   "structures": [
-    "escalenos (origen, apofisis transversas cervicales)"
-   ],
-   "sources": [
-    "radiopaedia_scalenes"
-   ],
-   "notes": "Apofisis transversa no modelada.",
-   "tolerance_m": 0.035
-  },
-  {
-   "name": "scalene_insertion_rib_01.L",
-   "mirror": true,
-   "bone": "rib_01.L",
-   "point": {
-    "at": "rib_01.L.tail"
-   },
-   "structures": [
-    "escalenos anterior y medio (insercion, 1a costilla)"
-   ],
-   "sources": [
-    "radiopaedia_scalenes"
-   ],
-   "notes": "",
-   "tolerance_m": 0.03
-  },
-  {
-   "name": "scalene_insertion_rib_02.L",
-   "mirror": true,
-   "bone": "rib_02.L",
-   "point": {
-    "at": "rib_02.L.tail",
-    "offset_h": [
-     0,
-     0.011428571428571429,
-     0.005714285714285714
-    ]
-   },
-   "structures": [
-    "escaleno posterior (insercion, 2a costilla)"
-   ],
-   "sources": [
-    "radiopaedia_scalenes"
-   ],
-   "notes": "",
-   "tolerance_m": 0.03
-  },
-  {
-   "name": "splenius_capitis_origin_C7",
-   "mirror": false,
-   "bone": "C7",
-   "point": {
-    "lerp": [
-     "C7.head",
-     "C7.tail",
-     0.5
-    ],
-    "offset_h": [
-     0.0,
-     0.017142857142857144,
-     0.0
-    ]
-   },
-   "structures": [
-    "esplenio de la cabeza (origen, apofisis espinosa)"
-   ],
-   "sources": [
-    "qpercom_neck"
-   ],
-   "notes": "Apofisis espinosa no modelada. Fuente debil: verificar en un atlas.",
-   "tolerance_m": 0.035
-  },
-  {
-   "name": "splenius_capitis_origin_T1",
-   "mirror": false,
-   "bone": "T1",
-   "point": {
-    "lerp": [
-     "T1.head",
-     "T1.tail",
-     0.5
-    ],
-    "offset_h": [
-     0.0,
-     0.017142857142857144,
-     0.0
-    ]
-   },
-   "structures": [
-    "esplenio de la cabeza (origen, apofisis espinosa)"
-   ],
-   "sources": [
-    "qpercom_neck"
-   ],
-   "notes": "Apofisis espinosa no modelada. Fuente debil: verificar en un atlas.",
-   "tolerance_m": 0.035
-  },
-  {
-   "name": "splenius_capitis_origin_T2",
-   "mirror": false,
-   "bone": "T2",
-   "point": {
-    "lerp": [
-     "T2.head",
-     "T2.tail",
-     0.5
-    ],
-    "offset_h": [
-     0.0,
-     0.017142857142857144,
-     0.0
-    ]
-   },
-   "structures": [
-    "esplenio de la cabeza (origen, apofisis espinosa)"
-   ],
-   "sources": [
-    "qpercom_neck"
-   ],
-   "notes": "Apofisis espinosa no modelada. Fuente debil: verificar en un atlas.",
-   "tolerance_m": 0.035
-  },
-  {
-   "name": "splenius_capitis_origin_T3",
-   "mirror": false,
-   "bone": "T3",
-   "point": {
-    "lerp": [
-     "T3.head",
-     "T3.tail",
-     0.5
-    ],
-    "offset_h": [
-     0.0,
-     0.017142857142857144,
-     0.0
-    ]
-   },
-   "structures": [
-    "esplenio de la cabeza (origen, apofisis espinosa)"
-   ],
-   "sources": [
-    "qpercom_neck"
-   ],
-   "notes": "Apofisis espinosa no modelada. Fuente debil: verificar en un atlas.",
-   "tolerance_m": 0.035
   }
  ]
 }

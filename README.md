@@ -109,7 +109,7 @@ La suite corre **dentro de Blender** y compara números reales, no solo que Blen
 
 - **`test_anatomy.py`** y **`test_anatomy_blender.py`**: nivel 1 (ver más abajo): referencia y nombres, jerarquía enraizada en la base, anclajes exactos, forma y simetría de pelvis y caja torácica, y en Blender que los huesos del nivel 1 son hijos reales de la base.
 
-- **`test_articulations.py`**: puntos de unión del tórax y la cintura escapular (articulaciones, ligamentos, inserciones), rangos con fuente, motores coincidentes con los pivotes de la base, hitos del esternón y holgura escápula–costillas.
+- **`test_articulations.py`**: puntos de unión del tórax y la cintura escapular (articulaciones, ligamentos, hitos óseos), rangos con fuente, motores coincidentes con los pivotes de la base, hitos del esternón y holgura escápula–costillas.
 
 - **`test_head_neck.py`**: cabeza y columna cervical: jerarquía, lordosis (Cobb C2–C7 = 17,1°), plano de Frankfort horizontal, centro de gravedad de la cabeza, pivote exacto de la mandíbula en la ATM y sus puntos de unión.
 
@@ -117,7 +117,7 @@ La suite corre **dentro de Blender** y compara números reales, no solo que Blen
 
 - **`test_arm_hand.py`**: brazos y manos: jerarquía anatómica (húmero → escápula, radio y cúbito → húmero, filas del carpo, cadenas de falanges exactas), palma medial y algo anterior en pose A, pronación sobre el eje real del antebrazo y puntos de unión.
 
-Resumen esperado: `[SUMMARY] ejecutadas=196 fallos=0 errores=0 omitidas=0` y `RESULTADO FINAL: OK`. Las pruebas fijan los valores **por defecto** de `config\`; si editas la configuración, ejecuta `-Task Generate` (la validación interna siempre corre) y, si un test de valores por defecto falla por tus cambios, es esperado.
+Resumen esperado: `[SUMMARY] ejecutadas=197 fallos=0 errores=0 omitidas=0` y `RESULTADO FINAL: OK`. Las pruebas fijan los valores **por defecto** de `config\`; si editas la configuración, ejecuta `-Task Generate` (la validación interna siempre corre) y, si un test de valores por defecto falla por tus cambios, es esperado.
 
 ## Modificar las proporciones y la pose
 
@@ -197,7 +197,7 @@ Regiones (orden aprobado):
 
 **Brazos y manos** (`docs\anatomia_brazos_manos.md`): húmero hijo de la escápula, radio y cúbito hijos del húmero, fila proximal del carpo hija del radio y el cúbito, fila distal de la proximal y falanges en cadenas exactas (30 huesos por lado); en pose A la palma queda medial y algo anterior (`elbow.pronation = 70°`; los dof del codo pasan a `[pronation, flexion]`, cambio deliberado de la base).
 
-**Puntos de unión para poses futuras** (`config\articulations\thorax_shoulder.json`, `head_neck.json`, `lumbar_pelvis.json` y `arm_hand.json`): 155 articulaciones naturales (tórax y cintura escapular: esternoclavicular, acromioclavicular, glenohumeral, escapulotorácica, costovertebrales, costotransversas, esternocostales, intercondrales, intervertebrales C7/T1–T12/L1, manubrioesternal, xifoesternal; cabeza y cuello: atlantooccipital, atlantoaxial, intervertebrales C2–C7, temporomandibulares; lumbar y pelvis: intervertebrales L1–S1, sacroilíacas, sacrococcígea, sínfisis del pubis, coxofemorales; brazos y manos: codo, radiocubitales, radiocarpiana, mediocarpiana, carpometacarpianas, MCF, IFP e IFD), 121 ligamentos y 222 inserciones e hitos, con 89 fuentes citadas y su fiabilidad. Las tolerancias de anclaje se definen para 1,75 m y escalan con la altura. Los rangos pueden ir en grados o en mm (mandíbula), y se marca cuando la fuente los da por lado. Cada rango numérico lleva su fuente; sin cifra publicada, el rango queda vacío. En Blender: colecciones `AC_Articulations`, `AC_Ligaments`, `AC_Attachments` (objetos `ART_`, `LIG_`, `ATT_`, emparentados a su hueso; propiedades con tipo, rangos y fuentes). Son datos: todavía no mueven el rig.
+**Puntos de unión para poses futuras** (`config\articulations\thorax_shoulder.json`, `head_neck.json`, `lumbar_pelvis.json` y `arm_hand.json`): 155 articulaciones naturales (tórax y cintura escapular: esternoclavicular, acromioclavicular, glenohumeral, escapulotorácica, costovertebrales, costotransversas, esternocostales, intercondrales, intervertebrales C7/T1–T12/L1, manubrioesternal, xifoesternal; cabeza y cuello: atlantooccipital, atlantoaxial, intervertebrales C2–C7, temporomandibulares; lumbar y pelvis: intervertebrales L1–S1, sacroilíacas, sacrococcígea, sínfisis del pubis, coxofemorales; brazos y manos: codo, radiocubitales, radiocarpiana, mediocarpiana, carpometacarpianas, MCF, IFP e IFD), 121 ligamentos y 92 hitos óseos, con 83 fuentes citadas y su fiabilidad. Las tolerancias de anclaje se definen para 1,75 m y escalan con la altura. Los rangos pueden ir en grados o en mm (mandíbula), y se marca cuando la fuente los da por lado. Cada rango numérico lleva su fuente; sin cifra publicada, el rango queda vacío. En Blender: colecciones `AC_Articulations`, `AC_Ligaments`, `AC_Attachments` (objetos `ART_`, `LIG_`, `ATT_`, emparentados a su hueso; propiedades con tipo, rangos y fuentes). Son datos: todavía no mueven el rig.
 
 **Padre del rig y padre anatómico.** Cada hueso tiene dos relaciones:
 
@@ -246,4 +246,9 @@ output/  logs/     resultados y registros (no se versionan; son reproducibles)
 
 ## Ramas
 
-Solo hay dos lineas de trabajo, una por cada parte del cuerpo: `main` guarda el **modelo de estructura osea** (base, nivel 1 y puntos de union) y `muscle-model` guarda el **modelo de estructura muscular** (todavia sin contenido: parte de `main` y usa sus inserciones). Las ramas de trabajo se fusionan en `main` y se borran; el tag `v0.1.0` se conserva.
+Solo hay dos lineas de trabajo, una por cada parte del cuerpo:
+
+- **`main`: modelo de estructura osea.** Base (nivel 0), huesos del nivel 1, articulaciones, ligamentos y hitos oseos. No contiene musculos ni tendones (una prueba lo vigila).
+- **`muscle-model`: modelo de estructura muscular.** Sale del ultimo commit de `main` que aun llevaba los origenes e inserciones musculares con sus fuentes (`81f52ee`) y es independiente: no se le fusiona `main`, porque eso borraria esos datos. Pendiente alli: verificar en un atlas lo apoyado en fuentes debiles (deltoides, trapecio, masetero, temporal, semiespinoso, esplenio, psoas, iliaco, cuadrado lumbar, gluteo mayor, abductor largo y extensores del pulgar, capuchon extensor y otros).
+
+Las ramas de trabajo se fusionan en `main` y se borran; el tag `v0.1.0` se conserva.

@@ -1,6 +1,6 @@
 # Brazos, antebrazos, muñecas y manos: especificación
 
-Especificación de las extremidades superiores de `anatomical-core` (húmero, radio, cúbito, carpo, metacarpo y falanges, lados `.L` y `.R`), con sus **puntos de unión** (articulaciones naturales independientes, ligamentos e inserciones de tendones) preparados para las poses y los músculos futuros.
+Especificación de las extremidades superiores de `anatomical-core` (húmero, radio, cúbito, carpo, metacarpo y falanges, lados `.L` y `.R`), con sus **puntos de unión** (articulaciones naturales independientes, ligamentos y hitos óseos) preparados para las poses futuras.
 
 | Qué | Archivo |
 |---|---|
@@ -65,11 +65,9 @@ Las cifras de pulgar y dedos proceden de una página agregadora ([Physiotutors](
 
 Los ligamentos del codo y las cápsulas de la muñeca se citan con fuentes de fiabilidad media; **los colaterales y placas de los dedos y el oblicuo anterior carecen de una fuente propia y están marcados «verificar en un atlas»**. Los extremos de los ligamentos de los dedos se sitúan a 0,85 y 0,15 de la longitud de cada hueso para que el segmento tenga longitud real (los huesos de la cadena se tocan en la articulación).
 
-## 5. Inserciones de tendones y músculos (38 por lado)
+## 5. Hitos óseos (8 por lado)
 
-Brazo: cabezas lateral y medial del tríceps, origen del braquial, olécranon (tríceps, ancóneo), coronoides (braquial), cresta del supinador, cresta supracondílea lateral (braquiorradial y extensor radial largo), epicóndilo medial (flexores y pronador redondo) y lateral (extensores, supinador). Antebrazo: pronador redondo y cuadrado, estiloides radial, origen del flexor profundo y del abductor largo del pulgar. Mano: pisiforme (flexor cubital del carpo), gancho del ganchoso, tubérculos del escafoides y el trapecio (retináculo), bases de los metacarpianos 1, 2, 3 y 5 (flexor y extensores radiales, extensor cubital, abductor largo), tendones del pulgar, y por cada dedo: flexor superficial (falange media), flexor profundo (falange distal) y capuchón extensor (falange proximal).
-
-Fuentes: [Semmelweis](https://semmelweis.hu/anatomia/files/2021/09/20211014_DrKatz_en.pdf) (alta), [Pearson](https://www.pearson.com/channels/anp/study-guides/muscles-of-the-forearm-origins-insertions-and) y [GMCH](https://www.gmch.gov.in/sites/default/files/documents/Extensor%20compartment%20of%20forearmphysio.pdf) (media), y tarjetas de estudio (baja). Lo apoyado solo en fuentes débiles (abductor largo, extensor corto y largo del pulgar, capuchón extensor, gancho del ganchoso) lo dice en su nota: **verificar en un atlas**. Los orígenes de la mayoría de los músculos intrínsecos de la mano (lumbricales, interóseos, tenares e hipotenares) no están modelados por falta de fuente fiable; solo figuran, con fuente débil, el abductor corto y el oponente del pulgar (tubérculo del trapecio) y el flexor corto del meñique (gancho del ganchoso).
+Olécranon, coronoides del cúbito, epicóndilos medial y lateral, estiloides radial, gancho del ganchoso y tubérculos del escafoides y del trapecio. Los músculos y tendones **no forman parte del modelo óseo**: sus orígenes, inserciones y fuentes están en la rama `muscle-model` (donde sigue pendiente verificar en un atlas lo apoyado en fuentes débiles). Aquí quedan solo los accidentes óseos con nombre propio, que sirven de anclaje a ese modelo.
 
 ## 6. Lo que la especificación pidió y no se aplicó
 
@@ -78,5 +76,5 @@ Fuentes: [Semmelweis](https://semmelweis.hu/anatomia/files/2021/09/20211014_DrKa
 | Fila proximal del carpo hija de radio y cúbito, fila distal de la proximal | aplicado como **padre anatómico** | el padre del rig sigue siendo `hand`, que es el segmento base que los mueve |
 | «Falange meñique» | `little_*` | nombres normalizados confirmados |
 | Pronación para la palma medial | 70° y reorden de los dof del codo | ver sección 2; es un cambio deliberado de la base |
-| Músculos | solo puntos de inserción | los músculos quedan para el modelo muscular; este nivel no contiene ninguno |
+| Tendones e inserciones musculares | no están en `main` | pertenecen al modelo muscular (rama `muscle-model`); aquí solo hay hitos óseos |
 | Pisiforme como hueso de la fila proximal | hijo del piramidal, con nota de sesamoideo | las fuentes lo tratan a la vez como fila proximal y como sesamoideo |
