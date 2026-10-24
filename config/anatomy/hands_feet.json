@@ -808,7 +808,8 @@
      -0.01371
     ]
    },
-   "description": "astragalo: troclea bajo el tobillo -> cabeza"
+   "description": "astragalo: troclea bajo el tobillo -> cabeza Padre anatomico: extremo distal de la tibia (tobillo); el rig lo mueve con 'foot'.",
+   "anatomical_parent": "tibia.L"
   },
   {
    "name": "calcaneus.L",

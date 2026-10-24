@@ -1,0 +1,2389 @@
+{
+ "schema_version": 2,
+ "region": "leg_foot",
+ "description": "Puntos de union de la pierna y el pie para poses futuras: articulaciones naturales independientes (tibiofemoral, femororrotuliana, tibioperoneas, tobillo, subastragalina, talonavicular, calcaneocuboidea, cuneonavicular, tarsometatarsianas, MTF e IF), ligamentos (cruzados, colaterales, rotuliano, sindesmosis, deltoideo, laterales del tobillo, resorte, bifurcado, plantares, Lisfranc, fascia plantar) y hitos oseos. Modelo OSEO: sin musculos ni tendones (estan en la rama muscle-model). La coxofemoral esta en lumbar_pelvis. Sin cifra cuando la fuente no la da. Coordenadas: +X izquierda, +Y atras (anterior = -Y), +Z arriba.",
+ "sources": {
+  "knee_rom_brookbush": {
+   "url": "https://brookbushinstitute.com/video/knee-flexion-goniometry",
+   "reliability": "media",
+   "title": "Brookbush Institute - goniometria de la rodilla (flexion 0-135, extension 0 a 5 de hiperextension)"
+  },
+  "knee_rom_goniometry": {
+   "url": "https://www.ib.bioninja.com.au/downloads/25.%20Goniometry%20%28HL%29.pdf",
+   "reliability": "baja",
+   "title": "Guia de goniometria (flexion de rodilla 0-135; algunas referencias dan 140; VERIFICAR contra AAOS)"
+  },
+  "wikimsk_knee": {
+   "url": "https://wikimsk.org/wiki/Knee_Biomechanics",
+   "reliability": "media",
+   "title": "WikiMSK - Knee biomechanics (rotacion axial maxima a 30-40 grados de flexion: 18 externa, 25 interna)"
+  },
+  "orthobullets_knee": {
+   "url": "https://www.orthobullets.com/knee-and-sports/3001/ligaments-of-the-knee",
+   "reliability": "media",
+   "title": "OrthoBullets - Ligaments of the knee"
+  },
+  "brainscape_knee": {
+   "url": "https://brainscape.com/flashcards/ligaments-of-the-knee-13785754/packs/21491723",
+   "reliability": "baja",
+   "title": "Tarjetas de estudio - ligamentos de la rodilla (VERIFICAR en un atlas)"
+  },
+  "kenhub_tibiofibular": {
+   "url": "https://kenhub.com/en/library/anatomy/tibiofibular-joints",
+   "reliability": "media",
+   "title": "Kenhub - Tibiofibular joints"
+  },
+  "teachme_tibiofibular": {
+   "url": "https://teachmeanatomy.info/lower-limb/joints/tibiofibular-joints",
+   "reliability": "media",
+   "title": "TeachMeAnatomy - Tibiofibular joints (traslacion de la articulacion proximal 1-3 mm)"
+  },
+  "physiotutors_ankle": {
+   "url": "https://book.physiotutors.com/?p=1149",
+   "reliability": "media",
+   "title": "Physiotutors - ROM activo del tobillo y el pie (dorsiflexion 20, flexion plantar 50, inversion subtalar 45-60, eversion 15-30, MTF del 1.er dedo 45/70, IF 90)"
+  },
+  "uw_ankle": {
+   "url": "https://uw.pressbooks.pub/fcmtextbook/?p=3087",
+   "reliability": "media",
+   "title": "Universidad de Washington - Ankle & foot exam (dorsiflexion 30-40, inversion 30, eversion 20)"
+  },
+  "qut_ankle": {
+   "url": "https://podiatry-anatomy-app.qut.edu.au/content/joints/ankle-rom.html",
+   "reliability": "media",
+   "title": "QUT Podiatry - Ankle ROM (MTF del 1.er dedo: dorsiflexion esperada 70-90)"
+  },
+  "brainscape_foot_rom": {
+   "url": "https://brainscape.com/flashcards/ankle-and-foot-rom-mmt-15591101/packs/21886559",
+   "reliability": "baja",
+   "title": "Tarjetas de estudio - ROM de tobillo y pie (articulacion mediotarsiana 6 grados; VERIFICAR)"
+  },
+  "springer_ankle_lig": {
+   "url": "https://www.springermedizin.de/dimensions-and-attachments-of-the-ankle-ligaments-evaluation-for/9218400",
+   "reliability": "alta",
+   "title": "Dimensiones e insercion de los ligamentos del tobillo (estudio anatomico)"
+  },
+  "orthobullets_ankle": {
+   "url": "https://www.orthobullets.com/foot-and-ankle/7005/ankle-ligaments",
+   "reliability": "media",
+   "title": "OrthoBullets - Ankle ligaments (deltoideo, LPAA/ATFL, CFL, PTFL, sindesmosis)"
+  },
+  "radiopaedia_spring": {
+   "url": "https://images.radiopaedia.org/articles/spring-ligament-complex?lang=us",
+   "reliability": "media",
+   "title": "Radiopaedia - Spring ligament complex"
+  },
+  "upenn_oite_foot": {
+   "url": "https://www.med.upenn.edu/orthoresidents/assets/user-content/documents/OITE_FA_Review.pdf",
+   "reliability": "media",
+   "title": "UPenn Ortho - OITE foot & ankle review (fascia plantar, ligamentos del pie)"
+  },
+  "lisfranc_study": {
+   "url": "https://researchexperts.utmb.edu/en/publications/three-dimensional-digital-and-gross-anatomy-of-the-lisfranc-ligam/",
+   "reliability": "alta",
+   "title": "UTMB - anatomia digital 3D y macroscopica del ligamento de Lisfranc (37 pies; 73 % un haz, 27 % dos)"
+  },
+  "crossfit_foot": {
+   "url": "https://www.crossfit.com/essentials/the-foot-part-2-ligaments",
+   "reliability": "baja",
+   "title": "CrossFit - The foot, part 2: ligaments (plantar largo, bifurcado; VERIFICAR en un atlas)"
+  },
+  "brainscape_foot_lig": {
+   "url": "https://brainscape.com/flashcards/ligaments-of-the-leg-ankle-and-foot-8804071/packs/14877461",
+   "reliability": "baja",
+   "title": "Tarjetas de estudio - ligamentos de pierna, tobillo y pie (VERIFICAR en un atlas)"
+  }
+ },
+ "joints": [
+  {
+   "name": "tibiofemoral.L",
+   "mirror": true,
+   "kind": "sinovial bicondilea (bisagra con rotacion axial); meniscos",
+   "bones": [
+    "femur.L",
+    "tibia.L"
+   ],
+   "carrier": "tibia.L",
+   "center": {
+    "at": "thigh.L.tail"
+   },
+   "tolerance_m": 0.025,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": [
+      135,
+      140
+     ],
+     "source": "knee_rom_brookbush",
+     "note": "0-135 en la mayoria de las referencias; 140 en otras (knee_rom_goniometry); fuera de lo normal: 150"
+    },
+    {
+     "name": "hiperextension",
+     "total_deg": [
+      5,
+      5
+     ],
+     "source": "knee_rom_brookbush",
+     "note": "hasta 5 grados es normal"
+    },
+    {
+     "name": "rotacion_interna",
+     "total_deg": [
+      25,
+      25
+     ],
+     "source": "wikimsk_knee",
+     "note": "maxima a 30-40 grados de flexion; casi nula en extension (mecanismo de 'screw-home')"
+    },
+    {
+     "name": "rotacion_externa",
+     "total_deg": [
+      18,
+      18
+     ],
+     "source": "wikimsk_knee",
+     "note": "maxima a 30-40 grados de flexion"
+    }
+   ],
+   "rig_driver": "knee.L",
+   "ligaments": [
+    "anterior_cruciate.L",
+    "posterior_cruciate.L",
+    "tibial_collateral.L",
+    "fibular_collateral.L"
+   ],
+   "sources": [
+    "knee_rom_brookbush",
+    "knee_rom_goniometry",
+    "wikimsk_knee"
+   ],
+   "notes": "Hoy la mueve la articulacion 'knee' de la base (flexion y rotacion axial limitada a +-10 grados en el rig, menos que lo publicado)."
+  },
+  {
+   "name": "patellofemoral.L",
+   "mirror": true,
+   "kind": "sinovial plana/en silla (rotula - troclea femoral)",
+   "bones": [
+    "patella.L",
+    "femur.L"
+   ],
+   "carrier": "patella.L",
+   "center": {
+    "at": "thigh.L.tail",
+    "offset_h": [
+     0.0,
+     -0.01257142857142857,
+     0.009142857142857144
+    ]
+   },
+   "tolerance_m": 0.03,
+   "dofs": [
+    {
+     "name": "deslizamiento",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "la rotula desliza por la troclea al flexionar; sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "patellar.L"
+   ],
+   "sources": [
+    "wikimsk_knee"
+   ],
+   "notes": "La rotula flota delante de la rodilla y sigue al femur. Los retinaculos y el tendon cuadricipital son tejidos blandos: no estan en el modelo oseo."
+  },
+  {
+   "name": "proximal_tibiofibular.L",
+   "mirror": true,
+   "kind": "sinovial plana (deslizante)",
+   "bones": [
+    "tibia.L",
+    "fibula.L"
+   ],
+   "carrier": "fibula.L",
+   "center": {
+    "at": "fibula.L.head",
+    "offset_h": [
+     -0.008571428571428572,
+     -0.003428571428571429,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.04,
+   "dofs": [
+    {
+     "name": "traslacion",
+     "total_deg": [
+      1,
+      3
+     ],
+     "source": "teachme_tibiofibular",
+     "unit": "mm",
+     "note": "anteroposterior, en cadaver bajo cargas fisiologicas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "anterior_proximal_tibiofibular.L",
+    "posterior_proximal_tibiofibular.L"
+   ],
+   "sources": [
+    "kenhub_tibiofibular",
+    "teachme_tibiofibular"
+   ],
+   "notes": "Se mueve junto con el tobillo: la cabeza del perone rota externamente en la dorsiflexion."
+  },
+  {
+   "name": "distal_tibiofibular.L",
+   "mirror": true,
+   "kind": "sindesmosis (fibrosa)",
+   "bones": [
+    "tibia.L",
+    "fibula.L"
+   ],
+   "carrier": "fibula.L",
+   "center": {
+    "at": "fibula.L.tail",
+    "offset_h": [
+     -0.006857142857142858,
+     -0.002285714285714286,
+     0.005714285714285714
+    ]
+   },
+   "tolerance_m": 0.035,
+   "dofs": [
+    {
+     "name": "separacion_maleolar",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "el perone se separa y rota algo en la dorsiflexion; sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "aitfl.L",
+    "pitfl.L",
+    "interosseous_tibiofibular.L",
+    "interosseous_membrane_leg.L"
+   ],
+   "sources": [
+    "kenhub_tibiofibular",
+    "orthobullets_ankle"
+   ],
+   "notes": "Sindesmosis: tibia y perone forman la mortaja del tobillo."
+  },
+  {
+   "name": "talocrural.L",
+   "mirror": true,
+   "kind": "sinovial en bisagra (mortaja tibioperonea - troclea del astragalo)",
+   "bones": [
+    "tibia.L",
+    "fibula.L",
+    "talus.L"
+   ],
+   "carrier": "talus.L",
+   "center": {
+    "at": "foot.L.head"
+   },
+   "tolerance_m": 0.03,
+   "dofs": [
+    {
+     "name": "dorsiflexion",
+     "total_deg": [
+      20,
+      40
+     ],
+     "source": "physiotutors_ankle",
+     "note": "20 en las tablas estandar; 30-40 en una guia clinica (uw_ankle)"
+    },
+    {
+     "name": "flexion_plantar",
+     "total_deg": [
+      50,
+      50
+     ],
+     "source": "physiotutors_ankle"
+    }
+   ],
+   "rig_driver": "ankle.L",
+   "ligaments": [
+    "deltoid_tibiotalar.L",
+    "deltoid_tibionavicular.L",
+    "deltoid_tibiocalcaneal.L",
+    "atfl.L",
+    "cfl.L",
+    "ptfl.L"
+   ],
+   "sources": [
+    "physiotutors_ankle",
+    "uw_ankle"
+   ],
+   "notes": "Hoy lo mueve el dof 'dorsiflexion' de 'ankle' en la base."
+  },
+  {
+   "name": "subtalar.L",
+   "mirror": true,
+   "kind": "sinovial (faceta posterior; el seno del tarso aloja el ligamento interoseo)",
+   "bones": [
+    "talus.L",
+    "calcaneus.L"
+   ],
+   "carrier": "calcaneus.L",
+   "center": {
+    "at": "calcaneus.L.head",
+    "offset_h": [
+     -0.003428571428571429,
+     0.005714285714285714,
+     0.006857142857142858
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "inversion",
+     "total_deg": [
+      30,
+      60
+     ],
+     "source": "physiotutors_ankle",
+     "note": "45-60 en las tablas estandar; 30 en una guia clinica (uw_ankle); medida clinica del pie completo, no solo subtalar"
+    },
+    {
+     "name": "eversion",
+     "total_deg": [
+      15,
+      30
+     ],
+     "source": "physiotutors_ankle",
+     "note": "15-30 estandar; 20 en uw_ankle"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "interosseous_talocalcaneal.L"
+   ],
+   "sources": [
+    "physiotutors_ankle",
+    "uw_ankle"
+   ],
+   "notes": "Hoy la inversion la mueve el dof 'inversion' de 'ankle' en la base."
+  },
+  {
+   "name": "talonavicular.L",
+   "mirror": true,
+   "kind": "sinovial esferoidea (cabeza del astragalo - navicular y calcaneo)",
+   "bones": [
+    "talus.L",
+    "navicular.L"
+   ],
+   "carrier": "navicular.L",
+   "center": {
+    "at": "navicular.L.head"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "inversion_eversion_mediotarsiana",
+     "total_deg": [
+      6,
+      6
+     ],
+     "source": "brainscape_foot_rom",
+     "note": "una sola fuente debil; Fuente debil: verificar en un atlas."
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "spring_ligament.L",
+    "bifurcate_calcaneonavicular.L"
+   ],
+   "sources": [
+    "radiopaedia_spring",
+    "brainscape_foot_rom"
+   ],
+   "notes": "Con la calcaneocuboidea forma la articulacion transversa del tarso (de Chopart)."
+  },
+  {
+   "name": "calcaneocuboid.L",
+   "mirror": true,
+   "kind": "sinovial en silla (calcaneo - cuboides)",
+   "bones": [
+    "calcaneus.L",
+    "cuboid.L"
+   ],
+   "carrier": "cuboid.L",
+   "center": {
+    "at": "cuboid.L.head"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "bifurcate_calcaneocuboid.L",
+    "long_plantar.L",
+    "short_plantar.L"
+   ],
+   "sources": [
+    "crossfit_foot",
+    "upenn_oite_foot"
+   ],
+   "notes": "Parte de la articulacion transversa del tarso (de Chopart)."
+  },
+  {
+   "name": "cuneonavicular.L",
+   "mirror": true,
+   "kind": "sinovial plana (navicular - tres cuneiformes)",
+   "bones": [
+    "navicular.L",
+    "medial_cuneiform.L",
+    "intermediate_cuneiform.L",
+    "lateral_cuneiform.L"
+   ],
+   "carrier": "intermediate_cuneiform.L",
+   "center": {
+    "at": "navicular.L.tail"
+   },
+   "tolerance_m": 0.03,
+   "dofs": [
+    {
+     "name": "deslizamiento",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "movilidad muy pequena; sin cifra"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "upenn_oite_foot"
+   ],
+   "notes": "Las articulaciones intercuneiformes y cuneocuboidea comparten esta unidad de pocos grados de movimiento y no se modelan por separado."
+  },
+  {
+   "name": "tarsometatarsal_1.L",
+   "mirror": true,
+   "kind": "sinovial plana (articulacion de Lisfranc)",
+   "bones": [
+    "medial_cuneiform.L",
+    "metatarsal_1.L"
+   ],
+   "carrier": "metatarsal_1.L",
+   "center": {
+    "at": "metatarsal_1.L.head"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "1.a a 3.a casi fijas (arco transverso); 4.a y 5.a mas moviles; sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "lisfranc_study",
+    "upenn_oite_foot"
+   ],
+   "notes": "Forma el arco transverso del pie junto con el cuboides."
+  },
+  {
+   "name": "tarsometatarsal_2.L",
+   "mirror": true,
+   "kind": "sinovial plana (articulacion de Lisfranc)",
+   "bones": [
+    "intermediate_cuneiform.L",
+    "metatarsal_2.L"
+   ],
+   "carrier": "metatarsal_2.L",
+   "center": {
+    "at": "metatarsal_2.L.head"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "1.a a 3.a casi fijas (arco transverso); 4.a y 5.a mas moviles; sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "lisfranc.L"
+   ],
+   "sources": [
+    "lisfranc_study",
+    "upenn_oite_foot"
+   ],
+   "notes": "Forma el arco transverso del pie junto con el cuboides."
+  },
+  {
+   "name": "tarsometatarsal_3.L",
+   "mirror": true,
+   "kind": "sinovial plana (articulacion de Lisfranc)",
+   "bones": [
+    "lateral_cuneiform.L",
+    "metatarsal_3.L"
+   ],
+   "carrier": "metatarsal_3.L",
+   "center": {
+    "at": "metatarsal_3.L.head"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "1.a a 3.a casi fijas (arco transverso); 4.a y 5.a mas moviles; sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "lisfranc_study",
+    "upenn_oite_foot"
+   ],
+   "notes": "Forma el arco transverso del pie junto con el cuboides."
+  },
+  {
+   "name": "tarsometatarsal_4.L",
+   "mirror": true,
+   "kind": "sinovial plana (articulacion de Lisfranc)",
+   "bones": [
+    "cuboid.L",
+    "metatarsal_4.L"
+   ],
+   "carrier": "metatarsal_4.L",
+   "center": {
+    "at": "metatarsal_4.L.head"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "1.a a 3.a casi fijas (arco transverso); 4.a y 5.a mas moviles; sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "lisfranc_study",
+    "upenn_oite_foot"
+   ],
+   "notes": "Forma el arco transverso del pie junto con el cuboides."
+  },
+  {
+   "name": "tarsometatarsal_5.L",
+   "mirror": true,
+   "kind": "sinovial plana (articulacion de Lisfranc)",
+   "bones": [
+    "cuboid.L",
+    "metatarsal_5.L"
+   ],
+   "carrier": "metatarsal_5.L",
+   "center": {
+    "at": "metatarsal_5.L.head"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "1.a a 3.a casi fijas (arco transverso); 4.a y 5.a mas moviles; sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "lisfranc_study",
+    "upenn_oite_foot"
+   ],
+   "notes": "Forma el arco transverso del pie junto con el cuboides."
+  },
+  {
+   "name": "metatarsophalangeal_1.L",
+   "mirror": true,
+   "kind": "sinovial condilea (MTF del 1.er dedo)",
+   "bones": [
+    "metatarsal_1.L",
+    "toe_1_proximal.L"
+   ],
+   "carrier": "toe_1_proximal.L",
+   "center": {
+    "at": "metatarsal_1.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": [
+      45,
+      45
+     ],
+     "source": "physiotutors_ankle"
+    },
+    {
+     "name": "extension_dorsiflexion",
+     "total_deg": [
+      70,
+      90
+     ],
+     "source": "physiotutors_ankle",
+     "note": "70 en tablas estandar; 70-90 esperado en podologia (qut_ankle)"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "physiotutors_ankle",
+    "qut_ankle"
+   ],
+   "notes": "Los sesamoideos bajo la cabeza del 1.er metatarsiano no estan en la lista de 185 huesos y no se modelan."
+  },
+  {
+   "name": "interphalangeal_1.L",
+   "mirror": true,
+   "kind": "sinovial bisagra (IF del 1.er dedo)",
+   "bones": [
+    "toe_1_proximal.L",
+    "toe_1_distal.L"
+   ],
+   "carrier": "toe_1_distal.L",
+   "center": {
+    "at": "toe_1_proximal.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": [
+      90,
+      90
+     ],
+     "source": "physiotutors_ankle",
+     "note": "extension 0"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "physiotutors_ankle"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "metatarsophalangeal_2.L",
+   "mirror": true,
+   "kind": "sinovial condilea (MTF)",
+   "bones": [
+    "metatarsal_2.L",
+    "toe_2_proximal.L"
+   ],
+   "carrier": "toe_2_proximal.L",
+   "center": {
+    "at": "metatarsal_2.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "sin cifra para los dedos 2 a 5 en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "physiotutors_ankle"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "proximal_interphalangeal_2.L",
+   "mirror": true,
+   "kind": "sinovial bisagra (IFP)",
+   "bones": [
+    "toe_2_proximal.L",
+    "toe_2_middle.L"
+   ],
+   "carrier": "toe_2_middle.L",
+   "center": {
+    "at": "toe_2_proximal.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "physiotutors_ankle"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "distal_interphalangeal_2.L",
+   "mirror": true,
+   "kind": "sinovial bisagra (IFD)",
+   "bones": [
+    "toe_2_middle.L",
+    "toe_2_distal.L"
+   ],
+   "carrier": "toe_2_distal.L",
+   "center": {
+    "at": "toe_2_middle.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "physiotutors_ankle"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "metatarsophalangeal_3.L",
+   "mirror": true,
+   "kind": "sinovial condilea (MTF)",
+   "bones": [
+    "metatarsal_3.L",
+    "toe_3_proximal.L"
+   ],
+   "carrier": "toe_3_proximal.L",
+   "center": {
+    "at": "metatarsal_3.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "sin cifra para los dedos 2 a 5 en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "physiotutors_ankle"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "proximal_interphalangeal_3.L",
+   "mirror": true,
+   "kind": "sinovial bisagra (IFP)",
+   "bones": [
+    "toe_3_proximal.L",
+    "toe_3_middle.L"
+   ],
+   "carrier": "toe_3_middle.L",
+   "center": {
+    "at": "toe_3_proximal.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "physiotutors_ankle"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "distal_interphalangeal_3.L",
+   "mirror": true,
+   "kind": "sinovial bisagra (IFD)",
+   "bones": [
+    "toe_3_middle.L",
+    "toe_3_distal.L"
+   ],
+   "carrier": "toe_3_distal.L",
+   "center": {
+    "at": "toe_3_middle.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "physiotutors_ankle"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "metatarsophalangeal_4.L",
+   "mirror": true,
+   "kind": "sinovial condilea (MTF)",
+   "bones": [
+    "metatarsal_4.L",
+    "toe_4_proximal.L"
+   ],
+   "carrier": "toe_4_proximal.L",
+   "center": {
+    "at": "metatarsal_4.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "sin cifra para los dedos 2 a 5 en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "physiotutors_ankle"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "proximal_interphalangeal_4.L",
+   "mirror": true,
+   "kind": "sinovial bisagra (IFP)",
+   "bones": [
+    "toe_4_proximal.L",
+    "toe_4_middle.L"
+   ],
+   "carrier": "toe_4_middle.L",
+   "center": {
+    "at": "toe_4_proximal.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "physiotutors_ankle"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "distal_interphalangeal_4.L",
+   "mirror": true,
+   "kind": "sinovial bisagra (IFD)",
+   "bones": [
+    "toe_4_middle.L",
+    "toe_4_distal.L"
+   ],
+   "carrier": "toe_4_distal.L",
+   "center": {
+    "at": "toe_4_middle.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "physiotutors_ankle"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "metatarsophalangeal_5.L",
+   "mirror": true,
+   "kind": "sinovial condilea (MTF)",
+   "bones": [
+    "metatarsal_5.L",
+    "toe_5_proximal.L"
+   ],
+   "carrier": "toe_5_proximal.L",
+   "center": {
+    "at": "metatarsal_5.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "sin cifra para los dedos 2 a 5 en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "physiotutors_ankle"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "proximal_interphalangeal_5.L",
+   "mirror": true,
+   "kind": "sinovial bisagra (IFP)",
+   "bones": [
+    "toe_5_proximal.L",
+    "toe_5_middle.L"
+   ],
+   "carrier": "toe_5_middle.L",
+   "center": {
+    "at": "toe_5_proximal.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "physiotutors_ankle"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "distal_interphalangeal_5.L",
+   "mirror": true,
+   "kind": "sinovial bisagra (IFD)",
+   "bones": [
+    "toe_5_middle.L",
+    "toe_5_distal.L"
+   ],
+   "carrier": "toe_5_distal.L",
+   "center": {
+    "at": "toe_5_middle.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "physiotutors_ankle"
+   ],
+   "notes": ""
+  }
+ ],
+ "ligaments": [
+  {
+   "name": "anterior_cruciate.L",
+   "mirror": true,
+   "from": {
+    "bone": "femur.L",
+    "point": {
+     "at": "thigh.L.tail",
+     "offset_h": [
+      0.005714285714285714,
+      0.005714285714285714,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "tibia.L",
+    "point": {
+     "lerp": [
+      "tibia.L.head",
+      "tibia.L.tail",
+      0.0
+     ],
+     "offset_h": [
+      0.001142857142857143,
+      -0.004571428571428572,
+      -0.001142857142857143
+     ]
+    }
+   },
+   "joint": "tibiofemoral.L",
+   "sources": [
+    "orthobullets_knee",
+    "brainscape_knee"
+   ],
+   "notes": "De la cara medial del condilo femoral lateral al area intercondilea anterior de la tibia; limita la traslacion anterior de la tibia.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "posterior_cruciate.L",
+   "mirror": true,
+   "from": {
+    "bone": "femur.L",
+    "point": {
+     "at": "thigh.L.tail",
+     "offset_h": [
+      -0.005714285714285714,
+      -0.005714285714285714,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "tibia.L",
+    "point": {
+     "lerp": [
+      "tibia.L.head",
+      "tibia.L.tail",
+      0.0
+     ],
+     "offset_h": [
+      0.0,
+      0.006857142857142858,
+      -0.002285714285714286
+     ]
+    }
+   },
+   "joint": "tibiofemoral.L",
+   "sources": [
+    "orthobullets_knee",
+    "brainscape_knee"
+   ],
+   "notes": "De la cara interna del condilo femoral medial al area intercondilea posterior de la tibia; limita la traslacion posterior.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "tibial_collateral.L",
+   "mirror": true,
+   "from": {
+    "bone": "femur.L",
+    "point": {
+     "at": "thigh.L.tail",
+     "offset_h": [
+      -0.017142857142857144,
+      0.0,
+      0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "tibia.L",
+    "point": {
+     "lerp": [
+      "tibia.L.head",
+      "tibia.L.tail",
+      0.12
+     ],
+     "offset_h": [
+      -0.006857142857142858,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "tibiofemoral.L",
+   "sources": [
+    "orthobullets_knee",
+    "brainscape_knee"
+   ],
+   "notes": "Del epicondilo medial a la tibia proximal; resiste el valgo. Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "fibular_collateral.L",
+   "mirror": true,
+   "from": {
+    "bone": "femur.L",
+    "point": {
+     "at": "thigh.L.tail",
+     "offset_h": [
+      0.017142857142857144,
+      0.0,
+      0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "fibula.L",
+    "point": {
+     "at": "fibula.L.head"
+    }
+   },
+   "joint": "tibiofemoral.L",
+   "sources": [
+    "orthobullets_knee",
+    "brainscape_knee"
+   ],
+   "notes": "Del epicondilo lateral femoral a la cabeza del perone; resiste el varo.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "patellar.L",
+   "mirror": true,
+   "from": {
+    "bone": "patella.L",
+    "point": {
+     "at": "patella.L.tail"
+    }
+   },
+   "to": {
+    "bone": "tibia.L",
+    "point": {
+     "lerp": [
+      "tibia.L.head",
+      "tibia.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      -0.014285714285714287,
+      0.0
+     ]
+    }
+   },
+   "joint": "patellofemoral.L",
+   "sources": [
+    "orthobullets_knee",
+    "brainscape_knee"
+   ],
+   "notes": "Del apice de la rotula a la tuberosidad tibial.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "anterior_proximal_tibiofibular.L",
+   "mirror": true,
+   "from": {
+    "bone": "tibia.L",
+    "point": {
+     "lerp": [
+      "tibia.L.head",
+      "tibia.L.tail",
+      0.0
+     ],
+     "offset_h": [
+      0.011428571428571429,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "fibula.L",
+    "point": {
+     "at": "fibula.L.head",
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "proximal_tibiofibular.L",
+   "sources": [
+    "kenhub_tibiofibular",
+    "teachme_tibiofibular"
+   ],
+   "notes": "Ligamento anterior de la articulacion tibioperonea proximal.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "posterior_proximal_tibiofibular.L",
+   "mirror": true,
+   "from": {
+    "bone": "tibia.L",
+    "point": {
+     "lerp": [
+      "tibia.L.head",
+      "tibia.L.tail",
+      0.0
+     ],
+     "offset_h": [
+      0.011428571428571429,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "fibula.L",
+    "point": {
+     "at": "fibula.L.head",
+     "offset_h": [
+      0.0,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "proximal_tibiofibular.L",
+   "sources": [
+    "kenhub_tibiofibular",
+    "teachme_tibiofibular"
+   ],
+   "notes": "Ligamento posterior de la articulacion tibioperonea proximal.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "interosseous_membrane_leg.L",
+   "mirror": true,
+   "from": {
+    "bone": "tibia.L",
+    "point": {
+     "lerp": [
+      "tibia.L.head",
+      "tibia.L.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.006857142857142858,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "fibula.L",
+    "point": {
+     "lerp": [
+      "fibula.L.head",
+      "fibula.L.tail",
+      0.55
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "distal_tibiofibular.L",
+   "sources": [
+    "kenhub_tibiofibular",
+    "orthobullets_ankle"
+   ],
+   "notes": "Lamina fibrosa entre tibia y perone; participa en la estabilidad de las dos articulaciones tibioperoneas.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "aitfl.L",
+   "mirror": true,
+   "from": {
+    "bone": "tibia.L",
+    "point": {
+     "lerp": [
+      "tibia.L.head",
+      "tibia.L.tail",
+      0.97
+     ],
+     "offset_h": [
+      0.006857142857142858,
+      -0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "fibula.L",
+    "point": {
+     "lerp": [
+      "fibula.L.head",
+      "fibula.L.tail",
+      0.95
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "distal_tibiofibular.L",
+   "sources": [
+    "orthobullets_ankle",
+    "springer_ankle_lig"
+   ],
+   "notes": "Ligamento tibioperoneo anterior inferior: cruza por delante, justo encima del tobillo.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "pitfl.L",
+   "mirror": true,
+   "from": {
+    "bone": "tibia.L",
+    "point": {
+     "lerp": [
+      "tibia.L.head",
+      "tibia.L.tail",
+      0.97
+     ],
+     "offset_h": [
+      0.006857142857142858,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "fibula.L",
+    "point": {
+     "lerp": [
+      "fibula.L.head",
+      "fibula.L.tail",
+      0.95
+     ],
+     "offset_h": [
+      0.0,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "distal_tibiofibular.L",
+   "sources": [
+    "orthobullets_ankle",
+    "springer_ankle_lig"
+   ],
+   "notes": "Ligamento tibioperoneo posterior inferior.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "interosseous_tibiofibular.L",
+   "mirror": true,
+   "from": {
+    "bone": "tibia.L",
+    "point": {
+     "lerp": [
+      "tibia.L.head",
+      "tibia.L.tail",
+      0.93
+     ],
+     "offset_h": [
+      0.006857142857142858,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "fibula.L",
+    "point": {
+     "lerp": [
+      "fibula.L.head",
+      "fibula.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "distal_tibiofibular.L",
+   "sources": [
+    "orthobullets_ankle"
+   ],
+   "notes": "Continuacion distal de la membrana interosea; sostiene la sindesmosis.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "deltoid_tibiotalar.L",
+   "mirror": true,
+   "from": {
+    "bone": "tibia.L",
+    "point": {
+     "at": "tibia.L.tail",
+     "offset_h": [
+      -0.01257142857142857,
+      -0.0017142857142857144,
+      -0.004571428571428572
+     ]
+    }
+   },
+   "to": {
+    "bone": "talus.L",
+    "point": {
+     "lerp": [
+      "talus.L.head",
+      "talus.L.tail",
+      0.0
+     ],
+     "offset_h": [
+      -0.003428571428571429,
+      0.0,
+      0.002285714285714286
+     ]
+    }
+   },
+   "joint": "talocrural.L",
+   "sources": [
+    "orthobullets_ankle",
+    "springer_ankle_lig"
+   ],
+   "notes": "Capa profunda del ligamento deltoideo: maleolo medial al astragalo.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "deltoid_tibionavicular.L",
+   "mirror": true,
+   "from": {
+    "bone": "tibia.L",
+    "point": {
+     "at": "tibia.L.tail",
+     "offset_h": [
+      -0.01257142857142857,
+      -0.0017142857142857144,
+      -0.004571428571428572
+     ]
+    }
+   },
+   "to": {
+    "bone": "navicular.L",
+    "point": {
+     "lerp": [
+      "navicular.L.head",
+      "navicular.L.tail",
+      0.3
+     ],
+     "offset_h": [
+      -0.001142857142857143,
+      0.0,
+      0.002285714285714286
+     ]
+    }
+   },
+   "joint": "talocrural.L",
+   "sources": [
+    "orthobullets_ankle",
+    "springer_ankle_lig"
+   ],
+   "notes": "Capa superficial del deltoideo: maleolo medial al navicular.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "deltoid_tibiocalcaneal.L",
+   "mirror": true,
+   "from": {
+    "bone": "tibia.L",
+    "point": {
+     "at": "tibia.L.tail",
+     "offset_h": [
+      -0.01257142857142857,
+      -0.0017142857142857144,
+      -0.004571428571428572
+     ]
+    }
+   },
+   "to": {
+    "bone": "calcaneus.L",
+    "point": {
+     "lerp": [
+      "calcaneus.L.head",
+      "calcaneus.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      -0.004571428571428572,
+      0.0,
+      0.002285714285714286
+     ]
+    }
+   },
+   "joint": "talocrural.L",
+   "sources": [
+    "orthobullets_ankle",
+    "springer_ankle_lig"
+   ],
+   "notes": "Capa superficial del deltoideo: maleolo medial al calcaneo (sustentaculum tali).",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "atfl.L",
+   "mirror": true,
+   "from": {
+    "bone": "fibula.L",
+    "point": {
+     "lerp": [
+      "fibula.L.head",
+      "fibula.L.tail",
+      0.97
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "talus.L",
+    "point": {
+     "lerp": [
+      "talus.L.head",
+      "talus.L.tail",
+      0.7
+     ],
+     "offset_h": [
+      0.006857142857142858,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "talocrural.L",
+   "sources": [
+    "orthobullets_ankle",
+    "springer_ankle_lig"
+   ],
+   "notes": "Peroneoastragalino anterior: borde anterior del maleolo lateral al cuello del astragalo; el mas debil y el mas lesionado.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "cfl.L",
+   "mirror": true,
+   "from": {
+    "bone": "fibula.L",
+    "point": {
+     "at": "fibula.L.tail"
+    }
+   },
+   "to": {
+    "bone": "calcaneus.L",
+    "point": {
+     "lerp": [
+      "calcaneus.L.head",
+      "calcaneus.L.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.008,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "talocrural.L",
+   "sources": [
+    "orthobullets_ankle",
+    "springer_ankle_lig"
+   ],
+   "notes": "Peroneocalcaneo: punta del maleolo lateral a la cara lateral del calcaneo; cruza tobillo y subastragalina.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "ptfl.L",
+   "mirror": true,
+   "from": {
+    "bone": "fibula.L",
+    "point": {
+     "lerp": [
+      "fibula.L.head",
+      "fibula.L.tail",
+      0.98
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.002285714285714286,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "talus.L",
+    "point": {
+     "at": "talus.L.head",
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "talocrural.L",
+   "sources": [
+    "orthobullets_ankle",
+    "springer_ankle_lig"
+   ],
+   "notes": "Peroneoastragalino posterior: fosa del perone al tuberculo lateral posterior del astragalo.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "interosseous_talocalcaneal.L",
+   "mirror": true,
+   "from": {
+    "bone": "talus.L",
+    "point": {
+     "lerp": [
+      "talus.L.head",
+      "talus.L.tail",
+      0.4
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.004571428571428572
+     ]
+    }
+   },
+   "to": {
+    "bone": "calcaneus.L",
+    "point": {
+     "lerp": [
+      "calcaneus.L.head",
+      "calcaneus.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.004571428571428572
+     ]
+    }
+   },
+   "joint": "subtalar.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Dentro del seno del tarso: es el eje alrededor del cual se mueven astragalo y calcaneo. Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "spring_ligament.L",
+   "mirror": true,
+   "from": {
+    "bone": "calcaneus.L",
+    "point": {
+     "lerp": [
+      "calcaneus.L.head",
+      "calcaneus.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      -0.004571428571428572,
+      0.0,
+      0.002285714285714286
+     ]
+    }
+   },
+   "to": {
+    "bone": "navicular.L",
+    "point": {
+     "lerp": [
+      "navicular.L.head",
+      "navicular.L.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.004571428571428572
+     ]
+    }
+   },
+   "joint": "talonavicular.L",
+   "sources": [
+    "radiopaedia_spring"
+   ],
+   "notes": "Calcaneonavicular plantar (ligamento 'en resorte'): sostiene la cabeza del astragalo y el arco longitudinal medial.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "bifurcate_calcaneonavicular.L",
+   "mirror": true,
+   "from": {
+    "bone": "calcaneus.L",
+    "point": {
+     "lerp": [
+      "calcaneus.L.head",
+      "calcaneus.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.002285714285714286
+     ]
+    }
+   },
+   "to": {
+    "bone": "navicular.L",
+    "point": {
+     "lerp": [
+      "navicular.L.head",
+      "navicular.L.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "talonavicular.L",
+   "sources": [
+    "crossfit_foot",
+    "brainscape_foot_lig"
+   ],
+   "notes": "Rama calcaneonavicular del ligamento bifurcado (en Y). Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "bifurcate_calcaneocuboid.L",
+   "mirror": true,
+   "from": {
+    "bone": "calcaneus.L",
+    "point": {
+     "lerp": [
+      "calcaneus.L.head",
+      "calcaneus.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.002285714285714286
+     ]
+    }
+   },
+   "to": {
+    "bone": "cuboid.L",
+    "point": {
+     "lerp": [
+      "cuboid.L.head",
+      "cuboid.L.tail",
+      0.3
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.002285714285714286
+     ]
+    }
+   },
+   "joint": "calcaneocuboid.L",
+   "sources": [
+    "crossfit_foot",
+    "brainscape_foot_lig"
+   ],
+   "notes": "Rama calcaneocuboidea del ligamento bifurcado. Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "long_plantar.L",
+   "mirror": true,
+   "from": {
+    "bone": "calcaneus.L",
+    "point": {
+     "lerp": [
+      "calcaneus.L.head",
+      "calcaneus.L.tail",
+      0.75
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.006857142857142858
+     ]
+    }
+   },
+   "to": {
+    "bone": "cuboid.L",
+    "point": {
+     "lerp": [
+      "cuboid.L.head",
+      "cuboid.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.004571428571428572
+     ]
+    }
+   },
+   "joint": "calcaneocuboid.L",
+   "sources": [
+    "crossfit_foot",
+    "upenn_oite_foot"
+   ],
+   "notes": "Del calcaneo al cuboides, con fibras hacia las bases de los metatarsianos; sostiene el arco longitudinal.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "short_plantar.L",
+   "mirror": true,
+   "from": {
+    "bone": "calcaneus.L",
+    "point": {
+     "lerp": [
+      "calcaneus.L.head",
+      "calcaneus.L.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.005714285714285714
+     ]
+    }
+   },
+   "to": {
+    "bone": "cuboid.L",
+    "point": {
+     "lerp": [
+      "cuboid.L.head",
+      "cuboid.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.003428571428571429
+     ]
+    }
+   },
+   "joint": "calcaneocuboid.L",
+   "sources": [
+    "crossfit_foot",
+    "brainscape_foot_lig"
+   ],
+   "notes": "Calcaneocuboideo plantar (plantar corto). Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "lisfranc.L",
+   "mirror": true,
+   "from": {
+    "bone": "medial_cuneiform.L",
+    "point": {
+     "lerp": [
+      "medial_cuneiform.L.head",
+      "medial_cuneiform.L.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.001142857142857143
+     ]
+    }
+   },
+   "to": {
+    "bone": "metatarsal_2.L",
+    "point": {
+     "lerp": [
+      "metatarsal_2.L.head",
+      "metatarsal_2.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002285714285714286
+     ]
+    }
+   },
+   "joint": "tarsometatarsal_2.L",
+   "sources": [
+    "lisfranc_study"
+   ],
+   "notes": "Cuneiforme medial a la base del 2.o metatarsiano; un haz en el 73 % de los pies y dos en el 27 %.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "plantar_fascia_1.L",
+   "mirror": true,
+   "from": {
+    "bone": "calcaneus.L",
+    "point": {
+     "lerp": [
+      "calcaneus.L.head",
+      "calcaneus.L.tail",
+      0.95
+     ],
+     "offset_h": [
+      -0.002285714285714286,
+      0.0,
+      -0.003428571428571429
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_1_proximal.L",
+    "point": {
+     "lerp": [
+      "toe_1_proximal.L.head",
+      "toe_1_proximal.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002285714285714286
+     ]
+    }
+   },
+   "joint": "metatarsophalangeal_1.L",
+   "sources": [
+    "upenn_oite_foot"
+   ],
+   "notes": "Banda de la fascia plantar: del tuberculo medial del calcaneo a la base de la falange proximal; sostiene el arco por el mecanismo de 'torno'.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "plantar_fascia_2.L",
+   "mirror": true,
+   "from": {
+    "bone": "calcaneus.L",
+    "point": {
+     "lerp": [
+      "calcaneus.L.head",
+      "calcaneus.L.tail",
+      0.95
+     ],
+     "offset_h": [
+      -0.002285714285714286,
+      0.0,
+      -0.003428571428571429
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_2_proximal.L",
+    "point": {
+     "lerp": [
+      "toe_2_proximal.L.head",
+      "toe_2_proximal.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002285714285714286
+     ]
+    }
+   },
+   "joint": "metatarsophalangeal_2.L",
+   "sources": [
+    "upenn_oite_foot"
+   ],
+   "notes": "Banda de la fascia plantar: del tuberculo medial del calcaneo a la base de la falange proximal; sostiene el arco por el mecanismo de 'torno'.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "plantar_fascia_3.L",
+   "mirror": true,
+   "from": {
+    "bone": "calcaneus.L",
+    "point": {
+     "lerp": [
+      "calcaneus.L.head",
+      "calcaneus.L.tail",
+      0.95
+     ],
+     "offset_h": [
+      -0.002285714285714286,
+      0.0,
+      -0.003428571428571429
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_3_proximal.L",
+    "point": {
+     "lerp": [
+      "toe_3_proximal.L.head",
+      "toe_3_proximal.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002285714285714286
+     ]
+    }
+   },
+   "joint": "metatarsophalangeal_3.L",
+   "sources": [
+    "upenn_oite_foot"
+   ],
+   "notes": "Banda de la fascia plantar: del tuberculo medial del calcaneo a la base de la falange proximal; sostiene el arco por el mecanismo de 'torno'.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "plantar_fascia_4.L",
+   "mirror": true,
+   "from": {
+    "bone": "calcaneus.L",
+    "point": {
+     "lerp": [
+      "calcaneus.L.head",
+      "calcaneus.L.tail",
+      0.95
+     ],
+     "offset_h": [
+      -0.002285714285714286,
+      0.0,
+      -0.003428571428571429
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_4_proximal.L",
+    "point": {
+     "lerp": [
+      "toe_4_proximal.L.head",
+      "toe_4_proximal.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002285714285714286
+     ]
+    }
+   },
+   "joint": "metatarsophalangeal_4.L",
+   "sources": [
+    "upenn_oite_foot"
+   ],
+   "notes": "Banda de la fascia plantar: del tuberculo medial del calcaneo a la base de la falange proximal; sostiene el arco por el mecanismo de 'torno'.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "plantar_fascia_5.L",
+   "mirror": true,
+   "from": {
+    "bone": "calcaneus.L",
+    "point": {
+     "lerp": [
+      "calcaneus.L.head",
+      "calcaneus.L.tail",
+      0.95
+     ],
+     "offset_h": [
+      -0.002285714285714286,
+      0.0,
+      -0.003428571428571429
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_5_proximal.L",
+    "point": {
+     "lerp": [
+      "toe_5_proximal.L.head",
+      "toe_5_proximal.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002285714285714286
+     ]
+    }
+   },
+   "joint": "metatarsophalangeal_5.L",
+   "sources": [
+    "upenn_oite_foot"
+   ],
+   "notes": "Banda de la fascia plantar: del tuberculo medial del calcaneo a la base de la falange proximal; sostiene el arco por el mecanismo de 'torno'.",
+   "tolerance_m": 0.04
+  }
+ ],
+ "attachments": [
+  {
+   "name": "femoral_medial_epicondyle.L",
+   "mirror": true,
+   "bone": "femur.L",
+   "point": {
+    "at": "thigh.L.tail",
+    "offset_h": [
+     -0.017142857142857144,
+     0.0,
+     0.002857142857142857
+    ]
+   },
+   "structures": [
+    "hito oseo: femoral medial epicondyle"
+   ],
+   "sources": [
+    "orthobullets_knee"
+   ],
+   "notes": "",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "femoral_lateral_epicondyle.L",
+   "mirror": true,
+   "bone": "femur.L",
+   "point": {
+    "at": "thigh.L.tail",
+    "offset_h": [
+     0.017142857142857144,
+     0.0,
+     0.002857142857142857
+    ]
+   },
+   "structures": [
+    "hito oseo: femoral lateral epicondyle"
+   ],
+   "sources": [
+    "orthobullets_knee"
+   ],
+   "notes": "",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "intercondylar_eminence.L",
+   "mirror": true,
+   "bone": "tibia.L",
+   "point": {
+    "lerp": [
+     "tibia.L.head",
+     "tibia.L.tail",
+     0.0
+    ],
+    "offset_h": [
+     0.0,
+     0.0,
+     -0.001142857142857143
+    ]
+   },
+   "structures": [
+    "hito oseo: intercondylar eminence"
+   ],
+   "sources": [
+    "orthobullets_knee"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "tibial_tuberosity.L",
+   "mirror": true,
+   "bone": "tibia.L",
+   "point": {
+    "lerp": [
+     "tibia.L.head",
+     "tibia.L.tail",
+     0.05
+    ],
+    "offset_h": [
+     0.0,
+     -0.014285714285714287,
+     0.0
+    ]
+   },
+   "structures": [
+    "hito oseo: tibial tuberosity"
+   ],
+   "sources": [
+    "orthobullets_knee"
+   ],
+   "notes": "",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "fibular_head.L",
+   "mirror": true,
+   "bone": "fibula.L",
+   "point": {
+    "at": "fibula.L.head"
+   },
+   "structures": [
+    "hito oseo: fibular head"
+   ],
+   "sources": [
+    "kenhub_tibiofibular"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "medial_malleolus.L",
+   "mirror": true,
+   "bone": "tibia.L",
+   "point": {
+    "at": "tibia.L.tail",
+    "offset_h": [
+     -0.01257142857142857,
+     -0.0017142857142857144,
+     -0.004571428571428572
+    ]
+   },
+   "structures": [
+    "hito oseo: medial malleolus"
+   ],
+   "sources": [
+    "orthobullets_ankle"
+   ],
+   "notes": "",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "lateral_malleolus.L",
+   "mirror": true,
+   "bone": "fibula.L",
+   "point": {
+    "at": "fibula.L.tail"
+   },
+   "structures": [
+    "hito oseo: lateral malleolus"
+   ],
+   "sources": [
+    "orthobullets_ankle"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "calcaneal_tuberosity.L",
+   "mirror": true,
+   "bone": "calcaneus.L",
+   "point": {
+    "lerp": [
+     "calcaneus.L.head",
+     "calcaneus.L.tail",
+     0.95
+    ],
+    "offset_h": [
+     -0.002285714285714286,
+     0.0,
+     -0.003428571428571429
+    ]
+   },
+   "structures": [
+    "hito oseo: calcaneal tuberosity"
+   ],
+   "sources": [
+    "upenn_oite_foot"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "sustentaculum_tali.L",
+   "mirror": true,
+   "bone": "calcaneus.L",
+   "point": {
+    "lerp": [
+     "calcaneus.L.head",
+     "calcaneus.L.tail",
+     0.05
+    ],
+    "offset_h": [
+     -0.004571428571428572,
+     0.0,
+     0.002285714285714286
+    ]
+   },
+   "structures": [
+    "hito oseo: sustentaculum tali"
+   ],
+   "sources": [
+    "orthobullets_ankle"
+   ],
+   "notes": "",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "navicular_tuberosity.L",
+   "mirror": true,
+   "bone": "navicular.L",
+   "point": {
+    "lerp": [
+     "navicular.L.head",
+     "navicular.L.tail",
+     0.5
+    ],
+    "offset_h": [
+     -0.004571428571428572,
+     0.0,
+     -0.002285714285714286
+    ]
+   },
+   "structures": [
+    "hito oseo: navicular tuberosity"
+   ],
+   "sources": [
+    "radiopaedia_spring"
+   ],
+   "notes": "",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "fifth_metatarsal_base.L",
+   "mirror": true,
+   "bone": "metatarsal_5.L",
+   "point": {
+    "lerp": [
+     "metatarsal_5.L.head",
+     "metatarsal_5.L.tail",
+     0.05
+    ],
+    "offset_h": [
+     0.003428571428571429,
+     0.0,
+     0.0
+    ]
+   },
+   "structures": [
+    "hito oseo: fifth metatarsal base"
+   ],
+   "sources": [
+    "upenn_oite_foot"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  }
+ ]
+}
