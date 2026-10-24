@@ -1,0 +1,3679 @@
+{
+ "schema_version": 2,
+ "region": "arm_hand",
+ "description": "Puntos de union del brazo, antebrazo, muneca y mano para poses y musculos futuros: articulaciones naturales independientes (codo, radiocubitales, radiocarpiana, mediocarpiana, carpometacarpianas, MCF, IFP e IFD), ligamentos (colaterales del codo, anular, membrana interosea, TFCC, colaterales y capsulares de la muneca, retinaculo flexor, colaterales y placas palmares de los dedos) e inserciones de tendones. La articulacion glenohumeral esta en thorax_shoulder. Rangos con su fuente; 'per_side' = valor hacia un lado. Sin cifra cuando la fuente no la da. Coordenadas: +X izquierda, +Y atras (anterior/palmar = -Y), +Z arriba.",
+ "sources": {
+  "e3rehab_elbow": {
+   "url": "https://e3rehab.com/blog/elbow-range-of-motion/",
+   "reliability": "media",
+   "title": "e3 Rehab - Elbow range of motion (flexion 140-150, pronacion/supinacion 80-90)"
+  },
+  "fpnotebook_elbow": {
+   "url": "https://mobile.fpnotebook.com/Ortho/Exam/ElbwExm.htm",
+   "reliability": "media",
+   "title": "FPnotebook - Elbow exam (rangos normales)"
+  },
+  "schuind_elbow": {
+   "url": "https://actaorthopaedica.be/archive/volume-62/supplement/article/biomechanics-of-the-normal-elbow-and-following-total-semi-constrained-arthroplasty",
+   "reliability": "media",
+   "title": "Acta Orthopaedica Belgica - biomecanica del codo normal (ejes de flexion y de pronosupinacion; rango funcional 30-130 grados)"
+  },
+  "wiki_rcl_elbow": {
+   "url": "https://en.wikipedia.org/wiki/Radial_collateral_ligament_of_elbow_joint",
+   "reliability": "media",
+   "title": "Wikipedia - Radial collateral ligament of elbow joint"
+  },
+  "anatomyzone_elbow": {
+   "url": "https://anatomyzone.com/upper-limb/elbow/elbow-joint/",
+   "reliability": "media",
+   "title": "AnatomyZone - Elbow joint (ligamentos colaterales y anular)"
+  },
+  "kenhub_druj": {
+   "url": "https://kenhub.com/en/library/anatomy/distal-radioulnar-joint",
+   "reliability": "media",
+   "title": "Kenhub - Distal radioulnar joint"
+  },
+  "statpearls_druj": {
+   "url": "https://www.statpearls.com/point-of-care/32401",
+   "reliability": "media",
+   "title": "StatPearls - complejo del fibrocartilago triangular (TFCC) y articulacion radiocubital distal"
+  },
+  "koreamed_wrist": {
+   "url": "https://synapse.koreamed.org/articles/1122791",
+   "reliability": "alta",
+   "title": "Estudio goniometrico de 120 adultos (Corea): flexion 73.9, extension 65.9, desviacion cubital 28.3, radial 18.6 grados"
+  },
+  "ryu_wrist": {
+   "url": "https://mayoclinic.elsevierpure.com/en/publications/functional-ranges-of-motion-of-the-wrist-joint/",
+   "reliability": "alta",
+   "title": "Ryu et al. 1991, J Hand Surg - rango funcional de la muneca (extension 60, flexion 54, cubital 40, radial 17)"
+  },
+  "enlyte_wrist": {
+   "url": "https://enlyte.com/print/pdf/node/33601",
+   "reliability": "media",
+   "title": "Enlyte - valores normales de la muneca (80 / 70 / 20 / 30 grados, cifras de texto)"
+  },
+  "kenhub_carpal": {
+   "url": "https://www.kenhub.com/en/library/anatomy/carpal-bones",
+   "reliability": "media",
+   "title": "Kenhub - Carpal bones"
+  },
+  "kenhub_pisiform": {
+   "url": "https://www.kenhub.com/en/library/anatomy/pisiform-bone",
+   "reliability": "media",
+   "title": "Kenhub - Pisiform bone (sesamoideo en el tendon del flexor cubital del carpo)"
+  },
+  "wiki_carpal": {
+   "url": "https://en.wikipedia.org/wiki/Carpal_bones",
+   "reliability": "media",
+   "title": "Wikipedia - Carpal bones"
+  },
+  "wiki_flexor_retinaculum": {
+   "url": "https://en.wikipedia.org/wiki/Flexor_retinaculum_of_the_hand",
+   "reliability": "media",
+   "title": "Wikipedia - Flexor retinaculum of the hand (tuberculo del escafoides y trapecio; pisiforme y gancho del ganchoso)"
+  },
+  "hand_rom": {
+   "url": "https://www.physiotutors.com/wiki/wrist-hand-active-range-of-motion/",
+   "reliability": "media",
+   "title": "Physiotutors - ROM activo de muneca y mano (cifras agregadas de varias paginas; verificar contra AAOS o AMA Guides)"
+  },
+  "semmelweis_forearm": {
+   "url": "https://semmelweis.hu/anatomia/files/2021/09/20211014_DrKatz_en.pdf",
+   "reliability": "alta",
+   "title": "Universidad Semmelweis - apuntes de anatomia (musculos del antebrazo)"
+  },
+  "pearson_forearm": {
+   "url": "https://www.pearson.com/channels/anp/study-guides/muscles-of-the-forearm-origins-insertions-and",
+   "reliability": "media",
+   "title": "Pearson - Muscles of the forearm: origins and insertions"
+  },
+  "gmch_extensors": {
+   "url": "https://www.gmch.gov.in/sites/default/files/documents/Extensor%20compartment%20of%20forearmphysio.pdf",
+   "reliability": "media",
+   "title": "GMCH - Extensor compartment of forearm (apuntes)"
+  },
+  "brainscape_arm": {
+   "url": "https://brainscape.com/flashcards/arm-and-forearm-muscles-11925622/packs/20846031",
+   "reliability": "baja",
+   "title": "Tarjetas de estudio - musculos del brazo y antebrazo (VERIFICAR en un atlas)"
+  },
+  "hithera_hand": {
+   "url": "https://www.hithera.com/?p=2218",
+   "reliability": "baja",
+   "title": "Hithera - The muscles of the hand (VERIFICAR en un atlas)"
+  }
+ },
+ "joints": [
+  {
+   "name": "elbow.L",
+   "mirror": true,
+   "kind": "sinovial: humerocubital (troclear, bisagra) + humerorradial (esferoidea)",
+   "bones": [
+    "humerus.L",
+    "ulna.L",
+    "radius.L"
+   ],
+   "carrier": "ulna.L",
+   "center": {
+    "at": "forearm.L.head"
+   },
+   "tolerance_m": 0.025,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": [
+      140,
+      150
+     ],
+     "source": "e3rehab_elbow",
+     "note": "extension 0 (algunas personas hasta 5 de hiperextension); rango funcional 30-130 (schuind_elbow)"
+    }
+   ],
+   "rig_driver": "elbow.L",
+   "ligaments": [
+    "ulnar_collateral_elbow.L",
+    "radial_collateral_elbow.L",
+    "lateral_ulnar_collateral.L",
+    "annular.L"
+   ],
+   "sources": [
+    "e3rehab_elbow",
+    "fpnotebook_elbow",
+    "schuind_elbow"
+   ],
+   "notes": "El eje de flexion une los centros del capitelo y de la troclea (schuind_elbow). Hoy lo mueve el dof 'flexion' de la articulacion 'elbow' de la base."
+  },
+  {
+   "name": "proximal_radioulnar.L",
+   "mirror": true,
+   "kind": "sinovial trocoide (pivote: cabeza del radio en la escotadura radial del cubito)",
+   "bones": [
+    "radius.L",
+    "ulna.L"
+   ],
+   "carrier": "radius.L",
+   "center": {
+    "at": "radius.L.head",
+    "offset_h": [
+     -0.005714285714285714,
+     0.004571428571428572,
+     0.005714285714285714
+    ]
+   },
+   "tolerance_m": 0.03,
+   "dofs": [
+    {
+     "name": "pronacion",
+     "total_deg": [
+      80,
+      90
+     ],
+     "source": "e3rehab_elbow",
+     "per_side": true,
+     "note": "hacia un lado desde la posicion anatomica; rango funcional 50 (schuind_elbow)"
+    },
+    {
+     "name": "supinacion",
+     "total_deg": [
+      80,
+      90
+     ],
+     "source": "e3rehab_elbow",
+     "per_side": true,
+     "note": "hacia un lado"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "annular.L"
+   ],
+   "sources": [
+    "e3rehab_elbow",
+    "schuind_elbow"
+   ],
+   "notes": "El eje de pronosupinacion pasa por la cabeza del radio y la cupula distal del cubito (schuind_elbow). Hoy la pronacion la mueve el dof 'pronation' de la articulacion 'elbow' de la base (sin motor propio aqui)."
+  },
+  {
+   "name": "distal_radioulnar.L",
+   "mirror": true,
+   "kind": "sinovial trocoide (cabeza del cubito en la escotadura cubital del radio)",
+   "bones": [
+    "radius.L",
+    "ulna.L"
+   ],
+   "carrier": "radius.L",
+   "center": {
+    "at": "ulna.L.tail"
+   },
+   "tolerance_m": 0.03,
+   "dofs": [
+    {
+     "name": "pronosupinacion_total",
+     "total_deg": [
+      150,
+      180
+     ],
+     "source": "statpearls_druj",
+     "note": "rango total de la articulacion radiocubital distal; 30 grados mas en la radiocarpiana"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "triangular_fibrocartilage.L",
+    "interosseous_membrane.L"
+   ],
+   "sources": [
+    "kenhub_druj",
+    "statpearls_druj"
+   ],
+   "notes": "Estabilizada sobre todo por el complejo del fibrocartilago triangular (TFCC); la membrana interosea da una restriccion secundaria."
+  },
+  {
+   "name": "radiocarpal.L",
+   "mirror": true,
+   "kind": "sinovial elipsoidea (radio + disco articular - escafoides, semilunar y piramidal)",
+   "bones": [
+    "radius.L",
+    "scaphoid.L",
+    "lunate.L"
+   ],
+   "carrier": "scaphoid.L",
+   "center": {
+    "at": "hand.L.head"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": [
+      73.9,
+      80
+     ],
+     "source": "koreamed_wrist",
+     "note": "goniometria activa en 120 adultos 73.9; cifra de texto 80 (enlyte_wrist); rango funcional 54 (ryu_wrist)"
+    },
+    {
+     "name": "extension",
+     "total_deg": [
+      65.9,
+      70
+     ],
+     "source": "koreamed_wrist",
+     "note": "65.9 medido; 70 de texto; rango funcional 60 (ryu_wrist)"
+    },
+    {
+     "name": "desviacion_radial",
+     "total_deg": [
+      18.6,
+      20
+     ],
+     "source": "koreamed_wrist",
+     "note": "18.6 medido; 20 de texto; funcional 17 (ryu_wrist)"
+    },
+    {
+     "name": "desviacion_cubital",
+     "total_deg": [
+      28.3,
+      30
+     ],
+     "source": "koreamed_wrist",
+     "note": "28.3 medido; 30 de texto; funcional 40 (ryu_wrist)"
+    }
+   ],
+   "rig_driver": "wrist.L",
+   "ligaments": [
+    "radial_collateral_wrist.L",
+    "ulnar_collateral_wrist.L",
+    "palmar_radiocarpal.L",
+    "dorsal_radiocarpal.L"
+   ],
+   "sources": [
+    "koreamed_wrist",
+    "ryu_wrist",
+    "enlyte_wrist"
+   ],
+   "notes": "Con la mediocarpiana forma la muneca; la base la mueve con 'wrist' (flexion y desviacion) en un unico pivote."
+  },
+  {
+   "name": "midcarpal.L",
+   "mirror": true,
+   "kind": "sinovial compuesta entre las filas proximal y distal del carpo",
+   "bones": [
+    "scaphoid.L",
+    "lunate.L",
+    "triquetrum.L",
+    "trapezium.L",
+    "trapezoid.L",
+    "capitate.L",
+    "hamate.L"
+   ],
+   "carrier": "capitate.L",
+   "center": {
+    "at": "capitate.L.head",
+    "offset_h": [
+     0.002285714285714286,
+     0.0,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.025,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "aporta parte de la flexoextension de la muneca; sin cifra en las fuentes consultadas"
+    },
+    {
+     "name": "desviacion",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "kenhub_carpal",
+    "wiki_carpal"
+   ],
+   "notes": "Pisiforme: sesamoideo dentro del tendon del flexor cubital del carpo; se articula solo con el piramidal (kenhub_pisiform) y no entra en la mediocarpiana."
+  },
+  {
+   "name": "carpometacarpal_1.L",
+   "mirror": true,
+   "kind": "sinovial en silla de montar (trapecio - 1er metacarpiano)",
+   "bones": [
+    "trapezium.L",
+    "metacarpal_1.L"
+   ],
+   "carrier": "metacarpal_1.L",
+   "center": {
+    "at": "metacarpal_1.L.head"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": [
+      45,
+      50
+     ],
+     "source": "hand_rom",
+     "note": "flexion/extension del pulgar (referencias clinicas 45-50)"
+    },
+    {
+     "name": "abduccion",
+     "total_deg": [
+      60,
+      70
+     ],
+     "source": "hand_rom"
+    },
+    {
+     "name": "oposicion",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "combinacion de abduccion + flexion de la CMC con la MCF; sin cifra propia"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "anterior_oblique_cmc1.L"
+   ],
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Dos arcos de movimiento mas la oposicion; es la articulacion que da al pulgar su movilidad."
+  },
+  {
+   "name": "carpometacarpal_2.L",
+   "mirror": true,
+   "kind": "sinovial plana (carpo distal - base del metacarpiano)",
+   "bones": [
+    "trapezoid.L",
+    "metacarpal_2.L"
+   ],
+   "carrier": "metacarpal_2.L",
+   "center": {
+    "at": "metacarpal_2.L.head"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "movilidad pequena (practicamente fija); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wiki_carpal"
+   ],
+   "notes": "Metacarpiano unido al carpo por ligamentos carpometacarpianos palmares y dorsales (no modelados individualmente)."
+  },
+  {
+   "name": "carpometacarpal_3.L",
+   "mirror": true,
+   "kind": "sinovial plana (carpo distal - base del metacarpiano)",
+   "bones": [
+    "capitate.L",
+    "metacarpal_3.L"
+   ],
+   "carrier": "metacarpal_3.L",
+   "center": {
+    "at": "metacarpal_3.L.head"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "movilidad pequena (practicamente fija); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wiki_carpal"
+   ],
+   "notes": "Metacarpiano unido al carpo por ligamentos carpometacarpianos palmares y dorsales (no modelados individualmente)."
+  },
+  {
+   "name": "carpometacarpal_4.L",
+   "mirror": true,
+   "kind": "sinovial plana (carpo distal - base del metacarpiano)",
+   "bones": [
+    "hamate.L",
+    "metacarpal_4.L"
+   ],
+   "carrier": "metacarpal_4.L",
+   "center": {
+    "at": "metacarpal_4.L.head"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "movilidad pequena pero creciente hacia el borde cubital (cierra el hueco de la palma); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wiki_carpal"
+   ],
+   "notes": "Metacarpiano unido al carpo por ligamentos carpometacarpianos palmares y dorsales (no modelados individualmente)."
+  },
+  {
+   "name": "carpometacarpal_5.L",
+   "mirror": true,
+   "kind": "sinovial plana (carpo distal - base del metacarpiano)",
+   "bones": [
+    "hamate.L",
+    "metacarpal_5.L"
+   ],
+   "carrier": "metacarpal_5.L",
+   "center": {
+    "at": "metacarpal_5.L.head"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion_extension",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "movilidad pequena pero creciente hacia el borde cubital (cierra el hueco de la palma); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wiki_carpal"
+   ],
+   "notes": "Metacarpiano unido al carpo por ligamentos carpometacarpianos palmares y dorsales (no modelados individualmente)."
+  },
+  {
+   "name": "metacarpophalangeal_thumb.L",
+   "mirror": true,
+   "kind": "sinovial condilea/bisagra (MCF del pulgar)",
+   "bones": [
+    "metacarpal_1.L",
+    "thumb_proximal.L"
+   ],
+   "carrier": "thumb_proximal.L",
+   "center": {
+    "at": "metacarpal_1.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": [
+      50,
+      61
+     ],
+     "source": "hand_rom",
+     "note": "0-50 (referencia clinica) y 61 medido en una revision agregada"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "collateral_mcp_thumb.L",
+    "palmar_plate_mcp_thumb.L"
+   ],
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Promedios de una pagina agregadora: verificar contra AAOS o AMA Guides."
+  },
+  {
+   "name": "interphalangeal_thumb.L",
+   "mirror": true,
+   "kind": "sinovial bisagra (IF del pulgar)",
+   "bones": [
+    "thumb_proximal.L",
+    "thumb_distal.L"
+   ],
+   "carrier": "thumb_distal.L",
+   "center": {
+    "at": "thumb_proximal.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": [
+      80,
+      81
+     ],
+     "source": "hand_rom",
+     "note": "80 de referencia; 81 medido"
+    },
+    {
+     "name": "extension",
+     "total_deg": [
+      15,
+      15
+     ],
+     "source": "hand_rom",
+     "note": "hiperextension"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "collateral_ip_thumb.L",
+    "palmar_plate_ip_thumb.L"
+   ],
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Promedios de una pagina agregadora: verificar."
+  },
+  {
+   "name": "metacarpophalangeal_index.L",
+   "mirror": true,
+   "kind": "sinovial condilea (MCF)",
+   "bones": [
+    "metacarpal_2.L",
+    "index_proximal.L"
+   ],
+   "carrier": "index_proximal.L",
+   "center": {
+    "at": "metacarpal_2.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": [
+      80,
+      90
+     ],
+     "source": "hand_rom",
+     "note": "80 medido en el indice; 90 de referencia. "
+    },
+    {
+     "name": "extension",
+     "total_deg": [
+      45,
+      45
+     ],
+     "source": "hand_rom",
+     "note": "hiperextension pasiva. "
+    },
+    {
+     "name": "abduccion",
+     "total_deg": [
+      20,
+      30
+     ],
+     "source": "hand_rom",
+     "note": "separacion de los dedos. "
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "collateral_mcp_index.L",
+    "palmar_plate_mcp_index.L"
+   ],
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Promedios de una pagina agregadora: verificar contra AAOS o AMA Guides."
+  },
+  {
+   "name": "proximal_interphalangeal_index.L",
+   "mirror": true,
+   "kind": "sinovial bisagra (IFP)",
+   "bones": [
+    "index_proximal.L",
+    "index_middle.L"
+   ],
+   "carrier": "index_middle.L",
+   "center": {
+    "at": "index_proximal.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": [
+      100,
+      104
+     ],
+     "source": "hand_rom",
+     "note": "100 de referencia; 104 medido en el indice. "
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "collateral_pip_index.L",
+    "palmar_plate_pip_index.L"
+   ],
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Extension 0. Promedios de una pagina agregadora: verificar contra AAOS o AMA Guides."
+  },
+  {
+   "name": "distal_interphalangeal_index.L",
+   "mirror": true,
+   "kind": "sinovial bisagra (IFD)",
+   "bones": [
+    "index_middle.L",
+    "index_distal.L"
+   ],
+   "carrier": "index_distal.L",
+   "center": {
+    "at": "index_middle.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": [
+      68,
+      80
+     ],
+     "source": "hand_rom",
+     "note": "68 medido en el indice; 80 de referencia. "
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "collateral_dip_index.L",
+    "palmar_plate_dip_index.L"
+   ],
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Hiperextension hasta 20 en algunas referencias. Promedios de una pagina agregadora: verificar contra AAOS o AMA Guides."
+  },
+  {
+   "name": "metacarpophalangeal_middle.L",
+   "mirror": true,
+   "kind": "sinovial condilea (MCF)",
+   "bones": [
+    "metacarpal_3.L",
+    "middle_proximal.L"
+   ],
+   "carrier": "middle_proximal.L",
+   "center": {
+    "at": "metacarpal_3.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": [
+      80,
+      90
+     ],
+     "source": "hand_rom",
+     "note": "80 medido en el indice; 90 de referencia. mismas cifras que el indice (la fuente solo mide el indice)"
+    },
+    {
+     "name": "extension",
+     "total_deg": [
+      45,
+      45
+     ],
+     "source": "hand_rom",
+     "note": "hiperextension pasiva. mismas cifras que el indice (la fuente solo mide el indice)"
+    },
+    {
+     "name": "abduccion",
+     "total_deg": [
+      20,
+      30
+     ],
+     "source": "hand_rom",
+     "note": "separacion de los dedos. mismas cifras que el indice (la fuente solo mide el indice)"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "collateral_mcp_middle.L",
+    "palmar_plate_mcp_middle.L"
+   ],
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Promedios de una pagina agregadora: verificar contra AAOS o AMA Guides."
+  },
+  {
+   "name": "proximal_interphalangeal_middle.L",
+   "mirror": true,
+   "kind": "sinovial bisagra (IFP)",
+   "bones": [
+    "middle_proximal.L",
+    "middle_middle.L"
+   ],
+   "carrier": "middle_middle.L",
+   "center": {
+    "at": "middle_proximal.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": [
+      100,
+      104
+     ],
+     "source": "hand_rom",
+     "note": "100 de referencia; 104 medido en el indice. mismas cifras que el indice (la fuente solo mide el indice)"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "collateral_pip_middle.L",
+    "palmar_plate_pip_middle.L"
+   ],
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Extension 0. Promedios de una pagina agregadora: verificar contra AAOS o AMA Guides."
+  },
+  {
+   "name": "distal_interphalangeal_middle.L",
+   "mirror": true,
+   "kind": "sinovial bisagra (IFD)",
+   "bones": [
+    "middle_middle.L",
+    "middle_distal.L"
+   ],
+   "carrier": "middle_distal.L",
+   "center": {
+    "at": "middle_middle.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": [
+      68,
+      80
+     ],
+     "source": "hand_rom",
+     "note": "68 medido en el indice; 80 de referencia. mismas cifras que el indice (la fuente solo mide el indice)"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "collateral_dip_middle.L",
+    "palmar_plate_dip_middle.L"
+   ],
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Hiperextension hasta 20 en algunas referencias. Promedios de una pagina agregadora: verificar contra AAOS o AMA Guides."
+  },
+  {
+   "name": "metacarpophalangeal_ring.L",
+   "mirror": true,
+   "kind": "sinovial condilea (MCF)",
+   "bones": [
+    "metacarpal_4.L",
+    "ring_proximal.L"
+   ],
+   "carrier": "ring_proximal.L",
+   "center": {
+    "at": "metacarpal_4.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": [
+      80,
+      90
+     ],
+     "source": "hand_rom",
+     "note": "80 medido en el indice; 90 de referencia. mismas cifras que el indice (la fuente solo mide el indice)"
+    },
+    {
+     "name": "extension",
+     "total_deg": [
+      45,
+      45
+     ],
+     "source": "hand_rom",
+     "note": "hiperextension pasiva. mismas cifras que el indice (la fuente solo mide el indice)"
+    },
+    {
+     "name": "abduccion",
+     "total_deg": [
+      20,
+      30
+     ],
+     "source": "hand_rom",
+     "note": "separacion de los dedos. mismas cifras que el indice (la fuente solo mide el indice)"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "collateral_mcp_ring.L",
+    "palmar_plate_mcp_ring.L"
+   ],
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Promedios de una pagina agregadora: verificar contra AAOS o AMA Guides."
+  },
+  {
+   "name": "proximal_interphalangeal_ring.L",
+   "mirror": true,
+   "kind": "sinovial bisagra (IFP)",
+   "bones": [
+    "ring_proximal.L",
+    "ring_middle.L"
+   ],
+   "carrier": "ring_middle.L",
+   "center": {
+    "at": "ring_proximal.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": [
+      100,
+      104
+     ],
+     "source": "hand_rom",
+     "note": "100 de referencia; 104 medido en el indice. mismas cifras que el indice (la fuente solo mide el indice)"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "collateral_pip_ring.L",
+    "palmar_plate_pip_ring.L"
+   ],
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Extension 0. Promedios de una pagina agregadora: verificar contra AAOS o AMA Guides."
+  },
+  {
+   "name": "distal_interphalangeal_ring.L",
+   "mirror": true,
+   "kind": "sinovial bisagra (IFD)",
+   "bones": [
+    "ring_middle.L",
+    "ring_distal.L"
+   ],
+   "carrier": "ring_distal.L",
+   "center": {
+    "at": "ring_middle.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": [
+      68,
+      80
+     ],
+     "source": "hand_rom",
+     "note": "68 medido en el indice; 80 de referencia. mismas cifras que el indice (la fuente solo mide el indice)"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "collateral_dip_ring.L",
+    "palmar_plate_dip_ring.L"
+   ],
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Hiperextension hasta 20 en algunas referencias. Promedios de una pagina agregadora: verificar contra AAOS o AMA Guides."
+  },
+  {
+   "name": "metacarpophalangeal_little.L",
+   "mirror": true,
+   "kind": "sinovial condilea (MCF)",
+   "bones": [
+    "metacarpal_5.L",
+    "little_proximal.L"
+   ],
+   "carrier": "little_proximal.L",
+   "center": {
+    "at": "metacarpal_5.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": [
+      80,
+      90
+     ],
+     "source": "hand_rom",
+     "note": "80 medido en el indice; 90 de referencia. mismas cifras que el indice (la fuente solo mide el indice)"
+    },
+    {
+     "name": "extension",
+     "total_deg": [
+      45,
+      45
+     ],
+     "source": "hand_rom",
+     "note": "hiperextension pasiva. mismas cifras que el indice (la fuente solo mide el indice)"
+    },
+    {
+     "name": "abduccion",
+     "total_deg": [
+      20,
+      30
+     ],
+     "source": "hand_rom",
+     "note": "separacion de los dedos. mismas cifras que el indice (la fuente solo mide el indice)"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "collateral_mcp_little.L",
+    "palmar_plate_mcp_little.L"
+   ],
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Promedios de una pagina agregadora: verificar contra AAOS o AMA Guides."
+  },
+  {
+   "name": "proximal_interphalangeal_little.L",
+   "mirror": true,
+   "kind": "sinovial bisagra (IFP)",
+   "bones": [
+    "little_proximal.L",
+    "little_middle.L"
+   ],
+   "carrier": "little_middle.L",
+   "center": {
+    "at": "little_proximal.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": [
+      100,
+      104
+     ],
+     "source": "hand_rom",
+     "note": "100 de referencia; 104 medido en el indice. mismas cifras que el indice (la fuente solo mide el indice)"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "collateral_pip_little.L",
+    "palmar_plate_pip_little.L"
+   ],
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Extension 0. Promedios de una pagina agregadora: verificar contra AAOS o AMA Guides."
+  },
+  {
+   "name": "distal_interphalangeal_little.L",
+   "mirror": true,
+   "kind": "sinovial bisagra (IFD)",
+   "bones": [
+    "little_middle.L",
+    "little_distal.L"
+   ],
+   "carrier": "little_distal.L",
+   "center": {
+    "at": "little_middle.L.tail"
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "flexion",
+     "total_deg": [
+      68,
+      80
+     ],
+     "source": "hand_rom",
+     "note": "68 medido en el indice; 80 de referencia. mismas cifras que el indice (la fuente solo mide el indice)"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "collateral_dip_little.L",
+    "palmar_plate_dip_little.L"
+   ],
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Hiperextension hasta 20 en algunas referencias. Promedios de una pagina agregadora: verificar contra AAOS o AMA Guides."
+  }
+ ],
+ "ligaments": [
+  {
+   "name": "ulnar_collateral_elbow.L",
+   "mirror": true,
+   "from": {
+    "bone": "humerus.L",
+    "point": {
+     "at": "humerus.L.tail",
+     "offset_h": [
+      -0.02,
+      0.0,
+      0.005714285714285714
+     ]
+    }
+   },
+   "to": {
+    "bone": "ulna.L",
+    "point": {
+     "lerp": [
+      "ulna.L.head",
+      "ulna.L.tail",
+      0.06
+     ],
+     "offset_h": [
+      0.0,
+      -0.008,
+      0.0
+     ]
+    }
+   },
+   "joint": "elbow.L",
+   "sources": [
+    "anatomyzone_elbow",
+    "wiki_rcl_elbow"
+   ],
+   "notes": "Del epicondilo medial a la apofisis coronoides (haz anterior) y al olecranon (posterior); resiste el valgo.",
+   "tolerance_m": 0.045
+  },
+  {
+   "name": "radial_collateral_elbow.L",
+   "mirror": true,
+   "from": {
+    "bone": "humerus.L",
+    "point": {
+     "at": "humerus.L.tail",
+     "offset_h": [
+      0.017142857142857144,
+      0.0,
+      0.005714285714285714
+     ]
+    }
+   },
+   "to": {
+    "bone": "radius.L",
+    "point": {
+     "lerp": [
+      "radius.L.head",
+      "radius.L.tail",
+      0.04
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "elbow.L",
+   "sources": [
+    "wiki_rcl_elbow",
+    "anatomyzone_elbow"
+   ],
+   "notes": "Del epicondilo lateral al ligamento anular (se funde con el al rodear la cabeza del radio); resiste el varo.",
+   "tolerance_m": 0.045
+  },
+  {
+   "name": "lateral_ulnar_collateral.L",
+   "mirror": true,
+   "from": {
+    "bone": "humerus.L",
+    "point": {
+     "at": "humerus.L.tail",
+     "offset_h": [
+      0.017142857142857144,
+      0.0,
+      0.005714285714285714
+     ]
+    }
+   },
+   "to": {
+    "bone": "ulna.L",
+    "point": {
+     "lerp": [
+      "ulna.L.head",
+      "ulna.L.tail",
+      0.08
+     ],
+     "offset_h": [
+      0.006857142857142858,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "elbow.L",
+   "sources": [
+    "wiki_rcl_elbow",
+    "anatomyzone_elbow"
+   ],
+   "notes": "Del epicondilo lateral a la cresta del supinador del cubito; estabiliza la rotacion posterolateral. La disposicion varia entre personas.",
+   "tolerance_m": 0.045
+  },
+  {
+   "name": "annular.L",
+   "mirror": true,
+   "from": {
+    "bone": "ulna.L",
+    "point": {
+     "lerp": [
+      "ulna.L.head",
+      "ulna.L.tail",
+      0.08
+     ],
+     "offset_h": [
+      0.006857142857142858,
+      -0.006857142857142858,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "ulna.L",
+    "point": {
+     "lerp": [
+      "ulna.L.head",
+      "ulna.L.tail",
+      0.08
+     ],
+     "offset_h": [
+      0.006857142857142858,
+      0.006857142857142858,
+      0.0
+     ]
+    }
+   },
+   "joint": "proximal_radioulnar.L",
+   "sources": [
+    "anatomyzone_elbow",
+    "wiki_rcl_elbow"
+   ],
+   "notes": "Anillo alrededor de la cabeza del radio que la sujeta a la escotadura radial del cubito y deja girar en la pronosupinacion.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "interosseous_membrane.L",
+   "mirror": true,
+   "from": {
+    "bone": "radius.L",
+    "point": {
+     "lerp": [
+      "radius.L.head",
+      "radius.L.tail",
+      0.45
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "ulna.L",
+    "point": {
+     "lerp": [
+      "ulna.L.head",
+      "ulna.L.tail",
+      0.55
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "distal_radioulnar.L",
+   "sources": [
+    "statpearls_druj"
+   ],
+   "notes": "Lamina fibrosa entre radio y cubito; su banda central es un estabilizador importante del antebrazo.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "triangular_fibrocartilage.L",
+   "mirror": true,
+   "from": {
+    "bone": "radius.L",
+    "point": {
+     "at": "radius.L.tail",
+     "offset_h": [
+      -0.005714285714285714,
+      0.0,
+      0.002285714285714286
+     ]
+    }
+   },
+   "to": {
+    "bone": "ulna.L",
+    "point": {
+     "at": "ulna.L.tail",
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "distal_radioulnar.L",
+   "sources": [
+    "statpearls_druj",
+    "kenhub_druj"
+   ],
+   "notes": "Disco articular del TFCC entre el borde cubital del radio y la estiloides cubital; estabilizador dominante de la RRCD.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "radial_collateral_wrist.L",
+   "mirror": true,
+   "from": {
+    "bone": "radius.L",
+    "point": {
+     "at": "radius.L.tail",
+     "offset_h": [
+      0.003428571428571429,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "scaphoid.L",
+    "point": {
+     "at": "scaphoid.L.head"
+    }
+   },
+   "joint": "radiocarpal.L",
+   "sources": [
+    "kenhub_carpal"
+   ],
+   "notes": "De la estiloides radial al escafoides; limita la desviacion cubital.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "ulnar_collateral_wrist.L",
+   "mirror": true,
+   "from": {
+    "bone": "ulna.L",
+    "point": {
+     "lerp": [
+      "ulna.L.head",
+      "ulna.L.tail",
+      0.97
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "triquetrum.L",
+    "point": {
+     "lerp": [
+      "triquetrum.L.head",
+      "triquetrum.L.tail",
+      0.3
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "radiocarpal.L",
+   "sources": [
+    "kenhub_carpal"
+   ],
+   "notes": "De la estiloides cubital al piramidal y pisiforme; limita la desviacion radial.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "palmar_radiocarpal.L",
+   "mirror": true,
+   "from": {
+    "bone": "radius.L",
+    "point": {
+     "at": "radius.L.tail",
+     "offset_h": [
+      0.0,
+      -0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "lunate.L",
+    "point": {
+     "at": "lunate.L.head",
+     "offset_h": [
+      0.0,
+      -0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "radiocarpal.L",
+   "sources": [
+    "kenhub_carpal"
+   ],
+   "notes": "Del borde palmar del radio al semilunar y al hueso grande; refuerza la capsula anterior.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "dorsal_radiocarpal.L",
+   "mirror": true,
+   "from": {
+    "bone": "radius.L",
+    "point": {
+     "at": "radius.L.tail",
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "triquetrum.L",
+    "point": {
+     "at": "triquetrum.L.head",
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "radiocarpal.L",
+   "sources": [
+    "kenhub_carpal"
+   ],
+   "notes": "Del borde dorsal del radio al piramidal; refuerza la capsula posterior.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "flexor_retinaculum.L",
+   "mirror": true,
+   "from": {
+    "bone": "trapezium.L",
+    "point": {
+     "lerp": [
+      "trapezium.L.head",
+      "trapezium.L.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "hamate.L",
+    "point": {
+     "lerp": [
+      "hamate.L.head",
+      "hamate.L.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "midcarpal.L",
+   "sources": [
+    "wiki_flexor_retinaculum"
+   ],
+   "notes": "Techo del tunel carpiano: del tuberculo del escafoides y el trapecio al pisiforme y el gancho del ganchoso.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "pisohamate.L",
+   "mirror": true,
+   "from": {
+    "bone": "pisiform.L",
+    "point": {
+     "lerp": [
+      "pisiform.L.head",
+      "pisiform.L.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "hamate.L",
+    "point": {
+     "lerp": [
+      "hamate.L.head",
+      "hamate.L.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.0,
+      -0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "midcarpal.L",
+   "sources": [
+    "kenhub_pisiform"
+   ],
+   "notes": "Prolonga el tendon del flexor cubital del carpo del pisiforme al ganchoso.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "pisometacarpal.L",
+   "mirror": true,
+   "from": {
+    "bone": "pisiform.L",
+    "point": {
+     "lerp": [
+      "pisiform.L.head",
+      "pisiform.L.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "metacarpal_5.L",
+    "point": {
+     "lerp": [
+      "metacarpal_5.L.head",
+      "metacarpal_5.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      -0.002285714285714286,
+      0.0
+     ]
+    }
+   },
+   "joint": "midcarpal.L",
+   "sources": [
+    "kenhub_pisiform"
+   ],
+   "notes": "Prolonga el mismo tendon del pisiforme a la base del 5o metacarpiano.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "anterior_oblique_cmc1.L",
+   "mirror": true,
+   "from": {
+    "bone": "trapezium.L",
+    "point": {
+     "lerp": [
+      "trapezium.L.head",
+      "trapezium.L.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "metacarpal_1.L",
+    "point": {
+     "lerp": [
+      "metacarpal_1.L.head",
+      "metacarpal_1.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      -0.002857142857142857,
+      0.0
+     ]
+    }
+   },
+   "joint": "carpometacarpal_1.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Ligamento 'en pico' palmar de la CMC del pulgar. Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "collateral_mcp_thumb.L",
+   "mirror": true,
+   "from": {
+    "bone": "metacarpal_1.L",
+    "point": {
+     "lerp": [
+      "metacarpal_1.L.head",
+      "metacarpal_1.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "thumb_proximal.L",
+    "point": {
+     "lerp": [
+      "thumb_proximal.L.head",
+      "thumb_proximal.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "metacarpophalangeal_thumb.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Ligamento colateral (lado lateral); el medial es simetrico y no se modela. Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "palmar_plate_mcp_thumb.L",
+   "mirror": true,
+   "from": {
+    "bone": "metacarpal_1.L",
+    "point": {
+     "lerp": [
+      "metacarpal_1.L.head",
+      "metacarpal_1.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "thumb_proximal.L",
+    "point": {
+     "lerp": [
+      "thumb_proximal.L.head",
+      "thumb_proximal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "metacarpophalangeal_thumb.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Placa palmar (fibrocartilago que limita la hiperextension). Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "collateral_ip_thumb.L",
+   "mirror": true,
+   "from": {
+    "bone": "thumb_proximal.L",
+    "point": {
+     "lerp": [
+      "thumb_proximal.L.head",
+      "thumb_proximal.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "thumb_distal.L",
+    "point": {
+     "lerp": [
+      "thumb_distal.L.head",
+      "thumb_distal.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "interphalangeal_thumb.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Ligamento colateral (lado lateral); el medial es simetrico y no se modela. Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "palmar_plate_ip_thumb.L",
+   "mirror": true,
+   "from": {
+    "bone": "thumb_proximal.L",
+    "point": {
+     "lerp": [
+      "thumb_proximal.L.head",
+      "thumb_proximal.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "thumb_distal.L",
+    "point": {
+     "lerp": [
+      "thumb_distal.L.head",
+      "thumb_distal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "interphalangeal_thumb.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Placa palmar (fibrocartilago que limita la hiperextension). Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "collateral_mcp_index.L",
+   "mirror": true,
+   "from": {
+    "bone": "metacarpal_2.L",
+    "point": {
+     "lerp": [
+      "metacarpal_2.L.head",
+      "metacarpal_2.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "index_proximal.L",
+    "point": {
+     "lerp": [
+      "index_proximal.L.head",
+      "index_proximal.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "metacarpophalangeal_index.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Ligamento colateral (lado lateral); el medial es simetrico y no se modela. Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "palmar_plate_mcp_index.L",
+   "mirror": true,
+   "from": {
+    "bone": "metacarpal_2.L",
+    "point": {
+     "lerp": [
+      "metacarpal_2.L.head",
+      "metacarpal_2.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "index_proximal.L",
+    "point": {
+     "lerp": [
+      "index_proximal.L.head",
+      "index_proximal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "metacarpophalangeal_index.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Placa palmar (fibrocartilago que limita la hiperextension). Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "collateral_pip_index.L",
+   "mirror": true,
+   "from": {
+    "bone": "index_proximal.L",
+    "point": {
+     "lerp": [
+      "index_proximal.L.head",
+      "index_proximal.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "index_middle.L",
+    "point": {
+     "lerp": [
+      "index_middle.L.head",
+      "index_middle.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "proximal_interphalangeal_index.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Ligamento colateral (lado lateral); el medial es simetrico y no se modela. Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "palmar_plate_pip_index.L",
+   "mirror": true,
+   "from": {
+    "bone": "index_proximal.L",
+    "point": {
+     "lerp": [
+      "index_proximal.L.head",
+      "index_proximal.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "index_middle.L",
+    "point": {
+     "lerp": [
+      "index_middle.L.head",
+      "index_middle.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "proximal_interphalangeal_index.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Placa palmar (fibrocartilago que limita la hiperextension). Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "collateral_dip_index.L",
+   "mirror": true,
+   "from": {
+    "bone": "index_middle.L",
+    "point": {
+     "lerp": [
+      "index_middle.L.head",
+      "index_middle.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "index_distal.L",
+    "point": {
+     "lerp": [
+      "index_distal.L.head",
+      "index_distal.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "distal_interphalangeal_index.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Ligamento colateral (lado lateral); el medial es simetrico y no se modela. Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "palmar_plate_dip_index.L",
+   "mirror": true,
+   "from": {
+    "bone": "index_middle.L",
+    "point": {
+     "lerp": [
+      "index_middle.L.head",
+      "index_middle.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "index_distal.L",
+    "point": {
+     "lerp": [
+      "index_distal.L.head",
+      "index_distal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "distal_interphalangeal_index.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Placa palmar (fibrocartilago que limita la hiperextension). Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "collateral_mcp_middle.L",
+   "mirror": true,
+   "from": {
+    "bone": "metacarpal_3.L",
+    "point": {
+     "lerp": [
+      "metacarpal_3.L.head",
+      "metacarpal_3.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "middle_proximal.L",
+    "point": {
+     "lerp": [
+      "middle_proximal.L.head",
+      "middle_proximal.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "metacarpophalangeal_middle.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Ligamento colateral (lado lateral); el medial es simetrico y no se modela. Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "palmar_plate_mcp_middle.L",
+   "mirror": true,
+   "from": {
+    "bone": "metacarpal_3.L",
+    "point": {
+     "lerp": [
+      "metacarpal_3.L.head",
+      "metacarpal_3.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "middle_proximal.L",
+    "point": {
+     "lerp": [
+      "middle_proximal.L.head",
+      "middle_proximal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "metacarpophalangeal_middle.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Placa palmar (fibrocartilago que limita la hiperextension). Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "collateral_pip_middle.L",
+   "mirror": true,
+   "from": {
+    "bone": "middle_proximal.L",
+    "point": {
+     "lerp": [
+      "middle_proximal.L.head",
+      "middle_proximal.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "middle_middle.L",
+    "point": {
+     "lerp": [
+      "middle_middle.L.head",
+      "middle_middle.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "proximal_interphalangeal_middle.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Ligamento colateral (lado lateral); el medial es simetrico y no se modela. Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "palmar_plate_pip_middle.L",
+   "mirror": true,
+   "from": {
+    "bone": "middle_proximal.L",
+    "point": {
+     "lerp": [
+      "middle_proximal.L.head",
+      "middle_proximal.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "middle_middle.L",
+    "point": {
+     "lerp": [
+      "middle_middle.L.head",
+      "middle_middle.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "proximal_interphalangeal_middle.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Placa palmar (fibrocartilago que limita la hiperextension). Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "collateral_dip_middle.L",
+   "mirror": true,
+   "from": {
+    "bone": "middle_middle.L",
+    "point": {
+     "lerp": [
+      "middle_middle.L.head",
+      "middle_middle.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "middle_distal.L",
+    "point": {
+     "lerp": [
+      "middle_distal.L.head",
+      "middle_distal.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "distal_interphalangeal_middle.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Ligamento colateral (lado lateral); el medial es simetrico y no se modela. Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "palmar_plate_dip_middle.L",
+   "mirror": true,
+   "from": {
+    "bone": "middle_middle.L",
+    "point": {
+     "lerp": [
+      "middle_middle.L.head",
+      "middle_middle.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "middle_distal.L",
+    "point": {
+     "lerp": [
+      "middle_distal.L.head",
+      "middle_distal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "distal_interphalangeal_middle.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Placa palmar (fibrocartilago que limita la hiperextension). Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "collateral_mcp_ring.L",
+   "mirror": true,
+   "from": {
+    "bone": "metacarpal_4.L",
+    "point": {
+     "lerp": [
+      "metacarpal_4.L.head",
+      "metacarpal_4.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "ring_proximal.L",
+    "point": {
+     "lerp": [
+      "ring_proximal.L.head",
+      "ring_proximal.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "metacarpophalangeal_ring.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Ligamento colateral (lado lateral); el medial es simetrico y no se modela. Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "palmar_plate_mcp_ring.L",
+   "mirror": true,
+   "from": {
+    "bone": "metacarpal_4.L",
+    "point": {
+     "lerp": [
+      "metacarpal_4.L.head",
+      "metacarpal_4.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "ring_proximal.L",
+    "point": {
+     "lerp": [
+      "ring_proximal.L.head",
+      "ring_proximal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "metacarpophalangeal_ring.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Placa palmar (fibrocartilago que limita la hiperextension). Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "collateral_pip_ring.L",
+   "mirror": true,
+   "from": {
+    "bone": "ring_proximal.L",
+    "point": {
+     "lerp": [
+      "ring_proximal.L.head",
+      "ring_proximal.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "ring_middle.L",
+    "point": {
+     "lerp": [
+      "ring_middle.L.head",
+      "ring_middle.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "proximal_interphalangeal_ring.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Ligamento colateral (lado lateral); el medial es simetrico y no se modela. Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "palmar_plate_pip_ring.L",
+   "mirror": true,
+   "from": {
+    "bone": "ring_proximal.L",
+    "point": {
+     "lerp": [
+      "ring_proximal.L.head",
+      "ring_proximal.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "ring_middle.L",
+    "point": {
+     "lerp": [
+      "ring_middle.L.head",
+      "ring_middle.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "proximal_interphalangeal_ring.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Placa palmar (fibrocartilago que limita la hiperextension). Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "collateral_dip_ring.L",
+   "mirror": true,
+   "from": {
+    "bone": "ring_middle.L",
+    "point": {
+     "lerp": [
+      "ring_middle.L.head",
+      "ring_middle.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "ring_distal.L",
+    "point": {
+     "lerp": [
+      "ring_distal.L.head",
+      "ring_distal.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "distal_interphalangeal_ring.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Ligamento colateral (lado lateral); el medial es simetrico y no se modela. Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "palmar_plate_dip_ring.L",
+   "mirror": true,
+   "from": {
+    "bone": "ring_middle.L",
+    "point": {
+     "lerp": [
+      "ring_middle.L.head",
+      "ring_middle.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "ring_distal.L",
+    "point": {
+     "lerp": [
+      "ring_distal.L.head",
+      "ring_distal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "distal_interphalangeal_ring.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Placa palmar (fibrocartilago que limita la hiperextension). Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "collateral_mcp_little.L",
+   "mirror": true,
+   "from": {
+    "bone": "metacarpal_5.L",
+    "point": {
+     "lerp": [
+      "metacarpal_5.L.head",
+      "metacarpal_5.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "little_proximal.L",
+    "point": {
+     "lerp": [
+      "little_proximal.L.head",
+      "little_proximal.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "metacarpophalangeal_little.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Ligamento colateral (lado lateral); el medial es simetrico y no se modela. Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "palmar_plate_mcp_little.L",
+   "mirror": true,
+   "from": {
+    "bone": "metacarpal_5.L",
+    "point": {
+     "lerp": [
+      "metacarpal_5.L.head",
+      "metacarpal_5.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "little_proximal.L",
+    "point": {
+     "lerp": [
+      "little_proximal.L.head",
+      "little_proximal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "metacarpophalangeal_little.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Placa palmar (fibrocartilago que limita la hiperextension). Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "collateral_pip_little.L",
+   "mirror": true,
+   "from": {
+    "bone": "little_proximal.L",
+    "point": {
+     "lerp": [
+      "little_proximal.L.head",
+      "little_proximal.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "little_middle.L",
+    "point": {
+     "lerp": [
+      "little_middle.L.head",
+      "little_middle.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "proximal_interphalangeal_little.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Ligamento colateral (lado lateral); el medial es simetrico y no se modela. Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "palmar_plate_pip_little.L",
+   "mirror": true,
+   "from": {
+    "bone": "little_proximal.L",
+    "point": {
+     "lerp": [
+      "little_proximal.L.head",
+      "little_proximal.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "little_middle.L",
+    "point": {
+     "lerp": [
+      "little_middle.L.head",
+      "little_middle.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "proximal_interphalangeal_little.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Placa palmar (fibrocartilago que limita la hiperextension). Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "collateral_dip_little.L",
+   "mirror": true,
+   "from": {
+    "bone": "little_middle.L",
+    "point": {
+     "lerp": [
+      "little_middle.L.head",
+      "little_middle.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "little_distal.L",
+    "point": {
+     "lerp": [
+      "little_distal.L.head",
+      "little_distal.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "distal_interphalangeal_little.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Ligamento colateral (lado lateral); el medial es simetrico y no se modela. Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  },
+  {
+   "name": "palmar_plate_dip_little.L",
+   "mirror": true,
+   "from": {
+    "bone": "little_middle.L",
+    "point": {
+     "lerp": [
+      "little_middle.L.head",
+      "little_middle.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "little_distal.L",
+    "point": {
+     "lerp": [
+      "little_distal.L.head",
+      "little_distal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "distal_interphalangeal_little.L",
+   "sources": [
+    "hand_rom"
+   ],
+   "notes": "Placa palmar (fibrocartilago que limita la hiperextension). Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.015
+  }
+ ],
+ "attachments": [
+  {
+   "name": "triceps_humeral_heads.L",
+   "mirror": true,
+   "bone": "humerus.L",
+   "point": {
+    "lerp": [
+     "humerus.L.head",
+     "humerus.L.tail",
+     0.45
+    ],
+    "offset_h": [
+     0.0,
+     0.006857142857142858,
+     0.0
+    ]
+   },
+   "structures": [
+    "triceps braquial: cabezas lateral y medial (origen, cara posterior del humero)"
+   ],
+   "sources": [
+    "semmelweis_forearm",
+    "brainscape_arm"
+   ],
+   "notes": "",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "brachialis_origin.L",
+   "mirror": true,
+   "bone": "humerus.L",
+   "point": {
+    "lerp": [
+     "humerus.L.head",
+     "humerus.L.tail",
+     0.65
+    ],
+    "offset_h": [
+     0.0,
+     -0.006857142857142858,
+     0.0
+    ]
+   },
+   "structures": [
+    "braquial (origen, mitad distal de la cara anterior del humero)"
+   ],
+   "sources": [
+    "semmelweis_forearm",
+    "brainscape_arm"
+   ],
+   "notes": "",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "olecranon.L",
+   "mirror": true,
+   "bone": "ulna.L",
+   "point": {
+    "at": "ulna.L.head"
+   },
+   "structures": [
+    "triceps braquial (insercion)",
+    "anconeo (origen, epicondilo lateral -> olecranon)"
+   ],
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "ulnar_coronoid_process.L",
+   "mirror": true,
+   "bone": "ulna.L",
+   "point": {
+    "lerp": [
+     "ulna.L.head",
+     "ulna.L.tail",
+     0.06
+    ],
+    "offset_h": [
+     0.0,
+     -0.008,
+     0.0
+    ]
+   },
+   "structures": [
+    "braquial (insercion, tuberosidad del cubito y coronoides)"
+   ],
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "supinator_crest.L",
+   "mirror": true,
+   "bone": "ulna.L",
+   "point": {
+    "lerp": [
+     "ulna.L.head",
+     "ulna.L.tail",
+     0.08
+    ],
+    "offset_h": [
+     0.006857142857142858,
+     0.0,
+     0.0
+    ]
+   },
+   "structures": [
+    "supinador (origen, cresta del supinador del cubito)",
+    "ligamento colateral cubital lateral"
+   ],
+   "sources": [
+    "pearson_forearm"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "brachioradialis_origin.L",
+   "mirror": true,
+   "bone": "humerus.L",
+   "point": {
+    "lerp": [
+     "humerus.L.head",
+     "humerus.L.tail",
+     0.85
+    ],
+    "offset_h": [
+     0.006857142857142858,
+     0.0,
+     0.0
+    ]
+   },
+   "structures": [
+    "braquiorradial (origen, cresta supracondilea lateral)",
+    "extensor radial largo del carpo (origen)"
+   ],
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": "",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "medial_epicondyle.L",
+   "mirror": true,
+   "bone": "humerus.L",
+   "point": {
+    "at": "humerus.L.tail",
+    "offset_h": [
+     -0.02,
+     0.0,
+     0.005714285714285714
+    ]
+   },
+   "structures": [
+    "tendon flexor comun: pronador redondo, flexor radial del carpo, palmar largo, flexor cubital del carpo, flexor superficial de los dedos (origen)"
+   ],
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": "",
+   "tolerance_m": 0.045
+  },
+  {
+   "name": "lateral_epicondyle.L",
+   "mirror": true,
+   "bone": "humerus.L",
+   "point": {
+    "at": "humerus.L.tail",
+    "offset_h": [
+     0.017142857142857144,
+     0.0,
+     0.005714285714285714
+    ]
+   },
+   "structures": [
+    "tendon extensor comun: extensor radial corto del carpo, extensor de los dedos, extensor del menique, extensor cubital del carpo, supinador, anconeo (origen)"
+   ],
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm",
+    "gmch_extensors"
+   ],
+   "notes": "",
+   "tolerance_m": 0.045
+  },
+  {
+   "name": "pronator_teres_insertion.L",
+   "mirror": true,
+   "bone": "radius.L",
+   "point": {
+    "lerp": [
+     "radius.L.head",
+     "radius.L.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.004571428571428572,
+     0.0,
+     0.0
+    ]
+   },
+   "structures": [
+    "pronador redondo (insercion, cara lateral del radio)"
+   ],
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "pronator_quadratus_radius.L",
+   "mirror": true,
+   "bone": "radius.L",
+   "point": {
+    "lerp": [
+     "radius.L.head",
+     "radius.L.tail",
+     0.88
+    ],
+    "offset_h": [
+     0.0,
+     -0.004571428571428572,
+     0.0
+    ]
+   },
+   "structures": [
+    "pronador cuadrado (insercion, cuarto distal anterior del radio)"
+   ],
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "pronator_quadratus_ulna.L",
+   "mirror": true,
+   "bone": "ulna.L",
+   "point": {
+    "lerp": [
+     "ulna.L.head",
+     "ulna.L.tail",
+     0.88
+    ],
+    "offset_h": [
+     0.0,
+     -0.004571428571428572,
+     0.0
+    ]
+   },
+   "structures": [
+    "pronador cuadrado (origen, cuarto distal anterior del cubito)"
+   ],
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "radial_styloid.L",
+   "mirror": true,
+   "bone": "radius.L",
+   "point": {
+    "at": "radius.L.tail",
+    "offset_h": [
+     0.003428571428571429,
+     0.0,
+     0.0
+    ]
+   },
+   "structures": [
+    "braquiorradial (insercion)",
+    "ligamento colateral radial de la muneca"
+   ],
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "abductor_pollicis_longus_origin.L",
+   "mirror": true,
+   "bone": "radius.L",
+   "point": {
+    "lerp": [
+     "radius.L.head",
+     "radius.L.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.0,
+     0.005714285714285714,
+     0.0
+    ]
+   },
+   "structures": [
+    "abductor largo del pulgar (origen, cara posterior del radio)",
+    "extensor corto del pulgar (origen)"
+   ],
+   "sources": [
+    "gmch_extensors",
+    "brainscape_arm"
+   ],
+   "notes": "Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "flexor_digitorum_profundus_origin.L",
+   "mirror": true,
+   "bone": "ulna.L",
+   "point": {
+    "lerp": [
+     "ulna.L.head",
+     "ulna.L.tail",
+     0.3
+    ],
+    "offset_h": [
+     0.0,
+     -0.005714285714285714,
+     0.0
+    ]
+   },
+   "structures": [
+    "flexor profundo de los dedos (origen, cara anterior del cubito)",
+    "flexor largo del pulgar (origen, radio)"
+   ],
+   "sources": [
+    "semmelweis_forearm",
+    "brainscape_arm"
+   ],
+   "notes": "",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "fcu_pisiform.L",
+   "mirror": true,
+   "bone": "pisiform.L",
+   "point": {
+    "lerp": [
+     "pisiform.L.head",
+     "pisiform.L.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "structures": [
+    "flexor cubital del carpo (insercion; el pisiforme es un sesamoideo de ese tendon)",
+    "retinaculo flexor (insercion cubital)"
+   ],
+   "sources": [
+    "kenhub_pisiform",
+    "wiki_flexor_retinaculum"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "hook_of_hamate.L",
+   "mirror": true,
+   "bone": "hamate.L",
+   "point": {
+    "lerp": [
+     "hamate.L.head",
+     "hamate.L.tail",
+     0.2
+    ],
+    "offset_h": [
+     0.0,
+     -0.005714285714285714,
+     0.0
+    ]
+   },
+   "structures": [
+    "retinaculo flexor (insercion cubital)",
+    "flexor corto del menique (origen)"
+   ],
+   "sources": [
+    "wiki_flexor_retinaculum",
+    "hithera_hand"
+   ],
+   "notes": "Fuente debil: verificar en un atlas. (solo el retinaculo esta bien respaldado)",
+   "tolerance_m": 0.04
+  },
+  {
+   "name": "scaphoid_tubercle.L",
+   "mirror": true,
+   "bone": "scaphoid.L",
+   "point": {
+    "lerp": [
+     "scaphoid.L.head",
+     "scaphoid.L.tail",
+     0.8
+    ],
+    "offset_h": [
+     0.0,
+     -0.003428571428571429,
+     0.0
+    ]
+   },
+   "structures": [
+    "retinaculo flexor (insercion radial)"
+   ],
+   "sources": [
+    "wiki_flexor_retinaculum"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "trapezium_tubercle.L",
+   "mirror": true,
+   "bone": "trapezium.L",
+   "point": {
+    "lerp": [
+     "trapezium.L.head",
+     "trapezium.L.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.0,
+     -0.004571428571428572,
+     0.0
+    ]
+   },
+   "structures": [
+    "retinaculo flexor (insercion radial)",
+    "abductor corto del pulgar y oponente del pulgar (origen)"
+   ],
+   "sources": [
+    "wiki_flexor_retinaculum",
+    "hithera_hand"
+   ],
+   "notes": "Fuente debil: verificar en un atlas. (solo el retinaculo esta bien respaldado)",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "fcr_metacarpal_2.L",
+   "mirror": true,
+   "bone": "metacarpal_2.L",
+   "point": {
+    "lerp": [
+     "metacarpal_2.L.head",
+     "metacarpal_2.L.tail",
+     0.05
+    ],
+    "offset_h": [
+     0.0,
+     -0.003428571428571429,
+     0.0
+    ]
+   },
+   "structures": [
+    "flexor radial del carpo (insercion, base del 2o metacarpiano, cara palmar)"
+   ],
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "ecrl_metacarpal_2.L",
+   "mirror": true,
+   "bone": "metacarpal_2.L",
+   "point": {
+    "lerp": [
+     "metacarpal_2.L.head",
+     "metacarpal_2.L.tail",
+     0.05
+    ],
+    "offset_h": [
+     0.0,
+     0.003428571428571429,
+     0.0
+    ]
+   },
+   "structures": [
+    "extensor radial largo del carpo (insercion, base del 2o metacarpiano, cara dorsal)"
+   ],
+   "sources": [
+    "semmelweis_forearm",
+    "gmch_extensors"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "ecrb_metacarpal_3.L",
+   "mirror": true,
+   "bone": "metacarpal_3.L",
+   "point": {
+    "lerp": [
+     "metacarpal_3.L.head",
+     "metacarpal_3.L.tail",
+     0.05
+    ],
+    "offset_h": [
+     0.0,
+     0.003428571428571429,
+     0.0
+    ]
+   },
+   "structures": [
+    "extensor radial corto del carpo (insercion, base del 3er metacarpiano)"
+   ],
+   "sources": [
+    "semmelweis_forearm",
+    "gmch_extensors"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "ecu_metacarpal_5.L",
+   "mirror": true,
+   "bone": "metacarpal_5.L",
+   "point": {
+    "lerp": [
+     "metacarpal_5.L.head",
+     "metacarpal_5.L.tail",
+     0.05
+    ],
+    "offset_h": [
+     0.0,
+     0.003428571428571429,
+     0.0
+    ]
+   },
+   "structures": [
+    "extensor cubital del carpo (insercion, base del 5o metacarpiano)"
+   ],
+   "sources": [
+    "semmelweis_forearm",
+    "gmch_extensors"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "apl_metacarpal_1.L",
+   "mirror": true,
+   "bone": "metacarpal_1.L",
+   "point": {
+    "lerp": [
+     "metacarpal_1.L.head",
+     "metacarpal_1.L.tail",
+     0.05
+    ],
+    "offset_h": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "structures": [
+    "abductor largo del pulgar (insercion, base del 1er metacarpiano)"
+   ],
+   "sources": [
+    "gmch_extensors",
+    "brainscape_arm"
+   ],
+   "notes": "Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "epb_thumb_proximal.L",
+   "mirror": true,
+   "bone": "thumb_proximal.L",
+   "point": {
+    "lerp": [
+     "thumb_proximal.L.head",
+     "thumb_proximal.L.tail",
+     0.05
+    ],
+    "offset_h": [
+     0.0,
+     0.003428571428571429,
+     0.0
+    ]
+   },
+   "structures": [
+    "extensor corto del pulgar (insercion, base de la falange proximal)"
+   ],
+   "sources": [
+    "gmch_extensors",
+    "brainscape_arm"
+   ],
+   "notes": "Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "epl_thumb_distal.L",
+   "mirror": true,
+   "bone": "thumb_distal.L",
+   "point": {
+    "lerp": [
+     "thumb_distal.L.head",
+     "thumb_distal.L.tail",
+     0.05
+    ],
+    "offset_h": [
+     0.0,
+     0.003428571428571429,
+     0.0
+    ]
+   },
+   "structures": [
+    "extensor largo del pulgar (insercion, base de la falange distal)"
+   ],
+   "sources": [
+    "gmch_extensors",
+    "brainscape_arm"
+   ],
+   "notes": "Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "fpl_thumb_distal.L",
+   "mirror": true,
+   "bone": "thumb_distal.L",
+   "point": {
+    "lerp": [
+     "thumb_distal.L.head",
+     "thumb_distal.L.tail",
+     0.05
+    ],
+    "offset_h": [
+     0.0,
+     -0.003428571428571429,
+     0.0
+    ]
+   },
+   "structures": [
+    "flexor largo del pulgar (insercion, base de la falange distal, cara palmar)"
+   ],
+   "sources": [
+    "semmelweis_forearm",
+    "brainscape_arm"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "fds_insertion_index.L",
+   "mirror": true,
+   "bone": "index_middle.L",
+   "point": {
+    "lerp": [
+     "index_middle.L.head",
+     "index_middle.L.tail",
+     0.4
+    ],
+    "offset_h": [
+     0.0,
+     -0.003428571428571429,
+     0.0
+    ]
+   },
+   "structures": [
+    "flexor superficial de los dedos (insercion, cara palmar de la falange media del index)"
+   ],
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "fdp_insertion_index.L",
+   "mirror": true,
+   "bone": "index_distal.L",
+   "point": {
+    "lerp": [
+     "index_distal.L.head",
+     "index_distal.L.tail",
+     0.1
+    ],
+    "offset_h": [
+     0.0,
+     -0.003428571428571429,
+     0.0
+    ]
+   },
+   "structures": [
+    "flexor profundo de los dedos (insercion, base de la falange distal del index)"
+   ],
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "extensor_expansion_index.L",
+   "mirror": true,
+   "bone": "index_proximal.L",
+   "point": {
+    "lerp": [
+     "index_proximal.L.head",
+     "index_proximal.L.tail",
+     0.1
+    ],
+    "offset_h": [
+     0.0,
+     0.003428571428571429,
+     0.0
+    ]
+   },
+   "structures": [
+    "extensor de los dedos y capuchon extensor (dorso de la falange proximal del index)",
+    "lumbricales e interoseos (insercion en el capuchon)"
+   ],
+   "sources": [
+    "gmch_extensors",
+    "brainscape_arm"
+   ],
+   "notes": "Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "fds_insertion_middle.L",
+   "mirror": true,
+   "bone": "middle_middle.L",
+   "point": {
+    "lerp": [
+     "middle_middle.L.head",
+     "middle_middle.L.tail",
+     0.4
+    ],
+    "offset_h": [
+     0.0,
+     -0.003428571428571429,
+     0.0
+    ]
+   },
+   "structures": [
+    "flexor superficial de los dedos (insercion, cara palmar de la falange media del middle)"
+   ],
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "fdp_insertion_middle.L",
+   "mirror": true,
+   "bone": "middle_distal.L",
+   "point": {
+    "lerp": [
+     "middle_distal.L.head",
+     "middle_distal.L.tail",
+     0.1
+    ],
+    "offset_h": [
+     0.0,
+     -0.003428571428571429,
+     0.0
+    ]
+   },
+   "structures": [
+    "flexor profundo de los dedos (insercion, base de la falange distal del middle)"
+   ],
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "extensor_expansion_middle.L",
+   "mirror": true,
+   "bone": "middle_proximal.L",
+   "point": {
+    "lerp": [
+     "middle_proximal.L.head",
+     "middle_proximal.L.tail",
+     0.1
+    ],
+    "offset_h": [
+     0.0,
+     0.003428571428571429,
+     0.0
+    ]
+   },
+   "structures": [
+    "extensor de los dedos y capuchon extensor (dorso de la falange proximal del middle)",
+    "lumbricales e interoseos (insercion en el capuchon)"
+   ],
+   "sources": [
+    "gmch_extensors",
+    "brainscape_arm"
+   ],
+   "notes": "Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "fds_insertion_ring.L",
+   "mirror": true,
+   "bone": "ring_middle.L",
+   "point": {
+    "lerp": [
+     "ring_middle.L.head",
+     "ring_middle.L.tail",
+     0.4
+    ],
+    "offset_h": [
+     0.0,
+     -0.003428571428571429,
+     0.0
+    ]
+   },
+   "structures": [
+    "flexor superficial de los dedos (insercion, cara palmar de la falange media del ring)"
+   ],
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "fdp_insertion_ring.L",
+   "mirror": true,
+   "bone": "ring_distal.L",
+   "point": {
+    "lerp": [
+     "ring_distal.L.head",
+     "ring_distal.L.tail",
+     0.1
+    ],
+    "offset_h": [
+     0.0,
+     -0.003428571428571429,
+     0.0
+    ]
+   },
+   "structures": [
+    "flexor profundo de los dedos (insercion, base de la falange distal del ring)"
+   ],
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "extensor_expansion_ring.L",
+   "mirror": true,
+   "bone": "ring_proximal.L",
+   "point": {
+    "lerp": [
+     "ring_proximal.L.head",
+     "ring_proximal.L.tail",
+     0.1
+    ],
+    "offset_h": [
+     0.0,
+     0.003428571428571429,
+     0.0
+    ]
+   },
+   "structures": [
+    "extensor de los dedos y capuchon extensor (dorso de la falange proximal del ring)",
+    "lumbricales e interoseos (insercion en el capuchon)"
+   ],
+   "sources": [
+    "gmch_extensors",
+    "brainscape_arm"
+   ],
+   "notes": "Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "fds_insertion_little.L",
+   "mirror": true,
+   "bone": "little_middle.L",
+   "point": {
+    "lerp": [
+     "little_middle.L.head",
+     "little_middle.L.tail",
+     0.4
+    ],
+    "offset_h": [
+     0.0,
+     -0.003428571428571429,
+     0.0
+    ]
+   },
+   "structures": [
+    "flexor superficial de los dedos (insercion, cara palmar de la falange media del little)"
+   ],
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "fdp_insertion_little.L",
+   "mirror": true,
+   "bone": "little_distal.L",
+   "point": {
+    "lerp": [
+     "little_distal.L.head",
+     "little_distal.L.tail",
+     0.1
+    ],
+    "offset_h": [
+     0.0,
+     -0.003428571428571429,
+     0.0
+    ]
+   },
+   "structures": [
+    "flexor profundo de los dedos (insercion, base de la falange distal del little)"
+   ],
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": "",
+   "tolerance_m": 0.03
+  },
+  {
+   "name": "extensor_expansion_little.L",
+   "mirror": true,
+   "bone": "little_proximal.L",
+   "point": {
+    "lerp": [
+     "little_proximal.L.head",
+     "little_proximal.L.tail",
+     0.1
+    ],
+    "offset_h": [
+     0.0,
+     0.003428571428571429,
+     0.0
+    ]
+   },
+   "structures": [
+    "extensor de los dedos y capuchon extensor (dorso de la falange proximal del little)",
+    "lumbricales e interoseos (insercion en el capuchon)"
+   ],
+   "sources": [
+    "gmch_extensors",
+    "brainscape_arm"
+   ],
+   "notes": "Fuente debil: verificar en un atlas.",
+   "tolerance_m": 0.03
+  }
+ ]
+}

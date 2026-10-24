@@ -35,7 +35,8 @@
      0.0
     ]
    },
-   "description": "carpo, fila proximal, lateral"
+   "description": "carpo, fila proximal, lateral",
+   "anatomical_parent": "radius.L"
   },
   {
    "name": "lunate.L",
@@ -68,7 +69,8 @@
      0.0
     ]
    },
-   "description": "carpo, fila proximal, central"
+   "description": "carpo, fila proximal, central",
+   "anatomical_parent": "radius.L"
   },
   {
    "name": "triquetrum.L",
@@ -101,7 +103,8 @@
      0.0
     ]
    },
-   "description": "carpo, fila proximal, medial"
+   "description": "carpo, fila proximal, medial",
+   "anatomical_parent": "ulna.L"
   },
   {
    "name": "pisiform.L",
@@ -134,7 +137,8 @@
      0.0
     ]
    },
-   "description": "carpo, palmar sobre el piramidal"
+   "description": "carpo, palmar sobre el piramidal",
+   "anatomical_parent": "triquetrum.L"
   },
   {
    "name": "trapezium.L",
@@ -167,7 +171,8 @@
      0.0
     ]
    },
-   "description": "carpo, fila distal, base del pulgar"
+   "description": "carpo, fila distal, base del pulgar",
+   "anatomical_parent": "scaphoid.L"
   },
   {
    "name": "trapezoid.L",
@@ -200,7 +205,8 @@
      0.0
     ]
    },
-   "description": "carpo, fila distal"
+   "description": "carpo, fila distal",
+   "anatomical_parent": "scaphoid.L"
   },
   {
    "name": "capitate.L",
@@ -233,7 +239,8 @@
      0.0
     ]
    },
-   "description": "carpo, fila distal, central"
+   "description": "carpo, fila distal, central",
+   "anatomical_parent": "lunate.L"
   },
   {
    "name": "hamate.L",
@@ -266,7 +273,8 @@
      0.0
     ]
    },
-   "description": "carpo, fila distal, medial"
+   "description": "carpo, fila distal, medial",
+   "anatomical_parent": "triquetrum.L"
   },
   {
    "name": "metacarpal_1.L",
