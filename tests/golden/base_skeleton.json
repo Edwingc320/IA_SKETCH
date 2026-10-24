@@ -3,8 +3,8 @@
  "description": "Instantanea de la BASE: esqueleto neutro de referencia (nivel 0). No editar a mano: usar scripts/freeze_base.py --update solo si el cambio de la base es deliberado.",
  "height_m": 1.75,
  "ankle_height_m": 0.06825,
- "config_signature": "ff0d7d82201da0c699eb40ec08cfabcfa8dee476c39193346babc1eb92099480",
- "model_signature": "aa221b46014f544e499818ceee0d7fb3d9e414e665aa97c4e2b5e2de6a2ac7f7",
+ "config_signature": "33828f8c9df70fb54486e23805038fd2cb12c0f7961e687eeae6051e40240bbd",
+ "model_signature": "566d90259fe83984c72b1d7c11ac497bfec4f210130bd9fe8a4a2b6693fbc941",
  "bones": {
   "pelvis": {
    "parent": null,
@@ -1062,19 +1062,6 @@
    ],
    "dofs": [
     {
-     "name": "flexion",
-     "axis": [
-      -1.0,
-      -0.0,
-      -0.0
-     ],
-     "axis_local": "x",
-     "axis_sign": -1,
-     "min_deg": 0.0,
-     "max_deg": 145.0,
-     "positive_motion": "anterior"
-    },
-    {
      "name": "pronation",
      "axis": [
       0.0,
@@ -1086,6 +1073,19 @@
      "min_deg": -90.0,
      "max_deg": 90.0,
      "positive_motion": "axial"
+    },
+    {
+     "name": "flexion",
+     "axis": [
+      -1.0,
+      -0.0,
+      -0.0
+     ],
+     "axis_local": "x",
+     "axis_sign": -1,
+     "min_deg": 0.0,
+     "max_deg": 145.0,
+     "positive_motion": "anterior"
     }
    ]
   },
@@ -1099,19 +1099,6 @@
    ],
    "dofs": [
     {
-     "name": "flexion",
-     "axis": [
-      -1.0,
-      0.0,
-      0.0
-     ],
-     "axis_local": "x",
-     "axis_sign": -1,
-     "min_deg": 0.0,
-     "max_deg": 145.0,
-     "positive_motion": "anterior"
-    },
-    {
      "name": "pronation",
      "axis": [
       0.0,
@@ -1123,6 +1110,19 @@
      "min_deg": -90.0,
      "max_deg": 90.0,
      "positive_motion": "axial"
+    },
+    {
+     "name": "flexion",
+     "axis": [
+      -1.0,
+      0.0,
+      0.0
+     ],
+     "axis_local": "x",
+     "axis_sign": -1,
+     "min_deg": 0.0,
+     "max_deg": 145.0,
+     "positive_motion": "anterior"
     }
    ]
   },

@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
   "name": "A-pose",
-  "description": "Pose A aplicada SOBRE el esqueleto neutro (no cambia pivotes ni longitudes). Cada entrada es articulacion -> {dof: grados}, medidos desde el neutro y dentro de los limites de joints.json. Una clave sin lado (p. ej. 'shoulder') se aplica a los dos lados con el mismo movimiento anatomico; 'shoulder.L' / 'shoulder.R' sustituyen solo ese lado. Valores INICIALES configurables. hip.abduction = 3 grados es PROVISIONAL (separacion de tobillos y apoyo se validan: ver README). ankle.inversion = -3 compensa la abduccion de cadera para que el pie quede plano: ambos giros son sobre el mismo eje (el eje largo del pie), asi que se suman exactamente; si cambias hip.abduction cambia tambien ankle.inversion al valor opuesto (el validador falla si el pie queda inclinado mas de 1 grado). La pose se apoya en el suelo moviendo la raiz en vertical (root_translation calculado).",
+  "description": "Pose A aplicada SOBRE el esqueleto neutro (no cambia pivotes ni longitudes). Cada entrada es articulacion -> {dof: grados}, medidos desde el neutro y dentro de los limites de joints.json. Una clave sin lado (p. ej. 'shoulder') se aplica a los dos lados con el mismo movimiento anatomico; 'shoulder.L' / 'shoulder.R' sustituyen solo ese lado. Valores INICIALES configurables. elbow.pronation = 70 deja la palma medial y algo hacia delante (brazo relajado en A). hip.abduction = 3 grados es PROVISIONAL (separacion de tobillos y apoyo se validan: ver README). ankle.inversion = -3 compensa la abduccion de cadera para que el pie quede plano: ambos giros son sobre el mismo eje (el eje largo del pie), asi que se suman exactamente; si cambias hip.abduction cambia tambien ankle.inversion al valor opuesto (el validador falla si el pie queda inclinado mas de 1 grado). La pose se apoya en el suelo moviendo la raiz en vertical (root_translation calculado).",
   "rotations_deg": {
     "shoulder": {"abduction": 40.0},
-    "elbow":    {"flexion": 12.0},
+    "elbow":    {"flexion": 12.0, "pronation": 70.0},
     "wrist":    {"flexion": 6.0},
     "hip":      {"abduction": 3.0},
     "ankle":    {"inversion": -3.0}

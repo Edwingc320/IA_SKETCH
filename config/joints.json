@@ -38,8 +38,8 @@
       {"name": "axial",     "axis": "y", "sign": 1,  "min_deg": -90, "max_deg": 90,  "positive_motion": "axial",    "description": "rotacion axial del humero"}
     ]},
     {"name": "elbow", "bone": "forearm", "mirror": true, "dofs": [
-      {"name": "flexion",   "axis": "x", "sign": -1, "min_deg": 0,   "max_deg": 145, "positive_motion": "anterior", "description": "flexion del codo (+, mano hacia delante/arriba); 0 = brazo extendido"},
-      {"name": "pronation", "axis": "y", "sign": 1,  "min_deg": -90, "max_deg": 90,  "positive_motion": "axial",    "description": "pronacion/supinacion (signo segun regla de la mano derecha)"}
+      {"name": "pronation", "axis": "y", "sign": 1,  "min_deg": -90, "max_deg": 90,  "positive_motion": "axial",    "description": "pronacion/supinacion (signo segun regla de la mano derecha); va PRIMERO para girar sobre el eje real del antebrazo antes de flexionar el codo"},
+      {"name": "flexion",   "axis": "x", "sign": -1, "min_deg": 0,   "max_deg": 145, "positive_motion": "anterior", "description": "flexion del codo (+, mano hacia delante/arriba); 0 = brazo extendido"}
     ]},
     {"name": "wrist", "bone": "hand", "mirror": true, "dofs": [
       {"name": "flexion",   "axis": "x", "sign": -1, "min_deg": -60, "max_deg": 70, "positive_motion": "anterior", "description": "flexion/extension de la muneca"},
