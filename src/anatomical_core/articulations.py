@@ -17,6 +17,7 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
+from . import volumes
 from .anatomy import AnatomyModel, PointSpec, _eval, _point_spec, _swap_side, point_segment_distance, point_triangle_distance
 from .config import PROJECT_ROOT, ConfigError, _read_json
 from .geometry import Vec3, mirror_point
@@ -191,4 +192,28 @@ def bone_distance(p: Vec3, bone: str, base: SkeletonModel, anat: AnatomyModel) -
     cartilage = getattr(b, "cartilage", ())  # el cartilago costal forma parte de la costilla
     if cartilage:
         d = min([d] + [point_segment_distance(p, a, c) for a, c in zip(cartilage, cartilage[1:])])
+    if getattr(b, "volume", None):  # forma volumetrica (craneo): dentro de ella el punto esta en el hueso; fuera, a la distancia de su superficie
+        verts, faces, tris = _volume_of(b)
+        if volumes.point_inside(p, verts, faces):
+            return 0.0
+        for a, b2, c, lo, hi in tris:  # cota por caja envolvente: solo se calcula el triangulo si puede mejorar la distancia
+            gap = max(max(lo[i] - p[i], p[i] - hi[i], 0.0) ** 2 for i in range(3)) ** 0.5
+            if gap < d:
+                d = min(d, point_triangle_distance(p, a, b2, c))
     return d
+
+
+_VOLUME_CACHE: dict = {}
+
+
+def _volume_of(b) -> tuple:
+    key = (b.name, b.head, b.tail, b.outline, tuple(sorted(b.volume.items())))
+    if key not in _VOLUME_CACHE:
+        verts, faces = volumes.volume_mesh(b)
+        tris = []
+        for f in faces:
+            for i in range(1, len(f) - 1):
+                a, b2, c = verts[f[0]], verts[f[i]], verts[f[i + 1]]
+                tris.append((a, b2, c, tuple(min(a[k], b2[k], c[k]) for k in range(3)), tuple(max(a[k], b2[k], c[k]) for k in range(3))))
+        _VOLUME_CACHE[key] = (verts, faces, tris)
+    return _VOLUME_CACHE[key]

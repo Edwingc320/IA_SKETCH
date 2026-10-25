@@ -125,6 +125,32 @@ def bounding_box(verts: list) -> tuple:
     return tuple(min(v[i] for v in verts) for i in range(3)), tuple(max(v[i] for v in verts) for i in range(3))
 
 
+def point_inside(p: Vec3, verts: list, faces: list) -> bool:
+    """True si el punto esta dentro de la malla cerrada (paridad de un rayo en una direccion oblicua; Moller-Trumbore sobre triangulos)."""
+    d = (0.3162, 0.5692, 0.7582)  # direccion oblicua: no coincide con aristas alineadas con los ejes
+    hits = 0
+    for f in faces:
+        for i in range(1, len(f) - 1):
+            a, b, c = verts[f[0]], verts[f[i]], verts[f[i + 1]]
+            e1 = (b[0] - a[0], b[1] - a[1], b[2] - a[2])
+            e2 = (c[0] - a[0], c[1] - a[1], c[2] - a[2])
+            h = (d[1] * e2[2] - d[2] * e2[1], d[2] * e2[0] - d[0] * e2[2], d[0] * e2[1] - d[1] * e2[0])
+            det = e1[0] * h[0] + e1[1] * h[1] + e1[2] * h[2]
+            if abs(det) < 1e-18:
+                continue
+            s = (p[0] - a[0], p[1] - a[1], p[2] - a[2])
+            u = (s[0] * h[0] + s[1] * h[1] + s[2] * h[2]) / det
+            if u < 0.0 or u > 1.0:
+                continue
+            q = (s[1] * e1[2] - s[2] * e1[1], s[2] * e1[0] - s[0] * e1[2], s[0] * e1[1] - s[1] * e1[0])
+            v = (d[0] * q[0] + d[1] * q[1] + d[2] * q[2]) / det
+            if v < 0.0 or u + v > 1.0:
+                continue
+            if (e2[0] * q[0] + e2[1] * q[1] + e2[2] * q[2]) / det > 1e-12:
+                hits += 1
+    return hits % 2 == 1
+
+
 def volume_mesh(bone) -> tuple:
     """Malla de la forma volumetrica de un AnatomyBone (None si el hueso no declara `volume`)."""
     if not bone.volume:

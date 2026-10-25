@@ -86,6 +86,31 @@ class TestCraniumVolume(unittest.TestCase):
         self.assertEqual([n for n, b in self.anat.bones.items() if b.volume], ["cranium"])
 
 
+class TestVolumeAwareBoneDistance(unittest.TestCase):
+    """El craneo tiene volumen: un punto dentro de la boveda esta sobre el hueso y uno fuera se mide hasta su superficie."""
+
+    def test_point_inside_on_a_unit_cube(self):
+        v = [(x, y, z) for x in (0.0, 1.0) for y in (0.0, 1.0) for z in (0.0, 1.0)]
+        f = [(0, 1, 3, 2), (4, 6, 7, 5), (0, 4, 5, 1), (2, 3, 7, 6), (0, 2, 6, 4), (1, 5, 7, 3)]
+        self.assertTrue(volumes.point_inside((0.5, 0.5, 0.5), v, f))
+        self.assertTrue(volumes.point_inside((0.1, 0.9, 0.2), v, f))
+        self.assertFalse(volumes.point_inside((1.5, 0.5, 0.5), v, f))
+        self.assertFalse(volumes.point_inside((0.5, -0.2, 0.5), v, f))
+
+    def test_cranial_landmarks_are_on_the_skull_volume(self):
+        base, anat, art = build_all()
+        tol = 0.012
+        c = anat.bones["cranium"]
+        lo, hi = volumes.bounding_box(volumes.volume_mesh(c)[0])
+        center = tuple((a + b) / 2 for a, b in zip(lo, hi))
+        self.assertEqual(articulations.bone_distance(center, "cranium", base, anat), 0.0)  # dentro de la boveda
+        out = (hi[0] + 0.03, center[1], center[2])
+        self.assertTrue(0.025 < articulations.bone_distance(out, "cranium", base, anat) < 0.035)  # 3 cm fuera de la superficie lateral
+        for n in ("porion", "orbitale", "zygomatic_arch", "temporal_fossa", "mastoid_process"):
+            a = art.attachments[f"{n}.L"]
+            self.assertLess(articulations.bone_distance(a.point, "cranium", base, anat), 0.018, n)  # los de antes estaban a 30-66 mm
+
+
 class TestCostalClosure(unittest.TestCase):
     def setUp(self):
         self.base, self.anat, _ = build_all()
