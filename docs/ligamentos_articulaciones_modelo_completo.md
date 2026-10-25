@@ -42,6 +42,19 @@ Cambios de huesos para que los puntos queden sobre el hueso: la escápula añade
 
 Las inserciones concretas se apoyan en fuentes de fiabilidad media y baja: cada nota dice **verificar en un atlas**.
 
+## 4. Mano y pie — `config/articulations/hand_foot_ligaments.json`
+
+| Zona | Ligamentos | Fuentes |
+|---|---|---|
+| Mano | carpometacarpianos 2–5 (dorsal y palmar; el estudio cadavérico halló varios por metacarpiano y solo uno intraarticular, aquí se modela uno por cara) y transversos profundos del metacarpo (2–3, 3–4, 4–5) | [PubMed](https://pubmed.ncbi.nlm.nih.gov/11721245), [Taylor & Francis](https://taylorandfrancis.com/knowledge/Medicine_and_healthcare/Anatomy/Deep_transverse_metacarpal_ligament) |
+| Tarso | cuneonavicular (dorsal y plantar por cada cuneiforme; las fuentes discrepan en si existe uno interóseo), y **tres articulaciones nuevas** con ligamentos dorsal, interóseo y plantar: intercuneiforme 1–2, intercuneiforme 2–3 y cuneocuboidea | [WikiMSK](https://wikiMSK.org/wiki/Intertarsal_and_Tarsometatarsal_Joints), [Radiopaedia](https://radiopaedia.org/articles/cuneonavicular-joint) y tarjetas de estudio (baja) |
+| Metatarso | tarsometatarsianos 1–5 (dorsal y plantar) y transversos profundos del metatarso (1–2 … 4–5) | WikiMSK, Radiopaedia |
+| Dedos del pie | colateral y placa plantar en las cinco MTF, la IF del primer dedo y las IFP e IFD de los dedos 2–5 (28 por lado) | **sin fuente propia: por analogía con la mano, marcados «verificar en un atlas»** |
+
+## Estado final de la cobertura
+
+Las **265 articulaciones** (213 anteriores, 46 cigapofisarias y 6 del tarso) tienen ligamentos, **salvo la escapulotorácica** (músculos y fascia), y una prueba lo exige. El modelo óseo suma **620 ligamentos**.
+
 ## Deuda de anclaje
 
 Quedan **72 anclajes antiguos** a más de 12 mm de su hueso (cráneo lateral, costillas–vértebra, codo, muñeca, rodilla, tobillo…). Están fijados en `tests/test_anchor_debt.py`: la lista solo puede disminuir.
