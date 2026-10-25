@@ -13,9 +13,9 @@ Motor reproducible y configurable de esqueleto humano 3D en **Blender 5.0.1** (P
 - Congelar la base tras un cambio deliberado: `py scripts\freeze_base.py --update` y revisar el diff de `tests/golden/base_skeleton.json`.
 
 ## Estado (2026-10-25)
-- `main`: modelo óseo. 258 pruebas en verde (Blender). 213 articulaciones naturales, 179 ligamentos, 156 hitos óseos, 104 fuentes.
-- `muscle-model`: `main` + glúteos (mayor, mediano, menor). 267 pruebas.
-- Remoto: `origin` = https://github.com/edwingalcol320-blip/AI_SKETCH.git
+- `main`: modelo óseo. 292 pruebas en verde (Blender). 265 articulaciones naturales, 620 ligamentos, 156 hitos óseos, 124 fuentes. Todas las articulaciones tienen ligamentos salvo la escapulotorácica.
+- `muscle-model`: `main` + glúteos (mayor, mediano, menor) + capa de tendones (80 unidades músculo-tendinosas por lado, todo el cuerpo). 310 pruebas.
+- Remoto: `origin` = https://github.com/edwingalcol320-blip/AI_SKETCH.git configurado, **pero el push falla con «Repository not found»** (2026-10-25): el repositorio no existe todavía en GitHub o es privado y la sesión no tiene credenciales. Hay que crearlo vacío (sin README) en la cuenta `edwingalcol320-blip` o autenticarse, y luego `git push -u origin main` y `git push -u origin muscle-model`.
 
 ## Decisiones tomadas (cronológico)
 1. **Base v2**: pelvis inclinada 15,5°, cuello/cabeza repartidos y clavícula del manubrio al acromion (cerró huecos esternoclavicular, acromioclavicular y costoclavicular). Golden actualizado a propósito.
@@ -28,6 +28,11 @@ Motor reproducible y configurable de esqueleto humano 3D en **Blender 5.0.1** (P
 8. **Cráneo con volumen** (bóveda paramétrica, índice cefálico 0,78), **cartílago costal** como trayecto propio (verdaderas al esternón, falsas al cartílago superior, flotantes libres), **anillo pélvico cerrado** y extremos libres con hito definido.
 9. **Pelvis posterior**: cara auricular del ilion sobre el borde lateral del sacro; sacrotuberoso y sacroespinoso nacen en el borde lateral del sacro; la espina isquiática se modela como parte del isquion.
 10. `bone_distance` cuenta también la cara de los contornos cerrados (láminas como el ilion).
+11. **Ligamentos de todo el modelo** (2026-10-25): una prueba exige que toda articulación tenga ligamentos salvo la escapulotorácica (músculos y fascia). Secciones: columna (23 niveles ×5 ligamentos + cigapofisarias), tórax y hombro, suelo pélvico, mano y pie (con intercuneiformes 1-2 y 2-3 y cuneocuboidea nuevas). Los dedos del pie y varios ligamentos van por analogía con la mano o con fuentes débiles: «verificar».
+12. **Regla de 12 mm con trinquete**: todo anclaje nuevo queda a < 12 mm de su hueso; los antiguos que no cumplen están fijados en `tests/test_anchor_debt.py` (solo puede disminuir; 61 al cierre). La distancia al hueso cuenta la cara de las láminas cerradas y el **volumen del cráneo** (dentro de la bóveda = sobre el hueso).
+13. **Vértebras y huesos largos sin anchura**: los puntos se colocan a 8-11 mm del eje, en el orden anatómico correcto, no sobre la apófisis real (documentado en cada nota).
+14. **Capa de tendones (`muscle-model`)**: unidad músculo-tendinosa = línea origen → vías óseas → inserción; la longitud del tendón es una **convención visual** declarada (corto 10 %, medio 25 %, largo 45 %), no una medida. Los músculos sin fuente consultada quedan «verificar en un atlas».
+
 
 ## Lecciones técnicas
 - Los heredoc largos de Bash fallan: usar la herramienta de escritura de archivos para scripts largos; las barras invertidas se pierden al pasar scripts por la entrada estándar (usar `chr(92)`).
@@ -41,3 +46,11 @@ Motor reproducible y configurable de esqueleto humano 3D en **Blender 5.0.1** (P
 - Protracción esternoclavicular del modelo (45° en total) por encima de los 35° publicados; extensión de muñeca (60°) por debajo de la publicada (66–70°). Cambiarlas exige actualizar el golden.
 - Capa de poses del Nivel 1 (FK genérica, reparto del movimiento, ATM e intervertebrales): viable, no construida.
 - Perfiles por edad (`config/profiles/<perfil>/`).
+- Un script que reescribe un trozo de código con `rindex` puede borrar lo que sigue (pasó con las constantes de `validation.py`): comprobar siempre el diff.
+- Los nombres de ligamentos y de articulaciones comparten espacio de nombres (error «Nombre de unión duplicado»).
+- Una prueba que "pasa a la primera" no basta: mutar el dato para ver que falla (una vez reveló código muerto y otra una comparación laxa).
+
+## Pendiente añadido (2026-10-25)
+- Crear el repositorio en GitHub o autenticar, y hacer `git push` de `main` y `muscle-model`.
+- Verificar en un atlas los tendones sin fuente o con fuente débil, los ligamentos de los dedos del pie y los costotransversos.
+- Reducir los 61 anclajes antiguos de `test_anchor_debt.py` (costillas–vértebra, codo, muñeca, rodilla, tobillo).
