@@ -213,6 +213,8 @@ Regiones (orden aprobado):
 
 **Brazos y manos** (`docs\anatomia_brazos_manos.md`): húmero hijo de la escápula, radio y cúbito hijos del húmero, fila proximal del carpo hija del radio y el cúbito, fila distal de la proximal y falanges en cadenas exactas (30 huesos por lado); en pose A la palma queda medial y algo anterior (`elbow.pronation = 70°`; los dof del codo pasan a `[pronation, flexion]`, cambio deliberado de la base).
 
+**Avances por capa** (`docs\avances\00_indice.md`): un documento por capa (esqueleto, articulaciones, ligamentos, tendones, músculos y piel —aún no iniciada—) para consultar el estado de un vistazo; la plantilla para investigar una región es `docs\plantilla_investigacion_region.md`.
+
 **Ligamentos y articulaciones de todo el modelo** (`docs\ligamentos_articulaciones_modelo_completo.md`): ligamentos de todos los niveles de la columna, de las costillas, el esternón, el hombro, el suelo pélvico y los dedos, y las articulaciones cigapofisarias e intercuneiformes. Una prueba exige que toda articulación tenga ligamentos salvo la escapulotorácica. Los tendones son del modelo muscular (`muscle-model`).
 
 **Cráneo con volumen y cierres** (`docs\anatomia_cabeza_cuello.md`, `anatomia_torax_cintura_escapular.md`, `anatomia_lumbar_sacro_pelvis.md`): el cráneo es una bóveda redondeada paramétrica (ancho biparietal = índice cefálico × longitud, `volumes.py`); cada costilla 1–10 cierra con su cartílago (verdaderas en el esternón, falsas en el cartílago superior); el anillo pélvico es continuo (sacro, ilion, acetábulo, pubis, sínfisis) y todo extremo de hueso termina en otra estructura o en un hito definido (`test_closure.py`).

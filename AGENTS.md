@@ -33,4 +33,5 @@ Reglas para cualquier agente o desarrollador. **Regla principal: no se modifican
 2. Rama de trabajo `feat/<tema>` o `fix/<tema>` → pruebas en verde → commit → fusión por avance rápido → borrar la rama → `git push`.
 3. Los resultados regenerables (`output/`, `logs/`, `*.blend1`) no se versionan. `output/legacy/*.blend` no se toca.
 4. Responder en español e informar con honestidad: fallos, límites y lo no verificado se dicen tal cual.
-5. Acciones difíciles de revertir o de cara al exterior (push, borrar ramas con trabajo único) solo con autorización explícita.
+5. Al cerrar cada sesión se **agrega** una línea de avance en `docs/avances/` (capa afectada, fecha, qué cambió y qué queda pendiente); el índice es `docs/avances/00_indice.md`.
+6. Acciones difíciles de revertir o de cara al exterior (push, borrar ramas con trabajo único) solo con autorización explícita.
