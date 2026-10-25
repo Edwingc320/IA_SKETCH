@@ -1,0 +1,1779 @@
+{
+ "schema_version": 2,
+ "region": "tendons_upper_limb",
+ "description": "Unidades musculo-tendinosas (hombro, brazo, antebrazo y mano): linea origen -> vias oseas -> insercion con sus extremos tendinosos. Modelo muscular (rama muscle-model). Coordenadas: +X izquierda, +Y atras (anterior = -Y), +Z arriba.",
+ "tendon_classes": {
+  "corto": 0.1,
+  "medio": 0.25,
+  "largo": 0.45
+ },
+ "tendon_length_note": "La longitud del tendon es una CONVENCION VISUAL (fraccion de la unidad: corto 10 %, medio 25 %, largo 45 %), no una medida.",
+ "sources": {
+  "semmelweis_forearm": {
+   "url": "https://semmelweis.hu/anatomia/files/2021/09/20211014_DrKatz_en.pdf",
+   "reliability": "alta",
+   "title": "Universidad Semmelweis - apuntes de anatomia (musculos del antebrazo)"
+  },
+  "pearson_forearm": {
+   "url": "https://www.pearson.com/channels/anp/study-guides/muscles-of-the-forearm-origins-insertions-and",
+   "reliability": "media",
+   "title": "Pearson - Muscles of the forearm: origins and insertions"
+  },
+  "gmch_extensors": {
+   "url": "https://www.gmch.gov.in/sites/default/files/documents/Extensor%20compartment%20of%20forearmphysio.pdf",
+   "reliability": "media",
+   "title": "GMCH - Extensor compartment of forearm (apuntes)"
+  },
+  "brainscape_arm": {
+   "url": "https://brainscape.com/flashcards/arm-and-forearm-muscles-11925622/packs/20846031",
+   "reliability": "baja",
+   "title": "Tarjetas de estudio - musculos del brazo y antebrazo (VERIFICAR en un atlas)"
+  },
+  "wiki_greater_tubercle": {
+   "url": "https://en.wikipedia.org/wiki/Greater_tubercle",
+   "reliability": "media",
+   "title": "Wikipedia - Greater tubercle (facetas: supraespinoso arriba, infraespinoso en medio, redondo menor abajo)"
+  }
+ },
+ "tendons": [
+  {
+   "name": "supraspinatus.L",
+   "mirror": true,
+   "muscles": [
+    "supraespinoso"
+   ],
+   "origin": {
+    "landmark": "supraspinous_fossa.L",
+    "structure": "fosa supraespinosa"
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "greater_tubercle.L",
+    "structure": "tuberculo mayor (faceta superior)"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "sources": [
+    "wiki_greater_tubercle"
+   ],
+   "notes": "Manguito rotador. Verificar en un atlas."
+  },
+  {
+   "name": "infraspinatus.L",
+   "mirror": true,
+   "muscles": [
+    "infraespinoso"
+   ],
+   "origin": {
+    "landmark": "infraspinous_fossa.L",
+    "structure": "fosa infraespinosa"
+   },
+   "via": [],
+   "insertion": {
+    "bone": "humerus.L",
+    "point": {
+     "lerp": [
+      "humerus.L.head",
+      "humerus.L.tail",
+      0.04
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "tuberculo mayor (faceta media)",
+    "offset_h": [
+     0.006285714285714285,
+     0.002285714285714286,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "sources": [
+    "wiki_greater_tubercle"
+   ],
+   "notes": "Manguito rotador. Verificar en un atlas."
+  },
+  {
+   "name": "teres_minor.L",
+   "mirror": true,
+   "muscles": [
+    "redondo menor"
+   ],
+   "origin": {
+    "landmark": "lateral_border.L",
+    "structure": "borde lateral de la escapula"
+   },
+   "via": [],
+   "insertion": {
+    "bone": "humerus.L",
+    "point": {
+     "lerp": [
+      "humerus.L.head",
+      "humerus.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "tuberculo mayor (faceta inferior)",
+    "offset_h": [
+     0.005714285714285714,
+     0.002857142857142857,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "sources": [
+    "wiki_greater_tubercle"
+   ],
+   "notes": "Manguito rotador. Verificar en un atlas."
+  },
+  {
+   "name": "subscapularis.L",
+   "mirror": true,
+   "muscles": [
+    "subescapular"
+   ],
+   "origin": {
+    "landmark": "subscapular_fossa.L",
+    "structure": "fosa subescapular"
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "lesser_tubercle.L",
+    "structure": "tuberculo menor"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "sources": [
+    "wiki_greater_tubercle"
+   ],
+   "notes": "Manguito rotador: su insercion es el tuberculo menor. Verificar en un atlas."
+  },
+  {
+   "name": "deltoid_acromial.L",
+   "mirror": true,
+   "muscles": [
+    "deltoides (fibras medias)"
+   ],
+   "origin": {
+    "landmark": "acromion.L",
+    "structure": "acromion"
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "deltoid_tuberosity.L",
+    "structure": "tuberosidad deltoidea"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "sources": [],
+   "notes": "Sin fuente consultada. Verificar en un atlas."
+  },
+  {
+   "name": "deltoid_clavicular.L",
+   "mirror": true,
+   "muscles": [
+    "deltoides (fibras anteriores)"
+   ],
+   "origin": {
+    "landmark": "clavicle_lateral_third.L",
+    "structure": "tercio lateral de la clavicula"
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "deltoid_tuberosity.L",
+    "structure": "tuberosidad deltoidea"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "sources": [],
+   "notes": "Sin fuente consultada. Verificar en un atlas."
+  },
+  {
+   "name": "deltoid_spinal.L",
+   "mirror": true,
+   "muscles": [
+    "deltoides (fibras posteriores)"
+   ],
+   "origin": {
+    "landmark": "scapular_spine.L",
+    "structure": "espina de la escapula"
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "deltoid_tuberosity.L",
+    "structure": "tuberosidad deltoidea"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "sources": [],
+   "notes": "Sin fuente consultada. Verificar en un atlas."
+  },
+  {
+   "name": "biceps_long_head.L",
+   "mirror": true,
+   "muscles": [
+    "biceps braquial (cabeza larga)"
+   ],
+   "origin": {
+    "landmark": "supraglenoid_tubercle.L",
+    "structure": "tuberculo supraglenoideo"
+   },
+   "via": [
+    {
+     "bone": "humerus.L",
+     "point": {
+      "lerp": [
+       "humerus.L.head",
+       "humerus.L.tail",
+       0.04
+      ],
+      "offset_h": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     "structure": "surco intertubercular (entre los tuberculos)",
+     "offset_h": [
+      0.002285714285714286,
+      -0.006285714285714285,
+      0.0
+     ]
+    }
+   ],
+   "insertion": {
+    "landmark": "radial_tuberosity.L",
+    "structure": "tuberosidad del radio"
+   },
+   "origin_tendon": "medio",
+   "insertion_tendon": "medio",
+   "sources": [],
+   "notes": "El tendon de la cabeza larga recorre el surco intertubercular. Sin fuente consultada. Verificar en un atlas."
+  },
+  {
+   "name": "biceps_short_head.L",
+   "mirror": true,
+   "muscles": [
+    "biceps braquial (cabeza corta)"
+   ],
+   "origin": {
+    "landmark": "coracoid_process.L",
+    "structure": "apofisis coracoides"
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "radial_tuberosity.L",
+    "structure": "tuberosidad del radio"
+   },
+   "origin_tendon": "corto",
+   "insertion_tendon": "medio",
+   "sources": [],
+   "notes": "Sin fuente consultada. Verificar en un atlas."
+  },
+  {
+   "name": "coracobrachialis.L",
+   "mirror": true,
+   "muscles": [
+    "coracobraquial"
+   ],
+   "origin": {
+    "landmark": "coracoid_process.L",
+    "structure": "apofisis coracoides"
+   },
+   "via": [],
+   "insertion": {
+    "bone": "humerus.L",
+    "point": {
+     "lerp": [
+      "humerus.L.head",
+      "humerus.L.tail",
+      0.45
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cara medial del humero",
+    "offset_h": [
+     -0.006285714285714285,
+     0.0,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "sources": [],
+   "notes": "Sin fuente consultada. Verificar en un atlas."
+  },
+  {
+   "name": "triceps_long_head.L",
+   "mirror": true,
+   "muscles": [
+    "triceps braquial (cabeza larga)"
+   ],
+   "origin": {
+    "landmark": "infraglenoid_tubercle.L",
+    "structure": "tuberculo infraglenoideo"
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "olecranon.L",
+    "structure": "olecranon"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "medio",
+   "sources": [],
+   "notes": "Sin fuente consultada. Verificar en un atlas."
+  },
+  {
+   "name": "triceps_humeral.L",
+   "mirror": true,
+   "muscles": [
+    "triceps braquial (cabezas lateral y medial)"
+   ],
+   "origin": {
+    "bone": "humerus.L",
+    "point": {
+     "lerp": [
+      "humerus.L.head",
+      "humerus.L.tail",
+      0.45
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cara posterior del humero",
+    "offset_h": [
+     0.0,
+     0.006285714285714285,
+     0.0
+    ]
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "olecranon.L",
+    "structure": "olecranon"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "medio",
+   "sources": [],
+   "notes": "Sin fuente consultada. Verificar en un atlas."
+  },
+  {
+   "name": "brachialis.L",
+   "mirror": true,
+   "muscles": [
+    "braquial"
+   ],
+   "origin": {
+    "bone": "humerus.L",
+    "point": {
+     "lerp": [
+      "humerus.L.head",
+      "humerus.L.tail",
+      0.65
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cara anterior del humero",
+    "offset_h": [
+     0.0,
+     -0.006285714285714285,
+     0.0
+    ]
+   },
+   "via": [],
+   "insertion": {
+    "bone": "ulna.L",
+    "point": {
+     "lerp": [
+      "ulna.L.head",
+      "ulna.L.tail",
+      0.06
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "apofisis coronoides del cubito (tuberosidad del cubito; a 10 mm del eje)",
+    "offset_h": [
+     0.0,
+     -0.005714285714285714,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "sources": [],
+   "notes": "Sin fuente consultada. Verificar en un atlas."
+  },
+  {
+   "name": "brachioradialis.L",
+   "mirror": true,
+   "muscles": [
+    "braquiorradial"
+   ],
+   "origin": {
+    "bone": "humerus.L",
+    "point": {
+     "lerp": [
+      "humerus.L.head",
+      "humerus.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cresta supracondilea lateral",
+    "offset_h": [
+     0.006285714285714285,
+     0.0,
+     0.0
+    ]
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "radial_styloid.L",
+    "structure": "estiloides radial"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "medio",
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": "Semmelweis y Pearson lo describen sin concretar la cresta. Verificar en un atlas."
+  },
+  {
+   "name": "pronator_teres.L",
+   "mirror": true,
+   "muscles": [
+    "pronador redondo"
+   ],
+   "origin": {
+    "landmark": "medial_epicondyle.L",
+    "structure": "epicondilo medial"
+   },
+   "via": [],
+   "insertion": {
+    "bone": "radius.L",
+    "point": {
+     "lerp": [
+      "radius.L.head",
+      "radius.L.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cara lateral del radio",
+    "offset_h": [
+     0.004571428571428572,
+     0.0,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "flexor_carpi_radialis.L",
+   "mirror": true,
+   "muscles": [
+    "flexor radial del carpo"
+   ],
+   "origin": {
+    "landmark": "medial_epicondyle.L",
+    "structure": "epicondilo medial"
+   },
+   "via": [
+    {
+     "landmark": "trapezium_tubercle.L",
+     "structure": "tuberculo del trapecio (canal del trapecio)"
+    }
+   ],
+   "insertion": {
+    "bone": "metacarpal_2.L",
+    "point": {
+     "lerp": [
+      "metacarpal_2.L.head",
+      "metacarpal_2.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "base del 2.o metacarpiano (cara palmar)",
+    "offset_h": [
+     0.0,
+     -0.003428571428571429,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "flexor_carpi_ulnaris.L",
+   "mirror": true,
+   "muscles": [
+    "flexor cubital del carpo"
+   ],
+   "origin": {
+    "landmark": "medial_epicondyle.L",
+    "structure": "epicondilo medial"
+   },
+   "via": [],
+   "insertion": {
+    "bone": "pisiform.L",
+    "point": {
+     "lerp": [
+      "pisiform.L.head",
+      "pisiform.L.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "pisiforme (sesamoideo de este tendon)",
+    "offset_h": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "flexor_pollicis_longus.L",
+   "mirror": true,
+   "muscles": [
+    "flexor largo del pulgar"
+   ],
+   "origin": {
+    "bone": "radius.L",
+    "point": {
+     "lerp": [
+      "radius.L.head",
+      "radius.L.tail",
+      0.4
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cara anterior del radio",
+    "offset_h": [
+     0.0,
+     -0.004571428571428572,
+     0.0
+    ]
+   },
+   "via": [
+    {
+     "landmark": "scaphoid_tubercle.L",
+     "structure": "tuberculo del escafoides (tunel carpiano)"
+    }
+   ],
+   "insertion": {
+    "bone": "thumb_distal.L",
+    "point": {
+     "lerp": [
+      "thumb_distal.L.head",
+      "thumb_distal.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "base de la falange distal del pulgar (palmar)",
+    "offset_h": [
+     0.0,
+     -0.003428571428571429,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "abductor_pollicis_longus.L",
+   "mirror": true,
+   "muscles": [
+    "abductor largo del pulgar"
+   ],
+   "origin": {
+    "bone": "radius.L",
+    "point": {
+     "lerp": [
+      "radius.L.head",
+      "radius.L.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cara posterior del radio",
+    "offset_h": [
+     0.0,
+     0.005714285714285714,
+     0.0
+    ]
+   },
+   "via": [],
+   "insertion": {
+    "bone": "metacarpal_1.L",
+    "point": {
+     "lerp": [
+      "metacarpal_1.L.head",
+      "metacarpal_1.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "base del 1.er metacarpiano",
+    "offset_h": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "gmch_extensors",
+    "brainscape_arm"
+   ],
+   "notes": " Verificar en un atlas."
+  },
+  {
+   "name": "extensor_pollicis_brevis.L",
+   "mirror": true,
+   "muscles": [
+    "extensor corto del pulgar"
+   ],
+   "origin": {
+    "bone": "radius.L",
+    "point": {
+     "lerp": [
+      "radius.L.head",
+      "radius.L.tail",
+      0.55
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cara posterior del radio",
+    "offset_h": [
+     0.0,
+     0.005714285714285714,
+     0.0
+    ]
+   },
+   "via": [],
+   "insertion": {
+    "bone": "thumb_proximal.L",
+    "point": {
+     "lerp": [
+      "thumb_proximal.L.head",
+      "thumb_proximal.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "base de la falange proximal del pulgar (dorsal)",
+    "offset_h": [
+     0.0,
+     0.003428571428571429,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "gmch_extensors",
+    "brainscape_arm"
+   ],
+   "notes": " Verificar en un atlas."
+  },
+  {
+   "name": "extensor_pollicis_longus.L",
+   "mirror": true,
+   "muscles": [
+    "extensor largo del pulgar"
+   ],
+   "origin": {
+    "bone": "ulna.L",
+    "point": {
+     "lerp": [
+      "ulna.L.head",
+      "ulna.L.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cara posterior del cubito",
+    "offset_h": [
+     0.0,
+     0.005714285714285714,
+     0.0
+    ]
+   },
+   "via": [],
+   "insertion": {
+    "bone": "thumb_distal.L",
+    "point": {
+     "lerp": [
+      "thumb_distal.L.head",
+      "thumb_distal.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "base de la falange distal del pulgar (dorsal)",
+    "offset_h": [
+     0.0,
+     0.003428571428571429,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "gmch_extensors",
+    "brainscape_arm"
+   ],
+   "notes": " Verificar en un atlas."
+  },
+  {
+   "name": "extensor_carpi_radialis_longus.L",
+   "mirror": true,
+   "muscles": [
+    "extensor radial largo del carpo"
+   ],
+   "origin": {
+    "bone": "humerus.L",
+    "point": {
+     "lerp": [
+      "humerus.L.head",
+      "humerus.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cresta supracondilea lateral",
+    "offset_h": [
+     0.006285714285714285,
+     0.0,
+     0.0
+    ]
+   },
+   "via": [],
+   "insertion": {
+    "bone": "metacarpal_2.L",
+    "point": {
+     "lerp": [
+      "metacarpal_2.L.head",
+      "metacarpal_2.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "base del 2.o metacarpiano (dorsal)",
+    "offset_h": [
+     0.0,
+     0.003428571428571429,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "gmch_extensors",
+    "semmelweis_forearm"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "extensor_carpi_radialis_brevis.L",
+   "mirror": true,
+   "muscles": [
+    "extensor radial corto del carpo"
+   ],
+   "origin": {
+    "landmark": "lateral_epicondyle.L",
+    "structure": "epicondilo lateral"
+   },
+   "via": [],
+   "insertion": {
+    "bone": "metacarpal_3.L",
+    "point": {
+     "lerp": [
+      "metacarpal_3.L.head",
+      "metacarpal_3.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "base del 3.er metacarpiano (dorsal)",
+    "offset_h": [
+     0.0,
+     0.003428571428571429,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "gmch_extensors",
+    "semmelweis_forearm"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "extensor_carpi_ulnaris.L",
+   "mirror": true,
+   "muscles": [
+    "extensor cubital del carpo"
+   ],
+   "origin": {
+    "landmark": "lateral_epicondyle.L",
+    "structure": "epicondilo lateral"
+   },
+   "via": [],
+   "insertion": {
+    "bone": "metacarpal_5.L",
+    "point": {
+     "lerp": [
+      "metacarpal_5.L.head",
+      "metacarpal_5.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "base del 5.o metacarpiano (dorsal)",
+    "offset_h": [
+     0.0,
+     0.003428571428571429,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "gmch_extensors",
+    "semmelweis_forearm"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "flexor_digitorum_superficialis_index.L",
+   "mirror": true,
+   "muscles": [
+    "flexor superficial de los dedos (index)"
+   ],
+   "origin": {
+    "landmark": "medial_epicondyle.L",
+    "structure": "epicondilo medial"
+   },
+   "via": [
+    {
+     "bone": "capitate.L",
+     "point": {
+      "lerp": [
+       "capitate.L.head",
+       "capitate.L.tail",
+       0.5
+      ],
+      "offset_h": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     "structure": "tunel carpiano (cara palmar del hueso grande)",
+     "offset_h": [
+      0.0,
+      -0.004571428571428572,
+      0.0
+     ]
+    }
+   ],
+   "insertion": {
+    "bone": "index_middle.L",
+    "point": {
+     "lerp": [
+      "index_middle.L.head",
+      "index_middle.L.tail",
+      0.4
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "falange media del dedo index (palmar)",
+    "offset_h": [
+     0.0,
+     -0.003428571428571429,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "flexor_digitorum_profundus_index.L",
+   "mirror": true,
+   "muscles": [
+    "flexor profundo de los dedos (index)"
+   ],
+   "origin": {
+    "bone": "ulna.L",
+    "point": {
+     "lerp": [
+      "ulna.L.head",
+      "ulna.L.tail",
+      0.3
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cara anterior del cubito",
+    "offset_h": [
+     0.0,
+     -0.005714285714285714,
+     0.0
+    ]
+   },
+   "via": [
+    {
+     "bone": "capitate.L",
+     "point": {
+      "lerp": [
+       "capitate.L.head",
+       "capitate.L.tail",
+       0.5
+      ],
+      "offset_h": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     "structure": "tunel carpiano (cara palmar del hueso grande)",
+     "offset_h": [
+      0.0,
+      -0.004571428571428572,
+      0.0
+     ]
+    }
+   ],
+   "insertion": {
+    "bone": "index_distal.L",
+    "point": {
+     "lerp": [
+      "index_distal.L.head",
+      "index_distal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "base de la falange distal del dedo index (palmar)",
+    "offset_h": [
+     0.0,
+     -0.003428571428571429,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "extensor_digitorum_index.L",
+   "mirror": true,
+   "muscles": [
+    "extensor de los dedos (index)"
+   ],
+   "origin": {
+    "landmark": "lateral_epicondyle.L",
+    "structure": "epicondilo lateral"
+   },
+   "via": [
+    {
+     "bone": "radius.L",
+     "point": {
+      "lerp": [
+       "radius.L.head",
+       "radius.L.tail",
+       0.98
+      ],
+      "offset_h": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     "structure": "dorso de la muneca (extremo distal del radio)",
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   ],
+   "insertion": {
+    "bone": "index_distal.L",
+    "point": {
+     "lerp": [
+      "index_distal.L.head",
+      "index_distal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "falange distal del dedo index (dorsal, por el capuchon extensor)",
+    "offset_h": [
+     0.0,
+     0.003428571428571429,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "gmch_extensors",
+    "semmelweis_forearm"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "flexor_digitorum_superficialis_middle.L",
+   "mirror": true,
+   "muscles": [
+    "flexor superficial de los dedos (middle)"
+   ],
+   "origin": {
+    "landmark": "medial_epicondyle.L",
+    "structure": "epicondilo medial"
+   },
+   "via": [
+    {
+     "bone": "capitate.L",
+     "point": {
+      "lerp": [
+       "capitate.L.head",
+       "capitate.L.tail",
+       0.5
+      ],
+      "offset_h": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     "structure": "tunel carpiano (cara palmar del hueso grande)",
+     "offset_h": [
+      0.0,
+      -0.004571428571428572,
+      0.0
+     ]
+    }
+   ],
+   "insertion": {
+    "bone": "middle_middle.L",
+    "point": {
+     "lerp": [
+      "middle_middle.L.head",
+      "middle_middle.L.tail",
+      0.4
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "falange media del dedo middle (palmar)",
+    "offset_h": [
+     0.0,
+     -0.003428571428571429,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "flexor_digitorum_profundus_middle.L",
+   "mirror": true,
+   "muscles": [
+    "flexor profundo de los dedos (middle)"
+   ],
+   "origin": {
+    "bone": "ulna.L",
+    "point": {
+     "lerp": [
+      "ulna.L.head",
+      "ulna.L.tail",
+      0.3
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cara anterior del cubito",
+    "offset_h": [
+     0.0,
+     -0.005714285714285714,
+     0.0
+    ]
+   },
+   "via": [
+    {
+     "bone": "capitate.L",
+     "point": {
+      "lerp": [
+       "capitate.L.head",
+       "capitate.L.tail",
+       0.5
+      ],
+      "offset_h": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     "structure": "tunel carpiano (cara palmar del hueso grande)",
+     "offset_h": [
+      0.0,
+      -0.004571428571428572,
+      0.0
+     ]
+    }
+   ],
+   "insertion": {
+    "bone": "middle_distal.L",
+    "point": {
+     "lerp": [
+      "middle_distal.L.head",
+      "middle_distal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "base de la falange distal del dedo middle (palmar)",
+    "offset_h": [
+     0.0,
+     -0.003428571428571429,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "extensor_digitorum_middle.L",
+   "mirror": true,
+   "muscles": [
+    "extensor de los dedos (middle)"
+   ],
+   "origin": {
+    "landmark": "lateral_epicondyle.L",
+    "structure": "epicondilo lateral"
+   },
+   "via": [
+    {
+     "bone": "radius.L",
+     "point": {
+      "lerp": [
+       "radius.L.head",
+       "radius.L.tail",
+       0.98
+      ],
+      "offset_h": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     "structure": "dorso de la muneca (extremo distal del radio)",
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   ],
+   "insertion": {
+    "bone": "middle_distal.L",
+    "point": {
+     "lerp": [
+      "middle_distal.L.head",
+      "middle_distal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "falange distal del dedo middle (dorsal, por el capuchon extensor)",
+    "offset_h": [
+     0.0,
+     0.003428571428571429,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "gmch_extensors",
+    "semmelweis_forearm"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "flexor_digitorum_superficialis_ring.L",
+   "mirror": true,
+   "muscles": [
+    "flexor superficial de los dedos (ring)"
+   ],
+   "origin": {
+    "landmark": "medial_epicondyle.L",
+    "structure": "epicondilo medial"
+   },
+   "via": [
+    {
+     "bone": "capitate.L",
+     "point": {
+      "lerp": [
+       "capitate.L.head",
+       "capitate.L.tail",
+       0.5
+      ],
+      "offset_h": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     "structure": "tunel carpiano (cara palmar del hueso grande)",
+     "offset_h": [
+      0.0,
+      -0.004571428571428572,
+      0.0
+     ]
+    }
+   ],
+   "insertion": {
+    "bone": "ring_middle.L",
+    "point": {
+     "lerp": [
+      "ring_middle.L.head",
+      "ring_middle.L.tail",
+      0.4
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "falange media del dedo ring (palmar)",
+    "offset_h": [
+     0.0,
+     -0.003428571428571429,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "flexor_digitorum_profundus_ring.L",
+   "mirror": true,
+   "muscles": [
+    "flexor profundo de los dedos (ring)"
+   ],
+   "origin": {
+    "bone": "ulna.L",
+    "point": {
+     "lerp": [
+      "ulna.L.head",
+      "ulna.L.tail",
+      0.3
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cara anterior del cubito",
+    "offset_h": [
+     0.0,
+     -0.005714285714285714,
+     0.0
+    ]
+   },
+   "via": [
+    {
+     "bone": "capitate.L",
+     "point": {
+      "lerp": [
+       "capitate.L.head",
+       "capitate.L.tail",
+       0.5
+      ],
+      "offset_h": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     "structure": "tunel carpiano (cara palmar del hueso grande)",
+     "offset_h": [
+      0.0,
+      -0.004571428571428572,
+      0.0
+     ]
+    }
+   ],
+   "insertion": {
+    "bone": "ring_distal.L",
+    "point": {
+     "lerp": [
+      "ring_distal.L.head",
+      "ring_distal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "base de la falange distal del dedo ring (palmar)",
+    "offset_h": [
+     0.0,
+     -0.003428571428571429,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "extensor_digitorum_ring.L",
+   "mirror": true,
+   "muscles": [
+    "extensor de los dedos (ring)"
+   ],
+   "origin": {
+    "landmark": "lateral_epicondyle.L",
+    "structure": "epicondilo lateral"
+   },
+   "via": [
+    {
+     "bone": "radius.L",
+     "point": {
+      "lerp": [
+       "radius.L.head",
+       "radius.L.tail",
+       0.98
+      ],
+      "offset_h": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     "structure": "dorso de la muneca (extremo distal del radio)",
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   ],
+   "insertion": {
+    "bone": "ring_distal.L",
+    "point": {
+     "lerp": [
+      "ring_distal.L.head",
+      "ring_distal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "falange distal del dedo ring (dorsal, por el capuchon extensor)",
+    "offset_h": [
+     0.0,
+     0.003428571428571429,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "gmch_extensors",
+    "semmelweis_forearm"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "flexor_digitorum_superficialis_little.L",
+   "mirror": true,
+   "muscles": [
+    "flexor superficial de los dedos (little)"
+   ],
+   "origin": {
+    "landmark": "medial_epicondyle.L",
+    "structure": "epicondilo medial"
+   },
+   "via": [
+    {
+     "bone": "capitate.L",
+     "point": {
+      "lerp": [
+       "capitate.L.head",
+       "capitate.L.tail",
+       0.5
+      ],
+      "offset_h": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     "structure": "tunel carpiano (cara palmar del hueso grande)",
+     "offset_h": [
+      0.0,
+      -0.004571428571428572,
+      0.0
+     ]
+    }
+   ],
+   "insertion": {
+    "bone": "little_middle.L",
+    "point": {
+     "lerp": [
+      "little_middle.L.head",
+      "little_middle.L.tail",
+      0.4
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "falange media del dedo little (palmar)",
+    "offset_h": [
+     0.0,
+     -0.003428571428571429,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "flexor_digitorum_profundus_little.L",
+   "mirror": true,
+   "muscles": [
+    "flexor profundo de los dedos (little)"
+   ],
+   "origin": {
+    "bone": "ulna.L",
+    "point": {
+     "lerp": [
+      "ulna.L.head",
+      "ulna.L.tail",
+      0.3
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cara anterior del cubito",
+    "offset_h": [
+     0.0,
+     -0.005714285714285714,
+     0.0
+    ]
+   },
+   "via": [
+    {
+     "bone": "capitate.L",
+     "point": {
+      "lerp": [
+       "capitate.L.head",
+       "capitate.L.tail",
+       0.5
+      ],
+      "offset_h": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     "structure": "tunel carpiano (cara palmar del hueso grande)",
+     "offset_h": [
+      0.0,
+      -0.004571428571428572,
+      0.0
+     ]
+    }
+   ],
+   "insertion": {
+    "bone": "little_distal.L",
+    "point": {
+     "lerp": [
+      "little_distal.L.head",
+      "little_distal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "base de la falange distal del dedo little (palmar)",
+    "offset_h": [
+     0.0,
+     -0.003428571428571429,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "semmelweis_forearm",
+    "pearson_forearm"
+   ],
+   "notes": ""
+  },
+  {
+   "name": "extensor_digitorum_little.L",
+   "mirror": true,
+   "muscles": [
+    "extensor de los dedos (little)"
+   ],
+   "origin": {
+    "landmark": "lateral_epicondyle.L",
+    "structure": "epicondilo lateral"
+   },
+   "via": [
+    {
+     "bone": "radius.L",
+     "point": {
+      "lerp": [
+       "radius.L.head",
+       "radius.L.tail",
+       0.98
+      ],
+      "offset_h": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     "structure": "dorso de la muneca (extremo distal del radio)",
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   ],
+   "insertion": {
+    "bone": "little_distal.L",
+    "point": {
+     "lerp": [
+      "little_distal.L.head",
+      "little_distal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "falange distal del dedo little (dorsal, por el capuchon extensor)",
+    "offset_h": [
+     0.0,
+     0.003428571428571429,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "gmch_extensors",
+    "semmelweis_forearm"
+   ],
+   "notes": ""
+  }
+ ]
+}

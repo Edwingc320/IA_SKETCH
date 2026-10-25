@@ -217,7 +217,7 @@ def render_anatomy_previews(base, out_dir, prefix: str = "anatomy", anat: Anatom
                       {*thorax, "__objects__", *(f"__obj__{u}" for u in unions), "__obj__VIS_clavicle.L", "__obj__VIS_clavicle.R"}))
         # pelvis posterior y region glutea: huesos de la pelvis y el femur con sus hitos y ligamentos (lateral, superior e inferior)
         pelvis = {"sacrum", "coccyx", "L5", "femur.L", "femur.R"} | {f"{n}.{s}" for n in ("ilium", "ischium", "pubis") for s in "LR"}
-        pv_unions = {o.name for o in bpy.data.objects if o.get("ac_region") == "lumbar_pelvis" or str(o.get("ac_region", "")).startswith("muscle_")}
+        pv_unions = {o.name for o in bpy.data.objects if o.get("ac_region") == "lumbar_pelvis" or str(o.get("ac_region", "")).startswith(("muscle_", "tendon_"))}
         pelvis_c = Vector((0.0, 0.03 * height_m, base.bones["pelvis"].tail[2] + 0.01 * height_m))
         for vname, direction in (("pelvis_lateral", Vector((1.0, 0.0, 0.0))), ("pelvis_superior", Vector((0.0, -0.001, 1.0))),
                                  ("pelvis_inferior", Vector((0.0, -0.001, -1.0)))):

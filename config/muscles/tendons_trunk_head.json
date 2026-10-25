@@ -1,0 +1,583 @@
+{
+ "schema_version": 2,
+ "region": "tendons_trunk_head",
+ "description": "Unidades musculo-tendinosas (tronco, cuello y cabeza): linea origen -> vias oseas -> insercion con sus extremos tendinosos. Modelo muscular (rama muscle-model). Coordenadas: +X izquierda, +Y atras (anterior = -Y), +Z arriba.",
+ "tendon_classes": {
+  "corto": 0.1,
+  "medio": 0.25,
+  "largo": 0.45
+ },
+ "tendon_length_note": "La longitud del tendon es una CONVENCION VISUAL (fraccion de la unidad: corto 10 %, medio 25 %, largo 45 %), no una medida.",
+ "sources": {
+  "uw_pectoral_chart": {
+   "url": "https://wisc.pb.unizin.org/app/uploads/sites/520/2020/09/Complete-Chart-Muscles-Acting-on-the-Pectoral-Girdle-and-Shoulder.pdf",
+   "reliability": "media",
+   "title": "Universidad de Wisconsin - tabla de musculos de la cintura escapular y el hombro"
+  },
+  "pearson_muscle_chart": {
+   "url": "https://www.pearson.com/channels/anp/flashcards/users/human-muscle-origins-insertions-and-functions",
+   "reliability": "baja",
+   "title": "Tarjetas de estudio - origenes, inserciones y funciones musculares (VERIFICAR en un atlas)"
+  }
+ },
+ "tendons": [
+  {
+   "name": "sternocleidomastoid.L",
+   "mirror": true,
+   "muscles": [
+    "esternocleidomastoideo (cabeza esternal)"
+   ],
+   "origin": {
+    "landmark": "jugular_notch",
+    "structure": "manubrio del esternon"
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "mastoid_process.L",
+    "structure": "apofisis mastoides"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "sources": [
+    "uw_pectoral_chart",
+    "pearson_muscle_chart"
+   ],
+   "notes": "La cabeza clavicular se une a esta en el vientre. Verificar en un atlas."
+  },
+  {
+   "name": "trapezius_upper.L",
+   "mirror": true,
+   "muscles": [
+    "trapecio (fibras superiores)"
+   ],
+   "origin": {
+    "landmark": "external_occipital_protuberance",
+    "structure": "protuberancia occipital externa"
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "clavicle_lateral_third.L",
+    "structure": "tercio lateral de la clavicula"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "sources": [
+    "uw_pectoral_chart",
+    "pearson_muscle_chart"
+   ],
+   "notes": "Faltan las fibras medias (apofisis espinosas C7-T3 al acromion y la espina) e inferiores (T4-T12 a la espina de la escapula); sus origenes son apofisis espinosas no modeladas. Verificar en un atlas."
+  },
+  {
+   "name": "levator_scapulae.L",
+   "mirror": true,
+   "muscles": [
+    "elevador de la escapula"
+   ],
+   "origin": {
+    "bone": "C2",
+    "point": {
+     "lerp": [
+      "C2.head",
+      "C2.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "apofisis transversa de C2 (a 9 mm del eje)",
+    "offset_h": [
+     0.005142857142857143,
+     0.0,
+     0.0
+    ]
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "superior_angle.L",
+    "structure": "angulo superior de la escapula"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "sources": [
+    "uw_pectoral_chart",
+    "pearson_muscle_chart"
+   ],
+   "notes": "Nace de los tuberculos posteriores de C1-C4; se modela el de C2. Verificar en un atlas."
+  },
+  {
+   "name": "rhomboid_major.L",
+   "mirror": true,
+   "muscles": [
+    "romboides mayor"
+   ],
+   "origin": {
+    "bone": "T4",
+    "point": {
+     "lerp": [
+      "T4.head",
+      "T4.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "apofisis espinosa de T4 (base, a 11 mm del eje)",
+    "offset_h": [
+     0.0,
+     0.006285714285714285,
+     0.0
+    ]
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "medial_border.L",
+    "structure": "borde medial de la escapula bajo la espina"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "sources": [
+    "uw_pectoral_chart",
+    "pearson_muscle_chart"
+   ],
+   "notes": "Nace de T2-T5; se modela T4. Verificar en un atlas."
+  },
+  {
+   "name": "rhomboid_minor.L",
+   "mirror": true,
+   "muscles": [
+    "romboides menor"
+   ],
+   "origin": {
+    "bone": "C7",
+    "point": {
+     "lerp": [
+      "C7.head",
+      "C7.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "apofisis espinosa de C7 (base)",
+    "offset_h": [
+     0.0,
+     0.006285714285714285,
+     0.0
+    ]
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "medial_border_spine_root.L",
+    "structure": "raiz de la espina de la escapula"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "sources": [
+    "uw_pectoral_chart",
+    "pearson_muscle_chart"
+   ],
+   "notes": "Nace de C7-T1; se modela C7. Verificar en un atlas."
+  },
+  {
+   "name": "serratus_anterior.L",
+   "mirror": true,
+   "muscles": [
+    "serrato anterior"
+   ],
+   "origin": {
+    "bone": "rib_04.L",
+    "point": {
+     "lerp": [
+      "rib_04.L.head",
+      "rib_04.L.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cara externa de la 4.a costilla",
+    "offset_h": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "inferior_angle.L",
+    "structure": "angulo inferior de la escapula"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "sources": [
+    "uw_pectoral_chart",
+    "pearson_muscle_chart"
+   ],
+   "notes": "Nace de las costillas 1-8 en digitaciones; se modela la 4.a. Verificar en un atlas."
+  },
+  {
+   "name": "masseter.L",
+   "mirror": true,
+   "muscles": [
+    "masetero"
+   ],
+   "origin": {
+    "landmark": "zygomatic_arch.L",
+    "structure": "arco cigomatico"
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "mandibular_angle.L",
+    "structure": "angulo de la mandibula"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "sources": [],
+   "notes": "Sin fuente consultada para sus inserciones. Verificar en un atlas."
+  },
+  {
+   "name": "temporalis.L",
+   "mirror": true,
+   "muscles": [
+    "temporal"
+   ],
+   "origin": {
+    "landmark": "temporal_fossa.L",
+    "structure": "fosa temporal"
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "coronoid_process.L",
+    "structure": "apofisis coronoides de la mandibula"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "medio",
+   "sources": [],
+   "notes": "Sin fuente consultada para sus inserciones. Verificar en un atlas."
+  },
+  {
+   "name": "pectoralis_major.L",
+   "mirror": true,
+   "muscles": [
+    "pectoral mayor"
+   ],
+   "origin": {
+    "bone": "sternum",
+    "point": {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.3
+     ],
+     "offset_h": [
+      0.006857142857142858,
+      -0.003428571428571429,
+      0.0
+     ]
+    },
+    "structure": "borde esternal (manubrio y cuerpo)"
+   },
+   "via": [],
+   "insertion": {
+    "bone": "humerus.L",
+    "point": {
+     "lerp": [
+      "humerus.L.head",
+      "humerus.L.tail",
+      0.06
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "labio lateral del surco intertubercular",
+    "offset_h": [
+     0.002285714285714286,
+     -0.006285714285714285,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "medio",
+   "sources": [
+    "uw_pectoral_chart",
+    "pearson_muscle_chart"
+   ],
+   "notes": "Origen tambien en clavicula y cartilagos costales 1-6; insercion en el surco intertubercular (las fuentes no lo concretan: labio lateral por convencion). Verificar en un atlas."
+  },
+  {
+   "name": "latissimus_dorsi.L",
+   "mirror": true,
+   "muscles": [
+    "dorsal ancho"
+   ],
+   "origin": {
+    "bone": "L3",
+    "point": {
+     "lerp": [
+      "L3.head",
+      "L3.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "apofisis espinosa lumbar (base)",
+    "offset_h": [
+     0.0,
+     0.006285714285714285,
+     0.0
+    ]
+   },
+   "via": [],
+   "insertion": {
+    "bone": "humerus.L",
+    "point": {
+     "lerp": [
+      "humerus.L.head",
+      "humerus.L.tail",
+      0.07
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "suelo del surco intertubercular",
+    "offset_h": [
+     -0.002285714285714286,
+     -0.006285714285714285,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "medio",
+   "sources": [
+    "uw_pectoral_chart",
+    "pearson_muscle_chart"
+   ],
+   "notes": "Nace de T6-T12, la fascia toracolumbar, la cresta iliaca posterior y las 3-4 costillas inferiores; se modela una apofisis lumbar. Verificar en un atlas."
+  },
+  {
+   "name": "teres_major.L",
+   "mirror": true,
+   "muscles": [
+    "redondo mayor"
+   ],
+   "origin": {
+    "landmark": "inferior_angle.L",
+    "structure": "angulo inferior de la escapula"
+   },
+   "via": [],
+   "insertion": {
+    "bone": "humerus.L",
+    "point": {
+     "lerp": [
+      "humerus.L.head",
+      "humerus.L.tail",
+      0.075
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "labio medial del surco intertubercular",
+    "offset_h": [
+     -0.003428571428571429,
+     -0.005714285714285714,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "sources": [],
+   "notes": "Sin fuente consultada. Verificar en un atlas."
+  },
+  {
+   "name": "rectus_abdominis.L",
+   "mirror": true,
+   "muscles": [
+    "recto del abdomen"
+   ],
+   "origin": {
+    "landmark": "pubic_body.L",
+    "structure": "cuerpo del pubis"
+   },
+   "via": [],
+   "insertion": {
+    "bone": "rib_06.L",
+    "point": {
+     "lerp": [
+      "rib_06.L.tail",
+      "rib_06.L.cartilage_end",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cartilago de la 6.a costilla"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "sources": [
+    "uw_pectoral_chart",
+    "pearson_muscle_chart"
+   ],
+   "notes": "Se inserta en los cartilagos de las costillas 5-7 y el xifoides. Verificar en un atlas."
+  },
+  {
+   "name": "psoas_major.L",
+   "mirror": true,
+   "muscles": [
+    "psoas mayor"
+   ],
+   "origin": {
+    "bone": "L2",
+    "point": {
+     "lerp": [
+      "L2.head",
+      "L2.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cuerpo vertebral lumbar (cara lateral)",
+    "offset_h": [
+     0.004571428571428572,
+     0.0,
+     0.0
+    ]
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "lesser_trochanter.L",
+    "structure": "trocanter menor"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "medio",
+   "sources": [],
+   "notes": "Nace de los cuerpos T12-L5 y sus discos; se modela L2. Sin fuente consultada. Verificar en un atlas."
+  },
+  {
+   "name": "iliacus.L",
+   "mirror": true,
+   "muscles": [
+    "iliaco"
+   ],
+   "origin": {
+    "landmark": "iliac_fossa.L",
+    "structure": "fosa iliaca"
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "lesser_trochanter.L",
+    "structure": "trocanter menor"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "medio",
+   "sources": [],
+   "notes": "Se une al psoas en el tendon del iliopsoas. Sin fuente consultada. Verificar en un atlas."
+  },
+  {
+   "name": "quadratus_lumborum.L",
+   "mirror": true,
+   "muscles": [
+    "cuadrado lumbar"
+   ],
+   "origin": {
+    "landmark": "iliac_crest.L",
+    "structure": "cresta iliaca"
+   },
+   "via": [],
+   "insertion": {
+    "bone": "rib_12.L",
+    "point": {
+     "lerp": [
+      "rib_12.L.head",
+      "rib_12.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "12.a costilla (borde inferior)",
+    "offset_h": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "sources": [],
+   "notes": "Tambien se inserta en las apofisis transversas de L1-L4. Sin fuente consultada. Verificar en un atlas."
+  },
+  {
+   "name": "iliocostalis.L",
+   "mirror": true,
+   "muscles": [
+    "iliocostal (erector de la columna)"
+   ],
+   "origin": {
+    "landmark": "sacral_lateral_mass.L",
+    "structure": "masa lateral del sacro"
+   },
+   "via": [],
+   "insertion": {
+    "bone": "rib_06.L",
+    "point": {
+     "lerp": [
+      "rib_06.L.head",
+      "rib_06.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "angulo de la 6.a costilla",
+    "offset_h": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "sources": [],
+   "notes": "El erector de la columna es un grupo largo; se modela la banda iliocostal. Sin fuente consultada. Verificar en un atlas."
+  }
+ ]
+}

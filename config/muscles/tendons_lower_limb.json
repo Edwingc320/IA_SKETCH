@@ -1,0 +1,1378 @@
+{
+ "schema_version": 2,
+ "region": "tendons_lower_limb",
+ "description": "Unidades musculo-tendinosas (cadera, muslo, pierna y pie): linea origen -> vias oseas -> insercion con sus extremos tendinosos. Modelo muscular (rama muscle-model). Coordenadas: +X izquierda, +Y atras (anterior = -Y), +Z arriba.",
+ "tendon_classes": {
+  "corto": 0.1,
+  "medio": 0.25,
+  "largo": 0.45
+ },
+ "tendon_length_note": "La longitud del tendon es una CONVENCION VISUAL (fraccion de la unidad: corto 10 %, medio 25 %, largo 45 %), no una medida.",
+ "sources": {
+  "tutorchase_origin": {
+   "url": "https://tutorchase.com/notes/ib/sehs/1-2-4-origin-and-insertion-of-muscles",
+   "reliability": "baja",
+   "title": "TutorChase - origen e insercion de los musculos (resumen; VERIFICAR en un atlas)"
+  },
+  "elsevier_fdl": {
+   "url": "https://www.elsevier.com/resources/anatomy/muscular-system/muscles-of-lower-limb/flexor-digitorum-longus/19278",
+   "reliability": "media",
+   "title": "Elsevier - Flexor digitorum longus (cuatro tendones a las falanges distales de los dedos 2-5)"
+  },
+  "brainscape_leg": {
+   "url": "https://brainscape.com/flashcards/the-leg-and-foot-origins-and-insertions-17042287/packs/22362262",
+   "reliability": "baja",
+   "title": "Tarjetas de estudio - origenes e inserciones de pierna y pie (VERIFICAR en un atlas)"
+  },
+  "medschool_ankle": {
+   "url": "https://medschool.co/exam/ankle/tendons-of-the-ankle",
+   "reliability": "baja",
+   "title": "MedSchool - Tendons of the ankle (VERIFICAR en un atlas)"
+  }
+ },
+ "tendons": [
+  {
+   "name": "rectus_femoris.L",
+   "mirror": true,
+   "muscles": [
+    "recto femoral"
+   ],
+   "origin": {
+    "landmark": "anterior_inferior_iliac_spine.L",
+    "structure": "espina iliaca anteroinferior"
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "patella_base.L",
+    "structure": "base de la rotula"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "medio",
+   "sources": [
+    "tutorchase_origin"
+   ],
+   "notes": "Tendon cuadricipital; la rotula se continua con el ligamento rotuliano hasta la tuberosidad tibial. Verificar en un atlas."
+  },
+  {
+   "name": "vastus_lateralis.L",
+   "mirror": true,
+   "muscles": [
+    "vasto lateral"
+   ],
+   "origin": {
+    "landmark": "greater_trochanter.L",
+    "structure": "trocanter mayor"
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "patella_base.L",
+    "structure": "base de la rotula"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "medio",
+   "sources": [
+    "tutorchase_origin"
+   ],
+   "notes": " Verificar en un atlas."
+  },
+  {
+   "name": "vastus_medialis.L",
+   "mirror": true,
+   "muscles": [
+    "vasto medial"
+   ],
+   "origin": {
+    "bone": "femur.L",
+    "point": {
+     "lerp": [
+      "femur.L.head",
+      "femur.L.tail",
+      0.35
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "labio medial de la linea aspera",
+    "offset_h": [
+     -0.004571428571428572,
+     0.0,
+     0.0
+    ]
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "patella_base.L",
+    "structure": "base de la rotula"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "medio",
+   "sources": [
+    "tutorchase_origin"
+   ],
+   "notes": " Verificar en un atlas."
+  },
+  {
+   "name": "vastus_intermedius.L",
+   "mirror": true,
+   "muscles": [
+    "vasto intermedio"
+   ],
+   "origin": {
+    "bone": "femur.L",
+    "point": {
+     "lerp": [
+      "femur.L.head",
+      "femur.L.tail",
+      0.3
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cara anterior del femur",
+    "offset_h": [
+     0.0,
+     -0.006285714285714285,
+     0.0
+    ]
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "patella_base.L",
+    "structure": "base de la rotula"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "medio",
+   "sources": [
+    "tutorchase_origin"
+   ],
+   "notes": " Verificar en un atlas."
+  },
+  {
+   "name": "sartorius.L",
+   "mirror": true,
+   "muscles": [
+    "sartorio"
+   ],
+   "origin": {
+    "landmark": "anterior_superior_iliac_spine.L",
+    "structure": "espina iliaca anterosuperior"
+   },
+   "via": [],
+   "insertion": {
+    "bone": "tibia.L",
+    "point": {
+     "lerp": [
+      "tibia.L.head",
+      "tibia.L.tail",
+      0.08
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "pata de ganso (cara medial de la tibia proximal)",
+    "offset_h": [
+     -0.006285714285714285,
+     0.0,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "medio",
+   "sources": [],
+   "notes": "Sin fuente consultada. Verificar en un atlas."
+  },
+  {
+   "name": "gracilis.L",
+   "mirror": true,
+   "muscles": [
+    "gracil"
+   ],
+   "origin": {
+    "landmark": "pubic_body.L",
+    "structure": "cuerpo del pubis"
+   },
+   "via": [],
+   "insertion": {
+    "bone": "tibia.L",
+    "point": {
+     "lerp": [
+      "tibia.L.head",
+      "tibia.L.tail",
+      0.09
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "pata de ganso (cara medial de la tibia proximal)",
+    "offset_h": [
+     -0.006285714285714285,
+     0.0,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "medio",
+   "sources": [],
+   "notes": "Sin fuente consultada. Verificar en un atlas."
+  },
+  {
+   "name": "semitendinosus.L",
+   "mirror": true,
+   "muscles": [
+    "semitendinoso"
+   ],
+   "origin": {
+    "landmark": "ischial_tuberosity.L",
+    "structure": "tuberosidad isquiatica"
+   },
+   "via": [],
+   "insertion": {
+    "bone": "tibia.L",
+    "point": {
+     "lerp": [
+      "tibia.L.head",
+      "tibia.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "pata de ganso (cara medial de la tibia proximal)",
+    "offset_h": [
+     -0.006285714285714285,
+     0.0017142857142857144,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "tutorchase_origin"
+   ],
+   "notes": "Los isquiotibiales nacen de la tuberosidad isquiatica. Verificar en un atlas."
+  },
+  {
+   "name": "semimembranosus.L",
+   "mirror": true,
+   "muscles": [
+    "semimembranoso"
+   ],
+   "origin": {
+    "landmark": "ischial_tuberosity.L",
+    "structure": "tuberosidad isquiatica"
+   },
+   "via": [],
+   "insertion": {
+    "bone": "tibia.L",
+    "point": {
+     "lerp": [
+      "tibia.L.head",
+      "tibia.L.tail",
+      0.02
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "condilo tibial medial (cara posterior)",
+    "offset_h": [
+     -0.005714285714285714,
+     0.004571428571428572,
+     0.0
+    ]
+   },
+   "origin_tendon": "medio",
+   "insertion_tendon": "medio",
+   "sources": [
+    "tutorchase_origin"
+   ],
+   "notes": " Verificar en un atlas."
+  },
+  {
+   "name": "biceps_femoris.L",
+   "mirror": true,
+   "muscles": [
+    "biceps femoral"
+   ],
+   "origin": {
+    "landmark": "ischial_tuberosity.L",
+    "structure": "tuberosidad isquiatica"
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "fibular_head.L",
+    "structure": "cabeza del perone"
+   },
+   "origin_tendon": "medio",
+   "insertion_tendon": "medio",
+   "sources": [
+    "tutorchase_origin"
+   ],
+   "notes": "Insercion en la cabeza del perone (conocimiento anatomico estandar; la fuente solo dice tibia y perone). Verificar en un atlas."
+  },
+  {
+   "name": "adductor_longus.L",
+   "mirror": true,
+   "muscles": [
+    "aductor largo"
+   ],
+   "origin": {
+    "landmark": "pubic_body.L",
+    "structure": "cuerpo del pubis"
+   },
+   "via": [],
+   "insertion": {
+    "bone": "femur.L",
+    "point": {
+     "lerp": [
+      "femur.L.head",
+      "femur.L.tail",
+      0.45
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "linea aspera",
+    "offset_h": [
+     0.0,
+     0.005714285714285714,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "sources": [],
+   "notes": "Sin fuente consultada. Verificar en un atlas."
+  },
+  {
+   "name": "adductor_magnus.L",
+   "mirror": true,
+   "muscles": [
+    "aductor mayor"
+   ],
+   "origin": {
+    "landmark": "ischial_tuberosity.L",
+    "structure": "tuberosidad isquiatica"
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "femoral_medial_epicondyle.L",
+    "structure": "tuberculo aductor (epicondilo medial del femur)"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "medio",
+   "sources": [],
+   "notes": "Sin fuente consultada. Verificar en un atlas."
+  },
+  {
+   "name": "tensor_fasciae_latae.L",
+   "mirror": true,
+   "muscles": [
+    "tensor de la fascia lata"
+   ],
+   "origin": {
+    "landmark": "anterior_superior_iliac_spine.L",
+    "structure": "espina iliaca anterosuperior"
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "gerdy_tubercle.L",
+    "structure": "tuberculo de Gerdy (cintilla iliotibial)"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [],
+   "notes": "La cintilla iliotibial es fascia: se ancla a su destino oseo. Verificar en un atlas."
+  },
+  {
+   "name": "gastrocnemius.L",
+   "mirror": true,
+   "muscles": [
+    "gastrocnemio (cabeza medial)"
+   ],
+   "origin": {
+    "landmark": "femoral_medial_epicondyle.L",
+    "structure": "condilo femoral medial"
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "calcaneal_tuberosity.L",
+    "structure": "tuberosidad del calcaneo"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "tutorchase_origin"
+   ],
+   "notes": "Tendon calcaneo (de Aquiles). Verificar en un atlas."
+  },
+  {
+   "name": "soleus.L",
+   "mirror": true,
+   "muscles": [
+    "soleo"
+   ],
+   "origin": {
+    "landmark": "fibular_head.L",
+    "structure": "cabeza del perone"
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "calcaneal_tuberosity.L",
+    "structure": "tuberosidad del calcaneo"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "tutorchase_origin"
+   ],
+   "notes": "Se une al gastrocnemio en el tendon calcaneo (de Aquiles). Verificar en un atlas."
+  },
+  {
+   "name": "tibialis_anterior.L",
+   "mirror": true,
+   "muscles": [
+    "tibial anterior"
+   ],
+   "origin": {
+    "bone": "tibia.L",
+    "point": {
+     "lerp": [
+      "tibia.L.head",
+      "tibia.L.tail",
+      0.08
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "condilo tibial lateral y cara lateral de la tibia",
+    "offset_h": [
+     0.005714285714285714,
+     0.0,
+     -0.001142857142857143
+    ]
+   },
+   "via": [
+    {
+     "bone": "tibia.L",
+     "point": {
+      "lerp": [
+       "tibia.L.head",
+       "tibia.L.tail",
+       0.98
+      ],
+      "offset_h": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     "structure": "cara anterior del tobillo (extremo distal de la tibia)",
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   ],
+   "insertion": {
+    "bone": "medial_cuneiform.L",
+    "point": {
+     "lerp": [
+      "medial_cuneiform.L.head",
+      "medial_cuneiform.L.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cuneiforme medial (y base del 1.er metatarsiano)",
+    "offset_h": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "brainscape_leg",
+    "medschool_ankle"
+   ],
+   "notes": " Verificar en un atlas."
+  },
+  {
+   "name": "tibialis_posterior.L",
+   "mirror": true,
+   "muscles": [
+    "tibial posterior"
+   ],
+   "origin": {
+    "bone": "tibia.L",
+    "point": {
+     "lerp": [
+      "tibia.L.head",
+      "tibia.L.tail",
+      0.35
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cara posterior de la tibia",
+    "offset_h": [
+     0.0,
+     0.005714285714285714,
+     0.0
+    ]
+   },
+   "via": [
+    {
+     "landmark": "medial_malleolus.L",
+     "structure": "maleolo medial"
+    }
+   ],
+   "insertion": {
+    "landmark": "navicular_tuberosity.L",
+    "structure": "tuberosidad del navicular"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "brainscape_leg",
+    "medschool_ankle"
+   ],
+   "notes": "Tambien se inserta en otros huesos del tarso y los metatarsianos 2-4; se modela el navicular. Verificar en un atlas."
+  },
+  {
+   "name": "peroneus_longus.L",
+   "mirror": true,
+   "muscles": [
+    "peroneo largo"
+   ],
+   "origin": {
+    "bone": "fibula.L",
+    "point": {
+     "lerp": [
+      "fibula.L.head",
+      "fibula.L.tail",
+      0.25
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cara lateral del perone",
+    "offset_h": [
+     0.004571428571428572,
+     0.0,
+     0.0
+    ]
+   },
+   "via": [
+    {
+     "landmark": "lateral_malleolus.L",
+     "structure": "maleolo lateral"
+    }
+   ],
+   "insertion": {
+    "bone": "metatarsal_1.L",
+    "point": {
+     "lerp": [
+      "metatarsal_1.L.head",
+      "metatarsal_1.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "base del 1.er metatarsiano (plantar)",
+    "offset_h": [
+     0.0,
+     0.0,
+     -0.002857142857142857
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [],
+   "notes": "Sin fuente consultada. Verificar en un atlas."
+  },
+  {
+   "name": "peroneus_brevis.L",
+   "mirror": true,
+   "muscles": [
+    "peroneo corto"
+   ],
+   "origin": {
+    "bone": "fibula.L",
+    "point": {
+     "lerp": [
+      "fibula.L.head",
+      "fibula.L.tail",
+      0.6
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cara lateral del perone",
+    "offset_h": [
+     0.004571428571428572,
+     0.0,
+     0.0
+    ]
+   },
+   "via": [
+    {
+     "landmark": "lateral_malleolus.L",
+     "structure": "maleolo lateral"
+    }
+   ],
+   "insertion": {
+    "landmark": "fifth_metatarsal_base.L",
+    "structure": "base del 5.o metatarsiano"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [],
+   "notes": "Sin fuente consultada (la unica insercion en el 5.o metatarsiano hallada era la del peroneo tercero). Verificar en un atlas."
+  },
+  {
+   "name": "flexor_hallucis_longus.L",
+   "mirror": true,
+   "muscles": [
+    "flexor largo del dedo gordo"
+   ],
+   "origin": {
+    "bone": "fibula.L",
+    "point": {
+     "lerp": [
+      "fibula.L.head",
+      "fibula.L.tail",
+      0.55
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cara posterior del perone",
+    "offset_h": [
+     0.0,
+     0.005714285714285714,
+     0.0
+    ]
+   },
+   "via": [
+    {
+     "landmark": "sustentaculum_tali.L",
+     "structure": "sustentaculum tali"
+    }
+   ],
+   "insertion": {
+    "bone": "toe_1_distal.L",
+    "point": {
+     "lerp": [
+      "toe_1_distal.L.head",
+      "toe_1_distal.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "base de la falange distal del dedo gordo (plantar)",
+    "offset_h": [
+     0.0,
+     0.0,
+     -0.002857142857142857
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "brainscape_leg",
+    "medschool_ankle"
+   ],
+   "notes": "El paso por el sustentaculum tali no figuraba en las fuentes consultadas. Verificar en un atlas."
+  },
+  {
+   "name": "extensor_hallucis_longus.L",
+   "mirror": true,
+   "muscles": [
+    "extensor largo del dedo gordo"
+   ],
+   "origin": {
+    "bone": "fibula.L",
+    "point": {
+     "lerp": [
+      "fibula.L.head",
+      "fibula.L.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cara anterior del perone",
+    "offset_h": [
+     0.0,
+     -0.004571428571428572,
+     0.0
+    ]
+   },
+   "via": [
+    {
+     "bone": "tibia.L",
+     "point": {
+      "lerp": [
+       "tibia.L.head",
+       "tibia.L.tail",
+       0.98
+      ],
+      "offset_h": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     "structure": "cara anterior del tobillo (extremo distal de la tibia)",
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   ],
+   "insertion": {
+    "bone": "toe_1_distal.L",
+    "point": {
+     "lerp": [
+      "toe_1_distal.L.head",
+      "toe_1_distal.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "base de la falange distal del dedo gordo (dorsal)",
+    "offset_h": [
+     0.0,
+     0.0,
+     0.002857142857142857
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "brainscape_leg",
+    "medschool_ankle"
+   ],
+   "notes": " Verificar en un atlas."
+  },
+  {
+   "name": "flexor_digitorum_longus_2.L",
+   "mirror": true,
+   "muscles": [
+    "flexor largo de los dedos (dedo 2)"
+   ],
+   "origin": {
+    "bone": "tibia.L",
+    "point": {
+     "lerp": [
+      "tibia.L.head",
+      "tibia.L.tail",
+      0.4
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cara posterior de la tibia",
+    "offset_h": [
+     0.0,
+     0.005714285714285714,
+     0.0
+    ]
+   },
+   "via": [
+    {
+     "landmark": "medial_malleolus.L",
+     "structure": "maleolo medial"
+    }
+   ],
+   "insertion": {
+    "bone": "toe_2_distal.L",
+    "point": {
+     "lerp": [
+      "toe_2_distal.L.head",
+      "toe_2_distal.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "base de la falange distal del dedo 2 (plantar)",
+    "offset_h": [
+     0.0,
+     0.0,
+     -0.002857142857142857
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "elsevier_fdl"
+   ],
+   "notes": "Cuatro tendones a las falanges distales de los dedos 2-5. Verificar en un atlas."
+  },
+  {
+   "name": "extensor_digitorum_longus_2.L",
+   "mirror": true,
+   "muscles": [
+    "extensor largo de los dedos (dedo 2)"
+   ],
+   "origin": {
+    "bone": "tibia.L",
+    "point": {
+     "lerp": [
+      "tibia.L.head",
+      "tibia.L.tail",
+      0.07
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "condilo tibial lateral",
+    "offset_h": [
+     0.005714285714285714,
+     0.0,
+     -0.002285714285714286
+    ]
+   },
+   "via": [
+    {
+     "bone": "tibia.L",
+     "point": {
+      "lerp": [
+       "tibia.L.head",
+       "tibia.L.tail",
+       0.98
+      ],
+      "offset_h": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     "structure": "cara anterior del tobillo (extremo distal de la tibia)",
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   ],
+   "insertion": {
+    "bone": "toe_2_distal.L",
+    "point": {
+     "lerp": [
+      "toe_2_distal.L.head",
+      "toe_2_distal.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "falange distal del dedo 2 (dorsal, por la expansion extensora)",
+    "offset_h": [
+     0.0,
+     0.0,
+     0.002857142857142857
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "brainscape_leg",
+    "medschool_ankle"
+   ],
+   "notes": " Verificar en un atlas."
+  },
+  {
+   "name": "flexor_digitorum_longus_3.L",
+   "mirror": true,
+   "muscles": [
+    "flexor largo de los dedos (dedo 3)"
+   ],
+   "origin": {
+    "bone": "tibia.L",
+    "point": {
+     "lerp": [
+      "tibia.L.head",
+      "tibia.L.tail",
+      0.4
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cara posterior de la tibia",
+    "offset_h": [
+     0.0,
+     0.005714285714285714,
+     0.0
+    ]
+   },
+   "via": [
+    {
+     "landmark": "medial_malleolus.L",
+     "structure": "maleolo medial"
+    }
+   ],
+   "insertion": {
+    "bone": "toe_3_distal.L",
+    "point": {
+     "lerp": [
+      "toe_3_distal.L.head",
+      "toe_3_distal.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "base de la falange distal del dedo 3 (plantar)",
+    "offset_h": [
+     0.0,
+     0.0,
+     -0.002857142857142857
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "elsevier_fdl"
+   ],
+   "notes": "Cuatro tendones a las falanges distales de los dedos 2-5. Verificar en un atlas."
+  },
+  {
+   "name": "extensor_digitorum_longus_3.L",
+   "mirror": true,
+   "muscles": [
+    "extensor largo de los dedos (dedo 3)"
+   ],
+   "origin": {
+    "bone": "tibia.L",
+    "point": {
+     "lerp": [
+      "tibia.L.head",
+      "tibia.L.tail",
+      0.07
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "condilo tibial lateral",
+    "offset_h": [
+     0.005714285714285714,
+     0.0,
+     -0.002285714285714286
+    ]
+   },
+   "via": [
+    {
+     "bone": "tibia.L",
+     "point": {
+      "lerp": [
+       "tibia.L.head",
+       "tibia.L.tail",
+       0.98
+      ],
+      "offset_h": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     "structure": "cara anterior del tobillo (extremo distal de la tibia)",
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   ],
+   "insertion": {
+    "bone": "toe_3_distal.L",
+    "point": {
+     "lerp": [
+      "toe_3_distal.L.head",
+      "toe_3_distal.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "falange distal del dedo 3 (dorsal, por la expansion extensora)",
+    "offset_h": [
+     0.0,
+     0.0,
+     0.002857142857142857
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "brainscape_leg",
+    "medschool_ankle"
+   ],
+   "notes": " Verificar en un atlas."
+  },
+  {
+   "name": "flexor_digitorum_longus_4.L",
+   "mirror": true,
+   "muscles": [
+    "flexor largo de los dedos (dedo 4)"
+   ],
+   "origin": {
+    "bone": "tibia.L",
+    "point": {
+     "lerp": [
+      "tibia.L.head",
+      "tibia.L.tail",
+      0.4
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cara posterior de la tibia",
+    "offset_h": [
+     0.0,
+     0.005714285714285714,
+     0.0
+    ]
+   },
+   "via": [
+    {
+     "landmark": "medial_malleolus.L",
+     "structure": "maleolo medial"
+    }
+   ],
+   "insertion": {
+    "bone": "toe_4_distal.L",
+    "point": {
+     "lerp": [
+      "toe_4_distal.L.head",
+      "toe_4_distal.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "base de la falange distal del dedo 4 (plantar)",
+    "offset_h": [
+     0.0,
+     0.0,
+     -0.002857142857142857
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "elsevier_fdl"
+   ],
+   "notes": "Cuatro tendones a las falanges distales de los dedos 2-5. Verificar en un atlas."
+  },
+  {
+   "name": "extensor_digitorum_longus_4.L",
+   "mirror": true,
+   "muscles": [
+    "extensor largo de los dedos (dedo 4)"
+   ],
+   "origin": {
+    "bone": "tibia.L",
+    "point": {
+     "lerp": [
+      "tibia.L.head",
+      "tibia.L.tail",
+      0.07
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "condilo tibial lateral",
+    "offset_h": [
+     0.005714285714285714,
+     0.0,
+     -0.002285714285714286
+    ]
+   },
+   "via": [
+    {
+     "bone": "tibia.L",
+     "point": {
+      "lerp": [
+       "tibia.L.head",
+       "tibia.L.tail",
+       0.98
+      ],
+      "offset_h": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     "structure": "cara anterior del tobillo (extremo distal de la tibia)",
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   ],
+   "insertion": {
+    "bone": "toe_4_distal.L",
+    "point": {
+     "lerp": [
+      "toe_4_distal.L.head",
+      "toe_4_distal.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "falange distal del dedo 4 (dorsal, por la expansion extensora)",
+    "offset_h": [
+     0.0,
+     0.0,
+     0.002857142857142857
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "brainscape_leg",
+    "medschool_ankle"
+   ],
+   "notes": " Verificar en un atlas."
+  },
+  {
+   "name": "flexor_digitorum_longus_5.L",
+   "mirror": true,
+   "muscles": [
+    "flexor largo de los dedos (dedo 5)"
+   ],
+   "origin": {
+    "bone": "tibia.L",
+    "point": {
+     "lerp": [
+      "tibia.L.head",
+      "tibia.L.tail",
+      0.4
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "cara posterior de la tibia",
+    "offset_h": [
+     0.0,
+     0.005714285714285714,
+     0.0
+    ]
+   },
+   "via": [
+    {
+     "landmark": "medial_malleolus.L",
+     "structure": "maleolo medial"
+    }
+   ],
+   "insertion": {
+    "bone": "toe_5_distal.L",
+    "point": {
+     "lerp": [
+      "toe_5_distal.L.head",
+      "toe_5_distal.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "base de la falange distal del dedo 5 (plantar)",
+    "offset_h": [
+     0.0,
+     0.0,
+     -0.002857142857142857
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "elsevier_fdl"
+   ],
+   "notes": "Cuatro tendones a las falanges distales de los dedos 2-5. Verificar en un atlas."
+  },
+  {
+   "name": "extensor_digitorum_longus_5.L",
+   "mirror": true,
+   "muscles": [
+    "extensor largo de los dedos (dedo 5)"
+   ],
+   "origin": {
+    "bone": "tibia.L",
+    "point": {
+     "lerp": [
+      "tibia.L.head",
+      "tibia.L.tail",
+      0.07
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "condilo tibial lateral",
+    "offset_h": [
+     0.005714285714285714,
+     0.0,
+     -0.002285714285714286
+    ]
+   },
+   "via": [
+    {
+     "bone": "tibia.L",
+     "point": {
+      "lerp": [
+       "tibia.L.head",
+       "tibia.L.tail",
+       0.98
+      ],
+      "offset_h": [
+       0.0,
+       0.0,
+       0.0
+      ]
+     },
+     "structure": "cara anterior del tobillo (extremo distal de la tibia)",
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   ],
+   "insertion": {
+    "bone": "toe_5_distal.L",
+    "point": {
+     "lerp": [
+      "toe_5_distal.L.head",
+      "toe_5_distal.L.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "falange distal del dedo 5 (dorsal, por la expansion extensora)",
+    "offset_h": [
+     0.0,
+     0.0,
+     0.002857142857142857
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "brainscape_leg",
+    "medschool_ankle"
+   ],
+   "notes": " Verificar en un atlas."
+  }
+ ]
+}
