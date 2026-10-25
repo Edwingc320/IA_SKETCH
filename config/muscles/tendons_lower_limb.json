@@ -328,6 +328,45 @@
    "notes": "Insercion en la cabeza del perone (conocimiento anatomico estandar; la fuente solo dice tibia y perone). Verificar en un atlas."
   },
   {
+   "name": "biceps_femoris_short_head.L",
+   "mirror": true,
+   "muscles": [
+    "biceps femoral (cabeza corta)"
+   ],
+   "origin": {
+    "bone": "femur.L",
+    "point": {
+     "lerp": [
+      "femur.L.head",
+      "femur.L.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "structure": "labio lateral de la linea aspera",
+    "offset_h": [
+     0.002285714285714286,
+     0.005714285714285714,
+     0.0
+    ]
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "fibular_head.L",
+    "structure": "cabeza del perone"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "medio",
+   "sources": [
+    "tutorchase_origin"
+   ],
+   "notes": "Insercion en la cabeza del perone (conocimiento anatomico estandar; la fuente solo dice tibia y perone). Verificar en un atlas."
+  },
+  {
    "name": "adductor_longus.L",
    "mirror": true,
    "muscles": [
@@ -425,6 +464,28 @@
     "tutorchase_origin"
    ],
    "notes": "Tendon calcaneo (de Aquiles). Verificar en un atlas."
+  },
+  {
+   "name": "gastrocnemius_lateral.L",
+   "mirror": true,
+   "muscles": [
+    "gastrocnemio (cabeza lateral)"
+   ],
+   "origin": {
+    "landmark": "femoral_lateral_epicondyle.L",
+    "structure": "condilo femoral lateral"
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "calcaneal_tuberosity.L",
+    "structure": "tuberosidad del calcaneo"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "sources": [
+    "tutorchase_origin"
+   ],
+   "notes": "Tendon calcaneo (de Aquiles); `gastrocnemius.L` es la cabeza medial. Verificar en un atlas."
   },
   {
    "name": "soleus.L",

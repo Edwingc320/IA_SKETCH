@@ -20,7 +20,7 @@ Reglas para cualquier agente o desarrollador. **Regla principal: no se modifican
 1. Cada cifra con rango lleva su fuente (`sources`: url `https://`, fiabilidad `alta|media|baja`). Sin cifra en las fuentes consultadas → `no_numeric_source`; **no se inventan valores**.
 2. Lo apoyado solo en fuentes de fiabilidad baja lo dice en su nota: **«verificar en un atlas»**.
 3. Los JSON de `config/` son la fuente de verdad; los scripts generadores son auxiliares y no forman parte del repositorio.
-4. En la capa de tendones (`muscle-model`) la **longitud del tendón es una convención visual** (corto 10 %, medio 25 %, largo 45 %), declarada en los datos; no se presenta como medida. Los músculos y tendones sin fuente consultada llevan «verificar en un atlas».
+4. En la capa de tendones (`muscle-model`) la **longitud del tendón es una convención visual** (corto 10 %, medio 25 %, largo 45 %), declarada en los datos; no se presenta como medida. Los músculos y tendones sin fuente consultada llevan «verificar en un atlas». El volumen de un vientre es **medido** (con su fuente y la altura de sus sujetos) o una **convención visual declarada** como tal; nunca se presenta una clase de tamaño como medida.
 
 ## 4. Pruebas (deben quedar en VERDE)
 1. `python -B -m unittest discover -s tests -p "test_*.py" -t tests` (Python puro) y la suite completa dentro de Blender: `blender -b --factory-startup --python tests/run_tests.py` (línea `[SUMMARY] … fallos=0 errores=0`).

@@ -1,0 +1,376 @@
+{
+ "schema_version": 2,
+ "description": "Volumen de los vientres musculares de los grandes grupos (rama muscle-model). 'medido' = volumen de la fuente a la altura de referencia de sus sujetos; 'convencion' = clase de orden de magnitud (NO medida). Con --height el volumen escala con (H/H_ref)^3 (isometrico, hipotesis declarada).",
+ "size_classes_cm3": {
+  "pequeno": 40.0,
+  "medio": 150.0,
+  "grande": 350.0,
+  "muy_grande": 700.0
+ },
+ "size_classes_note": "CONVENCION VISUAL de orden de magnitud a 1.75 m; no son medidas. Se usan donde no se consiguio un volumen medido (pierna, trapecio, pectoral menor, recto del abdomen, esternocleidomastoideo).",
+ "sources": {
+  "holzbaur_2007": {
+   "url": "https://nmbl.stanford.edu/publications/pdf/Holzbaur2007a.pdf",
+   "reliability": "alta",
+   "title": "Holzbaur et al. 2007, J Biomech 40:742-749 - volumenes de 32 musculos del miembro superior por RM en 10 adultos jovenes (altura media 171.5 cm; volumen total medio 2554 cm3)"
+  }
+ },
+ "muscles": [
+  {
+   "unit": "deltoid_acromial.L",
+   "kind": "medido",
+   "volume_cm3": 126.8333,
+   "reference_height_m": 1.715,
+   "source": "holzbaur_2007",
+   "aspect": 1.0,
+   "notes": "El estudio da el musculo entero (deltoides, 380.5 cm3): se reparte en partes iguales entre sus haces por convencion."
+  },
+  {
+   "unit": "deltoid_clavicular.L",
+   "kind": "medido",
+   "volume_cm3": 126.8333,
+   "reference_height_m": 1.715,
+   "source": "holzbaur_2007",
+   "aspect": 1.0,
+   "notes": "El estudio da el musculo entero (deltoides, 380.5 cm3): se reparte en partes iguales entre sus haces por convencion."
+  },
+  {
+   "unit": "deltoid_spinal.L",
+   "kind": "medido",
+   "volume_cm3": 126.8333,
+   "reference_height_m": 1.715,
+   "source": "holzbaur_2007",
+   "aspect": 1.0,
+   "notes": "El estudio da el musculo entero (deltoides, 380.5 cm3): se reparte en partes iguales entre sus haces por convencion."
+  },
+  {
+   "unit": "biceps_long_head.L",
+   "kind": "medido",
+   "volume_cm3": 71.85,
+   "reference_height_m": 1.715,
+   "source": "holzbaur_2007",
+   "aspect": 1.0,
+   "notes": "El estudio da el musculo entero (biceps, 143.7 cm3): se reparte en partes iguales entre sus haces por convencion."
+  },
+  {
+   "unit": "biceps_short_head.L",
+   "kind": "medido",
+   "volume_cm3": 71.85,
+   "reference_height_m": 1.715,
+   "source": "holzbaur_2007",
+   "aspect": 1.0,
+   "notes": "El estudio da el musculo entero (biceps, 143.7 cm3): se reparte en partes iguales entre sus haces por convencion."
+  },
+  {
+   "unit": "triceps_long_head.L",
+   "kind": "medido",
+   "volume_cm3": 124.0333,
+   "reference_height_m": 1.715,
+   "source": "holzbaur_2007",
+   "aspect": 1.0,
+   "notes": "El estudio da el musculo entero (triceps, 372.1 cm3): se reparte en partes iguales entre sus haces por convencion."
+  },
+  {
+   "unit": "triceps_lateral_head.L",
+   "kind": "medido",
+   "volume_cm3": 124.0333,
+   "reference_height_m": 1.715,
+   "source": "holzbaur_2007",
+   "aspect": 1.0,
+   "notes": "El estudio da el musculo entero (triceps, 372.1 cm3): se reparte en partes iguales entre sus haces por convencion."
+  },
+  {
+   "unit": "triceps_medial_head.L",
+   "kind": "medido",
+   "volume_cm3": 124.0333,
+   "reference_height_m": 1.715,
+   "source": "holzbaur_2007",
+   "aspect": 1.0,
+   "notes": "El estudio da el musculo entero (triceps, 372.1 cm3): se reparte en partes iguales entre sus haces por convencion."
+  },
+  {
+   "unit": "brachialis.L",
+   "kind": "medido",
+   "volume_cm3": 143.7,
+   "reference_height_m": 1.715,
+   "source": "holzbaur_2007",
+   "aspect": 1.0,
+   "notes": ""
+  },
+  {
+   "unit": "brachioradialis.L",
+   "kind": "medido",
+   "volume_cm3": 65.1,
+   "reference_height_m": 1.715,
+   "source": "holzbaur_2007",
+   "aspect": 1.0,
+   "notes": ""
+  },
+  {
+   "unit": "coracobrachialis.L",
+   "kind": "medido",
+   "volume_cm3": 25.2,
+   "reference_height_m": 1.715,
+   "source": "holzbaur_2007",
+   "aspect": 1.0,
+   "notes": ""
+  },
+  {
+   "unit": "pronator_teres.L",
+   "kind": "medido",
+   "volume_cm3": 38.4,
+   "reference_height_m": 1.715,
+   "source": "holzbaur_2007",
+   "aspect": 1.0,
+   "notes": ""
+  },
+  {
+   "unit": "flexor_carpi_radialis.L",
+   "kind": "medido",
+   "volume_cm3": 34.8,
+   "reference_height_m": 1.715,
+   "source": "holzbaur_2007",
+   "aspect": 1.0,
+   "notes": ""
+  },
+  {
+   "unit": "flexor_carpi_ulnaris.L",
+   "kind": "medido",
+   "volume_cm3": 37.1,
+   "reference_height_m": 1.715,
+   "source": "holzbaur_2007",
+   "aspect": 1.0,
+   "notes": ""
+  },
+  {
+   "unit": "extensor_carpi_radialis_longus.L",
+   "kind": "medido",
+   "volume_cm3": 37.5,
+   "reference_height_m": 1.715,
+   "source": "holzbaur_2007",
+   "aspect": 1.0,
+   "notes": ""
+  },
+  {
+   "unit": "extensor_carpi_radialis_brevis.L",
+   "kind": "medido",
+   "volume_cm3": 21.6,
+   "reference_height_m": 1.715,
+   "source": "holzbaur_2007",
+   "aspect": 1.0,
+   "notes": ""
+  },
+  {
+   "unit": "extensor_carpi_ulnaris.L",
+   "kind": "medido",
+   "volume_cm3": 17.0,
+   "reference_height_m": 1.715,
+   "source": "holzbaur_2007",
+   "aspect": 1.0,
+   "notes": ""
+  },
+  {
+   "unit": "supraspinatus.L",
+   "kind": "medido",
+   "volume_cm3": 50.0,
+   "reference_height_m": 1.715,
+   "source": "holzbaur_2007",
+   "aspect": 1.0,
+   "notes": ""
+  },
+  {
+   "unit": "infraspinatus.L",
+   "kind": "medido",
+   "volume_cm3": 118.6,
+   "reference_height_m": 1.715,
+   "source": "holzbaur_2007",
+   "aspect": 2.5,
+   "notes": ""
+  },
+  {
+   "unit": "subscapularis.L",
+   "kind": "medido",
+   "volume_cm3": 164.5,
+   "reference_height_m": 1.715,
+   "source": "holzbaur_2007",
+   "aspect": 2.5,
+   "notes": ""
+  },
+  {
+   "unit": "teres_minor.L",
+   "kind": "medido",
+   "volume_cm3": 28.0,
+   "reference_height_m": 1.715,
+   "source": "holzbaur_2007",
+   "aspect": 1.0,
+   "notes": ""
+  },
+  {
+   "unit": "teres_major.L",
+   "kind": "medido",
+   "volume_cm3": 32.7,
+   "reference_height_m": 1.715,
+   "source": "holzbaur_2007",
+   "aspect": 1.0,
+   "notes": ""
+  },
+  {
+   "unit": "pectoralis_major.L",
+   "kind": "medido",
+   "volume_cm3": 290.0,
+   "reference_height_m": 1.715,
+   "source": "holzbaur_2007",
+   "aspect": 3.0,
+   "notes": ""
+  },
+  {
+   "unit": "latissimus_dorsi.L",
+   "kind": "medido",
+   "volume_cm3": 262.3,
+   "reference_height_m": 1.715,
+   "source": "holzbaur_2007",
+   "aspect": 3.0,
+   "notes": ""
+  },
+  {
+   "unit": "trapezius_upper.L",
+   "kind": "convencion",
+   "size_class": "grande",
+   "aspect": 3.0,
+   "notes": "Convencion visual de orden de magnitud, no medida."
+  },
+  {
+   "unit": "trapezius_middle.L",
+   "kind": "convencion",
+   "size_class": "medio",
+   "aspect": 3.0,
+   "notes": "Convencion visual de orden de magnitud, no medida."
+  },
+  {
+   "unit": "trapezius_lower.L",
+   "kind": "convencion",
+   "size_class": "medio",
+   "aspect": 3.0,
+   "notes": "Convencion visual de orden de magnitud, no medida."
+  },
+  {
+   "unit": "pectoralis_minor.L",
+   "kind": "convencion",
+   "size_class": "pequeno",
+   "aspect": 3.0,
+   "notes": "Convencion visual de orden de magnitud, no medida."
+  },
+  {
+   "unit": "rectus_abdominis.L",
+   "kind": "convencion",
+   "size_class": "grande",
+   "aspect": 3.0,
+   "notes": "Convencion visual de orden de magnitud, no medida."
+  },
+  {
+   "unit": "sternocleidomastoid.L",
+   "kind": "convencion",
+   "size_class": "medio",
+   "aspect": 1.5,
+   "notes": "Convencion visual de orden de magnitud, no medida."
+  },
+  {
+   "unit": "rectus_femoris.L",
+   "kind": "convencion",
+   "size_class": "grande",
+   "aspect": 1.0,
+   "notes": "Convencion visual de orden de magnitud, no medida."
+  },
+  {
+   "unit": "vastus_lateralis.L",
+   "kind": "convencion",
+   "size_class": "muy_grande",
+   "aspect": 1.0,
+   "notes": "Convencion visual de orden de magnitud, no medida."
+  },
+  {
+   "unit": "vastus_medialis.L",
+   "kind": "convencion",
+   "size_class": "grande",
+   "aspect": 1.0,
+   "notes": "Convencion visual de orden de magnitud, no medida."
+  },
+  {
+   "unit": "vastus_intermedius.L",
+   "kind": "convencion",
+   "size_class": "grande",
+   "aspect": 1.0,
+   "notes": "Convencion visual de orden de magnitud, no medida."
+  },
+  {
+   "unit": "biceps_femoris.L",
+   "kind": "convencion",
+   "size_class": "grande",
+   "aspect": 1.0,
+   "notes": "Convencion visual de orden de magnitud, no medida. Cabeza larga."
+  },
+  {
+   "unit": "biceps_femoris_short_head.L",
+   "kind": "convencion",
+   "size_class": "medio",
+   "aspect": 1.0,
+   "notes": "Convencion visual de orden de magnitud, no medida."
+  },
+  {
+   "unit": "semitendinosus.L",
+   "kind": "convencion",
+   "size_class": "grande",
+   "aspect": 1.0,
+   "notes": "Convencion visual de orden de magnitud, no medida."
+  },
+  {
+   "unit": "semimembranosus.L",
+   "kind": "convencion",
+   "size_class": "grande",
+   "aspect": 1.0,
+   "notes": "Convencion visual de orden de magnitud, no medida."
+  },
+  {
+   "unit": "gastrocnemius.L",
+   "kind": "convencion",
+   "size_class": "grande",
+   "aspect": 1.0,
+   "notes": "Convencion visual de orden de magnitud, no medida. Cabeza medial."
+  },
+  {
+   "unit": "gastrocnemius_lateral.L",
+   "kind": "convencion",
+   "size_class": "medio",
+   "aspect": 1.0,
+   "notes": "Convencion visual de orden de magnitud, no medida."
+  },
+  {
+   "unit": "soleus.L",
+   "kind": "convencion",
+   "size_class": "muy_grande",
+   "aspect": 2.0,
+   "notes": "Convencion visual de orden de magnitud, no medida."
+  },
+  {
+   "unit": "tibialis_anterior.L",
+   "kind": "convencion",
+   "size_class": "grande",
+   "aspect": 1.0,
+   "notes": "Convencion visual de orden de magnitud, no medida."
+  },
+  {
+   "unit": "peroneus_longus.L",
+   "kind": "convencion",
+   "size_class": "medio",
+   "aspect": 1.0,
+   "notes": "Convencion visual de orden de magnitud, no medida."
+  },
+  {
+   "unit": "peroneus_brevis.L",
+   "kind": "convencion",
+   "size_class": "pequeno",
+   "aspect": 1.0,
+   "notes": "Convencion visual de orden de magnitud, no medida."
+  }
+ ]
+}

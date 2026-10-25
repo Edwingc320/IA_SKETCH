@@ -127,7 +127,9 @@ La suite corre **dentro de Blender** y compara números reales, no solo que Blen
 
 - **`test_muscles.py`** (solo en `muscle-model`): gluteos anclados a los hitos oseos a menos de 12 mm de la superficie de su hueso, fibras origen-insercion, simetria, escala y seguimiento del hueso en Blender.
 
-- **`test_tendons.py`** (solo en `muscle-model`): 80 unidades musculo-tendinosas por lado en todo el cuerpo, con tendon y vientre, a menos de 12 mm de su hueso, vias oseas (tunel carpiano, maleolos, surco intertubercular) y convencion de longitud declarada.
+- **`test_muscle_volumes.py`** (solo en `muscle-model`): volumen de los vientres de los grandes grupos (cuádriceps, isquiotibiales, pantorrilla, hombro y brazo, antebrazo, torso y cuello): volumen medido (Holzbaur 2007) o convención visual declarada, malla cerrada de volumen exacto, perfil fusiforme, escala con k³ y seguimiento del hueso en Blender.
+
+- **`test_tendons.py`** (solo en `muscle-model`): 86 unidades musculo-tendinosas por lado en todo el cuerpo, con tendon y vientre, a menos de 12 mm de su hueso, vias oseas (tunel carpiano, maleolos, surco intertubercular) y convencion de longitud declarada.
 
 - **`test_spine_ligaments.py`**, **`test_thorax_ligaments.py`**, **`test_pelvic_floor.py`** y **`test_hand_foot_ligaments.py`**: ligamentos de la columna, el tórax y el hombro, el suelo pélvico y la mano y el pie; todas las articulaciones tienen ligamentos salvo la escapulotorácica.
 
@@ -137,7 +139,7 @@ La suite corre **dentro de Blender** y compara números reales, no solo que Blen
 
 - **`test_leg_foot.py`**: piernas y pies: jerarquía anatómica (fémur → ilion, tibia y peroné → fémur, rótula delante de la rodilla, astrágalo → tibia, tarso y metatarso, cadenas de dedos exactas con las puntas a menos de 12 mm del suelo) y puntos de unión.
 
-Resumen esperado: `[SUMMARY] ejecutadas=310 fallos=0 errores=0 omitidas=0` y `RESULTADO FINAL: OK`. Las pruebas fijan los valores **por defecto** de `config\`; si editas la configuración, ejecuta `-Task Generate` (la validación interna siempre corre) y, si un test de valores por defecto falla por tus cambios, es esperado.
+Resumen esperado: `[SUMMARY] ejecutadas=320 fallos=0 errores=0 omitidas=0` y `RESULTADO FINAL: OK`. Las pruebas fijan los valores **por defecto** de `config\`; si editas la configuración, ejecuta `-Task Generate` (la validación interna siempre corre) y, si un test de valores por defecto falla por tus cambios, es esperado.
 
 ## Modificar las proporciones y la pose
 
@@ -277,6 +279,6 @@ output/  logs/     resultados y registros (no se versionan; son reproducibles)
 Solo hay dos lineas de trabajo, una por cada parte del cuerpo:
 
 - **`main`: modelo de estructura osea.** Base (nivel 0), huesos del nivel 1, articulaciones, ligamentos y hitos oseos. No contiene musculos ni tendones (una prueba lo vigila).
-- **`muscle-model`: modelo de estructura muscular.** Es `main` mas una capa muscular propia (`config/muscles/`, `muscles.py`, `muscles_scene.py`, `tests/test_muscles.py`): cada origen e insercion nace de un hito oseo de `main`. Como esos archivos no existen en `main`, **`main` se puede fusionar en `muscle-model`** sin perder nada. Hoy contiene los gluteos (`docs/musculos_gluteos.md`) y la capa de tendones de todo el cuerpo (`docs/tendones.md`: 80 unidades musculo-tendinosas por lado). Pendiente: el resto de musculos, y verificar en un atlas lo apoyado en fuentes debiles (la cintilla iliotibial en el tuberculo de Gerdy, deltoides, trapecio, masetero, temporal, psoas, etc.; los datos antiguos estan en el historial, commit `81f52ee`).
+- **`muscle-model`: modelo de estructura muscular.** Es `main` mas una capa muscular propia (`config/muscles/`, `muscles.py`, `muscles_scene.py`, `tests/test_muscles.py`): cada origen e insercion nace de un hito oseo de `main`. Como esos archivos no existen en `main`, **`main` se puede fusionar en `muscle-model`** sin perder nada. Hoy contiene los gluteos (`docs/musculos_gluteos.md`) la capa de tendones de todo el cuerpo (`docs/tendones.md`: 86 unidades musculo-tendinosas por lado) y el volumen de los vientres de los grandes grupos (`docs/volumenes_musculares.md`: 44 por lado; medido en el miembro superior y el tronco, convencion visual declarada en la pierna). Pendiente: el resto de musculos, y verificar en un atlas lo apoyado en fuentes debiles (la cintilla iliotibial en el tuberculo de Gerdy, deltoides, trapecio, masetero, temporal, psoas, etc.; los datos antiguos estan en el historial, commit `81f52ee`).
 
 Las ramas de trabajo se fusionan en `main` y se borran; el tag `v0.1.0` se conserva.

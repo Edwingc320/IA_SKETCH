@@ -14,7 +14,7 @@ Motor reproducible y configurable de esqueleto humano 3D en **Blender 5.0.1** (P
 
 ## Estado (2026-10-25)
 - `main`: modelo óseo. 292 pruebas en verde (Blender). 265 articulaciones naturales, 620 ligamentos, 156 hitos óseos, 124 fuentes. Todas las articulaciones tienen ligamentos salvo la escapulotorácica.
-- `muscle-model`: `main` + glúteos (mayor, mediano, menor) + capa de tendones (80 unidades músculo-tendinosas por lado, todo el cuerpo). 310 pruebas.
+- `muscle-model`: `main` + glúteos (mayor, mediano, menor) + capa de tendones (86 unidades músculo-tendinosas por lado, todo el cuerpo) + volumen de los vientres de los grandes grupos (44 por lado). 320 pruebas.
 - Remoto: `origin` = https://github.com/edwingalcol320-blip/AI_SKETCH.git configurado, **pero el push falla con «Repository not found»** (2026-10-25): el repositorio no existe todavía en GitHub o es privado y la sesión no tiene credenciales. Hay que crearlo vacío (sin README) en la cuenta `edwingalcol320-blip` o autenticarse, y luego `git push -u origin main` y `git push -u origin muscle-model`.
 
 ## Decisiones tomadas (cronológico)
@@ -32,6 +32,9 @@ Motor reproducible y configurable de esqueleto humano 3D en **Blender 5.0.1** (P
 12. **Regla de 12 mm con trinquete**: todo anclaje nuevo queda a < 12 mm de su hueso; los antiguos que no cumplen están fijados en `tests/test_anchor_debt.py` (solo puede disminuir; 61 al cierre). La distancia al hueso cuenta la cara de las láminas cerradas y el **volumen del cráneo** (dentro de la bóveda = sobre el hueso).
 13. **Vértebras y huesos largos sin anchura**: los puntos se colocan a 8-11 mm del eje, en el orden anatómico correcto, no sobre la apófisis real (documentado en cada nota).
 14. **Capa de tendones (`muscle-model`)**: unidad músculo-tendinosa = línea origen → vías óseas → inserción; la longitud del tendón es una **convención visual** declarada (corto 10 %, medio 25 %, largo 45 %), no una medida. Los músculos sin fuente consultada quedan «verificar en un atlas».
+
+15. **Volumen muscular (`muscle-model`)**: cada vientre es un husillo cerrado a lo largo de la línea músculo-tendinosa, con el volumen exacto declarado; medido (Holzbaur 2007: miembro superior, pectoral mayor y dorsal ancho, escalado desde 171,5 cm) o por **convención visual de cuatro clases** (pequeño 40, medio 150, grande 350, muy grande 700 cm³ a 1,75 m) donde no hubo dato (pierna, trapecio, pectoral menor, recto del abdomen, esternocleidomastoideo). Con `--height` el volumen escala con k³ (isométrico, hipótesis declarada). Pendiente: conseguir volúmenes medidos de la pierna (Handsfield 2014, Ward 2009) y verificar braquial y bíceps (ambos 143,7).
+16. **Generación en Blender lenta**: `scene._bone_parent_inverses` sondea cada hueso con una actualización completa de la escena (21 s de 32 por generación); la suite completa tarda ~4 min. No se tocó para no alterar el emparentado validado.
 
 
 ## Lecciones técnicas
