@@ -112,6 +112,16 @@
    "url": "https://en.wikipedia.org/wiki/Sacrospinous_ligament",
    "reliability": "media",
    "title": "Wikipedia - Sacrospinous ligament (margenes laterales del sacro y el coxis a la espina isquiatica)"
+  },
+  "femur_morphometry": {
+   "url": "https://www.banglajol.info/index.php/BJA/article/view/92302",
+   "reliability": "media",
+   "title": "Morfometria del cuello femoral en adultos (Bangladesh; radiografia) y series de cadaveres de la India y Kenia, leidas en resumenes de busqueda: diametro de la cabeza 38-48 mm, del cuello 28-34 mm. Los radios del modelo (22 y 15 mm) son el centro de esos rangos: CONVENCION de obstaculo"
+  },
+  "hip_ligament_forces_2021": {
+   "url": "https://boneandjoint.org.uk/Article/10.1302/2046-3758.109.BJR-2020-0536.R1",
+   "reliability": "media",
+   "title": "Bone Joint Res 2021 (DOI 10.1302/2046-3758.109.BJR-2020-0536.R1) - nueve cadaveres: vectores de fuerza de los ligamentos capsulares de la cadera en los extremos del movimiento (iliofemoral en extension y aduccion; isquiofemoral en flexion, aduccion y rotacion interna); leido en el resumen de busqueda"
   }
  },
  "joints": [
@@ -638,25 +648,30 @@
    "to": {
     "bone": "femur.L",
     "point": {
-     "lerp": [
-      "femur.L.outline_1",
-      "femur.L.outline_2",
-      0.2
-     ],
+     "at": "thigh.L.head",
      "offset_h": [
-      0,
-      0,
-      0
+      0.023812,
+      -0.006793,
+      -0.014286
      ]
     }
    },
    "joint": "coxofemoral.L",
    "sources": [
+    "femur_morphometry",
+    "hip_ligament_forces_2021",
     "statpearls_hip",
     "weill_hip_capsule"
    ],
-   "notes": "En Y, de la espina iliaca anteroinferior a la linea intertrocanterea: el mas fuerte; limita extension y rotacion externa.",
-   "tolerance_m": 0.012
+   "notes": "En Y, de la espina iliaca anteroinferior a la linea intertrocanterea: el mas fuerte; limita extension y rotacion externa. CM-4: Inserta en la cara anterior de la base del cuello (linea intertrocanterea). La trayectoria no atraviesa la cabeza ni el cuello (barrido flexion 0-120, extension 15, abduccion 45).",
+   "tolerance_m": 0.012,
+   "mechanics": {
+    "status": "convencion_parametrica_declarada",
+    "stiffness_N_per_mm": null,
+    "slack_length_m": null,
+    "note": "No se consiguieron en fuentes abiertas coeficientes de rigidez ni longitud sin tension de este ligamento; se declaran como convencion parametrica (sin valor): el modelo da geometria y envoltura, no fuerzas."
+   },
+   "deform": true
   },
   {
    "name": "pubofemoral.L",
@@ -675,25 +690,44 @@
    "to": {
     "bone": "femur.L",
     "point": {
-     "lerp": [
-      "femur.L.outline_0",
-      "femur.L.outline_1",
-      0.6
-     ],
+     "at": "thigh.L.head",
      "offset_h": [
-      0,
-      0,
-      0
+      0.018438,
+      0.002317,
+      -0.021724
      ]
     }
    },
    "joint": "coxofemoral.L",
    "sources": [
+    "femur_morphometry",
+    "hip_ligament_forces_2021",
     "statpearls_hip",
     "weill_hip_capsule"
    ],
-   "notes": "De la rama superior del pubis al cuello femoral; limita abduccion y extension.",
-   "tolerance_m": 0.012
+   "notes": "De la rama superior del pubis al cuello femoral; limita abduccion y extension. CM-4: Pasa bajo la cabeza por una guia en su cara medial-inferior y termina en la cara inferior de la base del cuello. La trayectoria no atraviesa la cabeza ni el cuello (barrido flexion 0-120, extension 15, abduccion 45).",
+   "tolerance_m": 0.012,
+   "via": [
+    {
+     "bone": "femur.L",
+     "structure": "cara medial-inferior de la cabeza femoral, a 6 mm de su superficie (guia de envoltura)",
+     "point": {
+      "at": "thigh.L.head",
+      "offset_h": [
+       -0.006928,
+       -0.004,
+       -0.013856
+      ]
+     }
+    }
+   ],
+   "mechanics": {
+    "status": "convencion_parametrica_declarada",
+    "stiffness_N_per_mm": null,
+    "slack_length_m": null,
+    "note": "No se consiguieron en fuentes abiertas coeficientes de rigidez ni longitud sin tension de este ligamento; se declaran como convencion parametrica (sin valor): el modelo da geometria y envoltura, no fuerzas."
+   },
+   "deform": true
   },
   {
    "name": "ischiofemoral.L",
@@ -714,19 +748,28 @@
     "point": {
      "at": "thigh.L.head",
      "offset_h": [
-      0.02,
-      0.006857142857142858,
-      -0.01257142857142857
+      0.020209,
+      0.010206,
+      -0.017455
      ]
     }
    },
    "joint": "coxofemoral.L",
    "sources": [
+    "femur_morphometry",
+    "hip_ligament_forces_2021",
     "statpearls_hip",
     "weill_hip_capsule"
    ],
-   "notes": "Del isquion al cuello femoral posterior; principal freno de la rotacion interna.",
-   "tolerance_m": 0.012
+   "notes": "Del isquion al cuello femoral posterior; principal freno de la rotacion interna. CM-4: Termina en la cara posterior de la base del cuello. La trayectoria no atraviesa la cabeza ni el cuello (barrido flexion 0-120, extension 15, abduccion 45).",
+   "tolerance_m": 0.012,
+   "mechanics": {
+    "status": "convencion_parametrica_declarada",
+    "stiffness_N_per_mm": null,
+    "slack_length_m": null,
+    "note": "No se consiguieron en fuentes abiertas coeficientes de rigidez ni longitud sin tension de este ligamento; se declaran como convencion parametrica (sin valor): el modelo da geometria y envoltura, no fuerzas."
+   },
+   "deform": true
   }
  ],
  "attachments": [
@@ -1135,6 +1178,44 @@
    ],
    "notes": "Trocanter mayor: punto lateral del contorno proximal del femur.",
    "tolerance_m": 0.012
+  }
+ ],
+ "bone_surfaces": [
+  {
+   "name": "femoral_head.L",
+   "mirror": true,
+   "bone": "femur.L",
+   "kind": "sphere",
+   "a": {
+    "at": "thigh.L.head"
+   },
+   "radius_m": 0.022,
+   "sources": [
+    "femur_morphometry"
+   ],
+   "notes": "Esfera centrada en el centro de la articulacion; diametro 44 mm a 1.75 m (rango publicado 38-48). Convencion de obstaculo."
+  },
+  {
+   "name": "femoral_neck.L",
+   "mirror": true,
+   "bone": "femur.L",
+   "kind": "capsule",
+   "a": {
+    "at": "thigh.L.head"
+   },
+   "b": {
+    "at": "thigh.L.head",
+    "offset_h": [
+     0.025713,
+     0.002574,
+     -0.015426
+    ]
+   },
+   "radius_m": 0.015,
+   "sources": [
+    "femur_morphometry"
+   ],
+   "notes": "Capsula del centro de la cabeza al 90 % del camino hacia el trocanter mayor; diametro 30 mm a 1.75 m (rango publicado 28-34). Convencion de obstaculo."
   }
  ]
 }

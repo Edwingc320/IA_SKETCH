@@ -87,6 +87,7 @@ def generate(output_blend, config_dir=None, anatomy_dir=None, reference_path=Non
     if art_data:
         art = articulations.build_articulations(base, anat, art_data)
         art_issues = validation.validate_articulations(base, anat, art)
+        art_issues += validation.validate_ligament_poses(base, anat, art)  # barrido de la cadera: ningun ligamento atraviesa el femur
         for i in art_issues:
             log(str(i))
         issues += art_issues

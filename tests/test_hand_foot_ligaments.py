@@ -48,7 +48,7 @@ class TestEveryJointHasLigaments(unittest.TestCase):
             if n.endswith(".R"):
                 continue
             for end, bone, p in (("a", x.from_bone, x.a), ("b", x.to_bone, x.b)):
-                if articulations.bone_distance(p, bone, base, anat) > tol:
+                if articulations.bone_distance(p, bone, base, anat, art.surfaces) > tol:  # con la superficie de la cabeza y el cuello del femur
                     self.assertIn((f"{n}.{end}", bone), debt, n)
 
 

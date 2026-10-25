@@ -598,7 +598,7 @@ def validate_articulations(base: SkeletonModel, anat, art) -> list:
         for b in j.bones:
             if b not in known:
                 continue
-            d = bone_distance(j.center, b, base, anat)
+            d = bone_distance(j.center, b, base, anat, art.surfaces)
             if d > j.tolerance_m:
                 out.append(Issue("error", "ART_JOINT_FAR", f"'{n}': el centro esta a {d * 1000:.1f} mm de '{b}' (tolerancia {j.tolerance_m * 1000:.0f} mm)"))
             elif d > JOINT_GAP_WARN_M and j.known_limitation:
@@ -628,21 +628,52 @@ def validate_articulations(base: SkeletonModel, anat, art) -> list:
         for label, bone, p in (("origen", lg.from_bone, lg.a), ("insercion", lg.to_bone, lg.b)):
             if bone not in known:
                 out.append(Issue("error", "ART_BONE_UNKNOWN", f"Ligamento '{n}': hueso inexistente '{bone}'"))
-            elif bone_distance(p, bone, base, anat) > lg.tolerance_m:
+            elif bone_distance(p, bone, base, anat, art.surfaces) > lg.tolerance_m:
                 out.append(Issue("error", "ART_LIGAMENT_OFF_BONE", f"Ligamento '{n}': el {label} no esta sobre '{bone}'"))
+        for k, w in enumerate(lg.via):  # guias de envoltura: sobre su hueso (< tolerancia) y con fuente de la trayectoria en el ligamento
+            if w.bone not in known:
+                out.append(Issue("error", "ART_BONE_UNKNOWN", f"Ligamento '{n}': la guia {k} cita el hueso inexistente '{w.bone}'"))
+            elif bone_distance(w.point, w.bone, base, anat, art.surfaces) > lg.tolerance_m:
+                out.append(Issue("error", "ART_VIA_OFF_BONE", f"Ligamento '{n}': la guia {k} no esta a menos de {lg.tolerance_m * 1000:.0f} mm de '{w.bone}'"))
+        if lg.mechanics is not None:
+            m = lg.mechanics
+            if m.get("status") not in ("convencion_parametrica_declarada", "medido"):
+                out.append(Issue("error", "ART_MECHANICS_STATUS", f"Ligamento '{n}': mechanics.status debe ser convencion_parametrica_declarada o medido"))
+            elif m["status"] == "convencion_parametrica_declarada" and (m.get("stiffness_N_per_mm") is not None or m.get("slack_length_m") is not None):
+                out.append(Issue("error", "ART_MECHANICS_INVENTED", f"Ligamento '{n}': una convencion declarada no puede traer valores mecanicos"))
+            elif m["status"] == "medido" and (m.get("stiffness_N_per_mm") is None or not m.get("source")):
+                out.append(Issue("error", "ART_MECHANICS_NO_SOURCE", f"Ligamento '{n}': una propiedad mecanica medida necesita valor y fuente"))
+        if art.surfaces:  # en reposo ninguna poligonal atraviesa un obstaculo
+            from . import ligament_paths as _lp
+
+            if _lp.nodes(lg) and any(s.bone in (lg.from_bone, lg.to_bone, *[w.bone for w in lg.via]) for s in art.surfaces.values()):
+                clear = min(s.signed_distance(p) for s in art.surfaces.values() for p in _lp.rest_samples(lg))
+                if clear < -_lp.PENETRATION_TOL_M * base.height_m / 1.75:
+                    out.append(Issue("error", "ART_LIGAMENT_PENETRATES", f"Ligamento '{n}': en reposo atraviesa el hueso {-clear * 1000:.1f} mm"))
+        if lg.deform and not lg.via and lg.from_bone == lg.to_bone:
+            out.append(Issue("error", "ART_DEFORM_USELESS", f"Ligamento '{n}': deform sin guias y con los dos extremos en el mismo hueso"))
         span = length(sub(lg.b, lg.a))
         if lg.typical_length_m and span > 3 * lg.typical_length_m:
             out.append(Issue("warning", "ART_LIGAMENT_LENGTH", f"Ligamento '{n}' mide {span * 1000:.0f} mm (tipico ~{lg.typical_length_m * 1000:.0f} mm): limitacion documentada"))
+    for n, sf in art.surfaces.items():
+        check_sources(n, sf.sources)
+        if sf.bone not in known:
+            out.append(Issue("error", "ART_BONE_UNKNOWN", f"Superficie '{n}': hueso inexistente '{sf.bone}'"))
+        elif bone_distance(sf.a, sf.bone, base, anat) > 0.012 * base.height_m / 1.75:
+            out.append(Issue("error", "ART_SURFACE_OFF_BONE", f"Superficie '{n}': su eje no nace sobre '{sf.bone}'"))
+        if not sf.sources:
+            out.append(Issue("error", "ART_SURFACE_NO_SOURCE", f"Superficie '{n}' sin fuente (el radio es una convencion con rango publicado)"))
     for n, at in art.attachments.items():
         check_sources(n, at.sources)
         if at.bone not in known:
             out.append(Issue("error", "ART_BONE_UNKNOWN", f"Insercion '{n}': hueso inexistente '{at.bone}'"))
-        elif bone_distance(at.point, at.bone, base, anat) > at.tolerance_m:
+        elif bone_distance(at.point, at.bone, base, anat, art.surfaces) > at.tolerance_m:
             out.append(Issue("error", "ART_ATTACHMENT_OFF_BONE", f"Insercion '{n}' no esta sobre '{at.bone}'"))
         if not at.structures:
             out.append(Issue("error", "ART_ATTACHMENT_EMPTY", f"Insercion '{n}' sin estructuras"))
     # simetria
-    for store, pts in ((art.joints, lambda x: [x.center]), (art.ligaments, lambda x: [x.a, x.b]), (art.attachments, lambda x: [x.point])):
+    for store, pts in ((art.joints, lambda x: [x.center]), (art.ligaments, lambda x: [x.a, *[w.point for w in x.via], x.b]), (art.attachments, lambda x: [x.point]),
+                       (art.surfaces, lambda x: [x.a, x.b])):
         for n, x in store.items():
             if ".L" in n and n.replace(".L", ".R") in store:
                 for p, q in zip(pts(x), pts(store[n.replace(".L", ".R")])):
@@ -651,14 +682,36 @@ def validate_articulations(base: SkeletonModel, anat, art) -> list:
     return out
 
 
+def validate_ligament_poses(base: SkeletonModel, anat, art, sides=("L", "R")) -> list:
+    """Barrido de la cadera (ligament_paths.HIP_SWEEP): ningun ligamento de la cadera atraviesa la cabeza ni el cuello del femur en ninguna pose.
+    Los nodos viajan con sus huesos por construccion, asi que un nodo no puede quedar atras; lo que se mide es la distancia a los obstaculos."""
+    from . import ligament_paths as lp
+
+    out = []
+    tol = lp.PENETRATION_TOL_M * base.height_m / 1.75
+    for side in sides:
+        hip = art.joints.get(f"coxofemoral.{side}")
+        if hip is None:
+            continue
+        for pose_name, posed in lp.hip_sweep_poses(base, side):
+            surfaces = lp.posed_surfaces(art, base, anat, posed)
+            for n in hip.ligaments:
+                clear = lp.path_clearance(lp.posed_path(art.ligaments[n], base, anat, posed), surfaces)
+                if clear < -tol:
+                    out.append(Issue("error", "LIG_PENETRATES", f"'{n}' atraviesa el femur {-clear * 1000:.1f} mm en la pose '{pose_name}'"))
+    return out
+
+
 def validate_articulations_snapshot(art, snap: dict) -> list:
     """Compara los marcadores de union leidos de Blender con el modelo (posicion y padre)."""
+    from . import ligament_paths
+
     out = []
     expected = {}
     for n, j in art.joints.items():
         expected[f"ART_{n}"] = (j.carrier, [j.center])
     for n, lg in art.ligaments.items():
-        expected[f"LIG_{n}"] = (lg.from_bone, [lg.a, lg.b])
+        expected[f"LIG_{n}"] = (None if lg.deform else lg.from_bone, [p for _, p in ligament_paths.nodes(lg)])
     for n, at in art.attachments.items():
         expected[f"ATT_{n}"] = (at.bone, [at.point])
     for obj, (bone, pts) in expected.items():

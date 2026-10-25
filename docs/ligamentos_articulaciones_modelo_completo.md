@@ -55,6 +55,10 @@ Las inserciones concretas se apoyan en fuentes de fiabilidad media y baja: cada 
 
 Las **265 articulaciones** (213 anteriores, 46 cigapofisarias y 6 del tarso) tienen ligamentos, **salvo la escapulotorácica** (músculos y fascia), y una prueba lo exige. El modelo óseo suma **620 ligamentos**.
 
+## Cadera con guías de envoltura (CM-4)
+
+Los tres ligamentos capsulares de la cadera (iliofemoral, pubofemoral, isquiofemoral) llevan, además de origen e inserción, **guías** (`via`) y una **superficie de obstáculo** para la cabeza y el cuello del fémur (`bone_surfaces`, esfera de 22 mm y cápsula de 15 mm de radio: convención con el centro de los rangos de diámetro publicados, [Morfometría del cuello femoral](https://www.banglajol.info/index.php/BJA/article/view/92302)). Fuente de la función de cada ligamento: [Bone Joint Res 2021](https://boneandjoint.org.uk/Article/10.1302/2046-3758.109.BJR-2020-0536.R1) (nueve cadáveres; leído en resumen). La distancia a la que se mide el anclaje de 12 mm incluye esa superficie. Detalle y límites en `docs/avances/03_ligamentos.md`.
+
 ## Deuda de anclaje
 
 Quedan **61 anclajes antiguos** a más de 12 mm de su hueso (cráneo lateral, costillas–vértebra, codo, muñeca, rodilla, tobillo…). Están fijados en `tests/test_anchor_debt.py`: la lista solo puede disminuir.
