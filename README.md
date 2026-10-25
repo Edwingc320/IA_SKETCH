@@ -219,6 +219,8 @@ Regiones (orden aprobado):
 
 **Brazos y manos** (`docs\anatomia_brazos_manos.md`): húmero hijo de la escápula, radio y cúbito hijos del húmero, fila proximal del carpo hija del radio y el cúbito, fila distal de la proximal y falanges en cadenas exactas (30 huesos por lado); en pose A la palma queda medial y algo anterior (`elbow.pronation = 70°`; los dof del codo pasan a `[pronation, flexion]`, cambio deliberado de la base).
 
+**Plan de construcción por regiones** (`docs\plan\00_plan_general.md`) con el estado de cada región en `docs\estado\`: orden de ejecución (caderas y muslo, tren superior, torso, pierna y pie, cabeza y cuello, piel), huecos medidos, pasos y criterios de aceptación.
+
 **Avances por capa** (`docs\avances\00_indice.md`): un documento por capa (esqueleto, articulaciones, ligamentos, tendones, músculos y piel —aún no iniciada—) para consultar el estado de un vistazo; la plantilla para investigar una región es `docs\plantilla_investigacion_region.md`.
 
 **Ligamentos y articulaciones de todo el modelo** (`docs\ligamentos_articulaciones_modelo_completo.md`): ligamentos de todos los niveles de la columna, de las costillas, el esternón, el hombro, el suelo pélvico y los dedos, y las articulaciones cigapofisarias e intercuneiformes. Una prueba exige que toda articulación tenga ligamentos salvo la escapulotorácica. Los tendones son del modelo muscular (`muscle-model`).

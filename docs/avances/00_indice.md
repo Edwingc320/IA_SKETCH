@@ -20,6 +20,10 @@ Un documento por capa para consultar el estado de un vistazo. Se **agrega** al f
 
 Remoto: `https://github.com/Edwingc320/IA_SKETCH.git` (`main`, `muscle-model` y el tag `v0.1.0`). Reglas: `AGENTS.md`. Decisiones y lecciones: `MEMORY.md`.
 
+## Plan y estado por región
+
+El plan de construcción por regiones (orden de ejecución, huecos, pasos y criterios de aceptación) está en [`docs/plan/00_plan_general.md`](../plan/00_plan_general.md) y el estado con casillas de cada región en `docs/estado/` (caderas y muslo, tren superior, torso, pierna y pie, cabeza y cuello, piel).
+
 ## Cómo se lee cada documento
 
 Cada capa explica **qué hay** (con cifras reales), **dónde está** (archivos), **cómo se prueba**, **de dónde salen los números** (fuentes y su fiabilidad) y **qué falta**.
