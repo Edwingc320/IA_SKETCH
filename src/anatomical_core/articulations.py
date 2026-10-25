@@ -23,7 +23,7 @@ from .geometry import Vec3, mirror_point
 from .skeleton import SkeletonModel
 
 ARTICULATIONS_DIR = PROJECT_ROOT / "config" / "articulations"
-FILES = ("thorax_shoulder", "head_neck", "lumbar_pelvis", "arm_hand", "leg_foot", "spine", "thorax_ligaments")
+FILES = ("thorax_shoulder", "head_neck", "lumbar_pelvis", "arm_hand", "leg_foot", "spine", "thorax_ligaments", "pelvic_floor")
 
 
 @dataclass(frozen=True)

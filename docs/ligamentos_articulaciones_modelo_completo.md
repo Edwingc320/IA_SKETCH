@@ -32,6 +32,16 @@ La **articulación escapulotorácica no tiene ligamentos**: se sostiene por mús
 
 Cambios de huesos para que los puntos queden sobre el hueso: la escápula añade el **borde lateral** (vuelve del ángulo inferior al glenoides) y la **apófisis coracoides** al contorno, y los tubérculos mayor y menor y la tuberosidad deltoidea se colocan a 11 mm del eje del húmero (que no tiene anchura en el modelo). Con ello cuatro ligamentos antiguos (coracoclavicular conoide y trapezoide, coracoacromial) y tres hitos pasaron a menos de 12 mm.
 
+## 3. Suelo pélvico — `config/articulations/pelvic_floor.json`
+
+| Articulación | Ligamentos | Fuentes |
+|---|---|---|
+| Sínfisis del pubis | pubiano superior y arqueado (inferior), cruzan la línea media por encima y por debajo del disco | [StatPearls](https://www.statpearls.com/point-of-care/32333) y [cuestionario](https://wiki.voka.io/anatomy-quizzes/abdomen-and-pelvis/pelvic-joints/) (fiabilidad baja) |
+| Sacrococcígea | anterior, posterior (profundo y superficial en la realidad: una sola banda) y lateral (del ángulo inferolateral del sacro al cóccix) | [Anatomy Standard](https://www.anatomystandard.com/ossa-et-juncturae/columna-vertebralis/art-lumbosacralis-et-sacrococcygea.html) y cuestionario |
+| Sacroilíaca (×2) | anterior, interóseo (corto, el más profundo) y posterior (llega a la espina ilíaca posterior); se suman al iliolumbar, sacrotuberoso y sacroespinoso de la sección pélvica | StatPearls y cuestionario |
+
+Las inserciones concretas se apoyan en fuentes de fiabilidad media y baja: cada nota dice **verificar en un atlas**.
+
 ## Deuda de anclaje
 
 Quedan **72 anclajes antiguos** a más de 12 mm de su hueso (cráneo lateral, costillas–vértebra, codo, muñeca, rodilla, tobillo…). Están fijados en `tests/test_anchor_debt.py`: la lista solo puede disminuir.

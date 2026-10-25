@@ -1,0 +1,329 @@
+{
+ "schema_version": 2,
+ "region": "pelvic_floor",
+ "description": "Ligamentos del suelo pelvico: sinfisis del pubis, sacrococcigeos y sacroiliacos. Modelo oseo. Coordenadas: +X izquierda, +Y atras, +Z arriba.",
+ "sources": {
+  "statpearls_pelvic": {
+   "url": "https://www.statpearls.com/point-of-care/32333",
+   "reliability": "media",
+   "title": "StatPearls - articulaciones y ligamentos de la pelvis (sinfisis del pubis, sacroiliaca)"
+  },
+  "anatomystandard_sc": {
+   "url": "https://www.anatomystandard.com/ossa-et-juncturae/columna-vertebralis/art-lumbosacralis-et-sacrococcygea.html",
+   "reliability": "media",
+   "title": "Anatomy Standard - articulaciones lumbosacra y sacrococcigea"
+  },
+  "voka_pelvic": {
+   "url": "https://wiki.voka.io/anatomy-quizzes/abdomen-and-pelvis/pelvic-joints/",
+   "reliability": "baja",
+   "title": "Cuestionarios de anatomia - articulaciones de la pelvis (VERIFICAR en un atlas)"
+  }
+ },
+ "joints": [],
+ "ligaments": [
+  {
+   "name": "superior_pubic",
+   "mirror": false,
+   "from": {
+    "bone": "pubis.L",
+    "point": {
+     "at": "pubis.L.tail",
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.004571428571428572
+     ]
+    }
+   },
+   "to": {
+    "bone": "pubis.R",
+    "point": {
+     "at": "pubis.R.tail",
+     "offset_h": [
+      -0.002285714285714286,
+      0.0,
+      0.004571428571428572
+     ]
+    }
+   },
+   "joint": "pubic_symphysis",
+   "sources": [
+    "statpearls_pelvic",
+    "voka_pelvic"
+   ],
+   "notes": "Ligamento pubico superior: une los cuerpos de los dos pubis por encima del disco interpubico. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "arcuate_pubic",
+   "mirror": false,
+   "from": {
+    "bone": "pubis.L",
+    "point": {
+     "at": "pubis.L.tail",
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      -0.004571428571428572
+     ]
+    }
+   },
+   "to": {
+    "bone": "pubis.R",
+    "point": {
+     "at": "pubis.R.tail",
+     "offset_h": [
+      -0.002285714285714286,
+      0.0,
+      -0.004571428571428572
+     ]
+    }
+   },
+   "joint": "pubic_symphysis",
+   "sources": [
+    "statpearls_pelvic",
+    "voka_pelvic"
+   ],
+   "notes": "Ligamento pubico inferior o arqueado: el mas grueso; cierra por debajo el disco y redondea el arco pubico. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "anterior_sacrococcygeal",
+   "mirror": false,
+   "from": {
+    "bone": "sacrum",
+    "point": {
+     "lerp": [
+      "sacrum.head",
+      "sacrum.tail",
+      0.93
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "coccyx",
+    "point": {
+     "lerp": [
+      "coccyx.head",
+      "coccyx.tail",
+      0.3
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "sacrococcygeal",
+   "sources": [
+    "anatomystandard_sc",
+    "voka_pelvic"
+   ],
+   "notes": "Sacrococcigeo anterior: corto, por delante de la union sacrococcigea. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_sacrococcygeal",
+   "mirror": false,
+   "from": {
+    "bone": "sacrum",
+    "point": {
+     "lerp": [
+      "sacrum.head",
+      "sacrum.tail",
+      0.93
+     ],
+     "offset_h": [
+      0.0,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "coccyx",
+    "point": {
+     "lerp": [
+      "coccyx.head",
+      "coccyx.tail",
+      0.3
+     ],
+     "offset_h": [
+      0.0,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "sacrococcygeal",
+   "sources": [
+    "anatomystandard_sc",
+    "voka_pelvic"
+   ],
+   "notes": "Sacrococcigeo posterior: profundo y superficial (este cierra el hiato sacro); se modela una sola banda. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "lateral_sacrococcygeal.L",
+   "mirror": true,
+   "from": {
+    "bone": "sacrum",
+    "point": {
+     "lerp": [
+      "sacrum.outline_0",
+      "sacrum.outline_1",
+      0.93
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "coccyx",
+    "point": {
+     "lerp": [
+      "coccyx.head",
+      "coccyx.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.003428571428571429,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "sacrococcygeal",
+   "sources": [
+    "anatomystandard_sc",
+    "voka_pelvic"
+   ],
+   "notes": "Sacrococcigeo lateral: del angulo inferolateral del sacro a la apofisis transversa del coxis (6 mm lateral del eje en el modelo). Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "anterior_sacroiliac.L",
+   "mirror": true,
+   "from": {
+    "bone": "sacrum",
+    "point": {
+     "lerp": [
+      "sacrum.outline_0",
+      "sacrum.outline_1",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "ilium.L",
+    "point": {
+     "lerp": [
+      "sacrum.outline_0",
+      "sacrum.outline_1",
+      0.3
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "sacroiliac.L",
+   "sources": [
+    "statpearls_pelvic",
+    "voka_pelvic"
+   ],
+   "notes": "Sacroiliaco anterior: banda plana por delante de la articulacion, a ambos lados del borde de la pelvis. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interosseous_sacroiliac.L",
+   "mirror": true,
+   "from": {
+    "bone": "sacrum",
+    "point": {
+     "lerp": [
+      "sacrum.outline_0",
+      "sacrum.outline_1",
+      0.15
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "ilium.L",
+    "point": {
+     "lerp": [
+      "sacrum.outline_0",
+      "sacrum.outline_1",
+      0.25
+     ],
+     "offset_h": [
+      0.003428571428571429,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "sacroiliac.L",
+   "sources": [
+    "statpearls_pelvic",
+    "voka_pelvic"
+   ],
+   "notes": "Sacroiliaco interoseo: las fibras mas profundas y fuertes del complejo, detras de la cara auricular. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_sacroiliac.L",
+   "mirror": true,
+   "from": {
+    "bone": "sacrum",
+    "point": {
+     "lerp": [
+      "sacrum.outline_0",
+      "sacrum.outline_1",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "ilium.L",
+    "point": {
+     "at": "ilium.L.outline_1"
+    }
+   },
+   "joint": "sacroiliac.L",
+   "sources": [
+    "statpearls_pelvic",
+    "voka_pelvic"
+   ],
+   "notes": "Sacroiliaco posterior: del sacro a la espina iliaca posterior (largo y corto en la realidad; se modela una sola banda). Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  }
+ ],
+ "attachments": []
+}
