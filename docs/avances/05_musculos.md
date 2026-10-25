@@ -15,6 +15,10 @@ Modelo: husillo cerrado a lo largo del vientre (sección circular o aplanada, pe
 
 `test_muscles` (glúteos), `test_muscle_volumes`. Documentos: `docs/musculos_gluteos.md`, `docs/volumenes_musculares.md`.
 
+## Registro de mediciones de la literatura (CM-1)
+
+`config/muscles/volume_measurements.json` recoge volúmenes con fuente, población y estado de verificación; **todavía no alimenta** `muscle_volumes.json` (es el paso CM-2). Verificados: vasto lateral 636,5, bíceps femoral (una cabeza) 197,4, gastrocnemio medial 224,7 y lateral 112,6, tibial anterior 119,4 cm³ (Ritsche 2025, jóvenes); proporciones del cuádriceps (Trappe 2001); glúteo mediano 270,1/408,1 y menor 77,2/107,1 cm³ en mujeres/hombres de 65 años con dolor trocantérico (Kajdi 2025). Derivados y marcados como estimación: recto femoral, vasto intermedio y medial. La convención actual sobrestima: tibial anterior 350 frente a 119,4.
+
 ## Pendiente (investigación por región)
 
 - **Volúmenes medidos de la pierna** (Handsfield 2014, Ward 2009): los artículos no fueron accesibles. Es el hueco más importante.

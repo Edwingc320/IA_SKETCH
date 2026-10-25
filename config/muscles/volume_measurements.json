@@ -1,0 +1,260 @@
+{
+ "schema_version": 2,
+ "description": "Mediciones de volumen muscular (cm3) encontradas en la literatura, con su fuente, poblacion y estado de verificacion. CM-1 del plan de caderas y muslo. Estas cifras NO alimentan todavia muscle_volumes.json (eso es CM-2). 'verified: true' = leido en el texto o el resumen de la fuente durante la investigacion; 'derived' = calculado a partir de valores verificados (la derivacion mezcla poblaciones y se declara); 'verified: false' = visto solo en el resumen de un buscador: NO USAR hasta comprobarlo en el articulo.",
+ "sources": {
+  "ritsche_2025": {
+   "doi": "10.1007/s10278-025-01624-1",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13103013/",
+   "reliability": "media",
+   "title": "Ritsche P, Ledergerber R, Pansini M, Santini F, Faude O. J Imaging Inform Med 2025;39(2):1507-1518 - ecografia 3D frente a RM del volumen de los musculos del miembro inferior (15 voluntarios)"
+  },
+  "trappe_2001": {
+   "doi": "10.1152/jappl.2001.90.6.2070",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/11356767/",
+   "reliability": "alta",
+   "title": "Trappe TA, Lindquist DM, Carrithers JA. J Appl Physiol 2001;90(6):2070-2074 - atrofia especifica de cada musculo del cuadriceps con la edad (RM, 10 jovenes y 10 mayores sedentarios)"
+  },
+  "kajdi_2025": {
+   "doi": "10.1186/s13244-025-02175-3",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12722596/",
+   "reliability": "media",
+   "title": "Kajdi GW, Goller SS, Zingg PO, Sutter R. Insights Imaging 2025 - infiltracion grasa y volumen de los gluteos mediano y menor en el dolor trocanterico unilateral (RM Dixon de 2 puntos; 41 pacientes)"
+  },
+  "takahashi_2025": {
+   "doi": "10.1152/japplphysiol.00600.2024",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/40139264/",
+   "reliability": "media",
+   "title": "Takahashi K, Tozawa H, Kawama R, Wakahara T. J Appl Physiol 2025 - arquitectura del aductor mayor por imagen de tensor de difusion en 15 jovenes"
+  },
+  "frouin_2023": {
+   "doi": "10.1016/j.ultrasmedbio.2023.02.012",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/36948893/",
+   "reliability": "media",
+   "title": "Frouin A et al. Ultrasound Med Biol 2023 - ecografia 3D de los volumenes de los isquiotibiales y el grácil frente a RM (13 participantes); los volumenes estan en las figuras del articulo"
+  }
+ },
+ "measurements": [
+  {
+   "id": "ritsche_vl",
+   "muscle": "vastus_lateralis",
+   "unit": "vastus_lateralis",
+   "value_cm3": 636.5,
+   "sd": 161.3,
+   "n": 8,
+   "population": "adultos jovenes sanos, edad media 24,2 +- 2,0 anos; masa 67,6 +- 11,1 kg; 8 hombres y 7 mujeres reclutados (el texto es incoherente: la parte de RM usa 8-9 sujetos); altura medida pero no publicada",
+   "method": "RM, segmentacion del musculo entero",
+   "source": "ritsche_2025",
+   "verified": true,
+   "notes": "Fase 1 de RM. En la fase 2 (n = 5): 565,1 +- 191,0."
+  },
+  {
+   "id": "ritsche_bf",
+   "muscle": "biceps_femoris (una sola cabeza)",
+   "unit": "biceps_femoris",
+   "value_cm3": 197.4,
+   "sd": 53.3,
+   "n": 9,
+   "population": "igual que ritsche_vl",
+   "method": "RM",
+   "source": "ritsche_2025",
+   "verified": true,
+   "notes": "El texto consultado dice 'hamstring (one head only)' sin precisar la cabeza; se asume la larga (la mas voluminosa) solo como hipotesis. En la fase 2 (n = 5): 187,0 +- 27,1."
+  },
+  {
+   "id": "ritsche_gm",
+   "muscle": "gastrocnemius medial",
+   "unit": "gastrocnemius",
+   "value_cm3": 224.7,
+   "sd": 62.3,
+   "n": 8,
+   "population": "igual que ritsche_vl",
+   "method": "RM",
+   "source": "ritsche_2025",
+   "verified": true,
+   "notes": ""
+  },
+  {
+   "id": "ritsche_gl",
+   "muscle": "gastrocnemius lateral",
+   "unit": "gastrocnemius_lateral",
+   "value_cm3": 112.6,
+   "sd": 21.7,
+   "n": 8,
+   "population": "igual que ritsche_vl",
+   "method": "RM",
+   "source": "ritsche_2025",
+   "verified": true,
+   "notes": ""
+  },
+  {
+   "id": "ritsche_ta",
+   "muscle": "tibialis anterior",
+   "unit": "tibialis_anterior",
+   "value_cm3": 119.4,
+   "sd": 32.8,
+   "n": null,
+   "population": "igual que ritsche_vl",
+   "method": "RM",
+   "source": "ritsche_2025",
+   "verified": true,
+   "notes": "Pertenece a la pierna (PP-1); se registra aqui porque salio de la misma busqueda. El numero de sujetos de esta medida no se precisa en el texto consultado."
+  },
+  {
+   "id": "trappe_fractions_young",
+   "muscle": "proporcion de cada cabeza del cuadriceps",
+   "unit": null,
+   "value_cm3": null,
+   "sd": null,
+   "n": 10,
+   "population": "jovenes sedentarios de 24 +- 2 anos",
+   "method": "RM del cuadriceps",
+   "source": "trappe_2001",
+   "verified": true,
+   "fractions_percent": {
+    "rectus_femoris": 10.0,
+    "vastus_lateralis": 33.0,
+    "vastus_intermedius": 31.0,
+    "vastus_medialis": 26.0
+   },
+   "notes": "Porcentajes del resumen (jovenes): RF 10 +- 0,3; VL 33 +- 1; VI 31 +- 1; VM 26 +- 1. Los volumenes absolutos de la tabla no se consiguieron."
+  },
+  {
+   "id": "derived_rf",
+   "muscle": "rectus_femoris",
+   "unit": "rectus_femoris",
+   "value_cm3": 192.9,
+   "sd": null,
+   "n": null,
+   "population": "mezcla de dos poblaciones",
+   "method": "derivado: 636,5 x 10 / 33",
+   "source": "ritsche_2025",
+   "verified": false,
+   "derived": true,
+   "derived_from": [
+    "ritsche_vl",
+    "trappe_fractions_young"
+   ],
+   "notes": "Derivado de VL (Ritsche) y de las proporciones de Trappe; mezcla dos cohortes y protocolos. Estimacion, no medida."
+  },
+  {
+   "id": "derived_vi",
+   "muscle": "vastus_intermedius",
+   "unit": "vastus_intermedius",
+   "value_cm3": 597.9,
+   "sd": null,
+   "n": null,
+   "population": "mezcla de dos poblaciones",
+   "method": "derivado: 636,5 x 31 / 33",
+   "source": "ritsche_2025",
+   "verified": false,
+   "derived": true,
+   "derived_from": [
+    "ritsche_vl",
+    "trappe_fractions_young"
+   ],
+   "notes": "Idem."
+  },
+  {
+   "id": "derived_vm",
+   "muscle": "vastus_medialis",
+   "unit": "vastus_medialis",
+   "value_cm3": 501.5,
+   "sd": null,
+   "n": null,
+   "population": "mezcla de dos poblaciones",
+   "method": "derivado: 636,5 x 26 / 33",
+   "source": "ritsche_2025",
+   "verified": false,
+   "derived": true,
+   "derived_from": [
+    "ritsche_vl",
+    "trappe_fractions_young"
+   ],
+   "notes": "Idem."
+  },
+  {
+   "id": "kajdi_gmed_f",
+   "muscle": "gluteus_medius",
+   "unit": null,
+   "value_cm3": 270.1,
+   "sd": null,
+   "n": 27,
+   "population": "caderas asintomaticas de pacientes con dolor trocanterico unilateral; edad media 65,0 +- 13,6 anos; mujeres",
+   "method": "RM Dixon de 2 puntos, volumen del musculo entero",
+   "source": "kajdi_2025",
+   "verified": true,
+   "notes": "NO es un adulto joven sano: probablemente subestima el volumen del adulto de referencia (los hombres de la misma serie tienen 408,1)."
+  },
+  {
+   "id": "kajdi_gmed_m",
+   "muscle": "gluteus_medius",
+   "unit": null,
+   "value_cm3": 408.1,
+   "sd": null,
+   "n": 14,
+   "population": "igual; hombres",
+   "method": "RM Dixon de 2 puntos",
+   "source": "kajdi_2025",
+   "verified": true,
+   "notes": "Idem. Hombres = 41 pacientes - 27 mujeres."
+  },
+  {
+   "id": "kajdi_gmin_f",
+   "muscle": "gluteus_minimus",
+   "unit": null,
+   "value_cm3": 77.2,
+   "sd": null,
+   "n": 27,
+   "population": "igual; mujeres",
+   "method": "RM Dixon de 2 puntos",
+   "source": "kajdi_2025",
+   "verified": true,
+   "notes": "Idem."
+  },
+  {
+   "id": "kajdi_gmin_m",
+   "muscle": "gluteus_minimus",
+   "unit": null,
+   "value_cm3": 107.1,
+   "sd": null,
+   "n": 14,
+   "population": "igual; hombres",
+   "method": "RM Dixon de 2 puntos",
+   "source": "kajdi_2025",
+   "verified": true,
+   "notes": "Idem."
+  },
+  {
+   "id": "takahashi_addmag_posterior",
+   "muscle": "adductor_magnus (porcion posterior)",
+   "unit": null,
+   "value_cm3": 283.3,
+   "sd": null,
+   "n": 15,
+   "population": "15 adultos jovenes",
+   "method": "tensor de difusion (mediana de volumen sin corregir por grasa)",
+   "source": "takahashi_2025",
+   "verified": false,
+   "notes": "Visto solo en el resumen de un buscador (la porcion anterior-distal seria 158,5); el resumen oficial solo dice que las porciones posterior y anterior-distal son mas del 80 % del volumen. NO USAR hasta comprobarlo en el articulo."
+  }
+ ],
+ "not_found": {
+  "note": "Sin volumen medido consultado en las fuentes accesibles: gluteo mayor, semitendinoso, semimembranoso, cabeza corta del biceps femoral, aductores largo y corto y mayor (entero), grácil, sartorio, tensor de la fascia lata, psoas, iliaco, soleo, peroneos. Los articulos candidatos (Handsfield 2014, Ward 2009, Lube 2016 con 28 musculos de pelvis y miembro inferior, DOI 10.1007/s00276-015-1526-4, y la base de 70 musculos de 2025) tienen sus tablas tras acceso de pago o servidores que no respondieron.",
+  "units": [
+   "gluteus_maximus",
+   "semitendinosus",
+   "semimembranosus",
+   "biceps_femoris_short_head",
+   "adductor_longus",
+   "adductor_magnus",
+   "gracilis",
+   "sartorius",
+   "tensor_fasciae_latae",
+   "psoas_major",
+   "iliacus",
+   "soleus",
+   "peroneus_longus",
+   "peroneus_brevis"
+  ]
+ }
+}
