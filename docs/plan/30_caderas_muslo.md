@@ -30,7 +30,7 @@ Estado de partida: huesos, articulaciones y ligamentos completos; músculos del 
 | CM-2 | Sustituir las clases por volúmenes medidos | `muscle_volumes.json` con `kind: medido` | prueba de que ninguno medido tiene clase y todos citan fuente |
 | CM-3 | Volumen de los glúteos (hoy sin él) | tres unidades más en `muscle_volumes.json` | malla de volumen exacto, a < 12 mm |
 | CM-4 (hecho) | Puntos de tensado de los ligamentos de la cadera | `waypoints` en los ligamentos (nuevo campo, con prueba) | el ligamento no atraviesa el cuello femoral en flexión de 0 a 120° |
-| CM-5 | Rutas completas del psoas-ilíaco y de la cintilla iliotibial | vías en `tendons_lower_limb.json` | cada vía a < 12 mm del hueso; longitud de la ruta crece con la flexión |
+| CM-5 (hecho) | Rutas completas del psoas-ilíaco y de la cintilla iliotibial | vías en `tendons_lower_limb.json` | cada vía a < 12 mm del hueso; longitud de la ruta crece con la flexión |
 | CM-6 | Músculos que faltan (aductor corto, pectíneo, obturadores, piriforme, cuadrado femoral) | unidades nuevas con hitos óseos | un origen y una inserción sobre hito; fuente o «verificar» |
 | CM-7 | ROM de la cadera revisado | rangos con fuente y límites en Blender | tabla de discrepancias resuelta; golden actualizado si cambia la base |
 | CM-8 | Reducir la deuda de anclaje del muslo | `KNOWN_DEBT` sin entradas del muslo | el trinquete baja de 61 |

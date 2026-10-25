@@ -67,7 +67,7 @@ class TestArticulationData(unittest.TestCase):
                 if d.total_deg is not None:
                     self.assertIn(d.source, self.art.sources, f"{j.name}.{d.name}")
                     used.add(d.source)
-        for x in list(self.art.ligaments.values()) + list(self.art.attachments.values()):
+        for x in list(self.art.ligaments.values()) + list(self.art.attachments.values()) + list(self.art.surfaces.values()):
             used |= set(x.sources)
         self.assertEqual(used, set(self.art.sources))
         for k, s in self.art.sources.items():

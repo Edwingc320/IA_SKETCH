@@ -112,7 +112,7 @@ def generate(output_blend, config_dir=None, anatomy_dir=None, reference_path=Non
     ten_data = tendons.load_tendon_data()
     if ten_data and art is not None:
         ten = tendons.build_tendons(base, anat, art, ten_data)
-        ten_issues = tendons.validate_tendons(base, anat, art, ten)
+        ten_issues = tendons.validate_tendons(base, anat, art, ten) + tendons.validate_tendon_poses(base, anat, art, ten)
         for i in ten_issues:
             log(str(i))
         issues += ten_issues

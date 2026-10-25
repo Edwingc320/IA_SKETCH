@@ -28,6 +28,21 @@
    "url": "https://medschool.co/exam/ankle/tendons-of-the-ankle",
    "reliability": "baja",
    "title": "MedSchool - Tendons of the ankle (VERIFICAR en un atlas)"
+  },
+  "kenhub_itb": {
+   "url": "https://kenhub.com/en/library/anatomy/iliotibial-band",
+   "reliability": "media",
+   "title": "Kenhub - cintilla iliotibial: banda gruesa de la fascia lata que recibe la parte distal del gluteo mayor y del tensor de la fascia lata; nace de la cresta iliaca"
+  },
+  "statpearls_itb": {
+   "url": "https://statpearls.com/point-of-care/36081",
+   "reliability": "media",
+   "title": "StatPearls - cintilla iliotibial: recorre la cara lateral de la extremidad inferior y se inserta en el tuberculo de Gerdy"
+  },
+  "itb_review_2021": {
+   "url": "https://link.springer.com/article/10.1007/s40279-021-01634-3",
+   "reliability": "media",
+   "title": "Revision (Sports Med 2021): el tuberculo de Gerdy es la insercion aceptada por todos los autores citados; la banda pasa sobre el epicondilo lateral del femur; se proponen ademas otras uniones distales"
   }
  },
  "tendons": [
@@ -433,15 +448,52 @@
     "landmark": "anterior_superior_iliac_spine.L",
     "structure": "espina iliaca anterosuperior"
    },
-   "via": [],
+   "via": [
+    {
+     "bone": "femur.L",
+     "point": {
+      "at": "thigh.L.head"
+     },
+     "offset_h": [
+      0.031211,
+      -0.007792,
+      -0.013865
+     ],
+     "structure": "guia sobre el trocanter mayor, a 11 mm de la esfera del trocanter (paso pedido por la especificacion; no confirmado en las fuentes consultadas)"
+    },
+    {
+     "bone": "femur.L",
+     "point": {
+      "at": "thigh.L.head"
+     },
+     "offset_h": [
+      0.020571,
+      -0.0,
+      -0.242143
+     ],
+     "structure": "guia sobre el epicondilo lateral del femur, a 6 mm de la esfera del condilo"
+    }
+   ],
    "insertion": {
     "landmark": "gerdy_tubercle.L",
     "structure": "tuberculo de Gerdy (cintilla iliotibial)"
    },
    "origin_tendon": null,
    "insertion_tendon": "largo",
-   "sources": [],
-   "notes": "La cintilla iliotibial es fascia: se ancla a su destino oseo. Verificar en un atlas."
+   "sources": [
+    "kenhub_itb",
+    "statpearls_itb",
+    "itb_review_2021"
+   ],
+   "notes": "La cintilla iliotibial es fascia: se ancla a su destino oseo. Verificar en un atlas. CM-5: pasa por las mismas guias que la cintilla iliotibial (trocanter mayor y epicondilo lateral). Ruta de CM-5: las guias y los extremos nacen de hitos oseos del modelo o de puntos a < 12 mm de la superficie del hueso (incluidas las superficies de obstaculo); la trayectoria no atraviesa el femur ni la pelvis en el barrido de 22 poses de cadera y rodilla.",
+   "deform": true,
+   "avoid": [
+    "femoral_head.L",
+    "femoral_neck.L",
+    "femoral_greater_trochanter.L",
+    "femoral_shaft.L",
+    "femoral_lateral_condyle.L"
+   ]
   },
   {
    "name": "gastrocnemius.L",
@@ -1434,6 +1486,64 @@
     "medschool_ankle"
    ],
    "notes": " Verificar en un atlas."
+  },
+  {
+   "name": "iliotibial_tract.L",
+   "mirror": true,
+   "muscles": [
+    "tensor de la fascia lata",
+    "gluteo mayor (fibras superficiales)"
+   ],
+   "origin": {
+    "landmark": "iliac_crest.L",
+    "structure": "cresta iliaca"
+   },
+   "via": [
+    {
+     "bone": "femur.L",
+     "point": {
+      "at": "thigh.L.head"
+     },
+     "offset_h": [
+      0.031211,
+      -0.007792,
+      -0.013865
+     ],
+     "structure": "guia sobre el trocanter mayor, a 11 mm de la esfera del trocanter (paso pedido por la especificacion; no confirmado en las fuentes consultadas)"
+    },
+    {
+     "bone": "femur.L",
+     "point": {
+      "at": "thigh.L.head"
+     },
+     "offset_h": [
+      0.020571,
+      -0.0,
+      -0.242143
+     ],
+     "structure": "guia sobre el epicondilo lateral del femur, a 6 mm de la esfera del condilo"
+    }
+   ],
+   "insertion": {
+    "landmark": "gerdy_tubercle.L",
+    "structure": "tuberculo de Gerdy"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "largo",
+   "deform": true,
+   "sources": [
+    "kenhub_itb",
+    "statpearls_itb",
+    "itb_review_2021"
+   ],
+   "notes": "La cintilla es fascia: la unidad muestra la banda desde la cresta iliaca (el tensor de la fascia lata y el gluteo mayor se funden en ella) hasta Gerdy; su longitud tendinosa es la convencion visual 'largo'. Ruta de CM-5: las guias y los extremos nacen de hitos oseos del modelo o de puntos a < 12 mm de la superficie del hueso (incluidas las superficies de obstaculo); la trayectoria no atraviesa el femur ni la pelvis en el barrido de 22 poses de cadera y rodilla. Verificar en un atlas.",
+   "avoid": [
+    "femoral_head.L",
+    "femoral_neck.L",
+    "femoral_greater_trochanter.L",
+    "femoral_shaft.L",
+    "femoral_lateral_condyle.L"
+   ]
   }
  ]
 }

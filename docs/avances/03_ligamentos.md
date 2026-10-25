@@ -18,7 +18,7 @@
 
 ## Reglas que cumple
 
-- Origen e inserción sobre un hueso (o su cartílago, o la cara de una lámina cerrada) a **menos de 12 mm**: los nuevos lo cumplen todos; los antiguos incumplidores están fijados en un trinquete (61).
+- Origen e inserción sobre un hueso (o su cartílago, o la cara de una lámina cerrada) a **menos de 12 mm**: los nuevos lo cumplen todos; los antiguos incumplidores están fijados en un trinquete (58 desde CM-5: los cruzados y la articulación femororrotuliana pasaron a menos de 12 mm gracias a las superficies del cóndilo y la diáfisis del fémur, que son una convención).
 - Sacrotuberoso y sacroespinoso nacen en el borde lateral del sacro y terminan en la tuberosidad y la espina isquiáticas.
 - Los nombres de ligamentos y de articulaciones comparten espacio de nombres.
 
@@ -42,4 +42,4 @@ Iliofemoral, pubofemoral e isquiofemoral (`lumbar_pelvis.json`) son ahora poligo
 
 - Guías de envoltura y deformación con la armadura solo en los tres ligamentos de la cadera; el resto de ligamentos que cruzan una articulación (rodilla, tobillo, hombro...) siguen siendo un segmento rígido emparentado al hueso de origen.
 - Verificar en un atlas los costotransversos y los de los dedos del pie.
-- Reducir los 61 anclajes antiguos a más de 12 mm.
+- Reducir los 58 anclajes antiguos a más de 12 mm.

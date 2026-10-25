@@ -47,10 +47,28 @@ class Tendon:
     sources: tuple
     notes: str
     region: str
+    deform: bool = False  # True: en Blender cada nodo sigue a su hueso (tubos deformados por la armadura); False: rigidos, emparentados al hueso del extremo
+    avoid: tuple = ()  # nombres de las `BoneSurface` que la trayectoria no puede atravesar
 
     @property
     def path(self) -> tuple:
         return tuple(s.point for s in self.sites)
+
+    def node_weights(self, point: Vec3) -> tuple:
+        """Pesos ((hueso, peso), ...) de un punto del recorrido: si esta en el tramo entre dos sitios, interpolacion lineal entre los huesos de sus
+        extremos (es lo que hace la mezcla lineal de la armadura y reproduce la recta entre los nodos posados)."""
+        best, bi = float("inf"), 0
+        for i, (a, b) in enumerate(zip(self.path, self.path[1:])):
+            seg = sub(b, a)
+            ln2 = seg[0] ** 2 + seg[1] ** 2 + seg[2] ** 2
+            u = 0.0 if ln2 < 1e-24 else max(0.0, min(1.0, sum((point[k] - a[k]) * seg[k] for k in range(3)) / ln2))
+            d = length(sub(point, add(a, scale(seg, u))))
+            if d < best - 1e-12:
+                best, bi, bu = d, i, u
+        a_bone, b_bone = self.sites[bi].bone, self.sites[bi + 1].bone
+        if a_bone == b_bone:
+            return ((a_bone, 1.0),)
+        return ((a_bone, 1.0 - bu), (b_bone, bu))
 
     @property
     def total_length(self) -> float:
@@ -155,7 +173,7 @@ def build_tendons(base: SkeletonModel, anat: AnatomyModel, art: ArticulationMode
                     raws = [("origin", u["origin"])] + [("via", v) for v in u.get("via", [])] + [("insertion", u["insertion"])]
                     sites = tuple(_site(r, k, f"{w}.{k}", base, anat, art) for k, r in raws)
                 t = Tendon(tname, tuple(u.get("muscles", ())), sites, u.get("origin_tendon"), u.get("insertion_tendon"), tuple(u.get("sources", ())),
-                           str(u.get("notes", "")), region)
+                           str(u.get("notes", "")), region, bool(u.get("deform", False)), tuple(_swap_side(x, side or "L") for x in u.get("avoid", [])))
                 if side != "R":
                     left = t
                 tendons[tname] = t
@@ -186,7 +204,7 @@ def validate_tendons(base: SkeletonModel, anat: AnatomyModel, art: ArticulationM
             if s.bone not in anat.bones and s.bone not in base.bones:
                 out.append(Issue("error", "TEN_BONE_UNKNOWN", f"'{n}' {s.kind}: hueso inexistente '{s.bone}'"))
                 continue
-            d = bone_distance(s.point, s.bone, base, anat)
+            d = bone_distance(s.point, s.bone, base, anat, art.surfaces)
             if d > tol:
                 out.append(Issue("error", "TEN_SITE_OFF_BONE", f"'{n}' {s.kind}: a {d * 1000:.1f} mm de la superficie de '{s.bone}' (maximo {tol * 1000:.1f})"))
         total = t.total_length
@@ -195,11 +213,53 @@ def validate_tendons(base: SkeletonModel, anat: AnatomyModel, art: ArticulationM
             out.append(Issue("error", "TEN_TOO_SHORT", f"'{n}' mide solo {total * 1000:.1f} mm"))
         if 1.0 - frac < MIN_BELLY:
             out.append(Issue("error", "TEN_NO_BELLY", f"'{n}': los tendones ocupan {frac:.0%} de la unidad (el vientre debe quedar >= {MIN_BELLY:.0%})"))
+        if art.surfaces and t.deform and t.avoid and all(a in art.surfaces for a in t.avoid):  # en reposo ninguna poligonal con envoltura atraviesa un obstaculo
+            from . import ligament_paths as _lp
+
+            pts = [p for _, p in _lp.tendon_nodes(t)]
+            samples = [add(a, scale(sub(b, a), i / _lp.PATH_SAMPLES)) for a, b in zip(pts, pts[1:]) for i in range(_lp.PATH_SAMPLES + 1)]
+            clear = min(art.surfaces[a].signed_distance(p) for a in t.avoid for p in samples)
+            if clear < -_lp.PENETRATION_TOL_M * model.height_m / 1.75:
+                out.append(Issue("error", "TEN_PENETRATES", f"'{n}': en reposo atraviesa el hueso {-clear * 1000:.1f} mm"))
+        for a in t.avoid:
+            if a not in art.surfaces:
+                out.append(Issue("error", "TEN_AVOID_UNKNOWN", f"'{n}' evita la superficie desconocida '{a}'"))
+        if t.deform and not t.avoid:
+            out.append(Issue("error", "TEN_AVOID_EMPTY", f"'{n}' tiene envoltura (deform) y no dice que superficies evita"))
+        if t.deform and len({s.bone for s in t.sites}) < 2:
+            out.append(Issue("error", "TEN_DEFORM_USELESS", f"'{n}': deform con todos los sitios en el mismo hueso"))
         right = n[:-2] + ".R" if n.endswith(".L") else None
         if right and right in model.tendons:
             for a, b in zip(t.sites, model.tendons[right].sites):
                 if length(sub(mirror_point(a.point), b.point)) > FRAME_TOL * 10:
                     out.append(Issue("error", "TEN_ASYMMETRIC", f"'{n}' no es simetrico respecto a su .R"))
+    return out
+
+
+def validate_tendon_poses(base: SkeletonModel, anat: AnatomyModel, art: ArticulationModel, model: TendonModel, sides=("L", "R")) -> list:
+    """Barrido de cadera y rodilla (ligament_paths.LEG_SWEEP): las unidades `deform` no atraviesan ni el femur (cabeza, cuello, trocanter, diafisis,
+    condilo) ni la rama del pubis, ni cortan la lamina del ilion, en ninguna pose. Los nodos viajan con sus huesos por construccion."""
+    from . import ligament_paths as lp
+    from .validation import Issue
+
+    out = []
+    tol = lp.PENETRATION_TOL_M * model.height_m / 1.75
+    for side in sides:
+        units = [t for t in model.tendons.values() if t.deform and t.name.endswith(f".{side}")]
+        if not units:
+            continue
+        plates = [(b, lp.plate_triangles(anat, b)) for b in (f"ilium.{side}",) if b in anat.bones]
+        for pose_name, posed in lp.leg_sweep_poses(base, side):
+            surfaces = {s.name: s for s in lp.posed_surfaces(art, base, anat, posed)}
+            for t in units:
+                path = lp.posed_nodes(lp.tendon_nodes(t), base, anat, posed)
+                clear = lp.path_clearance(path, [surfaces[a] for a in t.avoid])
+                if clear < -tol:
+                    out.append(Issue("error", "TEN_PENETRATES", f"'{t.name}' atraviesa el hueso {-clear * 1000:.1f} mm en la pose '{pose_name}'"))
+                for bone, tris in plates:
+                    pb = posed.bones[lp.rig_bone(bone, base, anat)]
+                    if lp.plate_crossings(path, [tuple(pb.apply(p) for p in tri) for tri in tris]):
+                        out.append(Issue("error", "TEN_CROSSES_PLATE", f"'{t.name}' atraviesa la lamina de '{bone}' en la pose '{pose_name}'"))
     return out
 
 
@@ -210,10 +270,10 @@ def validate_tendons_snapshot(model: TendonModel, snap: dict) -> list:
     out, expected = [], {}
     for n, t in model.tendons.items():
         if t.origin_class:
-            expected[f"TEN_origin_{n}"] = (t.sites[0].bone, t.origin_tendon)
+            expected[f"TEN_origin_{n}"] = (None if t.deform else t.sites[0].bone, t.origin_tendon)
         if t.insertion_class:
-            expected[f"TEN_insertion_{n}"] = (t.sites[-1].bone, t.insertion_tendon)
-        expected[f"TEN_belly_{n}"] = (t.sites[0].bone, t.belly)
+            expected[f"TEN_insertion_{n}"] = (None if t.deform else t.sites[-1].bone, t.insertion_tendon)
+        expected[f"TEN_belly_{n}"] = (None if t.deform else t.sites[0].bone, t.belly)
     for obj, (bone, pts) in expected.items():
         s = snap.get(obj)
         if s is None:

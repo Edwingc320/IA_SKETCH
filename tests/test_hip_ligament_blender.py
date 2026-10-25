@@ -81,14 +81,14 @@ class TestHipLigamentsInBlender(unittest.TestCase):
             for pose_name, rot in lp.HIP_SWEEP:
                 arm = self.open_reset()
                 posed = self.pose_hip(arm, side, rot)
-                surfaces = lp.posed_surfaces(self.art, self.base, self.anat, posed)
+                surfaces = {s.name: s for s in lp.posed_surfaces(self.art, self.base, self.anat, posed)}
                 for n in HIP_LIGAMENTS:
                     got = self.evaluated_path(f"{n}.{side}")
                     want = lp.posed_path(self.art.ligaments[f"{n}.{side}"], self.base, self.anat, posed)
                     self.assertEqual(len(got), len(want))
                     for g, w in zip(got, want):
                         self.assertLess(length(sub(g, w)), TOL, (side, pose_name, n))  # cada nodo esta donde la FK lo pone: no hay ligamento descolgado
-                    self.assertGreaterEqual(lp.path_clearance(got, surfaces), -TOL / 10, (side, pose_name, n))  # y la poligonal de Blender no entra en el hueso
+                    self.assertGreaterEqual(lp.path_clearance(got, [surfaces[a] for a in self.art.ligaments[f"{n}.{side}"].avoid]), -TOL / 10, (side, pose_name, n))  # y la poligonal de Blender no entra en el hueso
 
     def test_the_extremes_really_move_with_the_femur(self):
         arm = self.open_reset()

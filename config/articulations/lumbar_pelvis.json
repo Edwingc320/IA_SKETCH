@@ -122,6 +122,11 @@
    "url": "https://boneandjoint.org.uk/Article/10.1302/2046-3758.109.BJR-2020-0536.R1",
    "reliability": "media",
    "title": "Bone Joint Res 2021 (DOI 10.1302/2046-3758.109.BJR-2020-0536.R1) - nueve cadaveres: vectores de fuerza de los ligamentos capsulares de la cadera en los extremos del movimiento (iliofemoral en extension y aduccion; isquiofemoral en flexion, aduccion y rotacion interna); leido en el resumen de busqueda"
+  },
+  "iliopsoas_epos": {
+   "url": "https://epos.myesr.org/poster/esr/essr2018/P-0130/Imaging%20findings%20OR%20Procedure",
+   "reliability": "media",
+   "title": "Iliopsoas musculotendinous unit (poster ESSR 2018): la unidad pasa por delante del borde pelvico y de la capsula de la cadera, en un surco entre la espina iliaca anteroinferior y la eminencia iliopectinea (= iliopubica); leido en el resumen de busqueda"
   }
  },
  "joints": [
@@ -671,7 +676,11 @@
     "slack_length_m": null,
     "note": "No se consiguieron en fuentes abiertas coeficientes de rigidez ni longitud sin tension de este ligamento; se declaran como convencion parametrica (sin valor): el modelo da geometria y envoltura, no fuerzas."
    },
-   "deform": true
+   "deform": true,
+   "avoid": [
+    "femoral_head.L",
+    "femoral_neck.L"
+   ]
   },
   {
    "name": "pubofemoral.L",
@@ -727,7 +736,11 @@
     "slack_length_m": null,
     "note": "No se consiguieron en fuentes abiertas coeficientes de rigidez ni longitud sin tension de este ligamento; se declaran como convencion parametrica (sin valor): el modelo da geometria y envoltura, no fuerzas."
    },
-   "deform": true
+   "deform": true,
+   "avoid": [
+    "femoral_head.L",
+    "femoral_neck.L"
+   ]
   },
   {
    "name": "ischiofemoral.L",
@@ -769,7 +782,11 @@
     "slack_length_m": null,
     "note": "No se consiguieron en fuentes abiertas coeficientes de rigidez ni longitud sin tension de este ligamento; se declaran como convencion parametrica (sin valor): el modelo da geometria y envoltura, no fuerzas."
    },
-   "deform": true
+   "deform": true,
+   "avoid": [
+    "femoral_head.L",
+    "femoral_neck.L"
+   ]
   }
  ],
  "attachments": [
@@ -1178,6 +1195,31 @@
    ],
    "notes": "Trocanter mayor: punto lateral del contorno proximal del femur.",
    "tolerance_m": 0.012
+  },
+  {
+   "name": "iliopubic_eminence.L",
+   "mirror": true,
+   "bone": "pubis.L",
+   "point": {
+    "lerp": [
+     "pubis.L.head",
+     "pubis.L.tail",
+     0.55
+    ],
+    "offset_h": [
+     0.002244,
+     -0.004443,
+     0.001294
+    ]
+   },
+   "structures": [
+    "hito oseo: eminencia iliopubica (iliopectinea), polea del psoas-iliaco"
+   ],
+   "sources": [
+    "iliopsoas_epos"
+   ],
+   "notes": "Punto sobre la rama superior del pubis (55 % del segmento de la base desde el acetabulo), 9 mm por delante de su eje: el pubis del modelo es una linea sin anchura y la eminencia es el relieve en que la rama se une al ilion. Posicion aproximada; verificar en un atlas.",
+   "tolerance_m": 0.012
   }
  ],
  "bone_surfaces": [
@@ -1216,6 +1258,70 @@
     "femur_morphometry"
    ],
    "notes": "Capsula del centro de la cabeza al 90 % del camino hacia el trocanter mayor; diametro 30 mm a 1.75 m (rango publicado 28-34). Convencion de obstaculo."
+  },
+  {
+   "name": "femoral_greater_trochanter.L",
+   "mirror": true,
+   "bone": "femur.L",
+   "kind": "sphere",
+   "a": {
+    "at": "thigh.L.head",
+    "offset_h": [
+     0.015999,
+     0.00286,
+     -0.01714
+    ]
+   },
+   "radius_m": 0.022,
+   "sources": [],
+   "no_numeric_source": true,
+   "notes": "Esfera de 22 mm de radio cuya superficie lateral pasa por el hito del trocanter mayor. Convencion visual sin cifra publicada consultada: da cuerpo al trocanter para que la cintilla iliotibial lo rodee."
+  },
+  {
+   "name": "femoral_shaft.L",
+   "mirror": true,
+   "bone": "femur.L",
+   "kind": "capsule",
+   "a": {
+    "at": "thigh.L.head",
+    "offset_h": [
+     0.015999,
+     0.00286,
+     -0.01714
+    ]
+   },
+   "b": {
+    "at": "thigh.L.tail",
+    "offset_h": [
+     0.0,
+     0.0,
+     0.002857
+    ]
+   },
+   "radius_m": 0.014,
+   "sources": [],
+   "no_numeric_source": true,
+   "notes": "Capsula de 14 mm de radio (28 mm de diametro) del centro del trocanter al centro del eje epicondileo. Convencion visual sin cifra publicada consultada (la busqueda de diametros de la diafisis no dio medias utilizables)."
+  },
+  {
+   "name": "pubic_ramus.L",
+   "mirror": true,
+   "bone": "pubis.L",
+   "kind": "capsule",
+   "a": {
+    "lerp": [
+     "pubis.L.head",
+     "pubis.L.tail",
+     0.55
+    ]
+   },
+   "b": {
+    "at": "pubis.L.tail"
+   },
+   "radius_m": 0.006,
+   "sources": [],
+   "no_numeric_source": true,
+   "notes": "Convencion: la rama del pubis del modelo es una linea sin anchura; se le da un radio minimo de 6 mm desde la eminencia iliopubica hasta la sinfisis. El tramo lateral (acetabulo) no es obstaculo propio: lo cubre la esfera de la cabeza femoral."
   }
  ]
 }

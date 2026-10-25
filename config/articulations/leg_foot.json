@@ -92,6 +92,11 @@
    "url": "https://brainscape.com/flashcards/ligaments-of-the-leg-ankle-and-foot-8804071/packs/14877461",
    "reliability": "baja",
    "title": "Tarjetas de estudio - ligamentos de pierna, tobillo y pie (VERIFICAR en un atlas)"
+  },
+  "femoral_condyle_radius": {
+   "url": "https://xuebao.jlu.edu.cn/yxb/EN/Y2010/V36/I1/159",
+   "reliability": "baja",
+   "title": "Estudio de RM de 69 rodillas normales (Acta Univ Med Jilin 2010): radio del condilo lateral distal 29-33 mm y posterior 16-19 mm; leido en el resumen de busqueda. El modelo usa 22 mm, intermedio: CONVENCION"
   }
  },
  "joints": [
@@ -2487,6 +2492,27 @@
    "sources": [],
    "notes": "Tuberculo de Gerdy: cara anterolateral del condilo tibial lateral (donde llega la cintilla iliotibial).",
    "tolerance_m": 0.012
+  }
+ ],
+ "bone_surfaces": [
+  {
+   "name": "femoral_lateral_condyle.L",
+   "mirror": true,
+   "bone": "femur.L",
+   "kind": "sphere",
+   "a": {
+    "at": "thigh.L.tail",
+    "offset_h": [
+     0.004571,
+     0.0,
+     0.002857
+    ]
+   },
+   "radius_m": 0.022,
+   "sources": [
+    "femoral_condyle_radius"
+   ],
+   "notes": "Esfera de 22 mm de radio cuya superficie lateral pasa por el epicondilo lateral; valor intermedio entre el radio posterior (16-19 mm) y el distal (29-33 mm) del estudio citado. Convencion de obstaculo."
   }
  ]
 }

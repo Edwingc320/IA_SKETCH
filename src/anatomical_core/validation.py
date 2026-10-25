@@ -643,13 +643,18 @@ def validate_articulations(base: SkeletonModel, anat, art) -> list:
                 out.append(Issue("error", "ART_MECHANICS_INVENTED", f"Ligamento '{n}': una convencion declarada no puede traer valores mecanicos"))
             elif m["status"] == "medido" and (m.get("stiffness_N_per_mm") is None or not m.get("source")):
                 out.append(Issue("error", "ART_MECHANICS_NO_SOURCE", f"Ligamento '{n}': una propiedad mecanica medida necesita valor y fuente"))
-        if art.surfaces:  # en reposo ninguna poligonal atraviesa un obstaculo
+        if art.surfaces and lg.deform:  # en reposo ninguna poligonal con envoltura atraviesa un obstaculo (los ligamentos rigidos antiguos, p. ej. los cruzados, viven dentro del hueso)
             from . import ligament_paths as _lp
 
-            if _lp.nodes(lg) and any(s.bone in (lg.from_bone, lg.to_bone, *[w.bone for w in lg.via]) for s in art.surfaces.values()):
-                clear = min(s.signed_distance(p) for s in art.surfaces.values() for p in _lp.rest_samples(lg))
+            if lg.avoid and all(a in art.surfaces for a in lg.avoid):
+                clear = min(art.surfaces[a].signed_distance(p) for a in lg.avoid for p in _lp.rest_samples(lg))
                 if clear < -_lp.PENETRATION_TOL_M * base.height_m / 1.75:
                     out.append(Issue("error", "ART_LIGAMENT_PENETRATES", f"Ligamento '{n}': en reposo atraviesa el hueso {-clear * 1000:.1f} mm"))
+        for a in lg.avoid:
+            if a not in art.surfaces:
+                out.append(Issue("error", "ART_AVOID_UNKNOWN", f"Ligamento '{n}': evita la superficie desconocida '{a}'"))
+        if lg.deform and not lg.avoid:
+            out.append(Issue("error", "ART_AVOID_EMPTY", f"Ligamento '{n}': tiene envoltura (deform) y no dice que superficies evita"))
         if lg.deform and not lg.via and lg.from_bone == lg.to_bone:
             out.append(Issue("error", "ART_DEFORM_USELESS", f"Ligamento '{n}': deform sin guias y con los dos extremos en el mismo hueso"))
         span = length(sub(lg.b, lg.a))
@@ -661,8 +666,10 @@ def validate_articulations(base: SkeletonModel, anat, art) -> list:
             out.append(Issue("error", "ART_BONE_UNKNOWN", f"Superficie '{n}': hueso inexistente '{sf.bone}'"))
         elif bone_distance(sf.a, sf.bone, base, anat) > 0.012 * base.height_m / 1.75:
             out.append(Issue("error", "ART_SURFACE_OFF_BONE", f"Superficie '{n}': su eje no nace sobre '{sf.bone}'"))
-        if not sf.sources:
-            out.append(Issue("error", "ART_SURFACE_NO_SOURCE", f"Superficie '{n}' sin fuente (el radio es una convencion con rango publicado)"))
+        if not sf.sources and not sf.no_numeric_source:
+            out.append(Issue("error", "ART_SURFACE_NO_SOURCE", f"Superficie '{n}' sin fuente: cita una o marca 'no_numeric_source' (convencion sin cifra publicada)"))
+        if sf.no_numeric_source and "convencion" not in sf.notes.lower():
+            out.append(Issue("error", "ART_SURFACE_NOTE", f"Superficie '{n}' sin cifra: su nota debe decir que es una convencion"))
     for n, at in art.attachments.items():
         check_sources(n, at.sources)
         if at.bone not in known:
@@ -694,9 +701,12 @@ def validate_ligament_poses(base: SkeletonModel, anat, art, sides=("L", "R")) ->
         if hip is None:
             continue
         for pose_name, posed in lp.hip_sweep_poses(base, side):
-            surfaces = lp.posed_surfaces(art, base, anat, posed)
+            surfaces = {s.name: s for s in lp.posed_surfaces(art, base, anat, posed)}
             for n in hip.ligaments:
-                clear = lp.path_clearance(lp.posed_path(art.ligaments[n], base, anat, posed), surfaces)
+                lg = art.ligaments[n]
+                if not lg.avoid:
+                    continue
+                clear = lp.path_clearance(lp.posed_path(lg, base, anat, posed), [surfaces[a] for a in lg.avoid])
                 if clear < -tol:
                     out.append(Issue("error", "LIG_PENETRATES", f"'{n}' atraviesa el femur {-clear * 1000:.1f} mm en la pose '{pose_name}'"))
     return out

@@ -18,6 +18,21 @@
    "url": "https://www.pearson.com/channels/anp/flashcards/users/human-muscle-origins-insertions-and-functions",
    "reliability": "baja",
    "title": "Tarjetas de estudio - origenes, inserciones y funciones musculares (VERIFICAR en un atlas)"
+  },
+  "iliopsoas_footprint": {
+   "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4732368/",
+   "reliability": "media",
+   "title": "Huella de insercion del tendon del iliopsoas (estudio anatomico, trocanterplastia): en la punta anteromedial del trocanter menor, huella doble (psoas e iliaco) en la mayoria; leido en el resumen de busqueda"
+  },
+  "iliopsoas_epos": {
+   "url": "https://epos.myesr.org/poster/esr/essr2018/P-0130/Imaging%20findings%20OR%20Procedure",
+   "reliability": "media",
+   "title": "Iliopsoas musculotendinous unit (poster ESSR 2018): pasa por delante del borde pelvico y de la capsula de la cadera, entre la espina iliaca anteroinferior y la eminencia iliopectinea; el iliaco sale del 2/3 superiores de la fosa iliaca"
+  },
+  "statpearls_iliopsoas": {
+   "url": "https://www.ncbi.nlm.nih.gov/books/NBK531508/",
+   "reliability": "media",
+   "title": "StatPearls - iliopsoas: el psoas mayor nace de las vertebras lumbares y el iliaco de la fosa iliaca (el rango T12-L5 no se confirmo en el resumen: VERIFICAR)"
   }
  },
  "tendons": [
@@ -592,15 +607,32 @@
      0.0
     ]
    },
-   "via": [],
+   "via": [
+    {
+     "landmark": "iliopubic_eminence.L",
+     "structure": "eminencia iliopubica (polea anterior)"
+    }
+   ],
    "insertion": {
     "landmark": "lesser_trochanter.L",
     "structure": "trocanter menor"
    },
    "origin_tendon": null,
    "insertion_tendon": "medio",
-   "sources": [],
-   "notes": "Nace de los cuerpos T12-L5 y sus discos; se modela L2. Sin fuente consultada. Verificar en un atlas."
+   "sources": [
+    "statpearls_iliopsoas",
+    "iliopsoas_epos",
+    "iliopsoas_footprint"
+   ],
+   "notes": "Nace de los cuerpos T12-L5 y sus discos; se modela L2. Verificar en un atlas. Ruta de CM-5: las guias y los extremos nacen de hitos oseos del modelo o de puntos a < 12 mm de la superficie del hueso (incluidas las superficies de obstaculo); la trayectoria no atraviesa el femur ni la pelvis en el barrido de 22 poses de cadera y rodilla. El origen real del psoas abarca varios niveles lumbares (T12-L5 segun la especificacion; no confirmado en las fuentes consultadas): VERIFICAR en un atlas.",
+   "deform": true,
+   "avoid": [
+    "femoral_head.L",
+    "femoral_neck.L",
+    "femoral_greater_trochanter.L",
+    "femoral_shaft.L",
+    "pubic_ramus.L"
+   ]
   },
   {
    "name": "iliacus.L",
@@ -610,17 +642,39 @@
    ],
    "origin": {
     "landmark": "iliac_fossa.L",
-    "structure": "fosa iliaca"
+    "offset_h": [
+     -0.004932,
+     -0.003661,
+     -0.000602
+    ],
+    "structure": "fosa iliaca, cara interna (el hito del modelo queda 9.8 mm por fuera de la lamina del ilion: el origen se toma 1 mm por dentro, hacia la pelvis)"
    },
-   "via": [],
+   "via": [
+    {
+     "landmark": "iliopubic_eminence.L",
+     "structure": "eminencia iliopubica (polea anterior)"
+    }
+   ],
    "insertion": {
     "landmark": "lesser_trochanter.L",
     "structure": "trocanter menor"
    },
    "origin_tendon": null,
    "insertion_tendon": "medio",
-   "sources": [],
-   "notes": "Se une al psoas en el tendon del iliopsoas. Sin fuente consultada. Verificar en un atlas."
+   "sources": [
+    "statpearls_iliopsoas",
+    "iliopsoas_epos",
+    "iliopsoas_footprint"
+   ],
+   "notes": "Se une al psoas en el tendon del iliopsoas. Verificar en un atlas. Ruta de CM-5: las guias y los extremos nacen de hitos oseos del modelo o de puntos a < 12 mm de la superficie del hueso (incluidas las superficies de obstaculo); la trayectoria no atraviesa el femur ni la pelvis en el barrido de 22 poses de cadera y rodilla. El origen real del psoas abarca varios niveles lumbares (T12-L5 segun la especificacion; no confirmado en las fuentes consultadas): VERIFICAR en un atlas. CM-5: el origen se desplaza 10.8 mm desde el hito iliac_fossa.L hacia el lado interno de la lamina del ilion para que la ruta no la atraviese; el hito queda como limitacion conocida (deuda de anclaje de la region).",
+   "deform": true,
+   "avoid": [
+    "femoral_head.L",
+    "femoral_neck.L",
+    "femoral_greater_trochanter.L",
+    "femoral_shaft.L",
+    "pubic_ramus.L"
+   ]
   },
   {
    "name": "quadratus_lumborum.L",

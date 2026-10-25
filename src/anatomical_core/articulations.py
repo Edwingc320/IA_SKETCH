@@ -74,6 +74,7 @@ class BoneSurface:
     radius_m: float
     sources: tuple
     notes: str
+    no_numeric_source: bool = False  # True: el radio es una convencion sin cifra publicada consultada (se dice en las notas)
 
     def signed_distance(self, p: Vec3) -> float:
         """Distancia con signo a la superficie: negativa dentro del cuerpo."""
@@ -96,6 +97,7 @@ class Ligament:
     via: tuple = ()  # Waypoint(s) entre el origen y la insercion
     mechanics: dict | None = None  # propiedades mecanicas (rigidez, longitud sin tension): convencion parametrica declarada si no hay dato
     deform: bool = False  # True: en Blender cada nodo sigue a su hueso (malla deformada por la armadura); False: rigido, emparentado al hueso de origen
+    avoid: tuple = ()  # nombres de las `BoneSurface` que la trayectoria no puede atravesar (cada ligamento con envoltura dice cuales)
 
 
 @dataclass(frozen=True)
@@ -201,7 +203,7 @@ def build_articulations(base: SkeletonModel, anat: AnatomyModel, data_list) -> A
                     sw(lg["name"]), sw(lg["from"]["bone"]), sw(lg["to"]["bone"]), ev(fa, side, None), ev(fb, side, None),
                     sw(lg["joint"]) if lg.get("joint") else None, lg.get("typical_length_m"),
                     tuple(lg.get("sources", [])), str(lg.get("notes", "")), float(lg.get("tolerance_m", 0.03)) * tol_k, region,
-                    via, dict(lg["mechanics"]) if lg.get("mechanics") else None, bool(lg.get("deform", False))))
+                    via, dict(lg["mechanics"]) if lg.get("mechanics") else None, bool(lg.get("deform", False)), tuple(sw(x) for x in lg.get("avoid", []))))
         for i, at in enumerate(data.get("attachments", [])):
             spec = _point_spec(at["point"], f"attachments[{i}].point")
             for side in _sides(at):
@@ -220,7 +222,8 @@ def build_articulations(base: SkeletonModel, anat: AnatomyModel, data_list) -> A
             for side in _sides(sf):
                 sw = lambda t: _swap_side(t, side or "L")  # noqa: E731
                 put(surfaces, sw(sf["name"]), BoneSurface(sw(sf["name"]), sw(sf["bone"]), sf["kind"], ev(fa, side, None), ev(fb, side, None),
-                                                          float(sf["radius_m"]) * tol_k, tuple(sf.get("sources", [])), str(sf.get("notes", ""))))
+                                                          float(sf["radius_m"]) * tol_k, tuple(sf.get("sources", [])), str(sf.get("notes", "")),
+                                                          bool(sf.get("no_numeric_source", False))))
     return ArticulationModel(sources, joints, ligaments, attachments, surfaces)
 
 

@@ -9,9 +9,9 @@ Plan: [../plan/30_caderas_muslo.md](../plan/30_caderas_muslo.md) · Prioridad **
 | Huesos | ✅ completo | pelvis cerrada, fémur con accidentes, rótula |
 | Articulaciones | ✅ completo | rig `hip` con límites; ROM de extensión por revisar |
 | Ligamentos | ✅ con envoltura | iliofemoral, pubofemoral e isquiofemoral con guías y sin atravesar el fémur en el barrido; sin valores mecánicos (convención declarada) |
-| Tendones | 🟡 | 8 unidades en el muslo; 4 sin fuente y 4 con fuente baja |
+| Tendones | 🟡 | 8 unidades en el muslo + cintilla iliotibial; psoas-ilíaco y cintilla con ruta, fuentes (media) y envoltura; el resto del muslo sin ruta ni fuente |
 | Músculos (volumen) | 🟡 parcial | medidos (Ritsche 2025): vasto lateral y bíceps femoral en el muslo, gastrocnemios y tibial anterior en la pierna; el resto del muslo por convención; glúteos: mediano y menor medidos (Kajdi 2025, cohorte de 65 años: subestima), mayor por convención |
-| Deuda de anclaje | 🟡 | 4 anclajes antiguos a > 12 mm |
+| Deuda de anclaje | 🟡 | 58 en el modelo (el trinquete bajó 3 con CM-5: cruzados y femororrotuliana, por las superficies de convención del fémur) |
 
 ## Lista de tareas
 
@@ -19,7 +19,7 @@ Plan: [../plan/30_caderas_muslo.md](../plan/30_caderas_muslo.md) · Prioridad **
 - [x] **CM-2** Sustituir las clases por volúmenes medidos — aplicados los 5 verificados de Ritsche 2025 (vasto lateral 636,5; bíceps femoral 197,4 [cabeza larga, hipótesis]; gastrocnemio medial 224,7 y lateral 112,6; tibial anterior 119,4 cm³), con altura de referencia 1,75 m **asumida** porque la fuente no publica la de los sujetos. Recto femoral, vasto intermedio y medial siguen por convención (sus cifras son derivadas); el resto del muslo, igual
 - [x] **CM-3** Volumen de los glúteos — mediano 339,1 y menor 92,15 cm³ (media simple de mujeres y hombres de Kajdi 2025; cohorte de 65 años con dolor trocantérico: **limitación declarada**, probablemente subestima; altura de referencia 1,75 m asumida); glúteo mayor por convención `muy_grande` (700 cm³, sin dato medido; probablemente se queda corto). Eje del vientre: centroide de los orígenes → inserción; sección aplanada (aspecto 3,0 / 2,5 / 2,5) es convención de forma
 - [x] **CM-4** Puntos de tensado de los ligamentos de la cadera — guías de envoltura (`via`), obstáculos de cabeza y cuello del fémur, ligamentos deformados por la armadura en Blender; propiedades mecánicas como convención paramétrica declarada (ver `docs/avances/03_ligamentos.md`)
-- [ ] **CM-5** Rutas completas del psoas-ilíaco y la cintilla iliotibial
+- [x] **CM-5** Rutas completas del psoas-ilíaco y la cintilla iliotibial — eminencia iliopúbica como polea, guías sobre trocánter mayor y epicóndilo lateral, obstáculos del fémur y la rama del pubis, lámina del ilion; barrido de 22 poses sin penetración en el modelo y en Blender (ver `docs/avances/04_tendones.md`)
 - [ ] **CM-6** Músculos que faltan (aductor corto, pectíneo, obturadores, piriforme, cuadrado femoral)
 - [ ] **CM-7** ROM de la cadera revisado
 - [ ] **CM-8** Reducir la deuda de anclaje del muslo
@@ -35,3 +35,4 @@ Plan: [../plan/30_caderas_muslo.md](../plan/30_caderas_muslo.md) · Prioridad **
 | 2026-10-25 | CM-3: `muscle_volumes` admite músculos de la capa `muscles` (glúteos) con eje, hueso (`ilium`) y región propios; 6 volúmenes nuevos (3 por lado). Registro: medias derivadas `applied_in_model`. 5 mutaciones detectadas. |
 | 2026-10-25 | CM-4: `via`, `bone_surfaces`, `mechanics` y `deform` en los ligamentos; módulo `ligament_paths`; `bone_distance` acepta las superficies. Extremos del pubofemoral e isquiofemoral movidos del eje del cuello (dentro del hueso) a su superficie. Barrido de 13 poses × 3 alturas sin penetración. Nota: el rig permite extensión de 15° (límite de la base) mientras `articulations` documenta 10° (StatPearls): se revisa en CM-7. |
 
+| 2026-10-25 | CM-5: unidad nueva `iliotibial_tract`; `via`, `deform` y `avoid` en psoas mayor, ilíaco y tensor de la fascia lata; hito `iliopubic_eminence`; superficies `femoral_greater_trochanter`, `femoral_shaft`, `femoral_lateral_condyle` y `pubic_ramus` (convención, solo el cóndilo tiene cifra publicada, de fiabilidad baja); tubos de tendón deformables en Blender; `validate_tendon_poses`. Origen del ilíaco desplazado 10,8 mm a la cara interna de la lámina del ilion. 4 mutaciones en el JSON y 10 en las pruebas. |

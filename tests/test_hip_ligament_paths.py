@@ -33,7 +33,8 @@ class TestHipLigamentPaths(unittest.TestCase):
         self.tol = 0.012 * self.base.height_m / 1.75
 
     def test_surfaces_are_the_head_sphere_and_the_neck_capsule_on_both_sides(self):
-        self.assertEqual(sorted(self.art.surfaces), ["femoral_head.L", "femoral_head.R", "femoral_neck.L", "femoral_neck.R"])
+        hip = ["femoral_head.L", "femoral_head.R", "femoral_neck.L", "femoral_neck.R"]
+        self.assertTrue(set(hip) <= set(self.art.surfaces))
         for s in "LR":
             head, neck = self.art.surfaces[f"femoral_head.{s}"], self.art.surfaces[f"femoral_neck.{s}"]
             center = self.art.joints[f"coxofemoral.{s}"].center
@@ -82,12 +83,12 @@ class TestHipLigamentPaths(unittest.TestCase):
                 continue
             for bone, p in lp.nodes(lg):
                 self.assertLess(articulations.bone_distance(p, bone, self.base, self.anat, self.art.surfaces), self.tol, n)
-            side = n[-1]
-            surfaces = [x for x in self.art.surfaces.values() if x.bone == f"femur.{side}"]
+            surfaces = [self.art.surfaces[a] for a in lg.avoid]
+            self.assertEqual({x.name[:-2] for x in surfaces}, {"femoral_head", "femoral_neck"})
             sd = min(x.signed_distance(lg.b) for x in surfaces)
             self.assertTrue(0.0 < sd < 0.0015, (n, sd))  # 1 mm por fuera de la superficie, no dentro del hueso
         for n in ("iliofemoral.L", "pubofemoral.L"):  # la geometria antigua dejaba el extremo en el eje del cuello, dentro del hueso: ya no
-            self.assertGreater(min(x.signed_distance(self.art.ligaments[n].b) for x in self.art.surfaces.values() if x.bone == "femur.L"), 0.0)
+            self.assertGreater(min(self.art.surfaces[a].signed_distance(self.art.ligaments[n].b) for a in self.art.ligaments[n].avoid), 0.0)
 
     def test_the_sweep_covers_the_requested_range_and_stays_inside_the_rig_limits(self):
         names = dict(lp.HIP_SWEEP)
@@ -121,8 +122,8 @@ class TestHipLigamentPaths(unittest.TestCase):
                 path = lp.posed_path(lg, self.base, self.anat, posed)
                 self.assertLess(length(sub(path[0], lg.a)), 1e-9, (n, name))  # el origen esta en la pelvis, que no se mueve
                 for (bone, p0), p1 in list(zip(lp.nodes(lg), path))[1:]:
-                    rest = min(x.signed_distance(p0) for x in self.art.surfaces.values() if x.bone == bone)
-                    now = min(x.signed_distance(p1) for x in surfaces.values())
+                    rest = min(self.art.surfaces[a].signed_distance(p0) for a in lg.avoid if self.art.surfaces[a].bone == bone)
+                    now = min(surfaces[a].signed_distance(p1) for a in lg.avoid if surfaces[a].bone == bone)
                     self.assertAlmostEqual(rest, now, places=9, msg=(n, name))
 
     def test_the_old_straight_geometry_with_the_end_on_the_neck_axis_would_be_caught(self):

@@ -38,7 +38,7 @@ class TestTendonLayer(unittest.TestCase):
         self.t = self.m.tendons
 
     def test_counts_and_validation(self):
-        self.assertEqual(len(self.t), 2 * (19 + 37 + 30))  # las 160 originales + 12: triceps de 3 cabezas, cabeza corta del biceps femoral, gastrocnemio lateral, pectoral menor, trapecio medio e inferior
+        self.assertEqual(len(self.t), 2 * (19 + 37 + 31))  # las 160 originales + 12 + la cintilla iliotibial (CM-5): triceps de 3 cabezas, cabeza corta del biceps femoral, gastrocnemio lateral, pectoral menor, trapecio medio e inferior
         self.assertEqual(tendons.validate_tendons(self.base, self.anat, self.art, self.m), [])
         for n, x in self.t.items():
             self.assertTrue(x.muscles, n)
@@ -109,7 +109,7 @@ class TestTendonLayer(unittest.TestCase):
         weak = {k for k, s in self.m.sources.items() if s["reliability"] == "baja"}
         for n, x in self.t.items():
             for s in x.sites:
-                self.assertLess(articulations.bone_distance(s.point, s.bone, self.base, self.anat), tol, (n, s.kind))
+                self.assertLess(articulations.bone_distance(s.point, s.bone, self.base, self.anat, self.art.surfaces), tol, (n, s.kind))
             if not x.sources or set(x.sources) <= weak:
                 self.assertIn("verificar", x.notes.lower(), n)
         for f in tendons.FILES:

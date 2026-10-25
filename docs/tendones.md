@@ -1,6 +1,6 @@
 # Capa de tendones (rama `muscle-model`)
 
-Capa **muscular** sobre el modelo óseo; no existe en `main`. Cubre **todo el cuerpo** con las unidades músculo-tendinosas principales de cada región: **86 por lado** (172 en total; las 160 de la primera version mas 12: tríceps lateral y medial en lugar de la cabeza humeral única, cabeza corta del bíceps femoral, gastrocnemio lateral, pectoral menor y trapecio medio e inferior).
+Capa **muscular** sobre el modelo óseo; no existe en `main`. Cubre **todo el cuerpo** con las unidades músculo-tendinosas principales de cada región: **87 por lado** (174 en total, con la cintilla iliotibial de CM-5; las 160 de la primera version mas 12: tríceps lateral y medial en lugar de la cabeza humeral única, cabeza corta del bíceps femoral, gastrocnemio lateral, pectoral menor y trapecio medio e inferior).
 
 | Archivo | Unidades por lado | Contenido |
 |---|---|---|
