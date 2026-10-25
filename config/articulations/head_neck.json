@@ -979,9 +979,9 @@
    "point": {
     "at": "head.head",
     "offset_h": [
-     0.017142857142857144,
-     0.04857142857142858,
-     0.014285714285714287
+     0.011428571428571429,
+     0.04,
+     0.010285714285714285
     ]
    },
    "structures": [
@@ -990,8 +990,8 @@
    "sources": [
     "sohag_neck"
    ],
-   "notes": "El craneo se modela como perfil medio-sagital: las estructuras laterales quedan a unos 5-7 cm de el.",
-   "tolerance_m": 0.04
+   "notes": "El craneo se modela como perfil medio-sagital: las estructuras laterales quedan a unos 5-7 cm de el. Se coloca sobre la boveda/mandibula con volumen del modelo (aproximado hacia la linea media: el craneo es un solido simplificado).",
+   "tolerance_m": 0.012
   },
   {
    "name": "mastoid_process.L",
@@ -1000,9 +1000,9 @@
    "point": {
     "at": "head.head",
     "offset_h": [
-     0.028571428571428574,
-     0.011428571428571429,
-     -0.002857142857142857
+     0.01942857142857143,
+     0.006857142857142858,
+     0.003428571428571429
     ]
    },
    "structures": [
@@ -1011,8 +1011,8 @@
    "sources": [
     "wiki_digastric"
    ],
-   "notes": "El craneo se modela como perfil medio-sagital: las estructuras laterales quedan a unos 5-7 cm de el.",
-   "tolerance_m": 0.065
+   "notes": "El craneo se modela como perfil medio-sagital: las estructuras laterales quedan a unos 5-7 cm de el. Se coloca sobre la boveda/mandibula con volumen del modelo (aproximado hacia la linea media: el craneo es un solido simplificado).",
+   "tolerance_m": 0.012
   },
   {
    "name": "zygomatic_arch.L",
@@ -1063,9 +1063,9 @@
    "point": {
     "at": "head.head",
     "offset_h": [
-     0.025714285714285714,
-     -0.022857142857142857,
-     -0.002857142857142857
+     0.028571428571428574,
+     -0.008571428571428572,
+     -0.006857142857142858
     ]
    },
    "structures": [
@@ -1074,8 +1074,8 @@
    "sources": [
     "brainscape_mastication"
    ],
-   "notes": "Fuente debil: verificar en un atlas.",
-   "tolerance_m": 0.03
+   "notes": "Fuente debil: verificar en un atlas. Se coloca sobre la boveda/mandibula con volumen del modelo (aproximado hacia la linea media: el craneo es un solido simplificado).",
+   "tolerance_m": 0.012
   },
   {
    "name": "mandibular_angle.L",
