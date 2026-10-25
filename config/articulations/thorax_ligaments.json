@@ -1,0 +1,2946 @@
+{
+ "schema_version": 2,
+ "region": "thorax_ligaments",
+ "description": "Ligamentos del torax (costovertebrales, costotransversos, esternocostales, interchondrales, esternales), del hombro (glenohumerales) y de la esternoclavicular. La articulacion escapulotoracica no tiene ligamentos (se sostiene por musculos y fascia). Modelo oseo. Coordenadas: +X izquierda, +Y atras, +Z arriba.",
+ "sources": {
+  "wiki_ghl": {
+   "url": "https://en.wikipedia.org/wiki/Glenohumeral_ligaments",
+   "reliability": "media",
+   "title": "Wikipedia - Glenohumeral ligaments"
+  },
+  "radiopaedia_ighl": {
+   "url": "https://radiopaedia.org/articles/ighl?lang=gb",
+   "reliability": "media",
+   "title": "Radiopaedia - Glenohumeral ligaments"
+  },
+  "hta_ghl": {
+   "url": "https://handtherapyacademy.com/evaluation/the-function-of-the-glenohumeral-joint-ligaments/",
+   "reliability": "media",
+   "title": "Hand Therapy Academy - Function of the glenohumeral joint ligaments"
+  },
+  "wiki_antsc": {
+   "url": "https://en.wikipedia.org/wiki/Anterior_sternoclavicular_ligament",
+   "reliability": "media",
+   "title": "Wikipedia - Anterior sternoclavicular ligament"
+  },
+  "wiki_postsc": {
+   "url": "https://en.wikipedia.org/wiki/Posterior_sternoclavicular_ligament",
+   "reliability": "media",
+   "title": "Wikipedia - Posterior sternoclavicular ligament"
+  },
+  "uams_thorax": {
+   "url": "https://medicine.uams.edu/neuroscience/education/medical-school-courses/human-structure-module/anatomy-tables/joint-tables/joints-and-ligaments-of-the-thorax/",
+   "reliability": "media",
+   "title": "UAMS - Joints and ligaments of the thorax (tablas de anatomia)"
+  },
+  "ttu_thorax": {
+   "url": "https://anatomy.ttuhscep.edu/anatomytables/joints_thorax.html",
+   "reliability": "media",
+   "title": "TTUHSC - Medical gross anatomy: joints of the thorax"
+  },
+  "elsevier_radiate_sc": {
+   "url": "https://www.elsevier.com/resources/anatomy/connective-tissue/connective-tissue-of-thorax/radiate-sternochondral-ligaments/23210",
+   "reliability": "media",
+   "title": "Elsevier - Radiate sternochondral ligaments"
+  },
+  "voka_thorax": {
+   "url": "https://wiki.voka.io/anatomy-quizzes/thorax/thoracic-cage-connections/",
+   "reliability": "baja",
+   "title": "Cuestionarios de anatomia - conexiones de la caja toracica (ligamento radiado de la cabeza de la costilla; VERIFICAR)"
+  }
+ },
+ "joints": [],
+ "ligaments": [
+  {
+   "name": "radiate_costovertebral_01.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_01.L",
+    "point": {
+     "at": "rib_01.L.head"
+    }
+   },
+   "to": {
+    "bone": "T1",
+    "point": {
+     "lerp": [
+      "T1.head",
+      "T1.tail",
+      0.35
+     ],
+     "offset_h": [
+      0.004571428571428572,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "costovertebral_01.L",
+   "sources": [
+    "voka_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Ligamento radiado de la cabeza de la costilla: refuerza por delante la capsula y se abre en abanico hacia el cuerpo vertebral y el disco. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_costovertebral_02.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_02.L",
+    "point": {
+     "at": "rib_02.L.head"
+    }
+   },
+   "to": {
+    "bone": "T2",
+    "point": {
+     "lerp": [
+      "T2.head",
+      "T2.tail",
+      0.35
+     ],
+     "offset_h": [
+      0.004571428571428572,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "costovertebral_02.L",
+   "sources": [
+    "voka_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Ligamento radiado de la cabeza de la costilla: refuerza por delante la capsula y se abre en abanico hacia el cuerpo vertebral y el disco. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_costovertebral_upper_02.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_02.L",
+    "point": {
+     "at": "rib_02.L.head"
+    }
+   },
+   "to": {
+    "bone": "T1",
+    "point": {
+     "lerp": [
+      "T1.head",
+      "T1.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.004571428571428572,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "costovertebral_02.L",
+   "sources": [
+    "voka_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Haz superior del radiado: la costilla se articula con dos vertebras (hemifacetas). El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_costovertebral_03.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_03.L",
+    "point": {
+     "at": "rib_03.L.head"
+    }
+   },
+   "to": {
+    "bone": "T3",
+    "point": {
+     "lerp": [
+      "T3.head",
+      "T3.tail",
+      0.35
+     ],
+     "offset_h": [
+      0.004571428571428572,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "costovertebral_03.L",
+   "sources": [
+    "voka_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Ligamento radiado de la cabeza de la costilla: refuerza por delante la capsula y se abre en abanico hacia el cuerpo vertebral y el disco. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_costovertebral_upper_03.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_03.L",
+    "point": {
+     "at": "rib_03.L.head"
+    }
+   },
+   "to": {
+    "bone": "T2",
+    "point": {
+     "lerp": [
+      "T2.head",
+      "T2.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.004571428571428572,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "costovertebral_03.L",
+   "sources": [
+    "voka_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Haz superior del radiado: la costilla se articula con dos vertebras (hemifacetas). El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_costovertebral_04.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_04.L",
+    "point": {
+     "at": "rib_04.L.head"
+    }
+   },
+   "to": {
+    "bone": "T4",
+    "point": {
+     "lerp": [
+      "T4.head",
+      "T4.tail",
+      0.35
+     ],
+     "offset_h": [
+      0.004571428571428572,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "costovertebral_04.L",
+   "sources": [
+    "voka_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Ligamento radiado de la cabeza de la costilla: refuerza por delante la capsula y se abre en abanico hacia el cuerpo vertebral y el disco. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_costovertebral_upper_04.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_04.L",
+    "point": {
+     "at": "rib_04.L.head"
+    }
+   },
+   "to": {
+    "bone": "T3",
+    "point": {
+     "lerp": [
+      "T3.head",
+      "T3.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.004571428571428572,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "costovertebral_04.L",
+   "sources": [
+    "voka_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Haz superior del radiado: la costilla se articula con dos vertebras (hemifacetas). El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_costovertebral_05.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_05.L",
+    "point": {
+     "at": "rib_05.L.head"
+    }
+   },
+   "to": {
+    "bone": "T5",
+    "point": {
+     "lerp": [
+      "T5.head",
+      "T5.tail",
+      0.35
+     ],
+     "offset_h": [
+      0.004571428571428572,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "costovertebral_05.L",
+   "sources": [
+    "voka_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Ligamento radiado de la cabeza de la costilla: refuerza por delante la capsula y se abre en abanico hacia el cuerpo vertebral y el disco. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_costovertebral_upper_05.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_05.L",
+    "point": {
+     "at": "rib_05.L.head"
+    }
+   },
+   "to": {
+    "bone": "T4",
+    "point": {
+     "lerp": [
+      "T4.head",
+      "T4.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.004571428571428572,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "costovertebral_05.L",
+   "sources": [
+    "voka_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Haz superior del radiado: la costilla se articula con dos vertebras (hemifacetas). El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_costovertebral_06.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_06.L",
+    "point": {
+     "at": "rib_06.L.head"
+    }
+   },
+   "to": {
+    "bone": "T6",
+    "point": {
+     "lerp": [
+      "T6.head",
+      "T6.tail",
+      0.35
+     ],
+     "offset_h": [
+      0.004571428571428572,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "costovertebral_06.L",
+   "sources": [
+    "voka_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Ligamento radiado de la cabeza de la costilla: refuerza por delante la capsula y se abre en abanico hacia el cuerpo vertebral y el disco. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_costovertebral_upper_06.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_06.L",
+    "point": {
+     "at": "rib_06.L.head"
+    }
+   },
+   "to": {
+    "bone": "T5",
+    "point": {
+     "lerp": [
+      "T5.head",
+      "T5.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.004571428571428572,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "costovertebral_06.L",
+   "sources": [
+    "voka_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Haz superior del radiado: la costilla se articula con dos vertebras (hemifacetas). El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_costovertebral_07.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_07.L",
+    "point": {
+     "at": "rib_07.L.head"
+    }
+   },
+   "to": {
+    "bone": "T7",
+    "point": {
+     "lerp": [
+      "T7.head",
+      "T7.tail",
+      0.35
+     ],
+     "offset_h": [
+      0.004571428571428572,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "costovertebral_07.L",
+   "sources": [
+    "voka_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Ligamento radiado de la cabeza de la costilla: refuerza por delante la capsula y se abre en abanico hacia el cuerpo vertebral y el disco. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_costovertebral_upper_07.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_07.L",
+    "point": {
+     "at": "rib_07.L.head"
+    }
+   },
+   "to": {
+    "bone": "T6",
+    "point": {
+     "lerp": [
+      "T6.head",
+      "T6.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.004571428571428572,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "costovertebral_07.L",
+   "sources": [
+    "voka_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Haz superior del radiado: la costilla se articula con dos vertebras (hemifacetas). El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_costovertebral_08.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_08.L",
+    "point": {
+     "at": "rib_08.L.head"
+    }
+   },
+   "to": {
+    "bone": "T8",
+    "point": {
+     "lerp": [
+      "T8.head",
+      "T8.tail",
+      0.35
+     ],
+     "offset_h": [
+      0.004571428571428572,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "costovertebral_08.L",
+   "sources": [
+    "voka_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Ligamento radiado de la cabeza de la costilla: refuerza por delante la capsula y se abre en abanico hacia el cuerpo vertebral y el disco. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_costovertebral_upper_08.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_08.L",
+    "point": {
+     "at": "rib_08.L.head"
+    }
+   },
+   "to": {
+    "bone": "T7",
+    "point": {
+     "lerp": [
+      "T7.head",
+      "T7.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.004571428571428572,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "costovertebral_08.L",
+   "sources": [
+    "voka_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Haz superior del radiado: la costilla se articula con dos vertebras (hemifacetas). El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_costovertebral_09.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_09.L",
+    "point": {
+     "at": "rib_09.L.head"
+    }
+   },
+   "to": {
+    "bone": "T9",
+    "point": {
+     "lerp": [
+      "T9.head",
+      "T9.tail",
+      0.35
+     ],
+     "offset_h": [
+      0.004571428571428572,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "costovertebral_09.L",
+   "sources": [
+    "voka_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Ligamento radiado de la cabeza de la costilla: refuerza por delante la capsula y se abre en abanico hacia el cuerpo vertebral y el disco. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_costovertebral_upper_09.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_09.L",
+    "point": {
+     "at": "rib_09.L.head"
+    }
+   },
+   "to": {
+    "bone": "T8",
+    "point": {
+     "lerp": [
+      "T8.head",
+      "T8.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.004571428571428572,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "costovertebral_09.L",
+   "sources": [
+    "voka_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Haz superior del radiado: la costilla se articula con dos vertebras (hemifacetas). El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_costovertebral_10.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_10.L",
+    "point": {
+     "at": "rib_10.L.head"
+    }
+   },
+   "to": {
+    "bone": "T10",
+    "point": {
+     "lerp": [
+      "T10.head",
+      "T10.tail",
+      0.35
+     ],
+     "offset_h": [
+      0.004571428571428572,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "costovertebral_10.L",
+   "sources": [
+    "voka_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Ligamento radiado de la cabeza de la costilla: refuerza por delante la capsula y se abre en abanico hacia el cuerpo vertebral y el disco. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_costovertebral_upper_10.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_10.L",
+    "point": {
+     "at": "rib_10.L.head"
+    }
+   },
+   "to": {
+    "bone": "T9",
+    "point": {
+     "lerp": [
+      "T9.head",
+      "T9.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.004571428571428572,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "costovertebral_10.L",
+   "sources": [
+    "voka_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Haz superior del radiado: la costilla se articula con dos vertebras (hemifacetas). El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_costovertebral_11.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_11.L",
+    "point": {
+     "at": "rib_11.L.head"
+    }
+   },
+   "to": {
+    "bone": "T11",
+    "point": {
+     "lerp": [
+      "T11.head",
+      "T11.tail",
+      0.35
+     ],
+     "offset_h": [
+      0.004571428571428572,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "costovertebral_11.L",
+   "sources": [
+    "voka_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Ligamento radiado de la cabeza de la costilla: refuerza por delante la capsula y se abre en abanico hacia el cuerpo vertebral y el disco. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_costovertebral_12.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_12.L",
+    "point": {
+     "at": "rib_12.L.head"
+    }
+   },
+   "to": {
+    "bone": "T12",
+    "point": {
+     "lerp": [
+      "T12.head",
+      "T12.tail",
+      0.35
+     ],
+     "offset_h": [
+      0.004571428571428572,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "costovertebral_12.L",
+   "sources": [
+    "voka_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Ligamento radiado de la cabeza de la costilla: refuerza por delante la capsula y se abre en abanico hacia el cuerpo vertebral y el disco. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "costotransverse_ligament_01.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_01.L",
+    "point": {
+     "lerp": [
+      "rib_01.L.head",
+      "rib_01.L.tail",
+      0.08
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T1",
+    "point": {
+     "lerp": [
+      "T1.head",
+      "T1.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.005142857142857143,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_01.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso: del cuello de la costilla a la apofisis transversa de su vertebra. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "superior_costotransverse_01.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_01.L",
+    "point": {
+     "lerp": [
+      "rib_01.L.head",
+      "rib_01.L.tail",
+      0.08
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C7",
+    "point": {
+     "lerp": [
+      "C7.head",
+      "C7.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.005142857142857143,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_01.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso superior: del cuello de la costilla a la apofisis transversa de la vertebra de arriba. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "lateral_costotransverse_01.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_01.L",
+    "point": {
+     "lerp": [
+      "rib_01.L.head",
+      "rib_01.L.tail",
+      0.12
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T1",
+    "point": {
+     "lerp": [
+      "T1.head",
+      "T1.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.001142857142857143,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_01.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso lateral: del tuberculo de la costilla a la punta de la apofisis transversa. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "costotransverse_ligament_02.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_02.L",
+    "point": {
+     "lerp": [
+      "rib_02.L.head",
+      "rib_02.L.tail",
+      0.08
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T2",
+    "point": {
+     "lerp": [
+      "T2.head",
+      "T2.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.005142857142857143,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_02.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso: del cuello de la costilla a la apofisis transversa de su vertebra. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "superior_costotransverse_02.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_02.L",
+    "point": {
+     "lerp": [
+      "rib_02.L.head",
+      "rib_02.L.tail",
+      0.08
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T1",
+    "point": {
+     "lerp": [
+      "T1.head",
+      "T1.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.005142857142857143,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_02.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso superior: del cuello de la costilla a la apofisis transversa de la vertebra de arriba. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "lateral_costotransverse_02.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_02.L",
+    "point": {
+     "lerp": [
+      "rib_02.L.head",
+      "rib_02.L.tail",
+      0.12
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T2",
+    "point": {
+     "lerp": [
+      "T2.head",
+      "T2.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.001142857142857143,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_02.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso lateral: del tuberculo de la costilla a la punta de la apofisis transversa. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "costotransverse_ligament_03.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_03.L",
+    "point": {
+     "lerp": [
+      "rib_03.L.head",
+      "rib_03.L.tail",
+      0.08
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T3",
+    "point": {
+     "lerp": [
+      "T3.head",
+      "T3.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.005142857142857143,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_03.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso: del cuello de la costilla a la apofisis transversa de su vertebra. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "superior_costotransverse_03.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_03.L",
+    "point": {
+     "lerp": [
+      "rib_03.L.head",
+      "rib_03.L.tail",
+      0.08
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T2",
+    "point": {
+     "lerp": [
+      "T2.head",
+      "T2.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.005142857142857143,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_03.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso superior: del cuello de la costilla a la apofisis transversa de la vertebra de arriba. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "lateral_costotransverse_03.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_03.L",
+    "point": {
+     "lerp": [
+      "rib_03.L.head",
+      "rib_03.L.tail",
+      0.12
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T3",
+    "point": {
+     "lerp": [
+      "T3.head",
+      "T3.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.001142857142857143,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_03.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso lateral: del tuberculo de la costilla a la punta de la apofisis transversa. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "costotransverse_ligament_04.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_04.L",
+    "point": {
+     "lerp": [
+      "rib_04.L.head",
+      "rib_04.L.tail",
+      0.08
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T4",
+    "point": {
+     "lerp": [
+      "T4.head",
+      "T4.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.005142857142857143,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_04.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso: del cuello de la costilla a la apofisis transversa de su vertebra. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "superior_costotransverse_04.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_04.L",
+    "point": {
+     "lerp": [
+      "rib_04.L.head",
+      "rib_04.L.tail",
+      0.08
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T3",
+    "point": {
+     "lerp": [
+      "T3.head",
+      "T3.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.005142857142857143,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_04.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso superior: del cuello de la costilla a la apofisis transversa de la vertebra de arriba. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "lateral_costotransverse_04.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_04.L",
+    "point": {
+     "lerp": [
+      "rib_04.L.head",
+      "rib_04.L.tail",
+      0.12
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T4",
+    "point": {
+     "lerp": [
+      "T4.head",
+      "T4.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.001142857142857143,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_04.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso lateral: del tuberculo de la costilla a la punta de la apofisis transversa. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "costotransverse_ligament_05.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_05.L",
+    "point": {
+     "lerp": [
+      "rib_05.L.head",
+      "rib_05.L.tail",
+      0.08
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T5",
+    "point": {
+     "lerp": [
+      "T5.head",
+      "T5.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.005142857142857143,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_05.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso: del cuello de la costilla a la apofisis transversa de su vertebra. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "superior_costotransverse_05.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_05.L",
+    "point": {
+     "lerp": [
+      "rib_05.L.head",
+      "rib_05.L.tail",
+      0.08
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T4",
+    "point": {
+     "lerp": [
+      "T4.head",
+      "T4.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.005142857142857143,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_05.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso superior: del cuello de la costilla a la apofisis transversa de la vertebra de arriba. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "lateral_costotransverse_05.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_05.L",
+    "point": {
+     "lerp": [
+      "rib_05.L.head",
+      "rib_05.L.tail",
+      0.12
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T5",
+    "point": {
+     "lerp": [
+      "T5.head",
+      "T5.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.001142857142857143,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_05.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso lateral: del tuberculo de la costilla a la punta de la apofisis transversa. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "costotransverse_ligament_06.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_06.L",
+    "point": {
+     "lerp": [
+      "rib_06.L.head",
+      "rib_06.L.tail",
+      0.08
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T6",
+    "point": {
+     "lerp": [
+      "T6.head",
+      "T6.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.005142857142857143,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_06.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso: del cuello de la costilla a la apofisis transversa de su vertebra. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "superior_costotransverse_06.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_06.L",
+    "point": {
+     "lerp": [
+      "rib_06.L.head",
+      "rib_06.L.tail",
+      0.08
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T5",
+    "point": {
+     "lerp": [
+      "T5.head",
+      "T5.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.005142857142857143,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_06.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso superior: del cuello de la costilla a la apofisis transversa de la vertebra de arriba. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "lateral_costotransverse_06.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_06.L",
+    "point": {
+     "lerp": [
+      "rib_06.L.head",
+      "rib_06.L.tail",
+      0.12
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T6",
+    "point": {
+     "lerp": [
+      "T6.head",
+      "T6.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.001142857142857143,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_06.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso lateral: del tuberculo de la costilla a la punta de la apofisis transversa. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "costotransverse_ligament_07.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_07.L",
+    "point": {
+     "lerp": [
+      "rib_07.L.head",
+      "rib_07.L.tail",
+      0.08
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T7",
+    "point": {
+     "lerp": [
+      "T7.head",
+      "T7.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.005142857142857143,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_07.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso: del cuello de la costilla a la apofisis transversa de su vertebra. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "superior_costotransverse_07.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_07.L",
+    "point": {
+     "lerp": [
+      "rib_07.L.head",
+      "rib_07.L.tail",
+      0.08
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T6",
+    "point": {
+     "lerp": [
+      "T6.head",
+      "T6.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.005142857142857143,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_07.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso superior: del cuello de la costilla a la apofisis transversa de la vertebra de arriba. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "lateral_costotransverse_07.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_07.L",
+    "point": {
+     "lerp": [
+      "rib_07.L.head",
+      "rib_07.L.tail",
+      0.12
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T7",
+    "point": {
+     "lerp": [
+      "T7.head",
+      "T7.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.001142857142857143,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_07.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso lateral: del tuberculo de la costilla a la punta de la apofisis transversa. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "costotransverse_ligament_08.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_08.L",
+    "point": {
+     "lerp": [
+      "rib_08.L.head",
+      "rib_08.L.tail",
+      0.08
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T8",
+    "point": {
+     "lerp": [
+      "T8.head",
+      "T8.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.005142857142857143,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_08.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso: del cuello de la costilla a la apofisis transversa de su vertebra. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "superior_costotransverse_08.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_08.L",
+    "point": {
+     "lerp": [
+      "rib_08.L.head",
+      "rib_08.L.tail",
+      0.08
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T7",
+    "point": {
+     "lerp": [
+      "T7.head",
+      "T7.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.005142857142857143,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_08.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso superior: del cuello de la costilla a la apofisis transversa de la vertebra de arriba. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "lateral_costotransverse_08.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_08.L",
+    "point": {
+     "lerp": [
+      "rib_08.L.head",
+      "rib_08.L.tail",
+      0.12
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T8",
+    "point": {
+     "lerp": [
+      "T8.head",
+      "T8.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.001142857142857143,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_08.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso lateral: del tuberculo de la costilla a la punta de la apofisis transversa. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "costotransverse_ligament_09.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_09.L",
+    "point": {
+     "lerp": [
+      "rib_09.L.head",
+      "rib_09.L.tail",
+      0.08
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T9",
+    "point": {
+     "lerp": [
+      "T9.head",
+      "T9.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.005142857142857143,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_09.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso: del cuello de la costilla a la apofisis transversa de su vertebra. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "superior_costotransverse_09.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_09.L",
+    "point": {
+     "lerp": [
+      "rib_09.L.head",
+      "rib_09.L.tail",
+      0.08
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T8",
+    "point": {
+     "lerp": [
+      "T8.head",
+      "T8.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.005142857142857143,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_09.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso superior: del cuello de la costilla a la apofisis transversa de la vertebra de arriba. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "lateral_costotransverse_09.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_09.L",
+    "point": {
+     "lerp": [
+      "rib_09.L.head",
+      "rib_09.L.tail",
+      0.12
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T9",
+    "point": {
+     "lerp": [
+      "T9.head",
+      "T9.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.001142857142857143,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_09.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso lateral: del tuberculo de la costilla a la punta de la apofisis transversa. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "costotransverse_ligament_10.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_10.L",
+    "point": {
+     "lerp": [
+      "rib_10.L.head",
+      "rib_10.L.tail",
+      0.08
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T10",
+    "point": {
+     "lerp": [
+      "T10.head",
+      "T10.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.005142857142857143,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_10.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso: del cuello de la costilla a la apofisis transversa de su vertebra. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "superior_costotransverse_10.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_10.L",
+    "point": {
+     "lerp": [
+      "rib_10.L.head",
+      "rib_10.L.tail",
+      0.08
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T9",
+    "point": {
+     "lerp": [
+      "T9.head",
+      "T9.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.005142857142857143,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_10.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso superior: del cuello de la costilla a la apofisis transversa de la vertebra de arriba. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "lateral_costotransverse_10.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_10.L",
+    "point": {
+     "lerp": [
+      "rib_10.L.head",
+      "rib_10.L.tail",
+      0.12
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T10",
+    "point": {
+     "lerp": [
+      "T10.head",
+      "T10.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.001142857142857143,
+      0.0
+     ]
+    }
+   },
+   "joint": "costotransverse_10.L",
+   "sources": [
+    "uams_thorax",
+    "ttu_thorax"
+   ],
+   "notes": "Costotransverso lateral: del tuberculo de la costilla a la punta de la apofisis transversa. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje de la vertebra. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_sternocostal_anterior_01.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_01.L",
+    "point": {
+     "at": "rib_01.L.cartilage_end"
+    }
+   },
+   "to": {
+    "bone": "sternum",
+    "point": {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.005714285714285714,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "sternocostal_01.L",
+   "sources": [
+    "elsevier_radiate_sc",
+    "uams_thorax"
+   ],
+   "notes": "Radiado esternocostal anterior: del extremo del cartilago costal a la cara anterior del esternon (fibras superiores, medias e inferiores en abanico).",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_sternocostal_posterior_01.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_01.L",
+    "point": {
+     "at": "rib_01.L.cartilage_end"
+    }
+   },
+   "to": {
+    "bone": "sternum",
+    "point": {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.05
+     ],
+     "offset_h": [
+      0.005714285714285714,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "sternocostal_01.L",
+   "sources": [
+    "elsevier_radiate_sc",
+    "uams_thorax"
+   ],
+   "notes": "Radiado esternocostal posterior: del extremo del cartilago costal a la cara posterior del esternon (fibras superiores, medias e inferiores en abanico).",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_sternocostal_anterior_02.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_02.L",
+    "point": {
+     "at": "rib_02.L.cartilage_end"
+    }
+   },
+   "to": {
+    "bone": "sternum",
+    "point": {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.2668
+     ],
+     "offset_h": [
+      0.005714285714285714,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "sternocostal_02.L",
+   "sources": [
+    "elsevier_radiate_sc",
+    "uams_thorax"
+   ],
+   "notes": "Radiado esternocostal anterior: del extremo del cartilago costal a la cara anterior del esternon (fibras superiores, medias e inferiores en abanico).",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_sternocostal_posterior_02.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_02.L",
+    "point": {
+     "at": "rib_02.L.cartilage_end"
+    }
+   },
+   "to": {
+    "bone": "sternum",
+    "point": {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.2668
+     ],
+     "offset_h": [
+      0.005714285714285714,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "sternocostal_02.L",
+   "sources": [
+    "elsevier_radiate_sc",
+    "uams_thorax"
+   ],
+   "notes": "Radiado esternocostal posterior: del extremo del cartilago costal a la cara posterior del esternon (fibras superiores, medias e inferiores en abanico).",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_sternocostal_anterior_03.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_03.L",
+    "point": {
+     "at": "rib_03.L.cartilage_end"
+    }
+   },
+   "to": {
+    "bone": "sternum",
+    "point": {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.38
+     ],
+     "offset_h": [
+      0.005714285714285714,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "sternocostal_03.L",
+   "sources": [
+    "elsevier_radiate_sc",
+    "uams_thorax"
+   ],
+   "notes": "Radiado esternocostal anterior: del extremo del cartilago costal a la cara anterior del esternon (fibras superiores, medias e inferiores en abanico).",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_sternocostal_posterior_03.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_03.L",
+    "point": {
+     "at": "rib_03.L.cartilage_end"
+    }
+   },
+   "to": {
+    "bone": "sternum",
+    "point": {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.38
+     ],
+     "offset_h": [
+      0.005714285714285714,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "sternocostal_03.L",
+   "sources": [
+    "elsevier_radiate_sc",
+    "uams_thorax"
+   ],
+   "notes": "Radiado esternocostal posterior: del extremo del cartilago costal a la cara posterior del esternon (fibras superiores, medias e inferiores en abanico).",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_sternocostal_anterior_04.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_04.L",
+    "point": {
+     "at": "rib_04.L.cartilage_end"
+    }
+   },
+   "to": {
+    "bone": "sternum",
+    "point": {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.52
+     ],
+     "offset_h": [
+      0.005714285714285714,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "sternocostal_04.L",
+   "sources": [
+    "elsevier_radiate_sc",
+    "uams_thorax"
+   ],
+   "notes": "Radiado esternocostal anterior: del extremo del cartilago costal a la cara anterior del esternon (fibras superiores, medias e inferiores en abanico).",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_sternocostal_posterior_04.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_04.L",
+    "point": {
+     "at": "rib_04.L.cartilage_end"
+    }
+   },
+   "to": {
+    "bone": "sternum",
+    "point": {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.52
+     ],
+     "offset_h": [
+      0.005714285714285714,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "sternocostal_04.L",
+   "sources": [
+    "elsevier_radiate_sc",
+    "uams_thorax"
+   ],
+   "notes": "Radiado esternocostal posterior: del extremo del cartilago costal a la cara posterior del esternon (fibras superiores, medias e inferiores en abanico).",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_sternocostal_anterior_05.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_05.L",
+    "point": {
+     "at": "rib_05.L.cartilage_end"
+    }
+   },
+   "to": {
+    "bone": "sternum",
+    "point": {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.65
+     ],
+     "offset_h": [
+      0.005714285714285714,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "sternocostal_05.L",
+   "sources": [
+    "elsevier_radiate_sc",
+    "uams_thorax"
+   ],
+   "notes": "Radiado esternocostal anterior: del extremo del cartilago costal a la cara anterior del esternon (fibras superiores, medias e inferiores en abanico).",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_sternocostal_posterior_05.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_05.L",
+    "point": {
+     "at": "rib_05.L.cartilage_end"
+    }
+   },
+   "to": {
+    "bone": "sternum",
+    "point": {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.65
+     ],
+     "offset_h": [
+      0.005714285714285714,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "sternocostal_05.L",
+   "sources": [
+    "elsevier_radiate_sc",
+    "uams_thorax"
+   ],
+   "notes": "Radiado esternocostal posterior: del extremo del cartilago costal a la cara posterior del esternon (fibras superiores, medias e inferiores en abanico).",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_sternocostal_anterior_06.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_06.L",
+    "point": {
+     "at": "rib_06.L.cartilage_end"
+    }
+   },
+   "to": {
+    "bone": "sternum",
+    "point": {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.78
+     ],
+     "offset_h": [
+      0.005714285714285714,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "sternocostal_06.L",
+   "sources": [
+    "elsevier_radiate_sc",
+    "uams_thorax"
+   ],
+   "notes": "Radiado esternocostal anterior: del extremo del cartilago costal a la cara anterior del esternon (fibras superiores, medias e inferiores en abanico).",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_sternocostal_posterior_06.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_06.L",
+    "point": {
+     "at": "rib_06.L.cartilage_end"
+    }
+   },
+   "to": {
+    "bone": "sternum",
+    "point": {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.78
+     ],
+     "offset_h": [
+      0.005714285714285714,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "sternocostal_06.L",
+   "sources": [
+    "elsevier_radiate_sc",
+    "uams_thorax"
+   ],
+   "notes": "Radiado esternocostal posterior: del extremo del cartilago costal a la cara posterior del esternon (fibras superiores, medias e inferiores en abanico).",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_sternocostal_anterior_07.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_07.L",
+    "point": {
+     "at": "rib_07.L.cartilage_end"
+    }
+   },
+   "to": {
+    "bone": "sternum",
+    "point": {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.005714285714285714,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "sternocostal_07.L",
+   "sources": [
+    "elsevier_radiate_sc",
+    "uams_thorax"
+   ],
+   "notes": "Radiado esternocostal anterior: del extremo del cartilago costal a la cara anterior del esternon (fibras superiores, medias e inferiores en abanico).",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "radiate_sternocostal_posterior_07.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_07.L",
+    "point": {
+     "at": "rib_07.L.cartilage_end"
+    }
+   },
+   "to": {
+    "bone": "sternum",
+    "point": {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.005714285714285714,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "sternocostal_07.L",
+   "sources": [
+    "elsevier_radiate_sc",
+    "uams_thorax"
+   ],
+   "notes": "Radiado esternocostal posterior: del extremo del cartilago costal a la cara posterior del esternon (fibras superiores, medias e inferiores en abanico).",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interchondral_ligament_08.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_08.L",
+    "point": {
+     "lerp": [
+      "rib_08.L.tail",
+      "rib_08.L.cartilage_end",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "rib_07.L",
+    "point": {
+     "lerp": [
+      "rib_07.L.tail",
+      "rib_07.L.cartilage_end",
+      0.45
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "interchondral_08.L",
+   "sources": [
+    "ttu_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Interchondral: banda fibrosa entre cartilagos costales vecinos (reborde costal). Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interchondral_ligament_09.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_09.L",
+    "point": {
+     "lerp": [
+      "rib_09.L.tail",
+      "rib_09.L.cartilage_end",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "rib_08.L",
+    "point": {
+     "lerp": [
+      "rib_08.L.tail",
+      "rib_08.L.cartilage_end",
+      0.45
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "interchondral_09.L",
+   "sources": [
+    "ttu_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Interchondral: banda fibrosa entre cartilagos costales vecinos (reborde costal). Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interchondral_ligament_10.L",
+   "mirror": true,
+   "from": {
+    "bone": "rib_10.L",
+    "point": {
+     "lerp": [
+      "rib_10.L.tail",
+      "rib_10.L.cartilage_end",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "rib_09.L",
+    "point": {
+     "lerp": [
+      "rib_09.L.tail",
+      "rib_09.L.cartilage_end",
+      0.45
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "interchondral_10.L",
+   "sources": [
+    "ttu_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Interchondral: banda fibrosa entre cartilagos costales vecinos (reborde costal). Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "manubriosternal_anterior",
+   "mirror": false,
+   "from": {
+    "bone": "sternum",
+    "point": {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.23679999999999998
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "sternum",
+    "point": {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.29679999999999995
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "manubriosternal",
+   "sources": [
+    "ttu_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Ligamento anterior de la sinfisis manubrioesternal (periostio y fibras que refuerzan la union). Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "manubriosternal_posterior",
+   "mirror": false,
+   "from": {
+    "bone": "sternum",
+    "point": {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.23679999999999998
+     ],
+     "offset_h": [
+      0.0,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "sternum",
+    "point": {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.29679999999999995
+     ],
+     "offset_h": [
+      0.0,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "manubriosternal",
+   "sources": [
+    "ttu_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Ligamento posterior de la sinfisis manubrioesternal (periostio y fibras que refuerzan la union). Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "xiphisternal_anterior",
+   "mirror": false,
+   "from": {
+    "bone": "sternum",
+    "point": {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.837
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "sternum",
+    "point": {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.897
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "xiphisternal",
+   "sources": [
+    "ttu_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Ligamento anterior de la sinfisis xifoesternal (periostio y fibras que refuerzan la union). Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "xiphisternal_posterior",
+   "mirror": false,
+   "from": {
+    "bone": "sternum",
+    "point": {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.837
+     ],
+     "offset_h": [
+      0.0,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "sternum",
+    "point": {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.897
+     ],
+     "offset_h": [
+      0.0,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "xiphisternal",
+   "sources": [
+    "ttu_thorax",
+    "uams_thorax"
+   ],
+   "notes": "Ligamento posterior de la sinfisis xifoesternal (periostio y fibras que refuerzan la union). Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "superior_glenohumeral.L",
+   "mirror": true,
+   "from": {
+    "bone": "scapula.L",
+    "point": {
+     "at": "scapula.L.head",
+     "offset_h": [
+      0.0,
+      -0.001142857142857143,
+      0.005714285714285714
+     ]
+    }
+   },
+   "to": {
+    "bone": "humerus.L",
+    "point": {
+     "lerp": [
+      "humerus.L.head",
+      "humerus.L.tail",
+      0.03
+     ],
+     "offset_h": [
+      -0.001142857142857143,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "glenohumeral.L",
+   "sources": [
+    "wiki_ghl",
+    "radiopaedia_ighl"
+   ],
+   "notes": "Glenohumeral superior: del glenoides superior y la base de la coracoides a la zona sobre el tuberculo menor; frena la rotacion externa con el brazo a un lado.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "middle_glenohumeral.L",
+   "mirror": true,
+   "from": {
+    "bone": "scapula.L",
+    "point": {
+     "at": "scapula.L.head",
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0017142857142857144
+     ]
+    }
+   },
+   "to": {
+    "bone": "humerus.L",
+    "point": {
+     "lerp": [
+      "humerus.L.head",
+      "humerus.L.tail",
+      0.045
+     ],
+     "offset_h": [
+      -0.0017142857142857144,
+      -0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "joint": "glenohumeral.L",
+   "sources": [
+    "wiki_ghl",
+    "hta_ghl"
+   ],
+   "notes": "Glenohumeral medio: del glenoides anterosuperior al tuberculo menor (su insercion humeral varia entre fuentes).",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "inferior_glenohumeral_anterior.L",
+   "mirror": true,
+   "from": {
+    "bone": "scapula.L",
+    "point": {
+     "at": "scapula.L.head",
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      -0.004571428571428572
+     ]
+    }
+   },
+   "to": {
+    "bone": "humerus.L",
+    "point": {
+     "lerp": [
+      "humerus.L.head",
+      "humerus.L.tail",
+      0.07
+     ],
+     "offset_h": [
+      -0.002285714285714286,
+      -0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "glenohumeral.L",
+   "sources": [
+    "wiki_ghl",
+    "radiopaedia_ighl",
+    "hta_ghl"
+   ],
+   "notes": "Banda anterior del glenohumeral inferior: la que mas frena la luxacion anterior con el brazo en abduccion; llega cerca del cuello quirurgico.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "inferior_glenohumeral_posterior.L",
+   "mirror": true,
+   "from": {
+    "bone": "scapula.L",
+    "point": {
+     "at": "scapula.L.head",
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      -0.004571428571428572
+     ]
+    }
+   },
+   "to": {
+    "bone": "humerus.L",
+    "point": {
+     "lerp": [
+      "humerus.L.head",
+      "humerus.L.tail",
+      0.07
+     ],
+     "offset_h": [
+      -0.002285714285714286,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "glenohumeral.L",
+   "sources": [
+    "wiki_ghl",
+    "radiopaedia_ighl"
+   ],
+   "notes": "Banda posterior del glenohumeral inferior (el complejo forma una hamaca bajo la cabeza del humero).",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "coracohumeral.L",
+   "mirror": true,
+   "from": {
+    "bone": "scapula.L",
+    "point": {
+     "at": "scapula.L.outline_5"
+    }
+   },
+   "to": {
+    "bone": "humerus.L",
+    "point": {
+     "lerp": [
+      "humerus.L.head",
+      "humerus.L.tail",
+      0.035
+     ],
+     "offset_h": [
+      0.004571428571428572,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "glenohumeral.L",
+   "sources": [
+    "wiki_ghl",
+    "hta_ghl"
+   ],
+   "notes": "Coracohumeral: de la coracoides a los tuberculos (banda anterior al menor, posterior al mayor); se modela una sola banda.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "anterior_sternoclavicular.L",
+   "mirror": true,
+   "from": {
+    "bone": "clavicle.L",
+    "point": {
+     "at": "clavicle.L.head",
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.002285714285714286
+     ]
+    }
+   },
+   "to": {
+    "bone": "sternum",
+    "point": {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.03
+     ],
+     "offset_h": [
+      0.01257142857142857,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "sternoclavicular.L",
+   "sources": [
+    "wiki_antsc"
+   ],
+   "notes": "Esternoclavicular anterior: del extremo esternal de la clavicula (cara anterosuperior) al manubrio y al primer cartilago costal.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_sternoclavicular.L",
+   "mirror": true,
+   "from": {
+    "bone": "clavicle.L",
+    "point": {
+     "at": "clavicle.L.head",
+     "offset_h": [
+      0.0,
+      0.003428571428571429,
+      0.002285714285714286
+     ]
+    }
+   },
+   "to": {
+    "bone": "sternum",
+    "point": {
+     "lerp": [
+      "sternum.head",
+      "sternum.tail",
+      0.03
+     ],
+     "offset_h": [
+      0.01257142857142857,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "sternoclavicular.L",
+   "sources": [
+    "wiki_postsc"
+   ],
+   "notes": "Esternoclavicular posterior: del extremo esternal de la clavicula (cara posterior) a la cara posterior del manubrio.",
+   "tolerance_m": 0.012
+  }
+ ],
+ "attachments": []
+}

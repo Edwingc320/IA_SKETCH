@@ -1957,11 +1957,15 @@
    "to": {
     "bone": "scapula.L",
     "point": {
-     "at": "scapula.L.head",
+     "lerp": [
+      "scapula.L.head",
+      "scapula.L.outline_5",
+      0.85
+     ],
      "offset_h": [
-      -0.00686,
-      -0.00686,
-      -0.00343
+      0,
+      0,
+      0
      ]
     }
    },
@@ -1971,7 +1975,7 @@
     "ajsm_ac_cc"
    ],
    "notes": "Restriccion clave de la protraccion escapular y de la inclinacion posterior.",
-   "tolerance_m": 0.035
+   "tolerance_m": 0.012
   },
   {
    "name": "coracoclavicular_trapezoid.L",
@@ -1994,11 +1998,15 @@
    "to": {
     "bone": "scapula.L",
     "point": {
-     "at": "scapula.L.head",
+     "lerp": [
+      "scapula.L.head",
+      "scapula.L.outline_5",
+      0.95
+     ],
      "offset_h": [
-      -0.00914,
-      -0.01343,
-      -0.00514
+      0,
+      0,
+      0
      ]
     }
    },
@@ -2008,7 +2016,7 @@
     "ajsm_ac_cc"
    ],
    "notes": "Contribuye a la rotacion externa escapular (estudio cadaverico); clasicamente, limita la rotacion anterior.",
-   "tolerance_m": 0.035
+   "tolerance_m": 0.012
   },
   {
    "name": "acromioclavicular_ligament.L",
@@ -2043,12 +2051,7 @@
    "from": {
     "bone": "scapula.L",
     "point": {
-     "at": "scapula.L.head",
-     "offset_h": [
-      -0.01143,
-      -0.02,
-      -0.00686
-     ]
+     "at": "scapula.L.outline_5"
     }
    },
    "to": {
@@ -2067,7 +2070,7 @@
     "kenhub_cc"
    ],
    "notes": "Ligamento intrinseco de la escapula: techo del espacio subacromial.",
-   "tolerance_m": 0.05
+   "tolerance_m": 0.012
   }
  ],
  "attachments": [
@@ -2076,12 +2079,7 @@
    "mirror": true,
    "bone": "scapula.L",
    "point": {
-    "at": "scapula.L.head",
-    "offset_h": [
-     -0.01143,
-     -0.02,
-     -0.00686
-    ]
+    "at": "scapula.L.outline_5"
    },
    "structures": [
     "hito oseo: coracoid process"
@@ -2092,7 +2090,7 @@
     "uw_pec_minor"
    ],
    "notes": "La apofisis coracoides no esta en la lamina simplificada.",
-   "tolerance_m": 0.05
+   "tolerance_m": 0.012
   },
   {
    "name": "supraglenoid_tubercle.L",
@@ -2349,11 +2347,15 @@
    "mirror": true,
    "bone": "humerus.L",
    "point": {
-    "at": "upper_arm.L.head",
+    "lerp": [
+     "humerus.L.head",
+     "humerus.L.tail",
+     0.04
+    ],
     "offset_h": [
-     0.01143,
-     -0.00229,
-     -0.00686
+     0.006285714285714285,
+     -0.002285714285714286,
+     0.0
     ]
    },
    "structures": [
@@ -2362,19 +2364,23 @@
    "sources": [
     "libretexts_cuff"
    ],
-   "notes": "",
-   "tolerance_m": 0.03
+   "notes": "El humero no tiene anchura en el modelo: el accidente se coloca a 11 mm del eje.",
+   "tolerance_m": 0.012
   },
   {
    "name": "lesser_tubercle.L",
    "mirror": true,
    "bone": "humerus.L",
    "point": {
-    "at": "upper_arm.L.head",
+    "lerp": [
+     "humerus.L.head",
+     "humerus.L.tail",
+     0.04
+    ],
     "offset_h": [
-     0.00343,
-     -0.01143,
-     -0.008
+     -0.0017142857142857144,
+     -0.006285714285714285,
+     0.0
     ]
    },
    "structures": [
@@ -2383,8 +2389,8 @@
    "sources": [
     "libretexts_cuff"
    ],
-   "notes": "",
-   "tolerance_m": 0.03
+   "notes": "El humero no tiene anchura en el modelo: el accidente se coloca a 11 mm del eje.",
+   "tolerance_m": 0.012
   },
   {
    "name": "deltoid_tuberosity.L",
@@ -2392,12 +2398,12 @@
    "bone": "humerus.L",
    "point": {
     "lerp": [
-     "upper_arm.L.head",
-     "upper_arm.L.tail",
-     0.45
+     "humerus.L.head",
+     "humerus.L.tail",
+     0.55
     ],
     "offset_h": [
-     0.00686,
+     0.006285714285714285,
      0.0,
      0.0
     ]
@@ -2408,8 +2414,8 @@
    "sources": [
     "brainscape_shoulder"
    ],
-   "notes": "Fuente debil: verificar en un atlas.",
-   "tolerance_m": 0.03
+   "notes": "Fuente debil: verificar en un atlas. El humero no tiene anchura en el modelo: el accidente se coloca a 11 mm del eje.",
+   "tolerance_m": 0.012
   },
   {
    "name": "radial_tuberosity.L",

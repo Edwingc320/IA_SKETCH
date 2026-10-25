@@ -1,0 +1,2896 @@
+{
+ "schema_version": 2,
+ "region": "hand_foot_ligaments",
+ "description": "Ligamentos que faltaban en mano y pie (carpometacarpianos 2-5, transversos profundos, cuneonavicular, intercuneiformes, cuneocuboideo, tarsometatarsianos, dedos del pie) y las articulaciones intercuneiformes 1-2 y 2-3 y cuneocuboidea. Modelo oseo.",
+ "sources": {
+  "pubmed_cmc": {
+   "url": "https://pubmed.ncbi.nlm.nih.gov/11721245",
+   "reliability": "alta",
+   "title": "PubMed - estudio de las articulaciones carpometacarpianas 2-5 (ligamentos dorsales y volares; un solo ligamento intraarticular)"
+  },
+  "tf_dtml": {
+   "url": "https://taylorandfrancis.com/knowledge/Medicine_and_healthcare/Anatomy/Deep_transverse_metacarpal_ligament",
+   "reliability": "media",
+   "title": "Taylor & Francis - Deep transverse metacarpal ligament (tres bandas entre las placas palmares de las MCF 2-5)"
+  },
+  "wikimsk_intertarsal": {
+   "url": "https://wikiMSK.org/wiki/Intertarsal_and_Tarsometatarsal_Joints",
+   "reliability": "media",
+   "title": "WikiMSK - Intertarsal and tarsometatarsal joints"
+  },
+  "radiopaedia_cuneonavicular": {
+   "url": "https://radiopaedia.org/articles/cuneonavicular-joint",
+   "reliability": "media",
+   "title": "Radiopaedia - Cuneonavicular joint (ligamentos dorsal, plantar e interoseo; las fuentes discrepan en el interoseo)"
+  },
+  "brainscape_foot_lig2": {
+   "url": "https://brainscape.com/flashcards/foot-and-ankle-joints-ligaments-part-2-8834755/packs/14504701",
+   "reliability": "baja",
+   "title": "Tarjetas de estudio - articulaciones y ligamentos del pie y tobillo, parte 2 (VERIFICAR en un atlas)"
+  }
+ },
+ "joints": [
+  {
+   "name": "intercuneiform_1_2.L",
+   "mirror": true,
+   "kind": "sinovial plana (cuneiformes medial e intermedio)",
+   "bones": [
+    "medial_cuneiform.L",
+    "intermediate_cuneiform.L"
+   ],
+   "carrier": "intermediate_cuneiform.L",
+   "center": {
+    "lerp": [
+     "medial_cuneiform.L.head",
+     "intermediate_cuneiform.L.head",
+     0.5
+    ],
+    "offset_h": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "movilidad muy pequena; sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wikimsk_intertarsal",
+    "brainscape_foot_lig2"
+   ],
+   "notes": "Una de las articulaciones intercuneiformes que antes se contaban dentro de la cuneonavicular; ayuda a sostener el arco transverso."
+  },
+  {
+   "name": "intercuneiform_2_3.L",
+   "mirror": true,
+   "kind": "sinovial plana (cuneiformes intermedio y lateral)",
+   "bones": [
+    "intermediate_cuneiform.L",
+    "lateral_cuneiform.L"
+   ],
+   "carrier": "lateral_cuneiform.L",
+   "center": {
+    "lerp": [
+     "intermediate_cuneiform.L.head",
+     "lateral_cuneiform.L.head",
+     0.5
+    ],
+    "offset_h": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "movilidad muy pequena; sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wikimsk_intertarsal",
+    "brainscape_foot_lig2"
+   ],
+   "notes": "Segunda articulacion intercuneiforme; ayuda a sostener el arco transverso."
+  },
+  {
+   "name": "cuneocuboid.L",
+   "mirror": true,
+   "kind": "sinovial plana (cuneiforme lateral y cuboides)",
+   "bones": [
+    "lateral_cuneiform.L",
+    "cuboid.L"
+   ],
+   "carrier": "cuboid.L",
+   "center": {
+    "lerp": [
+     "lateral_cuneiform.L.head",
+     "cuboid.L.tail",
+     0.5
+    ],
+    "offset_h": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "movilidad muy pequena; sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [],
+   "sources": [
+    "wikimsk_intertarsal",
+    "brainscape_foot_lig2"
+   ],
+   "notes": "Cierra por fuera el arco transverso del tarso."
+  }
+ ],
+ "ligaments": [
+  {
+   "name": "dorsal_carpometacarpal_2.L",
+   "mirror": true,
+   "from": {
+    "bone": "trapezoid.L",
+    "point": {
+     "lerp": [
+      "trapezoid.L.head",
+      "trapezoid.L.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "metacarpal_2.L",
+    "point": {
+     "lerp": [
+      "metacarpal_2.L.head",
+      "metacarpal_2.L.tail",
+      0.12
+     ],
+     "offset_h": [
+      0.0,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "carpometacarpal_2.L",
+   "sources": [
+    "pubmed_cmc"
+   ],
+   "notes": "Ligamento dorsal de la articulacion carpometacarpiana 2: del hueso distal del carpo a la base del metacarpiano; el estudio cadaverico encontro varios por metacarpiano (se modela uno).",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "palmar_carpometacarpal_2.L",
+   "mirror": true,
+   "from": {
+    "bone": "trapezoid.L",
+    "point": {
+     "lerp": [
+      "trapezoid.L.head",
+      "trapezoid.L.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "metacarpal_2.L",
+    "point": {
+     "lerp": [
+      "metacarpal_2.L.head",
+      "metacarpal_2.L.tail",
+      0.12
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "carpometacarpal_2.L",
+   "sources": [
+    "pubmed_cmc"
+   ],
+   "notes": "Ligamento palmar de la articulacion carpometacarpiana 2: del hueso distal del carpo a la base del metacarpiano; el estudio cadaverico encontro varios por metacarpiano (se modela uno).",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "dorsal_carpometacarpal_3.L",
+   "mirror": true,
+   "from": {
+    "bone": "capitate.L",
+    "point": {
+     "lerp": [
+      "capitate.L.head",
+      "capitate.L.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "metacarpal_3.L",
+    "point": {
+     "lerp": [
+      "metacarpal_3.L.head",
+      "metacarpal_3.L.tail",
+      0.12
+     ],
+     "offset_h": [
+      0.0,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "carpometacarpal_3.L",
+   "sources": [
+    "pubmed_cmc"
+   ],
+   "notes": "Ligamento dorsal de la articulacion carpometacarpiana 3: del hueso distal del carpo a la base del metacarpiano; el estudio cadaverico encontro varios por metacarpiano (se modela uno).",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "palmar_carpometacarpal_3.L",
+   "mirror": true,
+   "from": {
+    "bone": "capitate.L",
+    "point": {
+     "lerp": [
+      "capitate.L.head",
+      "capitate.L.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "metacarpal_3.L",
+    "point": {
+     "lerp": [
+      "metacarpal_3.L.head",
+      "metacarpal_3.L.tail",
+      0.12
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "carpometacarpal_3.L",
+   "sources": [
+    "pubmed_cmc"
+   ],
+   "notes": "Ligamento palmar de la articulacion carpometacarpiana 3: del hueso distal del carpo a la base del metacarpiano; el estudio cadaverico encontro varios por metacarpiano (se modela uno).",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "dorsal_carpometacarpal_4.L",
+   "mirror": true,
+   "from": {
+    "bone": "hamate.L",
+    "point": {
+     "lerp": [
+      "hamate.L.head",
+      "hamate.L.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "metacarpal_4.L",
+    "point": {
+     "lerp": [
+      "metacarpal_4.L.head",
+      "metacarpal_4.L.tail",
+      0.12
+     ],
+     "offset_h": [
+      0.0,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "carpometacarpal_4.L",
+   "sources": [
+    "pubmed_cmc"
+   ],
+   "notes": "Ligamento dorsal de la articulacion carpometacarpiana 4: del hueso distal del carpo a la base del metacarpiano; el estudio cadaverico encontro varios por metacarpiano (se modela uno).",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "palmar_carpometacarpal_4.L",
+   "mirror": true,
+   "from": {
+    "bone": "hamate.L",
+    "point": {
+     "lerp": [
+      "hamate.L.head",
+      "hamate.L.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "metacarpal_4.L",
+    "point": {
+     "lerp": [
+      "metacarpal_4.L.head",
+      "metacarpal_4.L.tail",
+      0.12
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "carpometacarpal_4.L",
+   "sources": [
+    "pubmed_cmc"
+   ],
+   "notes": "Ligamento palmar de la articulacion carpometacarpiana 4: del hueso distal del carpo a la base del metacarpiano; el estudio cadaverico encontro varios por metacarpiano (se modela uno).",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "dorsal_carpometacarpal_5.L",
+   "mirror": true,
+   "from": {
+    "bone": "hamate.L",
+    "point": {
+     "lerp": [
+      "hamate.L.head",
+      "hamate.L.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "metacarpal_5.L",
+    "point": {
+     "lerp": [
+      "metacarpal_5.L.head",
+      "metacarpal_5.L.tail",
+      0.12
+     ],
+     "offset_h": [
+      0.0,
+      0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "carpometacarpal_5.L",
+   "sources": [
+    "pubmed_cmc"
+   ],
+   "notes": "Ligamento dorsal de la articulacion carpometacarpiana 5: del hueso distal del carpo a la base del metacarpiano; el estudio cadaverico encontro varios por metacarpiano (se modela uno).",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "palmar_carpometacarpal_5.L",
+   "mirror": true,
+   "from": {
+    "bone": "hamate.L",
+    "point": {
+     "lerp": [
+      "hamate.L.head",
+      "hamate.L.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "metacarpal_5.L",
+    "point": {
+     "lerp": [
+      "metacarpal_5.L.head",
+      "metacarpal_5.L.tail",
+      0.12
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "carpometacarpal_5.L",
+   "sources": [
+    "pubmed_cmc"
+   ],
+   "notes": "Ligamento palmar de la articulacion carpometacarpiana 5: del hueso distal del carpo a la base del metacarpiano; el estudio cadaverico encontro varios por metacarpiano (se modela uno).",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "deep_transverse_metacarpal_2_3.L",
+   "mirror": true,
+   "from": {
+    "bone": "metacarpal_2.L",
+    "point": {
+     "lerp": [
+      "metacarpal_2.L.head",
+      "metacarpal_2.L.tail",
+      0.97
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "metacarpal_3.L",
+    "point": {
+     "lerp": [
+      "metacarpal_3.L.head",
+      "metacarpal_3.L.tail",
+      0.97
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "metacarpophalangeal_index.L",
+   "sources": [
+    "tf_dtml"
+   ],
+   "notes": "Transverso profundo del metacarpo: banda que une las placas palmares de las MCF 2 y 3 y mantiene juntas las cabezas de los metacarpianos.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "deep_transverse_metacarpal_3_4.L",
+   "mirror": true,
+   "from": {
+    "bone": "metacarpal_3.L",
+    "point": {
+     "lerp": [
+      "metacarpal_3.L.head",
+      "metacarpal_3.L.tail",
+      0.97
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "metacarpal_4.L",
+    "point": {
+     "lerp": [
+      "metacarpal_4.L.head",
+      "metacarpal_4.L.tail",
+      0.97
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "metacarpophalangeal_middle.L",
+   "sources": [
+    "tf_dtml"
+   ],
+   "notes": "Transverso profundo del metacarpo: banda que une las placas palmares de las MCF 3 y 4 y mantiene juntas las cabezas de los metacarpianos.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "deep_transverse_metacarpal_4_5.L",
+   "mirror": true,
+   "from": {
+    "bone": "metacarpal_4.L",
+    "point": {
+     "lerp": [
+      "metacarpal_4.L.head",
+      "metacarpal_4.L.tail",
+      0.97
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "metacarpal_5.L",
+    "point": {
+     "lerp": [
+      "metacarpal_5.L.head",
+      "metacarpal_5.L.tail",
+      0.97
+     ],
+     "offset_h": [
+      0.0,
+      -0.003428571428571429,
+      0.0
+     ]
+    }
+   },
+   "joint": "metacarpophalangeal_ring.L",
+   "sources": [
+    "tf_dtml"
+   ],
+   "notes": "Transverso profundo del metacarpo: banda que une las placas palmares de las MCF 4 y 5 y mantiene juntas las cabezas de los metacarpianos.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "dorsal_intercuneiform_1_2.L",
+   "mirror": true,
+   "from": {
+    "bone": "medial_cuneiform.L",
+    "point": {
+     "lerp": [
+      "medial_cuneiform.L.head",
+      "medial_cuneiform.L.tail",
+      0.3
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "intermediate_cuneiform.L",
+    "point": {
+     "lerp": [
+      "intermediate_cuneiform.L.head",
+      "intermediate_cuneiform.L.tail",
+      0.3
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.002857142857142857
+     ]
+    }
+   },
+   "joint": "intercuneiform_1_2.L",
+   "sources": [
+    "wikimsk_intertarsal",
+    "brainscape_foot_lig2"
+   ],
+   "notes": "Ligamento dorsal de la articulacion intercuneiform 1 2. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interosseous_intercuneiform_1_2.L",
+   "mirror": true,
+   "from": {
+    "bone": "medial_cuneiform.L",
+    "point": {
+     "lerp": [
+      "medial_cuneiform.L.head",
+      "medial_cuneiform.L.tail",
+      0.3
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "intermediate_cuneiform.L",
+    "point": {
+     "lerp": [
+      "intermediate_cuneiform.L.head",
+      "intermediate_cuneiform.L.tail",
+      0.3
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "intercuneiform_1_2.L",
+   "sources": [
+    "wikimsk_intertarsal",
+    "brainscape_foot_lig2"
+   ],
+   "notes": "Ligamento interosseous de la articulacion intercuneiform 1 2. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "plantar_intercuneiform_1_2.L",
+   "mirror": true,
+   "from": {
+    "bone": "medial_cuneiform.L",
+    "point": {
+     "lerp": [
+      "medial_cuneiform.L.head",
+      "medial_cuneiform.L.tail",
+      0.3
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "intermediate_cuneiform.L",
+    "point": {
+     "lerp": [
+      "intermediate_cuneiform.L.head",
+      "intermediate_cuneiform.L.tail",
+      0.3
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "intercuneiform_1_2.L",
+   "sources": [
+    "wikimsk_intertarsal",
+    "brainscape_foot_lig2"
+   ],
+   "notes": "Ligamento plantar de la articulacion intercuneiform 1 2. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "dorsal_intercuneiform_2_3.L",
+   "mirror": true,
+   "from": {
+    "bone": "intermediate_cuneiform.L",
+    "point": {
+     "lerp": [
+      "intermediate_cuneiform.L.head",
+      "intermediate_cuneiform.L.tail",
+      0.3
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "lateral_cuneiform.L",
+    "point": {
+     "lerp": [
+      "lateral_cuneiform.L.head",
+      "lateral_cuneiform.L.tail",
+      0.3
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.002857142857142857
+     ]
+    }
+   },
+   "joint": "intercuneiform_2_3.L",
+   "sources": [
+    "wikimsk_intertarsal",
+    "brainscape_foot_lig2"
+   ],
+   "notes": "Ligamento dorsal de la articulacion intercuneiform 2 3. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interosseous_intercuneiform_2_3.L",
+   "mirror": true,
+   "from": {
+    "bone": "intermediate_cuneiform.L",
+    "point": {
+     "lerp": [
+      "intermediate_cuneiform.L.head",
+      "intermediate_cuneiform.L.tail",
+      0.3
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "lateral_cuneiform.L",
+    "point": {
+     "lerp": [
+      "lateral_cuneiform.L.head",
+      "lateral_cuneiform.L.tail",
+      0.3
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "intercuneiform_2_3.L",
+   "sources": [
+    "wikimsk_intertarsal",
+    "brainscape_foot_lig2"
+   ],
+   "notes": "Ligamento interosseous de la articulacion intercuneiform 2 3. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "plantar_intercuneiform_2_3.L",
+   "mirror": true,
+   "from": {
+    "bone": "intermediate_cuneiform.L",
+    "point": {
+     "lerp": [
+      "intermediate_cuneiform.L.head",
+      "intermediate_cuneiform.L.tail",
+      0.3
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "lateral_cuneiform.L",
+    "point": {
+     "lerp": [
+      "lateral_cuneiform.L.head",
+      "lateral_cuneiform.L.tail",
+      0.3
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "intercuneiform_2_3.L",
+   "sources": [
+    "wikimsk_intertarsal",
+    "brainscape_foot_lig2"
+   ],
+   "notes": "Ligamento plantar de la articulacion intercuneiform 2 3. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "dorsal_cuneocuboid.L",
+   "mirror": true,
+   "from": {
+    "bone": "lateral_cuneiform.L",
+    "point": {
+     "lerp": [
+      "lateral_cuneiform.L.head",
+      "lateral_cuneiform.L.tail",
+      0.4
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "cuboid.L",
+    "point": {
+     "lerp": [
+      "cuboid.L.head",
+      "cuboid.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.002857142857142857
+     ]
+    }
+   },
+   "joint": "cuneocuboid.L",
+   "sources": [
+    "wikimsk_intertarsal",
+    "brainscape_foot_lig2"
+   ],
+   "notes": "Ligamento dorsal de la articulacion cuneocuboid. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interosseous_cuneocuboid.L",
+   "mirror": true,
+   "from": {
+    "bone": "lateral_cuneiform.L",
+    "point": {
+     "lerp": [
+      "lateral_cuneiform.L.head",
+      "lateral_cuneiform.L.tail",
+      0.4
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "cuboid.L",
+    "point": {
+     "lerp": [
+      "cuboid.L.head",
+      "cuboid.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "cuneocuboid.L",
+   "sources": [
+    "wikimsk_intertarsal",
+    "brainscape_foot_lig2"
+   ],
+   "notes": "Ligamento interosseous de la articulacion cuneocuboid. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "plantar_cuneocuboid.L",
+   "mirror": true,
+   "from": {
+    "bone": "lateral_cuneiform.L",
+    "point": {
+     "lerp": [
+      "lateral_cuneiform.L.head",
+      "lateral_cuneiform.L.tail",
+      0.4
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "cuboid.L",
+    "point": {
+     "lerp": [
+      "cuboid.L.head",
+      "cuboid.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "cuneocuboid.L",
+   "sources": [
+    "wikimsk_intertarsal",
+    "brainscape_foot_lig2"
+   ],
+   "notes": "Ligamento plantar de la articulacion cuneocuboid. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "dorsal_cuneonavicular_medial.L",
+   "mirror": true,
+   "from": {
+    "bone": "navicular.L",
+    "point": {
+     "lerp": [
+      "navicular.L.head",
+      "navicular.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "medial_cuneiform.L",
+    "point": {
+     "lerp": [
+      "medial_cuneiform.L.head",
+      "medial_cuneiform.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.002857142857142857
+     ]
+    }
+   },
+   "joint": "cuneonavicular.L",
+   "sources": [
+    "radiopaedia_cuneonavicular",
+    "brainscape_foot_lig2"
+   ],
+   "notes": "Ligamento dorsal cuneonavicular (medial): del navicular al cuneiforme; las fuentes discrepan en si existe uno interoseo. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "plantar_cuneonavicular_medial.L",
+   "mirror": true,
+   "from": {
+    "bone": "navicular.L",
+    "point": {
+     "lerp": [
+      "navicular.L.head",
+      "navicular.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "medial_cuneiform.L",
+    "point": {
+     "lerp": [
+      "medial_cuneiform.L.head",
+      "medial_cuneiform.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "cuneonavicular.L",
+   "sources": [
+    "radiopaedia_cuneonavicular",
+    "brainscape_foot_lig2"
+   ],
+   "notes": "Ligamento plantar cuneonavicular (medial): del navicular al cuneiforme; las fuentes discrepan en si existe uno interoseo. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "dorsal_cuneonavicular_intermediate.L",
+   "mirror": true,
+   "from": {
+    "bone": "navicular.L",
+    "point": {
+     "lerp": [
+      "navicular.L.head",
+      "navicular.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "intermediate_cuneiform.L",
+    "point": {
+     "lerp": [
+      "intermediate_cuneiform.L.head",
+      "intermediate_cuneiform.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.002857142857142857
+     ]
+    }
+   },
+   "joint": "cuneonavicular.L",
+   "sources": [
+    "radiopaedia_cuneonavicular",
+    "brainscape_foot_lig2"
+   ],
+   "notes": "Ligamento dorsal cuneonavicular (intermediate): del navicular al cuneiforme; las fuentes discrepan en si existe uno interoseo. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "plantar_cuneonavicular_intermediate.L",
+   "mirror": true,
+   "from": {
+    "bone": "navicular.L",
+    "point": {
+     "lerp": [
+      "navicular.L.head",
+      "navicular.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "intermediate_cuneiform.L",
+    "point": {
+     "lerp": [
+      "intermediate_cuneiform.L.head",
+      "intermediate_cuneiform.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "cuneonavicular.L",
+   "sources": [
+    "radiopaedia_cuneonavicular",
+    "brainscape_foot_lig2"
+   ],
+   "notes": "Ligamento plantar cuneonavicular (intermediate): del navicular al cuneiforme; las fuentes discrepan en si existe uno interoseo. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "dorsal_cuneonavicular_lateral.L",
+   "mirror": true,
+   "from": {
+    "bone": "navicular.L",
+    "point": {
+     "lerp": [
+      "navicular.L.head",
+      "navicular.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "lateral_cuneiform.L",
+    "point": {
+     "lerp": [
+      "lateral_cuneiform.L.head",
+      "lateral_cuneiform.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.002857142857142857
+     ]
+    }
+   },
+   "joint": "cuneonavicular.L",
+   "sources": [
+    "radiopaedia_cuneonavicular",
+    "brainscape_foot_lig2"
+   ],
+   "notes": "Ligamento dorsal cuneonavicular (lateral): del navicular al cuneiforme; las fuentes discrepan en si existe uno interoseo. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "plantar_cuneonavicular_lateral.L",
+   "mirror": true,
+   "from": {
+    "bone": "navicular.L",
+    "point": {
+     "lerp": [
+      "navicular.L.head",
+      "navicular.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "lateral_cuneiform.L",
+    "point": {
+     "lerp": [
+      "lateral_cuneiform.L.head",
+      "lateral_cuneiform.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "cuneonavicular.L",
+   "sources": [
+    "radiopaedia_cuneonavicular",
+    "brainscape_foot_lig2"
+   ],
+   "notes": "Ligamento plantar cuneonavicular (lateral): del navicular al cuneiforme; las fuentes discrepan en si existe uno interoseo. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "dorsal_tarsometatarsal_1.L",
+   "mirror": true,
+   "from": {
+    "bone": "medial_cuneiform.L",
+    "point": {
+     "lerp": [
+      "medial_cuneiform.L.head",
+      "medial_cuneiform.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "metatarsal_1.L",
+    "point": {
+     "lerp": [
+      "metatarsal_1.L.head",
+      "metatarsal_1.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.002857142857142857
+     ]
+    }
+   },
+   "joint": "tarsometatarsal_1.L",
+   "sources": [
+    "wikimsk_intertarsal",
+    "radiopaedia_cuneonavicular"
+   ],
+   "notes": "Ligamento dorsal tarsometatarsiano 1: del hueso del tarso a la base del metatarsiano (los dorsales son bandas planas fuertes; los plantares, longitudinales y oblicuos, mas irregulares). Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "plantar_tarsometatarsal_1.L",
+   "mirror": true,
+   "from": {
+    "bone": "medial_cuneiform.L",
+    "point": {
+     "lerp": [
+      "medial_cuneiform.L.head",
+      "medial_cuneiform.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "metatarsal_1.L",
+    "point": {
+     "lerp": [
+      "metatarsal_1.L.head",
+      "metatarsal_1.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "tarsometatarsal_1.L",
+   "sources": [
+    "wikimsk_intertarsal",
+    "radiopaedia_cuneonavicular"
+   ],
+   "notes": "Ligamento plantar tarsometatarsiano 1: del hueso del tarso a la base del metatarsiano (los dorsales son bandas planas fuertes; los plantares, longitudinales y oblicuos, mas irregulares). Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "dorsal_tarsometatarsal_2.L",
+   "mirror": true,
+   "from": {
+    "bone": "intermediate_cuneiform.L",
+    "point": {
+     "lerp": [
+      "intermediate_cuneiform.L.head",
+      "intermediate_cuneiform.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "metatarsal_2.L",
+    "point": {
+     "lerp": [
+      "metatarsal_2.L.head",
+      "metatarsal_2.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.002857142857142857
+     ]
+    }
+   },
+   "joint": "tarsometatarsal_2.L",
+   "sources": [
+    "wikimsk_intertarsal",
+    "radiopaedia_cuneonavicular"
+   ],
+   "notes": "Ligamento dorsal tarsometatarsiano 2: del hueso del tarso a la base del metatarsiano (los dorsales son bandas planas fuertes; los plantares, longitudinales y oblicuos, mas irregulares). Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "plantar_tarsometatarsal_2.L",
+   "mirror": true,
+   "from": {
+    "bone": "intermediate_cuneiform.L",
+    "point": {
+     "lerp": [
+      "intermediate_cuneiform.L.head",
+      "intermediate_cuneiform.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "metatarsal_2.L",
+    "point": {
+     "lerp": [
+      "metatarsal_2.L.head",
+      "metatarsal_2.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "tarsometatarsal_2.L",
+   "sources": [
+    "wikimsk_intertarsal",
+    "radiopaedia_cuneonavicular"
+   ],
+   "notes": "Ligamento plantar tarsometatarsiano 2: del hueso del tarso a la base del metatarsiano (los dorsales son bandas planas fuertes; los plantares, longitudinales y oblicuos, mas irregulares). Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "dorsal_tarsometatarsal_3.L",
+   "mirror": true,
+   "from": {
+    "bone": "lateral_cuneiform.L",
+    "point": {
+     "lerp": [
+      "lateral_cuneiform.L.head",
+      "lateral_cuneiform.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "metatarsal_3.L",
+    "point": {
+     "lerp": [
+      "metatarsal_3.L.head",
+      "metatarsal_3.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.002857142857142857
+     ]
+    }
+   },
+   "joint": "tarsometatarsal_3.L",
+   "sources": [
+    "wikimsk_intertarsal",
+    "radiopaedia_cuneonavicular"
+   ],
+   "notes": "Ligamento dorsal tarsometatarsiano 3: del hueso del tarso a la base del metatarsiano (los dorsales son bandas planas fuertes; los plantares, longitudinales y oblicuos, mas irregulares). Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "plantar_tarsometatarsal_3.L",
+   "mirror": true,
+   "from": {
+    "bone": "lateral_cuneiform.L",
+    "point": {
+     "lerp": [
+      "lateral_cuneiform.L.head",
+      "lateral_cuneiform.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "metatarsal_3.L",
+    "point": {
+     "lerp": [
+      "metatarsal_3.L.head",
+      "metatarsal_3.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "tarsometatarsal_3.L",
+   "sources": [
+    "wikimsk_intertarsal",
+    "radiopaedia_cuneonavicular"
+   ],
+   "notes": "Ligamento plantar tarsometatarsiano 3: del hueso del tarso a la base del metatarsiano (los dorsales son bandas planas fuertes; los plantares, longitudinales y oblicuos, mas irregulares). Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "dorsal_tarsometatarsal_4.L",
+   "mirror": true,
+   "from": {
+    "bone": "cuboid.L",
+    "point": {
+     "lerp": [
+      "cuboid.L.head",
+      "cuboid.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "metatarsal_4.L",
+    "point": {
+     "lerp": [
+      "metatarsal_4.L.head",
+      "metatarsal_4.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.002857142857142857
+     ]
+    }
+   },
+   "joint": "tarsometatarsal_4.L",
+   "sources": [
+    "wikimsk_intertarsal",
+    "radiopaedia_cuneonavicular"
+   ],
+   "notes": "Ligamento dorsal tarsometatarsiano 4: del hueso del tarso a la base del metatarsiano (los dorsales son bandas planas fuertes; los plantares, longitudinales y oblicuos, mas irregulares). Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "plantar_tarsometatarsal_4.L",
+   "mirror": true,
+   "from": {
+    "bone": "cuboid.L",
+    "point": {
+     "lerp": [
+      "cuboid.L.head",
+      "cuboid.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "metatarsal_4.L",
+    "point": {
+     "lerp": [
+      "metatarsal_4.L.head",
+      "metatarsal_4.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "tarsometatarsal_4.L",
+   "sources": [
+    "wikimsk_intertarsal",
+    "radiopaedia_cuneonavicular"
+   ],
+   "notes": "Ligamento plantar tarsometatarsiano 4: del hueso del tarso a la base del metatarsiano (los dorsales son bandas planas fuertes; los plantares, longitudinales y oblicuos, mas irregulares). Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "dorsal_tarsometatarsal_5.L",
+   "mirror": true,
+   "from": {
+    "bone": "cuboid.L",
+    "point": {
+     "lerp": [
+      "cuboid.L.head",
+      "cuboid.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "metatarsal_5.L",
+    "point": {
+     "lerp": [
+      "metatarsal_5.L.head",
+      "metatarsal_5.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      0.002857142857142857
+     ]
+    }
+   },
+   "joint": "tarsometatarsal_5.L",
+   "sources": [
+    "wikimsk_intertarsal",
+    "radiopaedia_cuneonavicular"
+   ],
+   "notes": "Ligamento dorsal tarsometatarsiano 5: del hueso del tarso a la base del metatarsiano (los dorsales son bandas planas fuertes; los plantares, longitudinales y oblicuos, mas irregulares). Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "plantar_tarsometatarsal_5.L",
+   "mirror": true,
+   "from": {
+    "bone": "cuboid.L",
+    "point": {
+     "lerp": [
+      "cuboid.L.head",
+      "cuboid.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "metatarsal_5.L",
+    "point": {
+     "lerp": [
+      "metatarsal_5.L.head",
+      "metatarsal_5.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "tarsometatarsal_5.L",
+   "sources": [
+    "wikimsk_intertarsal",
+    "radiopaedia_cuneonavicular"
+   ],
+   "notes": "Ligamento plantar tarsometatarsiano 5: del hueso del tarso a la base del metatarsiano (los dorsales son bandas planas fuertes; los plantares, longitudinales y oblicuos, mas irregulares). Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "deep_transverse_metatarsal_1_2.L",
+   "mirror": true,
+   "from": {
+    "bone": "metatarsal_1.L",
+    "point": {
+     "lerp": [
+      "metatarsal_1.L.head",
+      "metatarsal_1.L.tail",
+      0.97
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "metatarsal_2.L",
+    "point": {
+     "lerp": [
+      "metatarsal_2.L.head",
+      "metatarsal_2.L.tail",
+      0.97
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "metatarsophalangeal_1.L",
+   "sources": [
+    "brainscape_foot_lig2"
+   ],
+   "notes": "Transverso profundo del metatarso entre las cabezas 1 y 2. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "deep_transverse_metatarsal_2_3.L",
+   "mirror": true,
+   "from": {
+    "bone": "metatarsal_2.L",
+    "point": {
+     "lerp": [
+      "metatarsal_2.L.head",
+      "metatarsal_2.L.tail",
+      0.97
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "metatarsal_3.L",
+    "point": {
+     "lerp": [
+      "metatarsal_3.L.head",
+      "metatarsal_3.L.tail",
+      0.97
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "metatarsophalangeal_2.L",
+   "sources": [
+    "brainscape_foot_lig2"
+   ],
+   "notes": "Transverso profundo del metatarso entre las cabezas 2 y 3. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "deep_transverse_metatarsal_3_4.L",
+   "mirror": true,
+   "from": {
+    "bone": "metatarsal_3.L",
+    "point": {
+     "lerp": [
+      "metatarsal_3.L.head",
+      "metatarsal_3.L.tail",
+      0.97
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "metatarsal_4.L",
+    "point": {
+     "lerp": [
+      "metatarsal_4.L.head",
+      "metatarsal_4.L.tail",
+      0.97
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "metatarsophalangeal_3.L",
+   "sources": [
+    "brainscape_foot_lig2"
+   ],
+   "notes": "Transverso profundo del metatarso entre las cabezas 3 y 4. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "deep_transverse_metatarsal_4_5.L",
+   "mirror": true,
+   "from": {
+    "bone": "metatarsal_4.L",
+    "point": {
+     "lerp": [
+      "metatarsal_4.L.head",
+      "metatarsal_4.L.tail",
+      0.97
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "metatarsal_5.L",
+    "point": {
+     "lerp": [
+      "metatarsal_5.L.head",
+      "metatarsal_5.L.tail",
+      0.97
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "metatarsophalangeal_4.L",
+   "sources": [
+    "brainscape_foot_lig2"
+   ],
+   "notes": "Transverso profundo del metatarso entre las cabezas 4 y 5. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "collateral_mtp_1_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "metatarsal_1.L",
+    "point": {
+     "lerp": [
+      "metatarsal_1.L.head",
+      "metatarsal_1.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_1_proximal.L",
+    "point": {
+     "lerp": [
+      "toe_1_proximal.L.head",
+      "toe_1_proximal.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "metatarsophalangeal_1.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Ligamento colateral (lado lateral; el medial es simetrico y no se modela). Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "plantar_plate_mtp_1_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "metatarsal_1.L",
+    "point": {
+     "lerp": [
+      "metatarsal_1.L.head",
+      "metatarsal_1.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_1_proximal.L",
+    "point": {
+     "lerp": [
+      "toe_1_proximal.L.head",
+      "toe_1_proximal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "metatarsophalangeal_1.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Placa plantar. Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "collateral_mtp_2_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "metatarsal_2.L",
+    "point": {
+     "lerp": [
+      "metatarsal_2.L.head",
+      "metatarsal_2.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_2_proximal.L",
+    "point": {
+     "lerp": [
+      "toe_2_proximal.L.head",
+      "toe_2_proximal.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "metatarsophalangeal_2.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Ligamento colateral (lado lateral; el medial es simetrico y no se modela). Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "plantar_plate_mtp_2_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "metatarsal_2.L",
+    "point": {
+     "lerp": [
+      "metatarsal_2.L.head",
+      "metatarsal_2.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_2_proximal.L",
+    "point": {
+     "lerp": [
+      "toe_2_proximal.L.head",
+      "toe_2_proximal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "metatarsophalangeal_2.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Placa plantar. Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "collateral_mtp_3_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "metatarsal_3.L",
+    "point": {
+     "lerp": [
+      "metatarsal_3.L.head",
+      "metatarsal_3.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_3_proximal.L",
+    "point": {
+     "lerp": [
+      "toe_3_proximal.L.head",
+      "toe_3_proximal.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "metatarsophalangeal_3.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Ligamento colateral (lado lateral; el medial es simetrico y no se modela). Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "plantar_plate_mtp_3_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "metatarsal_3.L",
+    "point": {
+     "lerp": [
+      "metatarsal_3.L.head",
+      "metatarsal_3.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_3_proximal.L",
+    "point": {
+     "lerp": [
+      "toe_3_proximal.L.head",
+      "toe_3_proximal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "metatarsophalangeal_3.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Placa plantar. Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "collateral_mtp_4_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "metatarsal_4.L",
+    "point": {
+     "lerp": [
+      "metatarsal_4.L.head",
+      "metatarsal_4.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_4_proximal.L",
+    "point": {
+     "lerp": [
+      "toe_4_proximal.L.head",
+      "toe_4_proximal.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "metatarsophalangeal_4.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Ligamento colateral (lado lateral; el medial es simetrico y no se modela). Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "plantar_plate_mtp_4_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "metatarsal_4.L",
+    "point": {
+     "lerp": [
+      "metatarsal_4.L.head",
+      "metatarsal_4.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_4_proximal.L",
+    "point": {
+     "lerp": [
+      "toe_4_proximal.L.head",
+      "toe_4_proximal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "metatarsophalangeal_4.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Placa plantar. Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "collateral_mtp_5_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "metatarsal_5.L",
+    "point": {
+     "lerp": [
+      "metatarsal_5.L.head",
+      "metatarsal_5.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_5_proximal.L",
+    "point": {
+     "lerp": [
+      "toe_5_proximal.L.head",
+      "toe_5_proximal.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "metatarsophalangeal_5.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Ligamento colateral (lado lateral; el medial es simetrico y no se modela). Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "plantar_plate_mtp_5_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "metatarsal_5.L",
+    "point": {
+     "lerp": [
+      "metatarsal_5.L.head",
+      "metatarsal_5.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_5_proximal.L",
+    "point": {
+     "lerp": [
+      "toe_5_proximal.L.head",
+      "toe_5_proximal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "metatarsophalangeal_5.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Placa plantar. Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "collateral_ip_1_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "toe_1_proximal.L",
+    "point": {
+     "lerp": [
+      "toe_1_proximal.L.head",
+      "toe_1_proximal.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_1_distal.L",
+    "point": {
+     "lerp": [
+      "toe_1_distal.L.head",
+      "toe_1_distal.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "interphalangeal_1.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Ligamento colateral (lado lateral; el medial es simetrico y no se modela). Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "plantar_plate_ip_1_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "toe_1_proximal.L",
+    "point": {
+     "lerp": [
+      "toe_1_proximal.L.head",
+      "toe_1_proximal.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_1_distal.L",
+    "point": {
+     "lerp": [
+      "toe_1_distal.L.head",
+      "toe_1_distal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "interphalangeal_1.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Placa plantar. Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "collateral_pip_2_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "toe_2_proximal.L",
+    "point": {
+     "lerp": [
+      "toe_2_proximal.L.head",
+      "toe_2_proximal.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_2_middle.L",
+    "point": {
+     "lerp": [
+      "toe_2_middle.L.head",
+      "toe_2_middle.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "proximal_interphalangeal_2.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Ligamento colateral (lado lateral; el medial es simetrico y no se modela). Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "plantar_plate_pip_2_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "toe_2_proximal.L",
+    "point": {
+     "lerp": [
+      "toe_2_proximal.L.head",
+      "toe_2_proximal.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_2_middle.L",
+    "point": {
+     "lerp": [
+      "toe_2_middle.L.head",
+      "toe_2_middle.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "proximal_interphalangeal_2.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Placa plantar. Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "collateral_dip_2_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "toe_2_middle.L",
+    "point": {
+     "lerp": [
+      "toe_2_middle.L.head",
+      "toe_2_middle.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_2_distal.L",
+    "point": {
+     "lerp": [
+      "toe_2_distal.L.head",
+      "toe_2_distal.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "distal_interphalangeal_2.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Ligamento colateral (lado lateral; el medial es simetrico y no se modela). Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "plantar_plate_dip_2_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "toe_2_middle.L",
+    "point": {
+     "lerp": [
+      "toe_2_middle.L.head",
+      "toe_2_middle.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_2_distal.L",
+    "point": {
+     "lerp": [
+      "toe_2_distal.L.head",
+      "toe_2_distal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "distal_interphalangeal_2.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Placa plantar. Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "collateral_pip_3_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "toe_3_proximal.L",
+    "point": {
+     "lerp": [
+      "toe_3_proximal.L.head",
+      "toe_3_proximal.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_3_middle.L",
+    "point": {
+     "lerp": [
+      "toe_3_middle.L.head",
+      "toe_3_middle.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "proximal_interphalangeal_3.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Ligamento colateral (lado lateral; el medial es simetrico y no se modela). Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "plantar_plate_pip_3_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "toe_3_proximal.L",
+    "point": {
+     "lerp": [
+      "toe_3_proximal.L.head",
+      "toe_3_proximal.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_3_middle.L",
+    "point": {
+     "lerp": [
+      "toe_3_middle.L.head",
+      "toe_3_middle.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "proximal_interphalangeal_3.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Placa plantar. Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "collateral_dip_3_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "toe_3_middle.L",
+    "point": {
+     "lerp": [
+      "toe_3_middle.L.head",
+      "toe_3_middle.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_3_distal.L",
+    "point": {
+     "lerp": [
+      "toe_3_distal.L.head",
+      "toe_3_distal.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "distal_interphalangeal_3.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Ligamento colateral (lado lateral; el medial es simetrico y no se modela). Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "plantar_plate_dip_3_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "toe_3_middle.L",
+    "point": {
+     "lerp": [
+      "toe_3_middle.L.head",
+      "toe_3_middle.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_3_distal.L",
+    "point": {
+     "lerp": [
+      "toe_3_distal.L.head",
+      "toe_3_distal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "distal_interphalangeal_3.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Placa plantar. Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "collateral_pip_4_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "toe_4_proximal.L",
+    "point": {
+     "lerp": [
+      "toe_4_proximal.L.head",
+      "toe_4_proximal.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_4_middle.L",
+    "point": {
+     "lerp": [
+      "toe_4_middle.L.head",
+      "toe_4_middle.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "proximal_interphalangeal_4.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Ligamento colateral (lado lateral; el medial es simetrico y no se modela). Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "plantar_plate_pip_4_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "toe_4_proximal.L",
+    "point": {
+     "lerp": [
+      "toe_4_proximal.L.head",
+      "toe_4_proximal.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_4_middle.L",
+    "point": {
+     "lerp": [
+      "toe_4_middle.L.head",
+      "toe_4_middle.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "proximal_interphalangeal_4.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Placa plantar. Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "collateral_dip_4_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "toe_4_middle.L",
+    "point": {
+     "lerp": [
+      "toe_4_middle.L.head",
+      "toe_4_middle.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_4_distal.L",
+    "point": {
+     "lerp": [
+      "toe_4_distal.L.head",
+      "toe_4_distal.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "distal_interphalangeal_4.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Ligamento colateral (lado lateral; el medial es simetrico y no se modela). Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "plantar_plate_dip_4_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "toe_4_middle.L",
+    "point": {
+     "lerp": [
+      "toe_4_middle.L.head",
+      "toe_4_middle.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_4_distal.L",
+    "point": {
+     "lerp": [
+      "toe_4_distal.L.head",
+      "toe_4_distal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "distal_interphalangeal_4.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Placa plantar. Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "collateral_pip_5_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "toe_5_proximal.L",
+    "point": {
+     "lerp": [
+      "toe_5_proximal.L.head",
+      "toe_5_proximal.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_5_middle.L",
+    "point": {
+     "lerp": [
+      "toe_5_middle.L.head",
+      "toe_5_middle.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "proximal_interphalangeal_5.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Ligamento colateral (lado lateral; el medial es simetrico y no se modela). Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "plantar_plate_pip_5_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "toe_5_proximal.L",
+    "point": {
+     "lerp": [
+      "toe_5_proximal.L.head",
+      "toe_5_proximal.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_5_middle.L",
+    "point": {
+     "lerp": [
+      "toe_5_middle.L.head",
+      "toe_5_middle.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "proximal_interphalangeal_5.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Placa plantar. Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "collateral_dip_5_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "toe_5_middle.L",
+    "point": {
+     "lerp": [
+      "toe_5_middle.L.head",
+      "toe_5_middle.L.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_5_distal.L",
+    "point": {
+     "lerp": [
+      "toe_5_distal.L.head",
+      "toe_5_distal.L.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.002285714285714286,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "distal_interphalangeal_5.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Ligamento colateral (lado lateral; el medial es simetrico y no se modela). Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "plantar_plate_dip_5_toe.L",
+   "mirror": true,
+   "from": {
+    "bone": "toe_5_middle.L",
+    "point": {
+     "lerp": [
+      "toe_5_middle.L.head",
+      "toe_5_middle.L.tail",
+      0.9
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "to": {
+    "bone": "toe_5_distal.L",
+    "point": {
+     "lerp": [
+      "toe_5_distal.L.head",
+      "toe_5_distal.L.tail",
+      0.1
+     ],
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.002857142857142857
+     ]
+    }
+   },
+   "joint": "distal_interphalangeal_5.L",
+   "sources": [
+    "brainscape_foot_lig"
+   ],
+   "notes": "Placa plantar. Sin fuente propia para el pie: por analogia con la mano. Fuente debil o sin detalle de insercion: verificar en un atlas.",
+   "tolerance_m": 0.012
+  }
+ ],
+ "attachments": []
+}
