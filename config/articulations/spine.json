@@ -1,0 +1,5496 @@
+{
+ "schema_version": 2,
+ "region": "spine",
+ "description": "Ligamentos de toda la columna (C2 a sacro) y articulaciones cigapofisarias. Modelo oseo: sin musculos ni tendones. Coordenadas: +X izquierda, +Y atras (anterior = -Y), +Z arriba.",
+ "sources": {
+  "learnmuscles_spine": {
+   "url": "https://learnmuscles.com/glossary/ligaments-of-the-spine/",
+   "reliability": "media",
+   "title": "LearnMuscles - Ligaments of the spine (longitudinal anterior y posterior, amarillo, interespinoso, supraespinoso, intertransversos)"
+  },
+  "tf_all": {
+   "url": "https://taylorandfrancis.com/knowledge/medicine-and-healthcare/anatomy/anterior-longitudinal-ligament",
+   "reliability": "media",
+   "title": "Taylor & Francis - Anterior longitudinal ligament (del occipucio al sacro; mas grueso sobre los cuerpos vertebrales)"
+  },
+  "brainscape_lumbar_lig": {
+   "url": "https://brainscape.com/flashcards/ligaments-of-the-lumbar-spine-18258956/packs/22662866",
+   "reliability": "baja",
+   "title": "Tarjetas de estudio - ligamentos de la columna lumbar (VERIFICAR en un atlas)"
+  }
+ },
+ "joints": [
+  {
+   "name": "zygapophyseal_C2_C3.L",
+   "mirror": true,
+   "kind": "sinovial plana (cigapofisaria o facetaria)",
+   "bones": [
+    "C2",
+    "C3"
+   ],
+   "carrier": "C3",
+   "center": {
+    "at": "C2.head",
+    "offset_h": [
+     0.006857142857142858,
+     0.004571428571428572,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento_facetario",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "su orientacion guia el movimiento de cada region (cervical, toracica, lumbar); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "flavum_C2_C3"
+   ],
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+  },
+  {
+   "name": "zygapophyseal_C3_C4.L",
+   "mirror": true,
+   "kind": "sinovial plana (cigapofisaria o facetaria)",
+   "bones": [
+    "C3",
+    "C4"
+   ],
+   "carrier": "C4",
+   "center": {
+    "at": "C3.head",
+    "offset_h": [
+     0.006857142857142858,
+     0.004571428571428572,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento_facetario",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "su orientacion guia el movimiento de cada region (cervical, toracica, lumbar); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "flavum_C3_C4"
+   ],
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+  },
+  {
+   "name": "zygapophyseal_C4_C5.L",
+   "mirror": true,
+   "kind": "sinovial plana (cigapofisaria o facetaria)",
+   "bones": [
+    "C4",
+    "C5"
+   ],
+   "carrier": "C5",
+   "center": {
+    "at": "C4.head",
+    "offset_h": [
+     0.006857142857142858,
+     0.004571428571428572,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento_facetario",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "su orientacion guia el movimiento de cada region (cervical, toracica, lumbar); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "flavum_C4_C5"
+   ],
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+  },
+  {
+   "name": "zygapophyseal_C5_C6.L",
+   "mirror": true,
+   "kind": "sinovial plana (cigapofisaria o facetaria)",
+   "bones": [
+    "C5",
+    "C6"
+   ],
+   "carrier": "C6",
+   "center": {
+    "at": "C5.head",
+    "offset_h": [
+     0.006857142857142858,
+     0.004571428571428572,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento_facetario",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "su orientacion guia el movimiento de cada region (cervical, toracica, lumbar); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "flavum_C5_C6"
+   ],
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+  },
+  {
+   "name": "zygapophyseal_C6_C7.L",
+   "mirror": true,
+   "kind": "sinovial plana (cigapofisaria o facetaria)",
+   "bones": [
+    "C6",
+    "C7"
+   ],
+   "carrier": "C7",
+   "center": {
+    "at": "C6.head",
+    "offset_h": [
+     0.006857142857142858,
+     0.004571428571428572,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento_facetario",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "su orientacion guia el movimiento de cada region (cervical, toracica, lumbar); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "flavum_C6_C7"
+   ],
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+  },
+  {
+   "name": "zygapophyseal_C7_T1.L",
+   "mirror": true,
+   "kind": "sinovial plana (cigapofisaria o facetaria)",
+   "bones": [
+    "C7",
+    "T1"
+   ],
+   "carrier": "T1",
+   "center": {
+    "at": "C7.head",
+    "offset_h": [
+     0.006857142857142858,
+     0.004571428571428572,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento_facetario",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "su orientacion guia el movimiento de cada region (cervical, toracica, lumbar); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "flavum_C7_T1"
+   ],
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+  },
+  {
+   "name": "zygapophyseal_T1_T2.L",
+   "mirror": true,
+   "kind": "sinovial plana (cigapofisaria o facetaria)",
+   "bones": [
+    "T1",
+    "T2"
+   ],
+   "carrier": "T2",
+   "center": {
+    "at": "T1.head",
+    "offset_h": [
+     0.006857142857142858,
+     0.004571428571428572,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento_facetario",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "su orientacion guia el movimiento de cada region (cervical, toracica, lumbar); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "flavum_T1_T2"
+   ],
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+  },
+  {
+   "name": "zygapophyseal_T2_T3.L",
+   "mirror": true,
+   "kind": "sinovial plana (cigapofisaria o facetaria)",
+   "bones": [
+    "T2",
+    "T3"
+   ],
+   "carrier": "T3",
+   "center": {
+    "at": "T2.head",
+    "offset_h": [
+     0.006857142857142858,
+     0.004571428571428572,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento_facetario",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "su orientacion guia el movimiento de cada region (cervical, toracica, lumbar); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "flavum_T2_T3"
+   ],
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+  },
+  {
+   "name": "zygapophyseal_T3_T4.L",
+   "mirror": true,
+   "kind": "sinovial plana (cigapofisaria o facetaria)",
+   "bones": [
+    "T3",
+    "T4"
+   ],
+   "carrier": "T4",
+   "center": {
+    "at": "T3.head",
+    "offset_h": [
+     0.006857142857142858,
+     0.004571428571428572,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento_facetario",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "su orientacion guia el movimiento de cada region (cervical, toracica, lumbar); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "flavum_T3_T4"
+   ],
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+  },
+  {
+   "name": "zygapophyseal_T4_T5.L",
+   "mirror": true,
+   "kind": "sinovial plana (cigapofisaria o facetaria)",
+   "bones": [
+    "T4",
+    "T5"
+   ],
+   "carrier": "T5",
+   "center": {
+    "at": "T4.head",
+    "offset_h": [
+     0.006857142857142858,
+     0.004571428571428572,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento_facetario",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "su orientacion guia el movimiento de cada region (cervical, toracica, lumbar); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "flavum_T4_T5"
+   ],
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+  },
+  {
+   "name": "zygapophyseal_T5_T6.L",
+   "mirror": true,
+   "kind": "sinovial plana (cigapofisaria o facetaria)",
+   "bones": [
+    "T5",
+    "T6"
+   ],
+   "carrier": "T6",
+   "center": {
+    "at": "T5.head",
+    "offset_h": [
+     0.006857142857142858,
+     0.004571428571428572,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento_facetario",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "su orientacion guia el movimiento de cada region (cervical, toracica, lumbar); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "flavum_T5_T6"
+   ],
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+  },
+  {
+   "name": "zygapophyseal_T6_T7.L",
+   "mirror": true,
+   "kind": "sinovial plana (cigapofisaria o facetaria)",
+   "bones": [
+    "T6",
+    "T7"
+   ],
+   "carrier": "T7",
+   "center": {
+    "at": "T6.head",
+    "offset_h": [
+     0.006857142857142858,
+     0.004571428571428572,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento_facetario",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "su orientacion guia el movimiento de cada region (cervical, toracica, lumbar); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "flavum_T6_T7"
+   ],
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+  },
+  {
+   "name": "zygapophyseal_T7_T8.L",
+   "mirror": true,
+   "kind": "sinovial plana (cigapofisaria o facetaria)",
+   "bones": [
+    "T7",
+    "T8"
+   ],
+   "carrier": "T8",
+   "center": {
+    "at": "T7.head",
+    "offset_h": [
+     0.006857142857142858,
+     0.004571428571428572,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento_facetario",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "su orientacion guia el movimiento de cada region (cervical, toracica, lumbar); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "flavum_T7_T8"
+   ],
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+  },
+  {
+   "name": "zygapophyseal_T8_T9.L",
+   "mirror": true,
+   "kind": "sinovial plana (cigapofisaria o facetaria)",
+   "bones": [
+    "T8",
+    "T9"
+   ],
+   "carrier": "T9",
+   "center": {
+    "at": "T8.head",
+    "offset_h": [
+     0.006857142857142858,
+     0.004571428571428572,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento_facetario",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "su orientacion guia el movimiento de cada region (cervical, toracica, lumbar); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "flavum_T8_T9"
+   ],
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+  },
+  {
+   "name": "zygapophyseal_T9_T10.L",
+   "mirror": true,
+   "kind": "sinovial plana (cigapofisaria o facetaria)",
+   "bones": [
+    "T9",
+    "T10"
+   ],
+   "carrier": "T10",
+   "center": {
+    "at": "T9.head",
+    "offset_h": [
+     0.006857142857142858,
+     0.004571428571428572,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento_facetario",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "su orientacion guia el movimiento de cada region (cervical, toracica, lumbar); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "flavum_T9_T10"
+   ],
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+  },
+  {
+   "name": "zygapophyseal_T10_T11.L",
+   "mirror": true,
+   "kind": "sinovial plana (cigapofisaria o facetaria)",
+   "bones": [
+    "T10",
+    "T11"
+   ],
+   "carrier": "T11",
+   "center": {
+    "at": "T10.head",
+    "offset_h": [
+     0.006857142857142858,
+     0.004571428571428572,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento_facetario",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "su orientacion guia el movimiento de cada region (cervical, toracica, lumbar); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "flavum_T10_T11"
+   ],
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+  },
+  {
+   "name": "zygapophyseal_T11_T12.L",
+   "mirror": true,
+   "kind": "sinovial plana (cigapofisaria o facetaria)",
+   "bones": [
+    "T11",
+    "T12"
+   ],
+   "carrier": "T12",
+   "center": {
+    "at": "T11.head",
+    "offset_h": [
+     0.006857142857142858,
+     0.004571428571428572,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento_facetario",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "su orientacion guia el movimiento de cada region (cervical, toracica, lumbar); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "flavum_T11_T12"
+   ],
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+  },
+  {
+   "name": "zygapophyseal_T12_L1.L",
+   "mirror": true,
+   "kind": "sinovial plana (cigapofisaria o facetaria)",
+   "bones": [
+    "T12",
+    "L1"
+   ],
+   "carrier": "L1",
+   "center": {
+    "at": "T12.head",
+    "offset_h": [
+     0.006857142857142858,
+     0.004571428571428572,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento_facetario",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "su orientacion guia el movimiento de cada region (cervical, toracica, lumbar); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "flavum_T12_L1"
+   ],
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+  },
+  {
+   "name": "zygapophyseal_L1_L2.L",
+   "mirror": true,
+   "kind": "sinovial plana (cigapofisaria o facetaria)",
+   "bones": [
+    "L1",
+    "L2"
+   ],
+   "carrier": "L2",
+   "center": {
+    "at": "L1.head",
+    "offset_h": [
+     0.006857142857142858,
+     0.004571428571428572,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento_facetario",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "su orientacion guia el movimiento de cada region (cervical, toracica, lumbar); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "flavum_L1_L2"
+   ],
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+  },
+  {
+   "name": "zygapophyseal_L2_L3.L",
+   "mirror": true,
+   "kind": "sinovial plana (cigapofisaria o facetaria)",
+   "bones": [
+    "L2",
+    "L3"
+   ],
+   "carrier": "L3",
+   "center": {
+    "at": "L2.head",
+    "offset_h": [
+     0.006857142857142858,
+     0.004571428571428572,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento_facetario",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "su orientacion guia el movimiento de cada region (cervical, toracica, lumbar); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "flavum_L2_L3"
+   ],
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+  },
+  {
+   "name": "zygapophyseal_L3_L4.L",
+   "mirror": true,
+   "kind": "sinovial plana (cigapofisaria o facetaria)",
+   "bones": [
+    "L3",
+    "L4"
+   ],
+   "carrier": "L4",
+   "center": {
+    "at": "L3.head",
+    "offset_h": [
+     0.006857142857142858,
+     0.004571428571428572,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento_facetario",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "su orientacion guia el movimiento de cada region (cervical, toracica, lumbar); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "flavum_L3_L4"
+   ],
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+  },
+  {
+   "name": "zygapophyseal_L4_L5.L",
+   "mirror": true,
+   "kind": "sinovial plana (cigapofisaria o facetaria)",
+   "bones": [
+    "L4",
+    "L5"
+   ],
+   "carrier": "L5",
+   "center": {
+    "at": "L4.head",
+    "offset_h": [
+     0.006857142857142858,
+     0.004571428571428572,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento_facetario",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "su orientacion guia el movimiento de cada region (cervical, toracica, lumbar); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "flavum_L4_L5"
+   ],
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+  },
+  {
+   "name": "zygapophyseal_L5_sacrum.L",
+   "mirror": true,
+   "kind": "sinovial plana (cigapofisaria o facetaria)",
+   "bones": [
+    "L5",
+    "sacrum"
+   ],
+   "carrier": "sacrum",
+   "center": {
+    "at": "L5.head",
+    "offset_h": [
+     0.006857142857142858,
+     0.004571428571428572,
+     0.0
+    ]
+   },
+   "tolerance_m": 0.02,
+   "dofs": [
+    {
+     "name": "deslizamiento_facetario",
+     "total_deg": null,
+     "no_numeric_source": true,
+     "note": "su orientacion guia el movimiento de cada region (cervical, toracica, lumbar); sin cifra en las fuentes consultadas"
+    }
+   ],
+   "rig_driver": null,
+   "ligaments": [
+    "flavum_L5_sacrum"
+   ],
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+  }
+ ],
+ "ligaments": [
+  {
+   "name": "anterior_longitudinal_C2_C3",
+   "mirror": false,
+   "from": {
+    "bone": "C2",
+    "point": {
+     "lerp": [
+      "C2.head",
+      "C2.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C3",
+    "point": {
+     "lerp": [
+      "C3.head",
+      "C3.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C2_C3",
+   "sources": [
+    "learnmuscles_spine",
+    "tf_all"
+   ],
+   "notes": "Longitudinal anterior: cara anterior de los cuerpos y los discos; es el unico que frena la extension. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_longitudinal_C2_C3",
+   "mirror": false,
+   "from": {
+    "bone": "C2",
+    "point": {
+     "lerp": [
+      "C2.head",
+      "C2.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C3",
+    "point": {
+     "lerp": [
+      "C3.head",
+      "C3.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C2_C3",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Longitudinal posterior: cara posterior de los cuerpos y los discos, dentro del canal; se tensa en la flexion. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "flavum_C2_C3",
+   "mirror": false,
+   "from": {
+    "bone": "C2",
+    "point": {
+     "lerp": [
+      "C2.head",
+      "C2.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C3",
+    "point": {
+     "lerp": [
+      "C3.head",
+      "C3.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C2_C3",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Amarillo: une las laminas de dos vertebras y cierra por detras el canal; el mas grueso en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interspinous_C2_C3",
+   "mirror": false,
+   "from": {
+    "bone": "C2",
+    "point": {
+     "lerp": [
+      "C2.head",
+      "C2.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C3",
+    "point": {
+     "lerp": [
+      "C3.head",
+      "C3.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C2_C3",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Interespinoso: entre dos apofisis espinosas; sus fibras anteriores se mezclan con el amarillo y las posteriores con el supraespinoso. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "intertransverse_C2_C3.L",
+   "mirror": true,
+   "from": {
+    "bone": "C2",
+    "point": {
+     "lerp": [
+      "C2.head",
+      "C2.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C3",
+    "point": {
+     "lerp": [
+      "C3.head",
+      "C3.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C2_C3",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Intertransverso: entre dos apofisis transversas; frena la inclinacion lateral y es fino en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "anterior_longitudinal_C3_C4",
+   "mirror": false,
+   "from": {
+    "bone": "C3",
+    "point": {
+     "lerp": [
+      "C3.head",
+      "C3.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C4",
+    "point": {
+     "lerp": [
+      "C4.head",
+      "C4.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C3_C4",
+   "sources": [
+    "learnmuscles_spine",
+    "tf_all"
+   ],
+   "notes": "Longitudinal anterior: cara anterior de los cuerpos y los discos; es el unico que frena la extension. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_longitudinal_C3_C4",
+   "mirror": false,
+   "from": {
+    "bone": "C3",
+    "point": {
+     "lerp": [
+      "C3.head",
+      "C3.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C4",
+    "point": {
+     "lerp": [
+      "C4.head",
+      "C4.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C3_C4",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Longitudinal posterior: cara posterior de los cuerpos y los discos, dentro del canal; se tensa en la flexion. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "flavum_C3_C4",
+   "mirror": false,
+   "from": {
+    "bone": "C3",
+    "point": {
+     "lerp": [
+      "C3.head",
+      "C3.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C4",
+    "point": {
+     "lerp": [
+      "C4.head",
+      "C4.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C3_C4",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Amarillo: une las laminas de dos vertebras y cierra por detras el canal; el mas grueso en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interspinous_C3_C4",
+   "mirror": false,
+   "from": {
+    "bone": "C3",
+    "point": {
+     "lerp": [
+      "C3.head",
+      "C3.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C4",
+    "point": {
+     "lerp": [
+      "C4.head",
+      "C4.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C3_C4",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Interespinoso: entre dos apofisis espinosas; sus fibras anteriores se mezclan con el amarillo y las posteriores con el supraespinoso. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "intertransverse_C3_C4.L",
+   "mirror": true,
+   "from": {
+    "bone": "C3",
+    "point": {
+     "lerp": [
+      "C3.head",
+      "C3.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C4",
+    "point": {
+     "lerp": [
+      "C4.head",
+      "C4.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C3_C4",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Intertransverso: entre dos apofisis transversas; frena la inclinacion lateral y es fino en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "anterior_longitudinal_C4_C5",
+   "mirror": false,
+   "from": {
+    "bone": "C4",
+    "point": {
+     "lerp": [
+      "C4.head",
+      "C4.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C5",
+    "point": {
+     "lerp": [
+      "C5.head",
+      "C5.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C4_C5",
+   "sources": [
+    "learnmuscles_spine",
+    "tf_all"
+   ],
+   "notes": "Longitudinal anterior: cara anterior de los cuerpos y los discos; es el unico que frena la extension. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_longitudinal_C4_C5",
+   "mirror": false,
+   "from": {
+    "bone": "C4",
+    "point": {
+     "lerp": [
+      "C4.head",
+      "C4.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C5",
+    "point": {
+     "lerp": [
+      "C5.head",
+      "C5.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C4_C5",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Longitudinal posterior: cara posterior de los cuerpos y los discos, dentro del canal; se tensa en la flexion. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "flavum_C4_C5",
+   "mirror": false,
+   "from": {
+    "bone": "C4",
+    "point": {
+     "lerp": [
+      "C4.head",
+      "C4.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C5",
+    "point": {
+     "lerp": [
+      "C5.head",
+      "C5.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C4_C5",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Amarillo: une las laminas de dos vertebras y cierra por detras el canal; el mas grueso en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interspinous_C4_C5",
+   "mirror": false,
+   "from": {
+    "bone": "C4",
+    "point": {
+     "lerp": [
+      "C4.head",
+      "C4.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C5",
+    "point": {
+     "lerp": [
+      "C5.head",
+      "C5.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C4_C5",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Interespinoso: entre dos apofisis espinosas; sus fibras anteriores se mezclan con el amarillo y las posteriores con el supraespinoso. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "intertransverse_C4_C5.L",
+   "mirror": true,
+   "from": {
+    "bone": "C4",
+    "point": {
+     "lerp": [
+      "C4.head",
+      "C4.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C5",
+    "point": {
+     "lerp": [
+      "C5.head",
+      "C5.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C4_C5",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Intertransverso: entre dos apofisis transversas; frena la inclinacion lateral y es fino en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "anterior_longitudinal_C5_C6",
+   "mirror": false,
+   "from": {
+    "bone": "C5",
+    "point": {
+     "lerp": [
+      "C5.head",
+      "C5.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C6",
+    "point": {
+     "lerp": [
+      "C6.head",
+      "C6.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C5_C6",
+   "sources": [
+    "learnmuscles_spine",
+    "tf_all"
+   ],
+   "notes": "Longitudinal anterior: cara anterior de los cuerpos y los discos; es el unico que frena la extension. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_longitudinal_C5_C6",
+   "mirror": false,
+   "from": {
+    "bone": "C5",
+    "point": {
+     "lerp": [
+      "C5.head",
+      "C5.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C6",
+    "point": {
+     "lerp": [
+      "C6.head",
+      "C6.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C5_C6",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Longitudinal posterior: cara posterior de los cuerpos y los discos, dentro del canal; se tensa en la flexion. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "flavum_C5_C6",
+   "mirror": false,
+   "from": {
+    "bone": "C5",
+    "point": {
+     "lerp": [
+      "C5.head",
+      "C5.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C6",
+    "point": {
+     "lerp": [
+      "C6.head",
+      "C6.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C5_C6",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Amarillo: une las laminas de dos vertebras y cierra por detras el canal; el mas grueso en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interspinous_C5_C6",
+   "mirror": false,
+   "from": {
+    "bone": "C5",
+    "point": {
+     "lerp": [
+      "C5.head",
+      "C5.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C6",
+    "point": {
+     "lerp": [
+      "C6.head",
+      "C6.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C5_C6",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Interespinoso: entre dos apofisis espinosas; sus fibras anteriores se mezclan con el amarillo y las posteriores con el supraespinoso. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "intertransverse_C5_C6.L",
+   "mirror": true,
+   "from": {
+    "bone": "C5",
+    "point": {
+     "lerp": [
+      "C5.head",
+      "C5.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C6",
+    "point": {
+     "lerp": [
+      "C6.head",
+      "C6.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C5_C6",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Intertransverso: entre dos apofisis transversas; frena la inclinacion lateral y es fino en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "anterior_longitudinal_C6_C7",
+   "mirror": false,
+   "from": {
+    "bone": "C6",
+    "point": {
+     "lerp": [
+      "C6.head",
+      "C6.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C7",
+    "point": {
+     "lerp": [
+      "C7.head",
+      "C7.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C6_C7",
+   "sources": [
+    "learnmuscles_spine",
+    "tf_all"
+   ],
+   "notes": "Longitudinal anterior: cara anterior de los cuerpos y los discos; es el unico que frena la extension. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_longitudinal_C6_C7",
+   "mirror": false,
+   "from": {
+    "bone": "C6",
+    "point": {
+     "lerp": [
+      "C6.head",
+      "C6.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C7",
+    "point": {
+     "lerp": [
+      "C7.head",
+      "C7.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C6_C7",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Longitudinal posterior: cara posterior de los cuerpos y los discos, dentro del canal; se tensa en la flexion. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "flavum_C6_C7",
+   "mirror": false,
+   "from": {
+    "bone": "C6",
+    "point": {
+     "lerp": [
+      "C6.head",
+      "C6.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C7",
+    "point": {
+     "lerp": [
+      "C7.head",
+      "C7.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C6_C7",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Amarillo: une las laminas de dos vertebras y cierra por detras el canal; el mas grueso en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interspinous_C6_C7",
+   "mirror": false,
+   "from": {
+    "bone": "C6",
+    "point": {
+     "lerp": [
+      "C6.head",
+      "C6.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C7",
+    "point": {
+     "lerp": [
+      "C7.head",
+      "C7.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C6_C7",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Interespinoso: entre dos apofisis espinosas; sus fibras anteriores se mezclan con el amarillo y las posteriores con el supraespinoso. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "intertransverse_C6_C7.L",
+   "mirror": true,
+   "from": {
+    "bone": "C6",
+    "point": {
+     "lerp": [
+      "C6.head",
+      "C6.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "C7",
+    "point": {
+     "lerp": [
+      "C7.head",
+      "C7.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C6_C7",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Intertransverso: entre dos apofisis transversas; frena la inclinacion lateral y es fino en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "anterior_longitudinal_C7_T1",
+   "mirror": false,
+   "from": {
+    "bone": "C7",
+    "point": {
+     "lerp": [
+      "C7.head",
+      "C7.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T1",
+    "point": {
+     "lerp": [
+      "T1.head",
+      "T1.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C7_T1",
+   "sources": [
+    "learnmuscles_spine",
+    "tf_all"
+   ],
+   "notes": "Longitudinal anterior: cara anterior de los cuerpos y los discos; es el unico que frena la extension. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_longitudinal_C7_T1",
+   "mirror": false,
+   "from": {
+    "bone": "C7",
+    "point": {
+     "lerp": [
+      "C7.head",
+      "C7.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T1",
+    "point": {
+     "lerp": [
+      "T1.head",
+      "T1.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C7_T1",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Longitudinal posterior: cara posterior de los cuerpos y los discos, dentro del canal; se tensa en la flexion. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "flavum_C7_T1",
+   "mirror": false,
+   "from": {
+    "bone": "C7",
+    "point": {
+     "lerp": [
+      "C7.head",
+      "C7.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T1",
+    "point": {
+     "lerp": [
+      "T1.head",
+      "T1.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C7_T1",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Amarillo: une las laminas de dos vertebras y cierra por detras el canal; el mas grueso en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interspinous_C7_T1",
+   "mirror": false,
+   "from": {
+    "bone": "C7",
+    "point": {
+     "lerp": [
+      "C7.head",
+      "C7.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T1",
+    "point": {
+     "lerp": [
+      "T1.head",
+      "T1.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C7_T1",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Interespinoso: entre dos apofisis espinosas; sus fibras anteriores se mezclan con el amarillo y las posteriores con el supraespinoso. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "intertransverse_C7_T1.L",
+   "mirror": true,
+   "from": {
+    "bone": "C7",
+    "point": {
+     "lerp": [
+      "C7.head",
+      "C7.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T1",
+    "point": {
+     "lerp": [
+      "T1.head",
+      "T1.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_C7_T1",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Intertransverso: entre dos apofisis transversas; frena la inclinacion lateral y es fino en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "anterior_longitudinal_T1_T2",
+   "mirror": false,
+   "from": {
+    "bone": "T1",
+    "point": {
+     "lerp": [
+      "T1.head",
+      "T1.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T2",
+    "point": {
+     "lerp": [
+      "T2.head",
+      "T2.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T1_T2",
+   "sources": [
+    "learnmuscles_spine",
+    "tf_all"
+   ],
+   "notes": "Longitudinal anterior: cara anterior de los cuerpos y los discos; es el unico que frena la extension. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_longitudinal_T1_T2",
+   "mirror": false,
+   "from": {
+    "bone": "T1",
+    "point": {
+     "lerp": [
+      "T1.head",
+      "T1.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T2",
+    "point": {
+     "lerp": [
+      "T2.head",
+      "T2.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T1_T2",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Longitudinal posterior: cara posterior de los cuerpos y los discos, dentro del canal; se tensa en la flexion. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "flavum_T1_T2",
+   "mirror": false,
+   "from": {
+    "bone": "T1",
+    "point": {
+     "lerp": [
+      "T1.head",
+      "T1.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T2",
+    "point": {
+     "lerp": [
+      "T2.head",
+      "T2.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T1_T2",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Amarillo: une las laminas de dos vertebras y cierra por detras el canal; el mas grueso en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interspinous_T1_T2",
+   "mirror": false,
+   "from": {
+    "bone": "T1",
+    "point": {
+     "lerp": [
+      "T1.head",
+      "T1.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T2",
+    "point": {
+     "lerp": [
+      "T2.head",
+      "T2.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T1_T2",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Interespinoso: entre dos apofisis espinosas; sus fibras anteriores se mezclan con el amarillo y las posteriores con el supraespinoso. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "intertransverse_T1_T2.L",
+   "mirror": true,
+   "from": {
+    "bone": "T1",
+    "point": {
+     "lerp": [
+      "T1.head",
+      "T1.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T2",
+    "point": {
+     "lerp": [
+      "T2.head",
+      "T2.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T1_T2",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Intertransverso: entre dos apofisis transversas; frena la inclinacion lateral y es fino en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "anterior_longitudinal_T2_T3",
+   "mirror": false,
+   "from": {
+    "bone": "T2",
+    "point": {
+     "lerp": [
+      "T2.head",
+      "T2.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T3",
+    "point": {
+     "lerp": [
+      "T3.head",
+      "T3.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T2_T3",
+   "sources": [
+    "learnmuscles_spine",
+    "tf_all"
+   ],
+   "notes": "Longitudinal anterior: cara anterior de los cuerpos y los discos; es el unico que frena la extension. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_longitudinal_T2_T3",
+   "mirror": false,
+   "from": {
+    "bone": "T2",
+    "point": {
+     "lerp": [
+      "T2.head",
+      "T2.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T3",
+    "point": {
+     "lerp": [
+      "T3.head",
+      "T3.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T2_T3",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Longitudinal posterior: cara posterior de los cuerpos y los discos, dentro del canal; se tensa en la flexion. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "flavum_T2_T3",
+   "mirror": false,
+   "from": {
+    "bone": "T2",
+    "point": {
+     "lerp": [
+      "T2.head",
+      "T2.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T3",
+    "point": {
+     "lerp": [
+      "T3.head",
+      "T3.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T2_T3",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Amarillo: une las laminas de dos vertebras y cierra por detras el canal; el mas grueso en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interspinous_T2_T3",
+   "mirror": false,
+   "from": {
+    "bone": "T2",
+    "point": {
+     "lerp": [
+      "T2.head",
+      "T2.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T3",
+    "point": {
+     "lerp": [
+      "T3.head",
+      "T3.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T2_T3",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Interespinoso: entre dos apofisis espinosas; sus fibras anteriores se mezclan con el amarillo y las posteriores con el supraespinoso. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "intertransverse_T2_T3.L",
+   "mirror": true,
+   "from": {
+    "bone": "T2",
+    "point": {
+     "lerp": [
+      "T2.head",
+      "T2.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T3",
+    "point": {
+     "lerp": [
+      "T3.head",
+      "T3.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T2_T3",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Intertransverso: entre dos apofisis transversas; frena la inclinacion lateral y es fino en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "anterior_longitudinal_T3_T4",
+   "mirror": false,
+   "from": {
+    "bone": "T3",
+    "point": {
+     "lerp": [
+      "T3.head",
+      "T3.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T4",
+    "point": {
+     "lerp": [
+      "T4.head",
+      "T4.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T3_T4",
+   "sources": [
+    "learnmuscles_spine",
+    "tf_all"
+   ],
+   "notes": "Longitudinal anterior: cara anterior de los cuerpos y los discos; es el unico que frena la extension. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_longitudinal_T3_T4",
+   "mirror": false,
+   "from": {
+    "bone": "T3",
+    "point": {
+     "lerp": [
+      "T3.head",
+      "T3.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T4",
+    "point": {
+     "lerp": [
+      "T4.head",
+      "T4.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T3_T4",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Longitudinal posterior: cara posterior de los cuerpos y los discos, dentro del canal; se tensa en la flexion. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "flavum_T3_T4",
+   "mirror": false,
+   "from": {
+    "bone": "T3",
+    "point": {
+     "lerp": [
+      "T3.head",
+      "T3.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T4",
+    "point": {
+     "lerp": [
+      "T4.head",
+      "T4.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T3_T4",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Amarillo: une las laminas de dos vertebras y cierra por detras el canal; el mas grueso en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interspinous_T3_T4",
+   "mirror": false,
+   "from": {
+    "bone": "T3",
+    "point": {
+     "lerp": [
+      "T3.head",
+      "T3.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T4",
+    "point": {
+     "lerp": [
+      "T4.head",
+      "T4.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T3_T4",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Interespinoso: entre dos apofisis espinosas; sus fibras anteriores se mezclan con el amarillo y las posteriores con el supraespinoso. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "intertransverse_T3_T4.L",
+   "mirror": true,
+   "from": {
+    "bone": "T3",
+    "point": {
+     "lerp": [
+      "T3.head",
+      "T3.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T4",
+    "point": {
+     "lerp": [
+      "T4.head",
+      "T4.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T3_T4",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Intertransverso: entre dos apofisis transversas; frena la inclinacion lateral y es fino en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "anterior_longitudinal_T4_T5",
+   "mirror": false,
+   "from": {
+    "bone": "T4",
+    "point": {
+     "lerp": [
+      "T4.head",
+      "T4.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T5",
+    "point": {
+     "lerp": [
+      "T5.head",
+      "T5.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T4_T5",
+   "sources": [
+    "learnmuscles_spine",
+    "tf_all"
+   ],
+   "notes": "Longitudinal anterior: cara anterior de los cuerpos y los discos; es el unico que frena la extension. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_longitudinal_T4_T5",
+   "mirror": false,
+   "from": {
+    "bone": "T4",
+    "point": {
+     "lerp": [
+      "T4.head",
+      "T4.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T5",
+    "point": {
+     "lerp": [
+      "T5.head",
+      "T5.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T4_T5",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Longitudinal posterior: cara posterior de los cuerpos y los discos, dentro del canal; se tensa en la flexion. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "flavum_T4_T5",
+   "mirror": false,
+   "from": {
+    "bone": "T4",
+    "point": {
+     "lerp": [
+      "T4.head",
+      "T4.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T5",
+    "point": {
+     "lerp": [
+      "T5.head",
+      "T5.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T4_T5",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Amarillo: une las laminas de dos vertebras y cierra por detras el canal; el mas grueso en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interspinous_T4_T5",
+   "mirror": false,
+   "from": {
+    "bone": "T4",
+    "point": {
+     "lerp": [
+      "T4.head",
+      "T4.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T5",
+    "point": {
+     "lerp": [
+      "T5.head",
+      "T5.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T4_T5",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Interespinoso: entre dos apofisis espinosas; sus fibras anteriores se mezclan con el amarillo y las posteriores con el supraespinoso. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "intertransverse_T4_T5.L",
+   "mirror": true,
+   "from": {
+    "bone": "T4",
+    "point": {
+     "lerp": [
+      "T4.head",
+      "T4.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T5",
+    "point": {
+     "lerp": [
+      "T5.head",
+      "T5.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T4_T5",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Intertransverso: entre dos apofisis transversas; frena la inclinacion lateral y es fino en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "anterior_longitudinal_T5_T6",
+   "mirror": false,
+   "from": {
+    "bone": "T5",
+    "point": {
+     "lerp": [
+      "T5.head",
+      "T5.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T6",
+    "point": {
+     "lerp": [
+      "T6.head",
+      "T6.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T5_T6",
+   "sources": [
+    "learnmuscles_spine",
+    "tf_all"
+   ],
+   "notes": "Longitudinal anterior: cara anterior de los cuerpos y los discos; es el unico que frena la extension. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_longitudinal_T5_T6",
+   "mirror": false,
+   "from": {
+    "bone": "T5",
+    "point": {
+     "lerp": [
+      "T5.head",
+      "T5.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T6",
+    "point": {
+     "lerp": [
+      "T6.head",
+      "T6.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T5_T6",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Longitudinal posterior: cara posterior de los cuerpos y los discos, dentro del canal; se tensa en la flexion. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "flavum_T5_T6",
+   "mirror": false,
+   "from": {
+    "bone": "T5",
+    "point": {
+     "lerp": [
+      "T5.head",
+      "T5.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T6",
+    "point": {
+     "lerp": [
+      "T6.head",
+      "T6.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T5_T6",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Amarillo: une las laminas de dos vertebras y cierra por detras el canal; el mas grueso en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interspinous_T5_T6",
+   "mirror": false,
+   "from": {
+    "bone": "T5",
+    "point": {
+     "lerp": [
+      "T5.head",
+      "T5.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T6",
+    "point": {
+     "lerp": [
+      "T6.head",
+      "T6.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T5_T6",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Interespinoso: entre dos apofisis espinosas; sus fibras anteriores se mezclan con el amarillo y las posteriores con el supraespinoso. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "intertransverse_T5_T6.L",
+   "mirror": true,
+   "from": {
+    "bone": "T5",
+    "point": {
+     "lerp": [
+      "T5.head",
+      "T5.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T6",
+    "point": {
+     "lerp": [
+      "T6.head",
+      "T6.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T5_T6",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Intertransverso: entre dos apofisis transversas; frena la inclinacion lateral y es fino en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "anterior_longitudinal_T6_T7",
+   "mirror": false,
+   "from": {
+    "bone": "T6",
+    "point": {
+     "lerp": [
+      "T6.head",
+      "T6.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T7",
+    "point": {
+     "lerp": [
+      "T7.head",
+      "T7.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T6_T7",
+   "sources": [
+    "learnmuscles_spine",
+    "tf_all"
+   ],
+   "notes": "Longitudinal anterior: cara anterior de los cuerpos y los discos; es el unico que frena la extension. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_longitudinal_T6_T7",
+   "mirror": false,
+   "from": {
+    "bone": "T6",
+    "point": {
+     "lerp": [
+      "T6.head",
+      "T6.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T7",
+    "point": {
+     "lerp": [
+      "T7.head",
+      "T7.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T6_T7",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Longitudinal posterior: cara posterior de los cuerpos y los discos, dentro del canal; se tensa en la flexion. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "flavum_T6_T7",
+   "mirror": false,
+   "from": {
+    "bone": "T6",
+    "point": {
+     "lerp": [
+      "T6.head",
+      "T6.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T7",
+    "point": {
+     "lerp": [
+      "T7.head",
+      "T7.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T6_T7",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Amarillo: une las laminas de dos vertebras y cierra por detras el canal; el mas grueso en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interspinous_T6_T7",
+   "mirror": false,
+   "from": {
+    "bone": "T6",
+    "point": {
+     "lerp": [
+      "T6.head",
+      "T6.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T7",
+    "point": {
+     "lerp": [
+      "T7.head",
+      "T7.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T6_T7",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Interespinoso: entre dos apofisis espinosas; sus fibras anteriores se mezclan con el amarillo y las posteriores con el supraespinoso. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "intertransverse_T6_T7.L",
+   "mirror": true,
+   "from": {
+    "bone": "T6",
+    "point": {
+     "lerp": [
+      "T6.head",
+      "T6.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T7",
+    "point": {
+     "lerp": [
+      "T7.head",
+      "T7.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T6_T7",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Intertransverso: entre dos apofisis transversas; frena la inclinacion lateral y es fino en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "anterior_longitudinal_T7_T8",
+   "mirror": false,
+   "from": {
+    "bone": "T7",
+    "point": {
+     "lerp": [
+      "T7.head",
+      "T7.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T8",
+    "point": {
+     "lerp": [
+      "T8.head",
+      "T8.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T7_T8",
+   "sources": [
+    "learnmuscles_spine",
+    "tf_all"
+   ],
+   "notes": "Longitudinal anterior: cara anterior de los cuerpos y los discos; es el unico que frena la extension. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_longitudinal_T7_T8",
+   "mirror": false,
+   "from": {
+    "bone": "T7",
+    "point": {
+     "lerp": [
+      "T7.head",
+      "T7.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T8",
+    "point": {
+     "lerp": [
+      "T8.head",
+      "T8.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T7_T8",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Longitudinal posterior: cara posterior de los cuerpos y los discos, dentro del canal; se tensa en la flexion. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "flavum_T7_T8",
+   "mirror": false,
+   "from": {
+    "bone": "T7",
+    "point": {
+     "lerp": [
+      "T7.head",
+      "T7.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T8",
+    "point": {
+     "lerp": [
+      "T8.head",
+      "T8.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T7_T8",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Amarillo: une las laminas de dos vertebras y cierra por detras el canal; el mas grueso en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interspinous_T7_T8",
+   "mirror": false,
+   "from": {
+    "bone": "T7",
+    "point": {
+     "lerp": [
+      "T7.head",
+      "T7.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T8",
+    "point": {
+     "lerp": [
+      "T8.head",
+      "T8.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T7_T8",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Interespinoso: entre dos apofisis espinosas; sus fibras anteriores se mezclan con el amarillo y las posteriores con el supraespinoso. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "intertransverse_T7_T8.L",
+   "mirror": true,
+   "from": {
+    "bone": "T7",
+    "point": {
+     "lerp": [
+      "T7.head",
+      "T7.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T8",
+    "point": {
+     "lerp": [
+      "T8.head",
+      "T8.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T7_T8",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Intertransverso: entre dos apofisis transversas; frena la inclinacion lateral y es fino en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "anterior_longitudinal_T8_T9",
+   "mirror": false,
+   "from": {
+    "bone": "T8",
+    "point": {
+     "lerp": [
+      "T8.head",
+      "T8.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T9",
+    "point": {
+     "lerp": [
+      "T9.head",
+      "T9.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T8_T9",
+   "sources": [
+    "learnmuscles_spine",
+    "tf_all"
+   ],
+   "notes": "Longitudinal anterior: cara anterior de los cuerpos y los discos; es el unico que frena la extension. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_longitudinal_T8_T9",
+   "mirror": false,
+   "from": {
+    "bone": "T8",
+    "point": {
+     "lerp": [
+      "T8.head",
+      "T8.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T9",
+    "point": {
+     "lerp": [
+      "T9.head",
+      "T9.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T8_T9",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Longitudinal posterior: cara posterior de los cuerpos y los discos, dentro del canal; se tensa en la flexion. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "flavum_T8_T9",
+   "mirror": false,
+   "from": {
+    "bone": "T8",
+    "point": {
+     "lerp": [
+      "T8.head",
+      "T8.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T9",
+    "point": {
+     "lerp": [
+      "T9.head",
+      "T9.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T8_T9",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Amarillo: une las laminas de dos vertebras y cierra por detras el canal; el mas grueso en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interspinous_T8_T9",
+   "mirror": false,
+   "from": {
+    "bone": "T8",
+    "point": {
+     "lerp": [
+      "T8.head",
+      "T8.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T9",
+    "point": {
+     "lerp": [
+      "T9.head",
+      "T9.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T8_T9",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Interespinoso: entre dos apofisis espinosas; sus fibras anteriores se mezclan con el amarillo y las posteriores con el supraespinoso. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "intertransverse_T8_T9.L",
+   "mirror": true,
+   "from": {
+    "bone": "T8",
+    "point": {
+     "lerp": [
+      "T8.head",
+      "T8.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T9",
+    "point": {
+     "lerp": [
+      "T9.head",
+      "T9.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T8_T9",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Intertransverso: entre dos apofisis transversas; frena la inclinacion lateral y es fino en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "anterior_longitudinal_T9_T10",
+   "mirror": false,
+   "from": {
+    "bone": "T9",
+    "point": {
+     "lerp": [
+      "T9.head",
+      "T9.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T10",
+    "point": {
+     "lerp": [
+      "T10.head",
+      "T10.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T9_T10",
+   "sources": [
+    "learnmuscles_spine",
+    "tf_all"
+   ],
+   "notes": "Longitudinal anterior: cara anterior de los cuerpos y los discos; es el unico que frena la extension. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_longitudinal_T9_T10",
+   "mirror": false,
+   "from": {
+    "bone": "T9",
+    "point": {
+     "lerp": [
+      "T9.head",
+      "T9.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T10",
+    "point": {
+     "lerp": [
+      "T10.head",
+      "T10.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T9_T10",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Longitudinal posterior: cara posterior de los cuerpos y los discos, dentro del canal; se tensa en la flexion. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "flavum_T9_T10",
+   "mirror": false,
+   "from": {
+    "bone": "T9",
+    "point": {
+     "lerp": [
+      "T9.head",
+      "T9.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T10",
+    "point": {
+     "lerp": [
+      "T10.head",
+      "T10.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T9_T10",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Amarillo: une las laminas de dos vertebras y cierra por detras el canal; el mas grueso en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interspinous_T9_T10",
+   "mirror": false,
+   "from": {
+    "bone": "T9",
+    "point": {
+     "lerp": [
+      "T9.head",
+      "T9.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T10",
+    "point": {
+     "lerp": [
+      "T10.head",
+      "T10.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T9_T10",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Interespinoso: entre dos apofisis espinosas; sus fibras anteriores se mezclan con el amarillo y las posteriores con el supraespinoso. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "intertransverse_T9_T10.L",
+   "mirror": true,
+   "from": {
+    "bone": "T9",
+    "point": {
+     "lerp": [
+      "T9.head",
+      "T9.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T10",
+    "point": {
+     "lerp": [
+      "T10.head",
+      "T10.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T9_T10",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Intertransverso: entre dos apofisis transversas; frena la inclinacion lateral y es fino en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "anterior_longitudinal_T10_T11",
+   "mirror": false,
+   "from": {
+    "bone": "T10",
+    "point": {
+     "lerp": [
+      "T10.head",
+      "T10.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T11",
+    "point": {
+     "lerp": [
+      "T11.head",
+      "T11.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T10_T11",
+   "sources": [
+    "learnmuscles_spine",
+    "tf_all"
+   ],
+   "notes": "Longitudinal anterior: cara anterior de los cuerpos y los discos; es el unico que frena la extension. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_longitudinal_T10_T11",
+   "mirror": false,
+   "from": {
+    "bone": "T10",
+    "point": {
+     "lerp": [
+      "T10.head",
+      "T10.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T11",
+    "point": {
+     "lerp": [
+      "T11.head",
+      "T11.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T10_T11",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Longitudinal posterior: cara posterior de los cuerpos y los discos, dentro del canal; se tensa en la flexion. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "flavum_T10_T11",
+   "mirror": false,
+   "from": {
+    "bone": "T10",
+    "point": {
+     "lerp": [
+      "T10.head",
+      "T10.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T11",
+    "point": {
+     "lerp": [
+      "T11.head",
+      "T11.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T10_T11",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Amarillo: une las laminas de dos vertebras y cierra por detras el canal; el mas grueso en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interspinous_T10_T11",
+   "mirror": false,
+   "from": {
+    "bone": "T10",
+    "point": {
+     "lerp": [
+      "T10.head",
+      "T10.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T11",
+    "point": {
+     "lerp": [
+      "T11.head",
+      "T11.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T10_T11",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Interespinoso: entre dos apofisis espinosas; sus fibras anteriores se mezclan con el amarillo y las posteriores con el supraespinoso. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "intertransverse_T10_T11.L",
+   "mirror": true,
+   "from": {
+    "bone": "T10",
+    "point": {
+     "lerp": [
+      "T10.head",
+      "T10.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T11",
+    "point": {
+     "lerp": [
+      "T11.head",
+      "T11.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T10_T11",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Intertransverso: entre dos apofisis transversas; frena la inclinacion lateral y es fino en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "anterior_longitudinal_T11_T12",
+   "mirror": false,
+   "from": {
+    "bone": "T11",
+    "point": {
+     "lerp": [
+      "T11.head",
+      "T11.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T12",
+    "point": {
+     "lerp": [
+      "T12.head",
+      "T12.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T11_T12",
+   "sources": [
+    "learnmuscles_spine",
+    "tf_all"
+   ],
+   "notes": "Longitudinal anterior: cara anterior de los cuerpos y los discos; es el unico que frena la extension. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_longitudinal_T11_T12",
+   "mirror": false,
+   "from": {
+    "bone": "T11",
+    "point": {
+     "lerp": [
+      "T11.head",
+      "T11.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T12",
+    "point": {
+     "lerp": [
+      "T12.head",
+      "T12.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T11_T12",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Longitudinal posterior: cara posterior de los cuerpos y los discos, dentro del canal; se tensa en la flexion. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "flavum_T11_T12",
+   "mirror": false,
+   "from": {
+    "bone": "T11",
+    "point": {
+     "lerp": [
+      "T11.head",
+      "T11.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T12",
+    "point": {
+     "lerp": [
+      "T12.head",
+      "T12.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T11_T12",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Amarillo: une las laminas de dos vertebras y cierra por detras el canal; el mas grueso en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interspinous_T11_T12",
+   "mirror": false,
+   "from": {
+    "bone": "T11",
+    "point": {
+     "lerp": [
+      "T11.head",
+      "T11.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T12",
+    "point": {
+     "lerp": [
+      "T12.head",
+      "T12.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T11_T12",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Interespinoso: entre dos apofisis espinosas; sus fibras anteriores se mezclan con el amarillo y las posteriores con el supraespinoso. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "intertransverse_T11_T12.L",
+   "mirror": true,
+   "from": {
+    "bone": "T11",
+    "point": {
+     "lerp": [
+      "T11.head",
+      "T11.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "T12",
+    "point": {
+     "lerp": [
+      "T12.head",
+      "T12.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T11_T12",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Intertransverso: entre dos apofisis transversas; frena la inclinacion lateral y es fino en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "anterior_longitudinal_T12_L1",
+   "mirror": false,
+   "from": {
+    "bone": "T12",
+    "point": {
+     "lerp": [
+      "T12.head",
+      "T12.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "L1",
+    "point": {
+     "lerp": [
+      "L1.head",
+      "L1.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T12_L1",
+   "sources": [
+    "learnmuscles_spine",
+    "tf_all"
+   ],
+   "notes": "Longitudinal anterior: cara anterior de los cuerpos y los discos; es el unico que frena la extension. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_longitudinal_T12_L1",
+   "mirror": false,
+   "from": {
+    "bone": "T12",
+    "point": {
+     "lerp": [
+      "T12.head",
+      "T12.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "L1",
+    "point": {
+     "lerp": [
+      "L1.head",
+      "L1.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T12_L1",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Longitudinal posterior: cara posterior de los cuerpos y los discos, dentro del canal; se tensa en la flexion. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "flavum_T12_L1",
+   "mirror": false,
+   "from": {
+    "bone": "T12",
+    "point": {
+     "lerp": [
+      "T12.head",
+      "T12.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "L1",
+    "point": {
+     "lerp": [
+      "L1.head",
+      "L1.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T12_L1",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Amarillo: une las laminas de dos vertebras y cierra por detras el canal; el mas grueso en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interspinous_T12_L1",
+   "mirror": false,
+   "from": {
+    "bone": "T12",
+    "point": {
+     "lerp": [
+      "T12.head",
+      "T12.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "L1",
+    "point": {
+     "lerp": [
+      "L1.head",
+      "L1.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T12_L1",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Interespinoso: entre dos apofisis espinosas; sus fibras anteriores se mezclan con el amarillo y las posteriores con el supraespinoso. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "intertransverse_T12_L1.L",
+   "mirror": true,
+   "from": {
+    "bone": "T12",
+    "point": {
+     "lerp": [
+      "T12.head",
+      "T12.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "L1",
+    "point": {
+     "lerp": [
+      "L1.head",
+      "L1.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_T12_L1",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Intertransverso: entre dos apofisis transversas; frena la inclinacion lateral y es fino en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "anterior_longitudinal_L1_L2",
+   "mirror": false,
+   "from": {
+    "bone": "L1",
+    "point": {
+     "lerp": [
+      "L1.head",
+      "L1.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "L2",
+    "point": {
+     "lerp": [
+      "L2.head",
+      "L2.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_L1_L2",
+   "sources": [
+    "learnmuscles_spine",
+    "tf_all"
+   ],
+   "notes": "Longitudinal anterior: cara anterior de los cuerpos y los discos; es el unico que frena la extension. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_longitudinal_L1_L2",
+   "mirror": false,
+   "from": {
+    "bone": "L1",
+    "point": {
+     "lerp": [
+      "L1.head",
+      "L1.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "L2",
+    "point": {
+     "lerp": [
+      "L2.head",
+      "L2.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_L1_L2",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Longitudinal posterior: cara posterior de los cuerpos y los discos, dentro del canal; se tensa en la flexion. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "flavum_L1_L2",
+   "mirror": false,
+   "from": {
+    "bone": "L1",
+    "point": {
+     "lerp": [
+      "L1.head",
+      "L1.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "L2",
+    "point": {
+     "lerp": [
+      "L2.head",
+      "L2.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_L1_L2",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Amarillo: une las laminas de dos vertebras y cierra por detras el canal; el mas grueso en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interspinous_L1_L2",
+   "mirror": false,
+   "from": {
+    "bone": "L1",
+    "point": {
+     "lerp": [
+      "L1.head",
+      "L1.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "L2",
+    "point": {
+     "lerp": [
+      "L2.head",
+      "L2.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_L1_L2",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Interespinoso: entre dos apofisis espinosas; sus fibras anteriores se mezclan con el amarillo y las posteriores con el supraespinoso. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "intertransverse_L1_L2.L",
+   "mirror": true,
+   "from": {
+    "bone": "L1",
+    "point": {
+     "lerp": [
+      "L1.head",
+      "L1.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "L2",
+    "point": {
+     "lerp": [
+      "L2.head",
+      "L2.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_L1_L2",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Intertransverso: entre dos apofisis transversas; frena la inclinacion lateral y es fino en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "anterior_longitudinal_L2_L3",
+   "mirror": false,
+   "from": {
+    "bone": "L2",
+    "point": {
+     "lerp": [
+      "L2.head",
+      "L2.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "L3",
+    "point": {
+     "lerp": [
+      "L3.head",
+      "L3.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_L2_L3",
+   "sources": [
+    "learnmuscles_spine",
+    "tf_all"
+   ],
+   "notes": "Longitudinal anterior: cara anterior de los cuerpos y los discos; es el unico que frena la extension. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_longitudinal_L2_L3",
+   "mirror": false,
+   "from": {
+    "bone": "L2",
+    "point": {
+     "lerp": [
+      "L2.head",
+      "L2.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "L3",
+    "point": {
+     "lerp": [
+      "L3.head",
+      "L3.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_L2_L3",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Longitudinal posterior: cara posterior de los cuerpos y los discos, dentro del canal; se tensa en la flexion. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "flavum_L2_L3",
+   "mirror": false,
+   "from": {
+    "bone": "L2",
+    "point": {
+     "lerp": [
+      "L2.head",
+      "L2.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "L3",
+    "point": {
+     "lerp": [
+      "L3.head",
+      "L3.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_L2_L3",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Amarillo: une las laminas de dos vertebras y cierra por detras el canal; el mas grueso en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interspinous_L2_L3",
+   "mirror": false,
+   "from": {
+    "bone": "L2",
+    "point": {
+     "lerp": [
+      "L2.head",
+      "L2.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "L3",
+    "point": {
+     "lerp": [
+      "L3.head",
+      "L3.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_L2_L3",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Interespinoso: entre dos apofisis espinosas; sus fibras anteriores se mezclan con el amarillo y las posteriores con el supraespinoso. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "intertransverse_L2_L3.L",
+   "mirror": true,
+   "from": {
+    "bone": "L2",
+    "point": {
+     "lerp": [
+      "L2.head",
+      "L2.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "L3",
+    "point": {
+     "lerp": [
+      "L3.head",
+      "L3.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_L2_L3",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Intertransverso: entre dos apofisis transversas; frena la inclinacion lateral y es fino en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "anterior_longitudinal_L3_L4",
+   "mirror": false,
+   "from": {
+    "bone": "L3",
+    "point": {
+     "lerp": [
+      "L3.head",
+      "L3.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "L4",
+    "point": {
+     "lerp": [
+      "L4.head",
+      "L4.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_L3_L4",
+   "sources": [
+    "learnmuscles_spine",
+    "tf_all"
+   ],
+   "notes": "Longitudinal anterior: cara anterior de los cuerpos y los discos; es el unico que frena la extension. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_longitudinal_L3_L4",
+   "mirror": false,
+   "from": {
+    "bone": "L3",
+    "point": {
+     "lerp": [
+      "L3.head",
+      "L3.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "L4",
+    "point": {
+     "lerp": [
+      "L4.head",
+      "L4.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_L3_L4",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Longitudinal posterior: cara posterior de los cuerpos y los discos, dentro del canal; se tensa en la flexion. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "flavum_L3_L4",
+   "mirror": false,
+   "from": {
+    "bone": "L3",
+    "point": {
+     "lerp": [
+      "L3.head",
+      "L3.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "L4",
+    "point": {
+     "lerp": [
+      "L4.head",
+      "L4.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_L3_L4",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Amarillo: une las laminas de dos vertebras y cierra por detras el canal; el mas grueso en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interspinous_L3_L4",
+   "mirror": false,
+   "from": {
+    "bone": "L3",
+    "point": {
+     "lerp": [
+      "L3.head",
+      "L3.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "L4",
+    "point": {
+     "lerp": [
+      "L4.head",
+      "L4.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_L3_L4",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Interespinoso: entre dos apofisis espinosas; sus fibras anteriores se mezclan con el amarillo y las posteriores con el supraespinoso. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "intertransverse_L3_L4.L",
+   "mirror": true,
+   "from": {
+    "bone": "L3",
+    "point": {
+     "lerp": [
+      "L3.head",
+      "L3.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "L4",
+    "point": {
+     "lerp": [
+      "L4.head",
+      "L4.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_L3_L4",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Intertransverso: entre dos apofisis transversas; frena la inclinacion lateral y es fino en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "anterior_longitudinal_L4_L5",
+   "mirror": false,
+   "from": {
+    "bone": "L4",
+    "point": {
+     "lerp": [
+      "L4.head",
+      "L4.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "L5",
+    "point": {
+     "lerp": [
+      "L5.head",
+      "L5.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_L4_L5",
+   "sources": [
+    "learnmuscles_spine",
+    "tf_all"
+   ],
+   "notes": "Longitudinal anterior: cara anterior de los cuerpos y los discos; es el unico que frena la extension. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_longitudinal_L4_L5",
+   "mirror": false,
+   "from": {
+    "bone": "L4",
+    "point": {
+     "lerp": [
+      "L4.head",
+      "L4.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "L5",
+    "point": {
+     "lerp": [
+      "L5.head",
+      "L5.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_L4_L5",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Longitudinal posterior: cara posterior de los cuerpos y los discos, dentro del canal; se tensa en la flexion. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "flavum_L4_L5",
+   "mirror": false,
+   "from": {
+    "bone": "L4",
+    "point": {
+     "lerp": [
+      "L4.head",
+      "L4.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "L5",
+    "point": {
+     "lerp": [
+      "L5.head",
+      "L5.tail",
+      0.8
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_L4_L5",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Amarillo: une las laminas de dos vertebras y cierra por detras el canal; el mas grueso en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interspinous_L4_L5",
+   "mirror": false,
+   "from": {
+    "bone": "L4",
+    "point": {
+     "lerp": [
+      "L4.head",
+      "L4.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "L5",
+    "point": {
+     "lerp": [
+      "L5.head",
+      "L5.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_L4_L5",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Interespinoso: entre dos apofisis espinosas; sus fibras anteriores se mezclan con el amarillo y las posteriores con el supraespinoso. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "intertransverse_L4_L5.L",
+   "mirror": true,
+   "from": {
+    "bone": "L4",
+    "point": {
+     "lerp": [
+      "L4.head",
+      "L4.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "L5",
+    "point": {
+     "lerp": [
+      "L5.head",
+      "L5.tail",
+      0.85
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "intervertebral_L4_L5",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Intertransverso: entre dos apofisis transversas; frena la inclinacion lateral y es fino en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "anterior_longitudinal_L5_sacrum",
+   "mirror": false,
+   "from": {
+    "bone": "L5",
+    "point": {
+     "lerp": [
+      "L5.head",
+      "L5.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "sacrum",
+    "point": {
+     "lerp": [
+      "sacrum.head",
+      "sacrum.tail",
+      0.06
+     ],
+     "offset_h": [
+      0.0,
+      -0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "lumbosacral_L5_S1",
+   "sources": [
+    "learnmuscles_spine",
+    "tf_all"
+   ],
+   "notes": "Longitudinal anterior: cara anterior de los cuerpos y los discos; es el unico que frena la extension. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "posterior_longitudinal_L5_sacrum",
+   "mirror": false,
+   "from": {
+    "bone": "L5",
+    "point": {
+     "lerp": [
+      "L5.head",
+      "L5.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "sacrum",
+    "point": {
+     "lerp": [
+      "sacrum.head",
+      "sacrum.tail",
+      0.06
+     ],
+     "offset_h": [
+      0.0,
+      0.004571428571428572,
+      0.0
+     ]
+    }
+   },
+   "joint": "lumbosacral_L5_S1",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Longitudinal posterior: cara posterior de los cuerpos y los discos, dentro del canal; se tensa en la flexion. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "flavum_L5_sacrum",
+   "mirror": false,
+   "from": {
+    "bone": "L5",
+    "point": {
+     "lerp": [
+      "L5.head",
+      "L5.tail",
+      0.2
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "sacrum",
+    "point": {
+     "lerp": [
+      "sacrum.head",
+      "sacrum.tail",
+      0.024
+     ],
+     "offset_h": [
+      0.0,
+      0.005714285714285714,
+      0.0
+     ]
+    }
+   },
+   "joint": "lumbosacral_L5_S1",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Amarillo: une las laminas de dos vertebras y cierra por detras el canal; el mas grueso en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "interspinous_L5_sacrum",
+   "mirror": false,
+   "from": {
+    "bone": "L5",
+    "point": {
+     "lerp": [
+      "L5.head",
+      "L5.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "sacrum",
+    "point": {
+     "lerp": [
+      "sacrum.head",
+      "sacrum.tail",
+      0.018
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "joint": "lumbosacral_L5_S1",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Interespinoso: entre dos apofisis espinosas; sus fibras anteriores se mezclan con el amarillo y las posteriores con el supraespinoso. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "intertransverse_L5_sacrum.L",
+   "mirror": true,
+   "from": {
+    "bone": "L5",
+    "point": {
+     "lerp": [
+      "L5.head",
+      "L5.tail",
+      0.15
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "sacrum",
+    "point": {
+     "lerp": [
+      "sacrum.head",
+      "sacrum.tail",
+      0.018
+     ],
+     "offset_h": [
+      0.006285714285714285,
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "joint": "lumbosacral_L5_S1",
+   "sources": [
+    "learnmuscles_spine"
+   ],
+   "notes": "Intertransverso: entre dos apofisis transversas; frena la inclinacion lateral y es fino en la region lumbar. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "supraspinous",
+   "mirror": false,
+   "from": {
+    "bone": "C7",
+    "point": {
+     "lerp": [
+      "C7.head",
+      "C7.tail",
+      0.5
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "to": {
+    "bone": "sacrum",
+    "point": {
+     "lerp": [
+      "sacrum.head",
+      "sacrum.tail",
+      0.3
+     ],
+     "offset_h": [
+      0.0,
+      0.006285714285714285,
+      0.0
+     ]
+    }
+   },
+   "joint": null,
+   "sources": [
+    "learnmuscles_spine",
+    "brainscape_lumbar_lig"
+   ],
+   "notes": "Supraespinoso: une las puntas de las apofisis espinosas de C7 al sacro (por encima de C7 continua como ligamento nucal); frena la hiperflexion. Se modela de C7 al sacro en una sola linea. El cuerpo vertebral no tiene anchura en el modelo: el punto se coloca a 8-11 mm del eje del hueso (cara anterior/posterior, base de la lamina o de la apofisis espinosa o transversa), no sobre la apofisis real. Fuente debil en su extension: verificar en un atlas.",
+   "tolerance_m": 0.012
+  }
+ ],
+ "attachments": []
+}
