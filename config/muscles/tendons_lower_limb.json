@@ -43,6 +43,31 @@
    "url": "https://link.springer.com/article/10.1007/s40279-021-01634-3",
    "reliability": "media",
    "title": "Revision (Sports Med 2021): el tuberculo de Gerdy es la insercion aceptada por todos los autores citados; la banda pasa sobre el epicondilo lateral del femur; se proponen ademas otras uniones distales"
+  },
+  "deep_rotators_visiblebody": {
+   "url": "https://www.visiblebody.com/blog/learn-muscle-anatomy-lateral-rotators",
+   "reliability": "media",
+   "title": "Visible Body - rotadores laterales de la cadera: piriforme (sacro anterior -> trocanter mayor), obturador interno (cara interna de la membrana obturatriz; gira 90 grados en la escotadura ciatica menor), gemelos, cuadrado femoral (tuberosidad isquiatica -> cresta intertrocanterea); leido en el resumen de busqueda"
+  },
+  "obturator_externus_anatomyzone": {
+   "url": "https://anatomyzone.com/lower-limb/thigh/obturator-externus/",
+   "reliability": "media",
+   "title": "Anatomy Zone - obturador externo: cara externa de la membrana obturatriz -> fosa trocanterica; leido en el resumen de busqueda (una fuente antigua lo inserta en el cuello del femur)"
+  },
+  "hip_adductors_wikipedia": {
+   "url": "https://en.wikipedia.org/wiki/Adductor_muscles_of_the_hip",
+   "reliability": "media",
+   "title": "Wikipedia - aductores de la cadera: pectineo (pecten del pubis -> linea pectinea del femur), aductor corto (cuerpo y rama inferior del pubis -> linea pectinea y linea aspera proximal); las fuentes discrepan en detalles"
+  },
+  "deep_rotators_brookbush": {
+   "url": "https://brookbushinstitute.com/articles/deep-rotators-of-the-hip",
+   "reliability": "baja",
+   "title": "Brookbush Institute - rotadores profundos de la cadera (resumen; el obturador interno se refleja sobre la superficie acanalada del isquion entre la espina y la tuberosidad y se une a los gemelos); leido en el resumen de busqueda: VERIFICAR"
+  },
+  "adductor_brevis_anatomyzone": {
+   "url": "https://anatomyzone.com/lower-limb/thigh/adductor-brevis/",
+   "reliability": "media",
+   "title": "Anatomy Zone - aductor corto: cuerpo y rama inferior del pubis -> linea pectinea y linea aspera proximal; leido en el resumen de busqueda (las fuentes discrepan)"
   }
  },
  "tendons": [
@@ -1544,6 +1569,353 @@
     "femoral_shaft.L",
     "femoral_lateral_condyle.L"
    ]
+  },
+  {
+   "name": "piriformis.L",
+   "mirror": true,
+   "muscles": [
+    "piriforme"
+   ],
+   "origin": {
+    "landmark": "sacral_lateral_mass.L",
+    "structure": "sacro, cara anterior (masa lateral)"
+   },
+   "via": [
+    {
+     "bone": "ischium.L",
+     "point": {
+      "at": "ischium.L.head"
+     },
+     "offset_h": [
+      -0.000571,
+      0.011429,
+      -0.015714
+     ],
+     "structure": "escotadura ciatica mayor (guia a 9 mm del isquion)"
+    }
+   ],
+   "insertion": {
+    "bone": "femur.L",
+    "point": {
+     "at": "thigh.L.head"
+    },
+    "offset_h": [
+     0.015999,
+     0.014242,
+     -0.010569
+    ],
+    "structure": "borde superior del trocanter mayor (23 mm del centro de la esfera del trocanter, hacia arriba y atras)"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "deform": true,
+   "avoid": [
+    "femoral_head.L",
+    "femoral_neck.L",
+    "ischial_ramus.L"
+   ],
+   "sources": [
+    "deep_rotators_visiblebody",
+    "deep_rotators_brookbush"
+   ],
+   "notes": "Pasa por la escotadura ciatica mayor (por detras de la cabeza femoral) hacia el borde superior del trocanter mayor. Ruta de CM-6: los extremos nacen de hitos del modelo o de puntos a < 12 mm de la superficie del hueso (incluidas las superficies de obstaculo); la ruta no atraviesa el femur, el isquion, la rama del pubis ni las laminas del ilion y del sacro en el barrido de 22 poses de cadera y rodilla. Verificar en un atlas."
+  },
+  {
+   "name": "obturator_internus.L",
+   "mirror": true,
+   "muscles": [
+    "obturador interno"
+   ],
+   "origin": {
+    "landmark": "obturator_margin.L",
+    "structure": "cara interna del agujero obturador (2 mm medial al hito)",
+    "offset_h": [
+     -0.001143,
+     0,
+     0
+    ]
+   },
+   "via": [
+    {
+     "bone": "ischium.L",
+     "point": {
+      "at": "ischium.L.head"
+     },
+     "offset_h": [
+      -0.015433,
+      0.01642,
+      -0.039395
+     ],
+     "structure": "escotadura ciatica menor: el tendon gira ~90 grados sobre el isquion (guia a 11 mm del isquion)"
+    }
+   ],
+   "insertion": {
+    "landmark": "trochanteric_fossa.L",
+    "structure": "cara medial del trocanter mayor, sobre la fosa trocanterica",
+    "offset_h": [
+     -6.3e-05,
+     0.000854,
+     0.002323
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "medio",
+   "deform": true,
+   "avoid": [
+    "femoral_head.L",
+    "femoral_neck.L",
+    "ischial_ramus.L"
+   ],
+   "sources": [
+    "deep_rotators_visiblebody",
+    "deep_rotators_brookbush"
+   ],
+   "notes": "Se une a los gemelos en un tendon comun. Ruta de CM-6: los extremos nacen de hitos del modelo o de puntos a < 12 mm de la superficie del hueso (incluidas las superficies de obstaculo); la ruta no atraviesa el femur, el isquion, la rama del pubis ni las laminas del ilion y del sacro en el barrido de 22 poses de cadera y rodilla. Verificar en un atlas."
+  },
+  {
+   "name": "gemellus_superior.L",
+   "mirror": true,
+   "muscles": [
+    "gemelo superior"
+   ],
+   "origin": {
+    "landmark": "ischial_spine.L",
+    "structure": "espina isquiatica"
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "trochanteric_fossa.L",
+    "structure": "cara medial del trocanter mayor (con el tendon del obturador interno)",
+    "offset_h": [
+     -6.3e-05,
+     0.001997,
+     0.003466
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "deform": true,
+   "avoid": [
+    "femoral_head.L",
+    "femoral_neck.L",
+    "ischial_ramus.L"
+   ],
+   "sources": [
+    "deep_rotators_visiblebody",
+    "deep_rotators_brookbush"
+   ],
+   "notes": "Algunas fuentes lo hacen insertar en el tendon del obturador interno y otras directamente en el trocanter. Ruta de CM-6: los extremos nacen de hitos del modelo o de puntos a < 12 mm de la superficie del hueso (incluidas las superficies de obstaculo); la ruta no atraviesa el femur, el isquion, la rama del pubis ni las laminas del ilion y del sacro en el barrido de 22 poses de cadera y rodilla. Verificar en un atlas."
+  },
+  {
+   "name": "gemellus_inferior.L",
+   "mirror": true,
+   "muscles": [
+    "gemelo inferior"
+   ],
+   "origin": {
+    "landmark": "ischial_tuberosity.L",
+    "structure": "tuberosidad isquiatica"
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "trochanteric_fossa.L",
+    "structure": "cara medial del trocanter mayor (con el tendon del obturador interno)",
+    "offset_h": [
+     -6.3e-05,
+     0.001997,
+     -0.001677
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "deform": true,
+   "avoid": [
+    "femoral_head.L",
+    "femoral_neck.L",
+    "ischial_ramus.L"
+   ],
+   "sources": [
+    "deep_rotators_visiblebody",
+    "deep_rotators_brookbush"
+   ],
+   "notes": "Algunas fuentes lo hacen insertar en el tendon del obturador interno y otras directamente en el trocanter. Ruta de CM-6: los extremos nacen de hitos del modelo o de puntos a < 12 mm de la superficie del hueso (incluidas las superficies de obstaculo); la ruta no atraviesa el femur, el isquion, la rama del pubis ni las laminas del ilion y del sacro en el barrido de 22 poses de cadera y rodilla. Verificar en un atlas."
+  },
+  {
+   "name": "obturator_externus.L",
+   "mirror": true,
+   "muscles": [
+    "obturador externo"
+   ],
+   "origin": {
+    "landmark": "obturator_margin.L",
+    "structure": "cara externa del agujero obturador (2 mm lateral y 2 mm anterior al hito)",
+    "offset_h": [
+     0.001143,
+     -0.001143,
+     0
+    ]
+   },
+   "via": [
+    {
+     "bone": "ischium.L",
+     "point": {
+      "at": "ischium.L.head"
+     },
+     "offset_h": [
+      -0.003053,
+      0.000899,
+      -0.025842
+     ],
+     "structure": "borde inferior del acetabulo, por fuera del isquion (guia a 10 mm)"
+    },
+    {
+     "bone": "femur.L",
+     "point": {
+      "at": "thigh.L.head"
+     },
+     "offset_h": [
+      0.012404,
+      0.00968,
+      -0.012939
+     ],
+     "structure": "cara posteroinferior del cuello del femur (guia de envoltura, a 1.5 mm de su superficie)"
+    }
+   ],
+   "insertion": {
+    "landmark": "trochanteric_fossa.L",
+    "structure": "fosa trocanterica",
+    "offset_h": [
+     -6.3e-05,
+     0.000854,
+     3.8e-05
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "deform": true,
+   "avoid": [
+    "femoral_head.L",
+    "femoral_neck.L",
+    "ischial_ramus.L"
+   ],
+   "sources": [
+    "obturator_externus_anatomyzone"
+   ],
+   "notes": "Rodea por debajo el cuello del femur; una fuente antigua lo inserta en el cuello. Ruta de CM-6: los extremos nacen de hitos del modelo o de puntos a < 12 mm de la superficie del hueso (incluidas las superficies de obstaculo); la ruta no atraviesa el femur, el isquion, la rama del pubis ni las laminas del ilion y del sacro en el barrido de 22 poses de cadera y rodilla. Verificar en un atlas."
+  },
+  {
+   "name": "quadratus_femoris.L",
+   "mirror": true,
+   "muscles": [
+    "cuadrado femoral"
+   ],
+   "origin": {
+    "landmark": "ischial_tuberosity.L",
+    "structure": "tuberosidad isquiatica (borde lateral)"
+   },
+   "via": [],
+   "insertion": {
+    "landmark": "intertrochanteric_crest.L",
+    "structure": "cresta intertrocanterea (tuberculo cuadrado)",
+    "offset_h": [
+     0,
+     0.001143,
+     0
+    ]
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "deform": true,
+   "avoid": [
+    "femoral_head.L",
+    "femoral_neck.L",
+    "ischial_ramus.L",
+    "femoral_shaft.L"
+   ],
+   "sources": [
+    "deep_rotators_visiblebody"
+   ],
+   "notes": "Algunas fuentes dan como insercion la linea o el tuberculo cuadrado en lugar de la cresta. Ruta de CM-6: los extremos nacen de hitos del modelo o de puntos a < 12 mm de la superficie del hueso (incluidas las superficies de obstaculo); la ruta no atraviesa el femur, el isquion, la rama del pubis ni las laminas del ilion y del sacro en el barrido de 22 poses de cadera y rodilla. Verificar en un atlas."
+  },
+  {
+   "name": "pectineus.L",
+   "mirror": true,
+   "muscles": [
+    "pectineo"
+   ],
+   "origin": {
+    "landmark": "pectineal_crest.L",
+    "structure": "pecten del pubis"
+   },
+   "via": [],
+   "insertion": {
+    "bone": "femur.L",
+    "point": {
+     "at": "thigh.L.head"
+    },
+    "offset_h": [
+     -0.003429,
+     0.003429,
+     -0.051436
+    ],
+    "structure": "linea pectinea del femur (6 cm por debajo del trocanter menor)"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "deform": true,
+   "avoid": [
+    "femoral_head.L",
+    "femoral_neck.L",
+    "femoral_shaft.L",
+    "pubic_ramus.L"
+   ],
+   "sources": [
+    "hip_adductors_wikipedia"
+   ],
+   "notes": "La linea pectinea se aproxima por un punto bajo el trocanter menor. Ruta de CM-6: los extremos nacen de hitos del modelo o de puntos a < 12 mm de la superficie del hueso (incluidas las superficies de obstaculo); la ruta no atraviesa el femur, el isquion, la rama del pubis ni las laminas del ilion y del sacro en el barrido de 22 poses de cadera y rodilla. Verificar en un atlas."
+  },
+  {
+   "name": "adductor_brevis.L",
+   "mirror": true,
+   "muscles": [
+    "aductor corto"
+   ],
+   "origin": {
+    "landmark": "pubic_body.L",
+    "structure": "cuerpo del pubis, 6 mm por debajo del hito (rama inferior)",
+    "offset_h": [
+     0.0,
+     0.0,
+     -0.003429
+    ]
+   },
+   "via": [],
+   "insertion": {
+    "bone": "femur.L",
+    "point": {
+     "at": "thigh.L.head"
+    },
+    "offset_h": [
+     0.0,
+     0.005714,
+     -0.072857
+    ],
+    "structure": "linea aspera proximal (cara posterior de la diafisis)"
+   },
+   "origin_tendon": null,
+   "insertion_tendon": "corto",
+   "deform": true,
+   "avoid": [
+    "femoral_head.L",
+    "femoral_neck.L",
+    "femoral_shaft.L",
+    "pubic_ramus.L"
+   ],
+   "sources": [
+    "adductor_brevis_anatomyzone",
+    "hip_adductors_wikipedia"
+   ],
+   "notes": "Las fuentes discrepan: linea pectinea y linea aspera proximal. Ruta de CM-6: los extremos nacen de hitos del modelo o de puntos a < 12 mm de la superficie del hueso (incluidas las superficies de obstaculo); la ruta no atraviesa el femur, el isquion, la rama del pubis ni las laminas del ilion y del sacro en el barrido de 22 poses de cadera y rodilla. Verificar en un atlas."
   }
  ]
 }

@@ -54,10 +54,9 @@ class Tendon:
     def path(self) -> tuple:
         return tuple(s.point for s in self.sites)
 
-    def node_weights(self, point: Vec3) -> tuple:
-        """Pesos ((hueso, peso), ...) de un punto del recorrido: si esta en el tramo entre dos sitios, interpolacion lineal entre los huesos de sus
-        extremos (es lo que hace la mezcla lineal de la armadura y reproduce la recta entre los nodos posados)."""
-        best, bi = float("inf"), 0
+    def locate(self, point: Vec3) -> tuple:
+        """(indice del tramo, fraccion u) de un punto del recorrido: el tramo es el que va del sitio i al i+1."""
+        best, bi, bu = float("inf"), 0, 0.0
         for i, (a, b) in enumerate(zip(self.path, self.path[1:])):
             seg = sub(b, a)
             ln2 = seg[0] ** 2 + seg[1] ** 2 + seg[2] ** 2
@@ -65,6 +64,12 @@ class Tendon:
             d = length(sub(point, add(a, scale(seg, u))))
             if d < best - 1e-12:
                 best, bi, bu = d, i, u
+        return bi, bu
+
+    def node_weights(self, point: Vec3) -> tuple:
+        """Pesos ((hueso, peso), ...) de un punto del recorrido: si esta en el tramo entre dos sitios, interpolacion lineal entre los huesos de sus
+        extremos (es lo que hace la mezcla lineal de la armadura; coincide con la recta entre los nodos posados solo si los dos huesos no giran entre si)."""
+        bi, bu = self.locate(point)
         a_bone, b_bone = self.sites[bi].bone, self.sites[bi + 1].bone
         if a_bone == b_bone:
             return ((a_bone, 1.0),)
@@ -248,7 +253,7 @@ def validate_tendon_poses(base: SkeletonModel, anat: AnatomyModel, art: Articula
         units = [t for t in model.tendons.values() if t.deform and t.name.endswith(f".{side}")]
         if not units:
             continue
-        plates = [(b, lp.plate_triangles(anat, b)) for b in (f"ilium.{side}",) if b in anat.bones]
+        plates = [(b, lp.plate_triangles(anat, b)) for b in (f"ilium.{side}", "sacrum") if b in anat.bones]
         for pose_name, posed in lp.leg_sweep_poses(base, side):
             surfaces = {s.name: s for s in lp.posed_surfaces(art, base, anat, posed)}
             for t in units:

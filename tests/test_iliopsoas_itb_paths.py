@@ -253,7 +253,7 @@ class TestIliopsoasAndItbPaths(unittest.TestCase):
         d = json.loads((ROOT / "config" / "muscles" / "tendons_lower_limb.json").read_text(encoding="utf-8"))
         names = [u["name"] for u in d["tendons"]]
         self.assertIn("iliotibial_tract.L", names)
-        self.assertEqual(sum(1 for u in d["tendons"] if u.get("deform")), 2)  # cintilla y tensor de la fascia lata
+        self.assertTrue({u["name"] for u in d["tendons"] if u.get("deform")} >= {"iliotibial_tract.L", "tensor_fasciae_latae.L"})  # cintilla y tensor de la fascia lata (y, desde CM-6, los profundos)
 
 
 if __name__ == "__main__":

@@ -127,6 +127,21 @@
    "url": "https://epos.myesr.org/poster/esr/essr2018/P-0130/Imaging%20findings%20OR%20Procedure",
    "reliability": "media",
    "title": "Iliopsoas musculotendinous unit (poster ESSR 2018): la unidad pasa por delante del borde pelvico y de la capsula de la cadera, en un surco entre la espina iliaca anteroinferior y la eminencia iliopectinea (= iliopubica); leido en el resumen de busqueda"
+  },
+  "deep_rotators_visiblebody": {
+   "url": "https://www.visiblebody.com/blog/learn-muscle-anatomy-lateral-rotators",
+   "reliability": "media",
+   "title": "Visible Body - rotadores laterales de la cadera: piriforme (sacro anterior -> trocanter mayor), obturador interno (cara interna de la membrana obturatriz; gira 90 grados en la escotadura ciatica menor), gemelos, cuadrado femoral (tuberosidad isquiatica -> cresta intertrocanterea); leido en el resumen de busqueda"
+  },
+  "obturator_externus_anatomyzone": {
+   "url": "https://anatomyzone.com/lower-limb/thigh/obturator-externus/",
+   "reliability": "media",
+   "title": "Anatomy Zone - obturador externo: cara externa de la membrana obturatriz -> fosa trocanterica; leido en el resumen de busqueda (una fuente antigua lo inserta en el cuello del femur)"
+  },
+  "hip_adductors_wikipedia": {
+   "url": "https://en.wikipedia.org/wiki/Adductor_muscles_of_the_hip",
+   "reliability": "media",
+   "title": "Wikipedia - aductores de la cadera: pectineo (pecten del pubis -> linea pectinea del femur), aductor corto (cuerpo y rama inferior del pubis -> linea pectinea y linea aspera proximal); las fuentes discrepan en detalles"
   }
  },
  "joints": [
@@ -1220,6 +1235,100 @@
    ],
    "notes": "Punto sobre la rama superior del pubis (55 % del segmento de la base desde el acetabulo), 9 mm por delante de su eje: el pubis del modelo es una linea sin anchura y la eminencia es el relieve en que la rama se une al ilion. Posicion aproximada; verificar en un atlas.",
    "tolerance_m": 0.012
+  },
+  {
+   "name": "pectineal_crest.L",
+   "mirror": true,
+   "bone": "pubis.L",
+   "point": {
+    "lerp": [
+     "pubis.L.head",
+     "pubis.L.tail",
+     0.7
+    ],
+    "offset_h": [
+     0.003469,
+     -0.005858,
+     0.000821
+    ]
+   },
+   "structures": [
+    "hito oseo: pectineal crest"
+   ],
+   "sources": [
+    "hip_adductors_wikipedia"
+   ],
+   "notes": "Pecten del pubis (origen del pectineo): 70 % del segmento del pubis desde el acetabulo, 12 mm por delante y algo lateral de su eje (6 mm fuera de la rama del pubis). Posicion aproximada sobre un hueso de lineas; verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "obturator_margin.L",
+   "mirror": true,
+   "bone": "ischium.L",
+   "point": {
+    "lerp": [
+     "ischium.L.head",
+     "ischium.L.tail",
+     0.6
+    ],
+    "offset_h": [
+     -0.002731,
+     -0.003665,
+     4.1e-05
+    ]
+   },
+   "structures": [
+    "hito oseo: obturator margin"
+   ],
+   "sources": [
+    "obturator_externus_anatomyzone",
+    "deep_rotators_visiblebody"
+   ],
+   "notes": "Borde del agujero obturador: 60 % del segmento del isquion, 8 mm hacia delante y medial (el agujero no esta modelado como anillo). Origen de los obturadores: el interno en su cara interna y el externo en la externa. Posicion aproximada sobre un hueso de lineas; verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "trochanteric_fossa.L",
+   "mirror": true,
+   "bone": "femur.L",
+   "point": {
+    "at": "thigh.L.head",
+    "offset_h": [
+     0.023799,
+     0.010985,
+     -0.014278
+    ]
+   },
+   "structures": [
+    "hito oseo: trochanteric fossa"
+   ],
+   "sources": [
+    "obturator_externus_anatomyzone",
+    "deep_rotators_visiblebody"
+   ],
+   "notes": "Fosa trocanterica: cara posterior de la base del cuello (95 % del eje del cuello), sobre la superficie de la capsula del cuello. Posicion aproximada sobre un hueso de lineas; verificar en un atlas.",
+   "tolerance_m": 0.012
+  },
+  {
+   "name": "intertrochanteric_crest.L",
+   "mirror": true,
+   "bone": "femur.L",
+   "point": {
+    "at": "thigh.L.head",
+    "offset_h": [
+     0.012571,
+     0.011716,
+     -0.017145
+    ]
+   },
+   "structures": [
+    "hito oseo: intertrochanteric crest"
+   ],
+   "sources": [
+    "deep_rotators_visiblebody"
+   ],
+   "notes": "Cresta intertrocanterea: a mitad de camino entre el trocanter mayor y el menor, 15 mm por detras de su linea (cara posterior; tuberculo cuadrado). Posicion aproximada sobre un hueso de lineas; verificar en un atlas.",
+   "tolerance_m": 0.012
   }
  ],
  "bone_surfaces": [
@@ -1322,6 +1431,30 @@
    "sources": [],
    "no_numeric_source": true,
    "notes": "Convencion: la rama del pubis del modelo es una linea sin anchura; se le da un radio minimo de 6 mm desde la eminencia iliopubica hasta la sinfisis. El tramo lateral (acetabulo) no es obstaculo propio: lo cubre la esfera de la cabeza femoral."
+  },
+  {
+   "name": "ischial_ramus.L",
+   "mirror": true,
+   "bone": "ischium.L",
+   "kind": "capsule",
+   "a": {
+    "lerp": [
+     "ischium.L.head",
+     "ischium.L.tail",
+     0.3
+    ]
+   },
+   "b": {
+    "lerp": [
+     "ischium.L.head",
+     "ischium.L.tail",
+     0.8
+    ]
+   },
+   "radius_m": 0.005,
+   "sources": [],
+   "no_numeric_source": true,
+   "notes": "Convencion: el isquion del modelo es una linea sin anchura; se le da un radio minimo de 5 mm entre la espina isquiatica (30 %) y antes de la tuberosidad (80 %) para que los obturadores y el piriforme lo rodeen. No es un dato publicado."
   }
  ]
 }

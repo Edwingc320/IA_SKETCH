@@ -38,7 +38,7 @@ class TestTendonLayer(unittest.TestCase):
         self.t = self.m.tendons
 
     def test_counts_and_validation(self):
-        self.assertEqual(len(self.t), 2 * (19 + 37 + 31))  # las 160 originales + 12 + la cintilla iliotibial (CM-5): triceps de 3 cabezas, cabeza corta del biceps femoral, gastrocnemio lateral, pectoral menor, trapecio medio e inferior
+        self.assertEqual(len(self.t), 2 * (19 + 37 + 39))  # las 160 originales + 12 + la cintilla iliotibial (CM-5) + 8 musculos profundos y aductores (CM-6): triceps de 3 cabezas, cabeza corta del biceps femoral, gastrocnemio lateral, pectoral menor, trapecio medio e inferior
         self.assertEqual(tendons.validate_tendons(self.base, self.anat, self.art, self.m), [])
         for n, x in self.t.items():
             self.assertTrue(x.muscles, n)

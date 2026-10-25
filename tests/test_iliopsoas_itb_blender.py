@@ -38,6 +38,38 @@ def expected_rings(t, pts, posed, base, anat):
     return out
 
 
+def exact_rings(t, pts, posed, base, anat):
+    """Los mismos anillos sobre la poligonal EXACTA del modelo: la recta entre los nodos posados (interpolacion de los nodos, no de las poses de los huesos)."""
+    node_posed = lp.posed_nodes(lp.tendon_nodes(t), base, anat, posed)
+    out = []
+    for a, b in zip(pts, pts[1:]):
+        if length(sub(a, b)) < 1e-9:
+            continue
+        for p in (a, b):
+            i, u = t.locate(p)
+            out.append(add(scale(node_posed[i], 1.0 - u), scale(node_posed[i + 1], u)))
+    return out
+
+
+def node_ring_path(t, part_rest, snap_rings):
+    """Anillos de Blender situados en los nodos (pesan 100 % sobre un hueso: son exactos) en el orden del recorrido; son la poligonal del modelo vista por Blender."""
+    found = {}
+    for obj, pts in part_rest:
+        k = 0
+        for a, b in zip(pts, pts[1:]):
+            if length(sub(a, b)) < 1e-9:
+                continue
+            for p in (a, b):
+                for i, s in enumerate(t.sites):
+                    if i not in found and length(sub(p, s.point)) < 1e-9:
+                        found[i] = snap_rings[obj][k]
+                k += 1
+    return [found[i] for i in sorted(found)]
+
+
+LBS_VISUAL_LIMIT_M = 0.03  # los anillos de la union miotendinosa (dentro de un tramo entre dos huesos) se mezclan linealmente: se desvian de la recta exacta como mucho esto
+
+
 @unittest.skipUnless(HAVE_BPY, "requiere Blender (bpy)")
 class TestIliopsoasAndItbInBlender(unittest.TestCase):
     @classmethod
@@ -83,15 +115,21 @@ class TestIliopsoasAndItbInBlender(unittest.TestCase):
         surfaces = {s.name: s for s in lp.posed_surfaces(self.art, self.base, self.anat, posed)}
         for n in UNITS:
             t = self.tm.tendons[f"{n}.{side}"]
-            chain = []
-            for obj, pts in self.parts_of(t):
+            parts = self.parts_of(t)
+            for obj, pts in parts:
                 got = snap[obj]["rings"]
                 want = expected_rings(t, pts, posed, self.base, self.anat)
                 self.assertEqual(len(got), len(want), obj)
                 for g, w in zip(got, want):
-                    self.assertLess(length(sub(g, w)), TOL, (side, pose_name, obj))  # cada anillo esta donde la FK lo pone: nada descolgado
-                chain += got
-            self.assertGreaterEqual(lp.path_clearance(chain, [surfaces[a] for a in t.avoid], samples=4), -TOL / 10, (side, pose_name, n))  # y no entra en el hueso
+                    self.assertLess(length(sub(g, w)), TOL, (side, pose_name, obj))  # cada anillo esta donde la mezcla lineal de la armadura lo pone: nada descolgado
+                exact = exact_rings(t, pts, posed, self.base, self.anat)
+                self.assertLess(max(length(sub(w, e)) for w, e in zip(want, exact)), LBS_VISUAL_LIMIT_M, (side, pose_name, obj))  # desviacion visual acotada
+            nodes = node_ring_path(t, parts, {o: snap[o]["rings"] for o, _ in parts})
+            self.assertEqual(len(nodes), len(t.sites))
+            expect = lp.posed_nodes(lp.tendon_nodes(t), self.base, self.anat, posed)
+            for g, w in zip(nodes, expect):
+                self.assertLess(length(sub(g, w)), TOL, (side, pose_name, n))  # los nodos de Blender son exactamente los de la FK
+            self.assertGreaterEqual(lp.path_clearance(nodes, [surfaces[a] for a in t.avoid]), -TOL / 10, (side, pose_name, n))  # y la poligonal del modelo no entra en el hueso
 
     def test_the_tubes_of_the_wrapped_units_are_armature_deformed_and_the_rest_stay_rigid(self):
         import bpy

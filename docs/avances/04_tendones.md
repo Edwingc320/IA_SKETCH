@@ -1,6 +1,6 @@
 # Tendones
 
-**Rama:** `muscle-model` (no existe en `main`) · **Estado:** 87 unidades músculo-tendinosas por lado (174), de todo el cuerpo.
+**Rama:** `muscle-model` (no existe en `main`) · **Estado:** 95 unidades músculo-tendinosas por lado (190), de todo el cuerpo.
 
 ## Qué hay
 
@@ -8,7 +8,7 @@
 |---|---|---|
 | `tendons_trunk_head.json` | 19 | esternocleidomastoideo, trapecio (3 porciones), elevador de la escápula, romboides, serrato, masetero, temporal, pectorales, dorsal ancho, redondo mayor, recto del abdomen, psoas, ilíaco, cuadrado lumbar, iliocostal |
 | `tendons_upper_limb.json` | 37 | manguito rotador, deltoides (3), bíceps (2), tríceps (3), braquial, braquiorradial, pronador, flexores y extensores del carpo, flexores y extensor de los dedos (×4), pulgar |
-| `tendons_lower_limb.json` | 31 | cuádriceps (4), isquiotibiales (4), sartorio, grácil, aductores, tensor de la fascia lata y cintilla iliotibial, gastrocnemio (2) y sóleo, tibial anterior y posterior, peroneos, flexores y extensores de los dedos |
+| `tendons_lower_limb.json` | 39 | cuádriceps (4), isquiotibiales (4), sartorio, grácil, aductores (largo, corto y mayor), pectíneo, piriforme, obturadores (2), gemelos (2), cuadrado femoral, tensor de la fascia lata y cintilla iliotibial, gastrocnemio (2) y sóleo, tibial anterior y posterior, peroneos, flexores y extensores de los dedos |
 
 ## Modelo
 
@@ -25,6 +25,14 @@ Límites declarados:
 - El paso de la cintilla sobre el trocánter mayor lo pide la especificación; las fuentes consultadas no lo confirman (verificar).
 - La eminencia iliopúbica y todas las guías son posiciones aproximadas sobre un hueso de líneas; la rodilla no mueve ningún obstáculo de la tibia (solo Gerdy viaja con ella).
 
+## Músculos profundos de la cadera y aductores (CM-6)
+
+Ocho unidades nuevas por lado, todas con envoltura (`deform`, `avoid`) y tubos deformados en Blender: **piriforme** (masa lateral del sacro → guía en la escotadura ciática mayor → borde superior del trocánter mayor), **obturador interno** (borde del agujero obturador, cara interna → guía en la escotadura ciática menor, donde el tendón gira ~90° sobre el isquion → cara medial del trocánter mayor), **obturador externo** (cara externa del borde obturador → guía bajo el acetábulo por fuera del isquion → guía en la cara posteroinferior del cuello del fémur → fosa trocantérica), **gemelos superior** (espina isquiática) **e inferior** (tuberosidad isquiática) hacia la misma zona, **cuadrado femoral** (tuberosidad isquiática → cresta intertrocantérea), **pectíneo** (pecten del pubis → línea pectínea, a 6 cm bajo el trocánter menor) y **aductor corto** (cuerpo del pubis → línea áspera proximal). Hitos nuevos: `pectineal_crest`, `obturator_margin`, `trochanteric_fossa`, `intertrochanteric_crest`; obstáculo nuevo: `ischial_ramus` (cápsula de 5 mm, **convención** sin cifra).
+
+Barrido de 22 poses a 1,50, 1,75 y 2,05 m, ambos lados: ninguna penetración (margen mínimo ≈ 0,65 mm en el obturador interno junto al isquion; el obturador externo bajo el cuello ≈ 0,9 mm), y ni el ilion ni el sacro se cortan. Las fuentes (todas de fiabilidad media o baja, leídas en resúmenes de búsqueda) discrepan en: la inserción del cuadrado femoral (cresta frente a línea o tubérculo cuadrado), la del obturador externo (fosa frente a cuello), si los gemelos se insertan en el tendón del obturador interno o directamente, y la inserción del aductor corto. El obturador interno inserta hoy en la fosa trocantérica con un desplazamiento de 4 mm (la fuente dice «cara medial del trocánter, sobre la fosa»).
+
+**Límite de la visualización en Blender (importante).** Los tubos deformados mezclan linealmente las poses de los huesos de los dos sitios que rodean a cada anillo. En los nodos eso es exacto (los anillos de los nodos coinciden con la cinemática directa a 0,1 mm y la poligonal de nodos no atraviesa nada), pero **el anillo de la unión miotendinosa, que cae dentro de un tramo entre dos huesos que giran entre sí, se desvía de la recta exacta** (efecto «caramelo» de la mezcla lineal): hasta ≈ 23 mm en el obturador interno a 120° de flexión con aducción (la prueba fija un máximo de 30 mm). Es un defecto visual del tubo entre ese anillo y los nodos, no del modelo de datos (que es la recta entre nodos). Las pruebas de penetración usan la poligonal de nodos.
+
 ## Lo que NO es un dato
 
 La **longitud del tendón** es una **convención visual** declarada en los archivos (corto 10 %, medio 25 %, largo 45 % de la unidad). No se mide.
@@ -35,7 +43,7 @@ Apuntes y tablas (Semmelweis, Pearson, GMCH, Universidad de Wisconsin, Wikipedia
 
 ## Pruebas
 
-`test_tendons` (Python puro y Blender), `test_iliopsoas_itb_paths` (rutas, barrido, mutaciones) y `test_iliopsoas_itb_blender` (FK frente a Blender, control negativo). Documento: `docs/tendones.md`.
+`test_tendons` (Python puro y Blender), `test_iliopsoas_itb_paths` (rutas, barrido, mutaciones), `test_iliopsoas_itb_blender` (FK frente a Blender, control negativo), `test_deep_hip_muscles` y `test_deep_hip_blender` (CM-6). Documento: `docs/tendones.md`.
 
 ## Pendiente
 

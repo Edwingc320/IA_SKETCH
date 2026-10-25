@@ -7,7 +7,7 @@ Un documento por capa para consultar el estado de un vistazo. Se **agrega** al f
 | Esqueleto / huesos | [01_esqueleto_huesos.md](01_esqueleto_huesos.md) | `main` | completa: 185 huesos de la referencia (181 del nivel 1 más los de la base) |
 | Articulaciones | [02_articulaciones.md](02_articulaciones.md) | `main` | completa: 19 de la base con 47 dof y 265 naturales |
 | Ligamentos | [03_ligamentos.md](03_ligamentos.md) | `main` | completa: 620; todas las articulaciones tienen, salvo la escapulotorácica |
-| Tendones | [04_tendones.md](04_tendones.md) | `muscle-model` | 87 unidades músculo-tendinosas por lado (rutas con envoltura en psoas-ilíaco y cintilla iliotibial); longitud del tendón por convención |
+| Tendones | [04_tendones.md](04_tendones.md) | `muscle-model` | 95 unidades músculo-tendinosas por lado (rutas con envoltura en psoas-ilíaco, cintilla iliotibial, rotadores profundos y aductores); longitud del tendón por convención |
 | Músculos (volumen) | [05_musculos.md](05_musculos.md) | `muscle-model` | 44 vientres por lado; medido en miembro superior y tronco, convención en la pierna |
 | Piel | [06_piel.md](06_piel.md) | — | **no iniciada** |
 
