@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import hashlib
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 from . import volumes
@@ -55,6 +55,32 @@ class Joint:
 
 
 @dataclass(frozen=True)
+class Waypoint:
+    """Guia de envoltura de un ligamento: un punto que viaja con su hueso y obliga a la trayectoria a rodear la superficie ossea."""
+    bone: str
+    point: Vec3
+    structure: str
+
+
+@dataclass(frozen=True)
+class BoneSurface:
+    """Superficie analitica de un hueso (esfera o capsula) que los ligamentos no pueden atravesar. Es una CONVENCION de obstaculo: el modelo del
+    hueso es un esqueleto de lineas sin anchura; esta superficie solo da cuerpo a la cabeza y el cuello del femur para envolver la capsula."""
+    name: str
+    bone: str
+    kind: str  # sphere | capsule
+    a: Vec3
+    b: Vec3  # igual que `a` en la esfera
+    radius_m: float
+    sources: tuple
+    notes: str
+
+    def signed_distance(self, p: Vec3) -> float:
+        """Distancia con signo a la superficie: negativa dentro del cuerpo."""
+        return point_segment_distance(p, self.a, self.b) - self.radius_m
+
+
+@dataclass(frozen=True)
 class Ligament:
     name: str
     from_bone: str
@@ -67,6 +93,9 @@ class Ligament:
     notes: str
     tolerance_m: float = 0.03  # distancia maxima de cada extremo a su hueso
     region: str = ""
+    via: tuple = ()  # Waypoint(s) entre el origen y la insercion
+    mechanics: dict | None = None  # propiedades mecanicas (rigidez, longitud sin tension): convencion parametrica declarada si no hay dato
+    deform: bool = False  # True: en Blender cada nodo sigue a su hueso (malla deformada por la armadura); False: rigido, emparentado al hueso de origen
 
 
 @dataclass(frozen=True)
@@ -87,15 +116,18 @@ class ArticulationModel:
     joints: dict
     ligaments: dict
     attachments: dict
+    surfaces: dict = field(default_factory=dict)  # BoneSurface por nombre (obstaculos de envoltura)
 
     def signature(self) -> str:
         r = lambda v: [round(c, 6) for c in v]  # noqa: E731
         payload = {
             "j": {n: [j.kind, list(j.bones), j.carrier, r(j.center), [[d.name, d.total_deg] for d in j.dofs], j.rig_driver]
                   for n, j in sorted(self.joints.items())},
-            "l": {n: [l.from_bone, l.to_bone, r(l.a), r(l.b)] for n, l in sorted(self.ligaments.items())},
+            "l": {n: [l.from_bone, l.to_bone, r(l.a), r(l.b)] + ([[[w.bone, r(w.point)] for w in l.via]] if l.via else []) for n, l in sorted(self.ligaments.items())},
             "a": {n: [a.bone, r(a.point), list(a.structures)] for n, a in sorted(self.attachments.items())},
         }
+        if self.surfaces:
+            payload["s"] = {n: [x.bone, x.kind, r(x.a), r(x.b), round(x.radius_m, 6)] for n, x in sorted(self.surfaces.items())}
         return hashlib.sha256(json.dumps(payload, sort_keys=True).encode("utf-8")).hexdigest()
 
 
@@ -129,7 +161,7 @@ def build_articulations(base: SkeletonModel, anat: AnatomyModel, data_list) -> A
     """Resuelve los puntos (lado izquierdo y su espejo) sobre la base y el nivel 1. No modifica nada."""
     built = dict(anat.bones)
     tol_k = base.height_m / 1.75  # las tolerancias se definen para 1.75 m y escalan con la altura, como la geometria
-    sources, joints, ligaments, attachments = {}, {}, {}, {}
+    sources, joints, ligaments, attachments, surfaces = {}, {}, {}, {}, {}
 
     def ev(spec: PointSpec, side, cache):
         # los puntos se definen para el lado izquierdo (o centrales); el derecho es su espejo
@@ -137,7 +169,7 @@ def build_articulations(base: SkeletonModel, anat: AnatomyModel, data_list) -> A
         return mirror_point(p) if side == "R" else p
 
     def put(store, name, value):
-        if name in joints or name in ligaments or name in attachments:
+        if name in joints or name in ligaments or name in attachments or name in surfaces:
             raise ConfigError(f"Nombre de union duplicado '{name}'")
         store[name] = value
 
@@ -161,12 +193,15 @@ def build_articulations(base: SkeletonModel, anat: AnatomyModel, data_list) -> A
         for i, lg in enumerate(data.get("ligaments", [])):
             w = f"ligaments[{i}]"
             fa, fb = _point_spec(lg["from"]["point"], f"{w}.from"), _point_spec(lg["to"]["point"], f"{w}.to")
+            fv = [_point_spec(v["point"], f"{w}.via[{k}]") for k, v in enumerate(lg.get("via", []))]
             for side in _sides(lg):
                 sw = lambda t: _swap_side(t, side or "L")  # noqa: E731
+                via = tuple(Waypoint(sw(v["bone"]), ev(f, side, None), str(v.get("structure", ""))) for v, f in zip(lg.get("via", []), fv))
                 put(ligaments, sw(lg["name"]), Ligament(
                     sw(lg["name"]), sw(lg["from"]["bone"]), sw(lg["to"]["bone"]), ev(fa, side, None), ev(fb, side, None),
                     sw(lg["joint"]) if lg.get("joint") else None, lg.get("typical_length_m"),
-                    tuple(lg.get("sources", [])), str(lg.get("notes", "")), float(lg.get("tolerance_m", 0.03)) * tol_k, region))
+                    tuple(lg.get("sources", [])), str(lg.get("notes", "")), float(lg.get("tolerance_m", 0.03)) * tol_k, region,
+                    via, dict(lg["mechanics"]) if lg.get("mechanics") else None, bool(lg.get("deform", False))))
         for i, at in enumerate(data.get("attachments", [])):
             spec = _point_spec(at["point"], f"attachments[{i}].point")
             for side in _sides(at):
@@ -174,11 +209,24 @@ def build_articulations(base: SkeletonModel, anat: AnatomyModel, data_list) -> A
                 put(attachments, sw(at["name"]), Attachment(
                     sw(at["name"]), sw(at["bone"]), ev(spec, side, None), tuple(at.get("structures", [])),
                     tuple(at.get("sources", [])), str(at.get("notes", "")), float(at.get("tolerance_m", 0.03)) * tol_k, region))
-    return ArticulationModel(sources, joints, ligaments, attachments)
+        for i, sf in enumerate(data.get("bone_surfaces", [])):
+            w = f"bone_surfaces[{i}]"
+            if sf.get("kind") not in ("sphere", "capsule"):
+                raise ConfigError(f"{w}: kind debe ser sphere o capsule")
+            fa = _point_spec(sf["a"], f"{w}.a")
+            fb = _point_spec(sf["b"], f"{w}.b") if sf["kind"] == "capsule" else fa
+            if not 0.0 < float(sf["radius_m"]) < 0.1:
+                raise ConfigError(f"{w}: radius_m fuera de rango")
+            for side in _sides(sf):
+                sw = lambda t: _swap_side(t, side or "L")  # noqa: E731
+                put(surfaces, sw(sf["name"]), BoneSurface(sw(sf["name"]), sw(sf["bone"]), sf["kind"], ev(fa, side, None), ev(fb, side, None),
+                                                          float(sf["radius_m"]) * tol_k, tuple(sf.get("sources", [])), str(sf.get("notes", ""))))
+    return ArticulationModel(sources, joints, ligaments, attachments, surfaces)
 
 
-def bone_distance(p: Vec3, bone: str, base: SkeletonModel, anat: AnatomyModel) -> float:
-    """Distancia de un punto a la geometria de un hueso: su segmento y, en el nivel 1, su contorno (y su cara si es una lamina cerrada) y su cartilago."""
+def bone_distance(p: Vec3, bone: str, base: SkeletonModel, anat: AnatomyModel, surfaces: dict | None = None) -> float:
+    """Distancia de un punto a la geometria de un hueso: su segmento y, en el nivel 1, su contorno (y su cara si es una lamina cerrada), su cartilago y,
+    si se pasan `surfaces` (ArticulationModel.surfaces), la superficie analitica de ese hueso (cabeza y cuello del femur); dentro de ella la distancia es 0."""
     b = anat.bones.get(bone) or base.bones.get(bone)
     if b is None:
         return float("inf")
@@ -192,6 +240,9 @@ def bone_distance(p: Vec3, bone: str, base: SkeletonModel, anat: AnatomyModel) -
     cartilage = getattr(b, "cartilage", ())  # el cartilago costal forma parte de la costilla
     if cartilage:
         d = min([d] + [point_segment_distance(p, a, c) for a, c in zip(cartilage, cartilage[1:])])
+    for sf in (surfaces or {}).values():
+        if sf.bone == bone:
+            d = min(d, max(0.0, sf.signed_distance(p)))
     if getattr(b, "volume", None):  # forma volumetrica (craneo): dentro de ella el punto esta en el hueso; fuera, a la distancia de su superficie
         verts, faces, tris = _volume_of(b)
         if volumes.point_inside(p, verts, faces):

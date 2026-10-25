@@ -31,7 +31,7 @@ class TestPelvicClosure(unittest.TestCase):
         self.tol = TOL_M * self.base.height_m / 1.75
 
     def on_surface(self, point, bone):
-        return articulations.bone_distance(point, bone, self.base, self.anat)
+        return articulations.bone_distance(point, bone, self.base, self.anat, self.art.surfaces)  # incluye la superficie de la cabeza y el cuello del femur
 
     def test_sacroiliac_has_no_gap(self):
         """El borde de la cara auricular del ilion (cabeza -> ultimo punto del contorno) esta sobre el borde lateral del sacro."""
@@ -135,8 +135,8 @@ class TestPelvicClosure(unittest.TestCase):
             tol = TOL_M * height / 1.75
             for n in ("sacrotuberous.L", "sacrospinous.R", "iliofemoral.L"):
                 x = art.ligaments[n]
-                self.assertLess(articulations.bone_distance(x.a, x.from_bone, base, anat), tol, (n, height))
-                self.assertLess(articulations.bone_distance(x.b, x.to_bone, base, anat), tol, (n, height))
+                self.assertLess(articulations.bone_distance(x.a, x.from_bone, base, anat, art.surfaces), tol, (n, height))
+                self.assertLess(articulations.bone_distance(x.b, x.to_bone, base, anat, art.surfaces), tol, (n, height))
 
 
 if __name__ == "__main__":

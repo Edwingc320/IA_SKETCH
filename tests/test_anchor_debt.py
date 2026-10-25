@@ -89,19 +89,19 @@ def violations():
     tol = 0.012 * base.height_m / 1.75
     out = set()
     for n, x in art.attachments.items():
-        if not n.endswith(".R") and n not in NOT_ON_BONE and articulations.bone_distance(x.point, x.bone, base, anat) > tol:
+        if not n.endswith(".R") and n not in NOT_ON_BONE and articulations.bone_distance(x.point, x.bone, base, anat, art.surfaces) > tol:
             out.add(("ATT", n, x.bone))
     for n, x in art.ligaments.items():
         if n.endswith(".R"):
             continue
         for end, bone, p in (("a", x.from_bone, x.a), ("b", x.to_bone, x.b)):
-            if articulations.bone_distance(p, bone, base, anat) > tol:
+            if articulations.bone_distance(p, bone, base, anat, art.surfaces) > tol:
                 out.add(("LIG", f"{n}.{end}", bone))
     for n, x in art.joints.items():
         if n.endswith(".R"):
             continue
         for bone in x.bones:
-            if articulations.bone_distance(x.center, bone, base, anat) > tol:
+            if articulations.bone_distance(x.center, bone, base, anat, art.surfaces) > tol:
                 out.add(("JNT", n, bone))
     return out
 
