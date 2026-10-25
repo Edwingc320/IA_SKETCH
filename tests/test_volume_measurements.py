@@ -85,26 +85,35 @@ class TestVolumeMeasurements(unittest.TestCase):
             self.assertIn(u, unit_names, u)
 
     def test_nothing_unverified_reaches_the_model_volumes(self):
-        measured = [m for m in VOLUMES["muscles"] if m["kind"] == "medido"]
-        self.assertTrue(measured)
-        self.assertEqual({m["source"] for m in measured}, {"holzbaur_2007"})  # CM-2 aun no ha aplicado nada de CM-1
+        by_unit = {v["unit"].rsplit(".", 1)[0]: v for v in VOLUMES["muscles"] if v["unit"].endswith(".L")}
         unverified = [m for m in M.values() if not m["verified"] and m.get("value_cm3")]
         self.assertTrue(unverified)
         for m in unverified:
-            for v in VOLUMES["muscles"]:
-                if v["unit"][:-2] == m.get("unit"):
-                    self.assertEqual(v["kind"], "convencion", m["id"])
+            if m.get("unit") in by_unit:
+                self.assertEqual(by_unit[m["unit"]]["kind"], "convencion", m["id"])  # derivados y no verificados siguen siendo convencion
 
-    def test_the_conventions_overestimate_what_was_measured(self):
-        """Hallazgo de CM-1: las clases de convencion de la pierna estaban por encima de lo medido (el tibial anterior, mas del doble)."""
+    def test_cm2_the_verified_measurements_are_applied_exactly_and_declare_the_height_assumption(self):
+        """CM-2: cada cifra verificada con unidad es la del modelo (y solo esas); la altura de los sujetos no se publica y se declara como hipotesis."""
+        by_unit = {v["unit"].rsplit(".", 1)[0]: v for v in VOLUMES["muscles"] if v["unit"].endswith(".L")}
+        applied = {m["unit"]: m for m in M.values() if m["verified"] and m.get("unit") and m.get("value_cm3")}
+        self.assertEqual(set(applied), {"vastus_lateralis", "biceps_femoris", "gastrocnemius", "gastrocnemius_lateral", "tibialis_anterior"})
+        for u, m in applied.items():
+            v = by_unit[u]
+            self.assertEqual((v["kind"], v["volume_cm3"], v["source"], v["reference_height_m"]), ("medido", m["value_cm3"], m["source"], 1.75), u)
+            self.assertIn(m["source"], VOLUMES["sources"])
+            self.assertIn("hipotesis", v["notes"].lower())
+            self.assertIn(m["id"], v["notes"])
+        self.assertIn("cabeza larga", by_unit["biceps_femoris"]["notes"])  # la cabeza no esta precisada en la fuente
+        measured = {u for u, v in by_unit.items() if v["kind"] == "medido" and v["source"] == "ritsche_2025"}
+        self.assertEqual(measured, set(applied))
+
+    def test_the_old_leg_conventions_overestimated_what_was_measured(self):
+        """Hallazgo de CM-1 que motivo CM-2: las clases (40/150/350/700) estaban muy por encima de lo medido; el tibial anterior, casi el triple."""
         cls = VOLUMES["size_classes_cm3"]
-        by_unit = {v["unit"][:-2]: v for v in VOLUMES["muscles"] if v["unit"].endswith(".L")}
-        ratios = {}
-        for i in ("ritsche_vl", "ritsche_bf", "ritsche_gm", "ritsche_gl", "ritsche_ta"):
-            conv = cls[by_unit[M[i]["unit"]]["size_class"]]
-            ratios[i] = M[i]["value_cm3"] / conv
-        self.assertLess(ratios["ritsche_ta"], 0.5)  # tibial anterior: la clase 'grande' (350) es casi el triple de lo medido (119,4)
-        self.assertTrue(all(0.2 < r < 1.2 for r in ratios.values()), ratios)
+        old = {"vastus_lateralis": "muy_grande", "biceps_femoris": "grande", "gastrocnemius": "grande", "gastrocnemius_lateral": "medio", "tibialis_anterior": "grande"}
+        ratio = {m["unit"]: m["value_cm3"] / cls[old[m["unit"]]] for m in M.values() if m["verified"] and m.get("unit") in old and m.get("value_cm3")}
+        self.assertLess(ratio["tibialis_anterior"], 0.4)
+        self.assertTrue(all(0.2 < r < 1.0 for r in ratio.values()), ratio)
 
 
 if __name__ == "__main__":

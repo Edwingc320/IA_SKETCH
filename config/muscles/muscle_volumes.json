@@ -13,6 +13,11 @@
    "url": "https://nmbl.stanford.edu/publications/pdf/Holzbaur2007a.pdf",
    "reliability": "alta",
    "title": "Holzbaur et al. 2007, J Biomech 40:742-749 - volumenes de 32 musculos del miembro superior por RM en 10 adultos jovenes (altura media 171.5 cm; volumen total medio 2554 cm3)"
+  },
+  "ritsche_2025": {
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13103013/",
+   "reliability": "media",
+   "title": "Ritsche P, Ledergerber R, Pansini M, Santini F, Faude O. J Imaging Inform Med 2025;39(2):1507-1518 - ecografia 3D frente a RM del volumen de los musculos del miembro inferior (15 voluntarios)"
   }
  },
  "muscles": [
@@ -283,10 +288,12 @@
   },
   {
    "unit": "vastus_lateralis.L",
-   "kind": "convencion",
-   "size_class": "muy_grande",
+   "kind": "medido",
    "aspect": 1.0,
-   "notes": "Convencion visual de orden de magnitud, no medida."
+   "notes": "Ritsche 2025 (RM, adultos jovenes, ritsche_vl): 636.5 +- 161.3 cm3. La altura de los sujetos no se publica: se asume 1.75 m como referencia (hipotesis declarada).",
+   "volume_cm3": 636.5,
+   "reference_height_m": 1.75,
+   "source": "ritsche_2025"
   },
   {
    "unit": "vastus_medialis.L",
@@ -304,10 +311,12 @@
   },
   {
    "unit": "biceps_femoris.L",
-   "kind": "convencion",
-   "size_class": "grande",
+   "kind": "medido",
    "aspect": 1.0,
-   "notes": "Convencion visual de orden de magnitud, no medida. Cabeza larga."
+   "notes": "Ritsche 2025 (RM, adultos jovenes, ritsche_bf): 197.4 +- 53.3 cm3. La altura de los sujetos no se publica: se asume 1.75 m como referencia (hipotesis declarada). Hipotesis: la fuente solo dice una cabeza de los isquiotibiales; se asume la cabeza larga.",
+   "volume_cm3": 197.4,
+   "reference_height_m": 1.75,
+   "source": "ritsche_2025"
   },
   {
    "unit": "biceps_femoris_short_head.L",
@@ -332,17 +341,21 @@
   },
   {
    "unit": "gastrocnemius.L",
-   "kind": "convencion",
-   "size_class": "grande",
+   "kind": "medido",
    "aspect": 1.0,
-   "notes": "Convencion visual de orden de magnitud, no medida. Cabeza medial."
+   "notes": "Ritsche 2025 (RM, adultos jovenes, ritsche_gm): 224.7 +- 62.3 cm3. La altura de los sujetos no se publica: se asume 1.75 m como referencia (hipotesis declarada).",
+   "volume_cm3": 224.7,
+   "reference_height_m": 1.75,
+   "source": "ritsche_2025"
   },
   {
    "unit": "gastrocnemius_lateral.L",
-   "kind": "convencion",
-   "size_class": "medio",
+   "kind": "medido",
    "aspect": 1.0,
-   "notes": "Convencion visual de orden de magnitud, no medida."
+   "notes": "Ritsche 2025 (RM, adultos jovenes, ritsche_gl): 112.6 +- 21.7 cm3. La altura de los sujetos no se publica: se asume 1.75 m como referencia (hipotesis declarada).",
+   "volume_cm3": 112.6,
+   "reference_height_m": 1.75,
+   "source": "ritsche_2025"
   },
   {
    "unit": "soleus.L",
@@ -353,10 +366,12 @@
   },
   {
    "unit": "tibialis_anterior.L",
-   "kind": "convencion",
-   "size_class": "grande",
+   "kind": "medido",
    "aspect": 1.0,
-   "notes": "Convencion visual de orden de magnitud, no medida."
+   "notes": "Ritsche 2025 (RM, adultos jovenes, ritsche_ta): 119.4 +- 32.8 cm3. La altura de los sujetos no se publica: se asume 1.75 m como referencia (hipotesis declarada).",
+   "volume_cm3": 119.4,
+   "reference_height_m": 1.75,
+   "source": "ritsche_2025"
   },
   {
    "unit": "peroneus_longus.L",

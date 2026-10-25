@@ -80,10 +80,10 @@ class TestMuscleVolumes(unittest.TestCase):
             self.assertEqual(x.volume_ref_cm3, classes[x.size_class])
             self.assertIn("convencion visual", x.notes.lower())
             self.assertIsNone(x.source)
-        for n in ("vastus_lateralis", "soleus", "gastrocnemius", "semimembranosus", "trapezius_upper", "rectus_abdominis", "sternocleidomastoid", "pectoralis_minor"):
+        for n in ("rectus_femoris", "soleus", "semimembranosus", "trapezius_upper", "rectus_abdominis", "sternocleidomastoid", "pectoralis_minor"):
             self.assertEqual(self.v[f"{n}.L"].kind, "convencion", n)  # sin volumen medido consultado
-        self.assertEqual(self.v["vastus_lateralis.L"].size_class, "muy_grande")
-        self.assertGreater(self.v["vastus_lateralis.L"].volume_ref_cm3, self.v["peroneus_brevis.L"].volume_ref_cm3 * 10)
+        self.assertEqual(self.v["soleus.L"].size_class, "muy_grande")
+        self.assertGreater(self.v["soleus.L"].volume_ref_cm3, self.v["peroneus_brevis.L"].volume_ref_cm3 * 10)
 
     def test_each_belly_mesh_is_closed_and_has_exactly_the_declared_volume(self):
         for n, x in self.v.items():
@@ -95,6 +95,14 @@ class TestMuscleVolumes(unittest.TestCase):
             self.assertAlmostEqual(signed_volume(verts, faces) / target, 1.0, places=9, msg=n)
         # a 1.75 m los volumenes medidos son los de sus sujetos (1.715 m) escalados por (1.75/1.715)^3
         self.assertAlmostEqual(self.v["pectoralis_major.L"].volume_m3(1.75) * 1e6, 290.0 * (1.75 / 1.715) ** 3, places=6)
+
+    def test_cm2_leg_volumes_are_the_ritsche_ones_at_1_75_and_scale_with_height(self):
+        for n, cm3 in (("vastus_lateralis", 636.5), ("biceps_femoris", 197.4), ("gastrocnemius", 224.7), ("gastrocnemius_lateral", 112.6), ("tibialis_anterior", 119.4)):
+            x = self.v[f"{n}.L"]
+            self.assertEqual((x.kind, x.source), ("medido", "ritsche_2025"), n)
+            self.assertAlmostEqual(x.volume_m3(1.75) * 1e6, cm3, places=6, msg=n)  # su altura de referencia es 1.75: sin reescalado
+            self.assertAlmostEqual(x.volume_m3(1.50) * 1e6, cm3 * (1.50 / 1.75) ** 3, places=6, msg=n)
+            self.assertEqual(self.v[f"{n}.R"].volume_ref_cm3, x.volume_ref_cm3, n)
 
     def test_volume_scales_with_the_cube_of_the_height_and_the_shape_linearly(self):
         _, tm2, vm2 = build_all(1.5)
