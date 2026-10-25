@@ -1,6 +1,6 @@
 # Volumen de los vientres musculares (rama `muscle-model`)
 
-Los grandes grupos musculares tienen ahora **geometría y volumen**: cada vientre es una malla cerrada que sigue su línea músculo-tendinosa. Datos: `config/muscles/muscle_volumes.json`; código: `src/anatomical_core/muscle_volumes.py` y `muscle_volumes_scene.py`; pruebas: `tests/test_muscle_volumes.py`. Documentación de las capas anteriores: `docs/musculos_gluteos.md` y `docs/tendones.md`.
+Los grandes grupos musculares tienen ahora **geometría y volumen**: cada vientre es una malla cerrada que sigue su línea músculo-tendinosa. Los glúteos (capa `muscles`, no son unidades músculo-tendinosas) tienen volumen desde CM-3: su vientre es un husillo aplanado a lo largo del eje centroide de los orígenes → inserción. Mediano y menor medidos (Kajdi 2025, 65 años, subestima), mayor por convención. Datos: `config/muscles/muscle_volumes.json`; código: `src/anatomical_core/muscle_volumes.py` y `muscle_volumes_scene.py`; pruebas: `tests/test_muscle_volumes.py`. Documentación de las capas anteriores: `docs/musculos_gluteos.md` y `docs/tendones.md`.
 
 ## Qué se modela
 

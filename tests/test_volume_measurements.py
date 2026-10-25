@@ -86,7 +86,7 @@ class TestVolumeMeasurements(unittest.TestCase):
 
     def test_nothing_unverified_reaches_the_model_volumes(self):
         by_unit = {v["unit"].rsplit(".", 1)[0]: v for v in VOLUMES["muscles"] if v["unit"].endswith(".L")}
-        unverified = [m for m in M.values() if not m["verified"] and m.get("value_cm3")]
+        unverified = [m for m in M.values() if not m["verified"] and m.get("value_cm3") and not m.get("applied_in_model")]
         self.assertTrue(unverified)
         for m in unverified:
             if m.get("unit") in by_unit:
@@ -106,6 +106,28 @@ class TestVolumeMeasurements(unittest.TestCase):
         self.assertIn("cabeza larga", by_unit["biceps_femoris"]["notes"])  # la cabeza no esta precisada en la fuente
         measured = {u for u, v in by_unit.items() if v["kind"] == "medido" and v["source"] == "ritsche_2025"}
         self.assertEqual(measured, set(applied))
+
+    def test_cm3_gluteal_means_are_the_only_derived_values_in_the_model_and_declare_the_cohort(self):
+        """CM-3: solo las medias de Kajdi (derivadas de cifras verificadas) llevan 'applied_in_model'; el resto de derivados y el gluteo mayor no."""
+        applied = {i for i, m in M.items() if m.get("applied_in_model")}
+        self.assertEqual(applied, {"kajdi_gmed_mean", "kajdi_gmin_mean"})
+        by_unit = {v["unit"].rsplit(".", 1)[0]: v for v in VOLUMES["muscles"] if v["unit"].endswith(".L")}
+        for i in applied:
+            m = M[i]
+            self.assertTrue(m["derived"] and not m["verified"], i)
+            self.assertTrue(all(M[d]["verified"] for d in m["derived_from"]), i)  # derivadas solo de cifras verificadas
+            f, h = (M[d]["value_cm3"] for d in m["derived_from"])
+            self.assertEqual(m["value_cm3"], round((f + h) / 2, 2), i)
+            for word in ("65", "subestima", "1.75"):
+                self.assertIn(word, (m["population"] + m["notes"]).lower(), i)
+            v = by_unit[m["unit"]]
+            self.assertEqual((v["kind"], v["volume_cm3"], v["source"], v["reference_height_m"]), ("medido", m["value_cm3"], "kajdi_2025", 1.75), i)
+            self.assertIn(m["id"], v["notes"])
+            self.assertIn("limitacion", v["notes"].lower())
+        self.assertIn("kajdi_2025", VOLUMES["sources"])
+        mx = by_unit["gluteus_maximus"]
+        self.assertEqual((mx["kind"], mx["size_class"]), ("convencion", "muy_grande"))
+        self.assertIn("gluteus_maximus", DATA["not_found"]["units"])
 
     def test_the_old_leg_conventions_overestimated_what_was_measured(self):
         """Hallazgo de CM-1 que motivo CM-2: las clases (40/150/350/700) estaban muy por encima de lo medido; el tibial anterior, casi el triple."""

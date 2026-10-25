@@ -122,7 +122,7 @@ def generate(output_blend, config_dir=None, anatomy_dir=None, reference_path=Non
     mvol = None
     mvol_data = muscle_volumes.load_volume_data()
     if mvol_data and ten is not None:
-        mvol = muscle_volumes.build_volumes(ten, mvol_data)
+        mvol = muscle_volumes.build_volumes(ten, mvol_data, mus)
         mvol_issues = muscle_volumes.validate_volumes(ten, mvol)
         for i in mvol_issues:
             log(str(i))

@@ -39,6 +39,10 @@ class MuscleVolume:
     source: str | None
     aspect: float  # relacion ancho/grosor de la seccion (1 = circular; > 1 = aplanado: pectoral, dorsal ancho, trapecio...)
     notes: str
+    # Solo los musculos que no son unidades musculo-tendinosas (los gluteos, de la capa `muscles`): traen su propio eje, hueso y region.
+    path: tuple | None = None  # eje del vientre: centroide de los origenes -> insercion
+    bone: str | None = None
+    region: str | None = None
 
     def volume_m3(self, height_m: float) -> float:
         """Volumen a la altura dada: isometrico, V ~ (H / H_ref)^3."""
@@ -61,7 +65,15 @@ def load_volume_data(volumes_dir: Path | str | None = None):
     return _read_json(p) if p.exists() else None
 
 
-def build_volumes(tendon_model: TendonModel, data) -> VolumeModel:
+def _gluteal_axis(muscle) -> tuple:
+    """Eje de un musculo en abanico: del centroide de sus origenes a su insercion (los gluteos no tienen una unidad musculo-tendinosa)."""
+    org = [x.point for x in muscle.sites if x.kind == "origin"]
+    ins = [x.point for x in muscle.sites if x.kind == "insertion"]
+    c = lambda pts: tuple(sum(p[i] for p in pts) / len(pts) for i in range(3))  # noqa: E731
+    return (c(org), c(ins))
+
+
+def build_volumes(tendon_model: TendonModel, data, muscle_model=None) -> VolumeModel:
     if not data:
         return VolumeModel({}, {}, {}, tendon_model.height_m)
     classes = {k: float(v) for k, v in data["size_classes_cm3"].items()}
@@ -86,11 +98,15 @@ def build_volumes(tendon_model: TendonModel, data) -> VolumeModel:
             raise ConfigError(f"{w}: aspect debe estar entre 1 y 6 y el volumen ser positivo")
         for s in sides:
             uname = name if s in (None, "L") else name[:-2] + ".R"
+            extra = {}
             if uname not in tendon_model.tendons:
-                raise ConfigError(f"{w}: la unidad musculo-tendinosa '{uname}' no existe")
+                mu = muscle_model.muscles.get(uname) if muscle_model else None
+                if mu is None:
+                    raise ConfigError(f"{w}: la unidad musculo-tendinosa '{uname}' no existe")
+                extra = {"path": _gluteal_axis(mu), "bone": next(x.bone for x in mu.sites if x.kind == "origin"), "region": mu.region}
             if uname in out:
                 raise ConfigError(f"Volumen duplicado para '{uname}'")
-            out[uname] = MuscleVolume(uname, vol, ref_h, m["kind"], cls, m.get("source"), aspect, str(m.get("notes", "")))
+            out[uname] = MuscleVolume(uname, vol, ref_h, m["kind"], cls, m.get("source"), aspect, str(m.get("notes", "")), **extra)
     return VolumeModel(data.get("sources", {}), classes, out, tendon_model.height_m)
 
 
@@ -163,9 +179,17 @@ def belly_mesh(path: tuple, volume_m3: float, aspect: float = 1.0) -> tuple:
     return build(r_max)
 
 
+def bone_of(tendon_model: TendonModel, vol: MuscleVolume) -> str:
+    return vol.bone or tendon_model.tendons[vol.unit].sites[0].bone
+
+
+def region_of(tendon_model: TendonModel, vol: MuscleVolume) -> str:
+    return vol.region or tendon_model.tendons[vol.unit].region
+
+
 def mesh_for(tendon_model: TendonModel, vol: MuscleVolume) -> tuple:
-    t = tendon_model.tendons[vol.unit]
-    return belly_mesh(t.belly, vol.volume_m3(tendon_model.height_m), vol.aspect)
+    path = vol.path if vol.path is not None else tendon_model.tendons[vol.unit].belly
+    return belly_mesh(path, vol.volume_m3(tendon_model.height_m), vol.aspect)
 
 
 def validate_volumes(tendon_model: TendonModel, model: VolumeModel) -> list:
@@ -196,7 +220,7 @@ def validate_volumes_snapshot(tendon_model: TendonModel, model: VolumeModel, sna
     out, expected = [], {}
     for n, v in model.volumes.items():
         verts, _ = mesh_for(tendon_model, v)
-        expected[f"MUV_{n}"] = (tendon_model.tendons[n].sites[0].bone, verts)
+        expected[f"MUV_{n}"] = (bone_of(tendon_model, v), verts)
     for obj, (bone, verts) in expected.items():
         s = snap.get(obj)
         if s is None:

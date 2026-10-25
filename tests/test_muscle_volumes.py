@@ -14,7 +14,7 @@ try:
 except ImportError:
     HAVE_BPY = False
 
-from anatomical_core import anatomy, articulations, muscle_volumes as mv, tendons  # noqa: E402
+from anatomical_core import anatomy, articulations, muscle_volumes as mv, muscles, tendons  # noqa: E402
 from anatomical_core.config import ConfigError, load_config  # noqa: E402
 from anatomical_core.geometry import length, mirror_point, sub  # noqa: E402
 from anatomical_core.skeleton import build_model  # noqa: E402
@@ -43,7 +43,8 @@ def build_all(height=None, data=None):
     anat = anatomy.build_anatomy(base, anatomy.load_anatomy_config())
     art = articulations.build_articulations(base, anat, articulations.load_articulation_data())
     tm = tendons.build_tendons(base, anat, art, tendons.load_tendon_data())
-    return base, tm, mv.build_volumes(tm, data if data is not None else mv.load_volume_data())
+    mm = muscles.build_muscles(base, anat, art, muscles.load_muscle_data())
+    return base, tm, mv.build_volumes(tm, data if data is not None else mv.load_volume_data(), mm)
 
 
 class TestMuscleVolumes(unittest.TestCase):
@@ -103,6 +104,50 @@ class TestMuscleVolumes(unittest.TestCase):
             self.assertAlmostEqual(x.volume_m3(1.75) * 1e6, cm3, places=6, msg=n)  # su altura de referencia es 1.75: sin reescalado
             self.assertAlmostEqual(x.volume_m3(1.50) * 1e6, cm3 * (1.50 / 1.75) ** 3, places=6, msg=n)
             self.assertEqual(self.v[f"{n}.R"].volume_ref_cm3, x.volume_ref_cm3, n)
+
+    def test_cm3_gluteal_volumes_gmed_gmin_measured_gmax_convention(self):
+        """CM-3: gluteo mediano y menor = media simple de mujeres y hombres de Kajdi 2025 (cohorte de 65 anos, limitacion declarada); gluteo mayor, convencion."""
+        for n, cm3 in (("gluteus_medius", (270.1 + 408.1) / 2), ("gluteus_minimus", (77.2 + 107.1) / 2)):
+            for side in "LR":
+                x = self.v[f"{n}.{side}"]
+                self.assertEqual((x.kind, x.source, x.reference_height_m), ("medido", "kajdi_2025", 1.75), n)
+                self.assertAlmostEqual(x.volume_m3(1.75) * 1e6, cm3, places=6, msg=n)  # a 1.75 m, exactamente la cifra de la fuente
+                self.assertAlmostEqual(x.volume_m3(1.50) * 1e6, cm3 * (1.50 / 1.75) ** 3, places=6, msg=n)
+                self.assertGreater(x.aspect, 1.0)  # abanico aplanado
+            note = self.v[f"{n}.L"].notes.lower()
+            for word in ("65 anos", "subestima", "limitacion", "1.75"):
+                self.assertIn(word, note, n)
+        gmax = self.v["gluteus_maximus.L"]
+        self.assertEqual((gmax.kind, gmax.size_class, gmax.source), ("convencion", "muy_grande", None))
+        self.assertIn("convencion visual", gmax.notes.lower())
+        self.assertGreater(self.v["gluteus_medius.L"].volume_ref_cm3, self.v["gluteus_minimus.L"].volume_ref_cm3)
+        self.assertEqual(mv.validate_volumes(self.tm, self.vm), [])
+
+    def test_cm3_gluteal_bellies_run_from_the_iliac_origin_to_the_trochanter_and_scale(self):
+        base, tm2, vm2 = build_all(1.5)
+        k = 1.5 / self.base.height_m
+        for n in ("gluteus_medius.L", "gluteus_minimus.R", "gluteus_maximus.L"):
+            x = self.v[n]
+            self.assertEqual(len(x.path), 2)
+            self.assertEqual(mv.bone_of(self.tm, x), x.bone)  # emparentado al hueso del origen (la pelvis), no al femur
+            self.assertTrue(x.bone.endswith(n[-2:]) or "." not in x.bone, n)
+            a, b = x.path
+            self.assertGreater(length(sub(a, b)), 0.05)  # no es un punto
+            self.assertGreater(a[2], b[2] - 0.02)  # el origen iliaco esta al menos tan alto como el trocanter (el vientre baja hacia la insercion)
+            y = vm2.volumes[n]
+            for p, q in zip(x.path, y.path):
+                self.assertLess(length(sub(tuple(k * c for c in p), q)), 1e-9, n)
+        # el lado derecho es el espejo del izquierdo
+        l, r = self.v["gluteus_medius.L"], self.v["gluteus_medius.R"]
+        for p, q in zip(l.path, r.path):
+            self.assertLess(length(sub(mirror_point(p), q)), 1e-9)
+
+    def test_gluteal_volume_needs_the_muscle_model(self):
+        with self.assertRaises(ConfigError):
+            base = build_model(load_config())
+            anat = anatomy.build_anatomy(base, anatomy.load_anatomy_config())
+            art = articulations.build_articulations(base, anat, articulations.load_articulation_data())
+            mv.build_volumes(tendons.build_tendons(base, anat, art, tendons.load_tendon_data()), mv.load_volume_data())  # sin modelo muscular
 
     def test_volume_scales_with_the_cube_of_the_height_and_the_shape_linearly(self):
         _, tm2, vm2 = build_all(1.5)

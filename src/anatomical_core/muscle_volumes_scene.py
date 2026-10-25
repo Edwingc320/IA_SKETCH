@@ -5,7 +5,7 @@ from __future__ import annotations
 import bpy
 
 from . import scene
-from .muscle_volumes import VolumeModel, mesh_for
+from .muscle_volumes import VolumeModel, bone_of, mesh_for, region_of
 from .tendons import TendonModel
 
 COLLECTION = "AC_MuscleVolumes"
@@ -18,15 +18,15 @@ def add_muscle_volumes(tendon_model: TendonModel, model: VolumeModel) -> None:
     col = bpy.data.collections.new(COLLECTION)
     sc.collection.children.link(col)
     mat = scene._material("AC_Mat_muscle_volume", _COLOR)
-    bones = {tendon_model.tendons[n].sites[0].bone for n in model.volumes}
+    bones = {bone_of(tendon_model, v) for v in model.volumes.values()}
     inverses = scene._bone_parent_inverses(sc, arm_obj, sorted(bones))
     for n, v in model.volumes.items():
         verts, faces = mesh_for(tendon_model, v)
         o = scene._mesh_object(f"MUV_{n}", verts, faces, col, mat, "muscle_volume")
         o.data.polygons.foreach_set("use_smooth", [True] * len(o.data.polygons))
-        o["ac_region"], o["ac_tendon"], o["ac_volume_kind"] = f"muscle_volume_{tendon_model.tendons[n].region}", n, v.kind
+        o["ac_region"], o["ac_tendon"], o["ac_volume_kind"] = f"muscle_volume_{region_of(tendon_model, v)}", n, v.kind
         o["ac_volume_cm3"] = v.volume_m3(model.height_m) * 1e6
-        scene._attach_to_bone(o, arm_obj, tendon_model.tendons[n].sites[0].bone, inverses)
+        scene._attach_to_bone(o, arm_obj, bone_of(tendon_model, v), inverses)
     bpy.context.view_layer.update()
 
 

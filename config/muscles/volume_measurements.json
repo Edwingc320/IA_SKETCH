@@ -1,6 +1,6 @@
 {
  "schema_version": 2,
- "description": "Mediciones de volumen muscular (cm3) encontradas en la literatura, con su fuente, poblacion y estado de verificacion. CM-1 del plan de caderas y muslo. Estas cifras NO alimentan todavia muscle_volumes.json (eso es CM-2). 'verified: true' = leido en el texto o el resumen de la fuente durante la investigacion; 'derived' = calculado a partir de valores verificados (la derivacion mezcla poblaciones y se declara); 'verified: false' = visto solo en el resumen de un buscador: NO USAR hasta comprobarlo en el articulo.",
+ "description": "Mediciones de volumen muscular (cm3) encontradas en la literatura, con su fuente, poblacion y estado de verificacion. CM-1 del plan de caderas y muslo. Alimentan muscle_volumes.json solo las verificadas con unidad (CM-2) y las derivadas marcadas 'applied_in_model' (CM-3, medias de Kajdi). 'verified: true' = leido en el texto o el resumen de la fuente durante la investigacion; 'derived' = calculado a partir de valores verificados (la derivacion mezcla poblaciones y se declara); 'verified: false' = visto solo en el resumen de un buscador: NO USAR hasta comprobarlo en el articulo.",
  "sources": {
   "ritsche_2025": {
    "doi": "10.1007/s10278-025-01624-1",
@@ -223,6 +223,44 @@
    "source": "kajdi_2025",
    "verified": true,
    "notes": "Idem."
+  },
+  {
+   "id": "kajdi_gmed_mean",
+   "muscle": "gluteus_medius",
+   "unit": "gluteus_medius",
+   "value_cm3": 339.1,
+   "sd": null,
+   "n": null,
+   "population": "mezcla: media simple de mujeres y hombres de una cohorte de pacientes de 65 anos (Kajdi 2025); NO es un adulto joven sano",
+   "method": "derivado: media simple de la cifra de mujeres y la de hombres (referencia sin sexo); la cohorte tiene 27 mujeres y 14 hombres, asi que no es la media ponderada",
+   "source": "kajdi_2025",
+   "verified": false,
+   "derived": true,
+   "derived_from": [
+    "kajdi_gmed_f",
+    "kajdi_gmed_m"
+   ],
+   "applied_in_model": true,
+   "notes": "CM-3: se aplica al modelo por falta de datos de adultos jovenes. Probablemente SUBESTIMA el volumen del adulto de referencia (sarcopenia y grasa intramuscular a los 65 anos; pacientes con dolor trocanterico, caderas asintomaticas). La altura de los sujetos no se publica: se asume 1.75 m."
+  },
+  {
+   "id": "kajdi_gmin_mean",
+   "muscle": "gluteus_minimus",
+   "unit": "gluteus_minimus",
+   "value_cm3": 92.15,
+   "sd": null,
+   "n": null,
+   "population": "mezcla: media simple de mujeres y hombres de una cohorte de pacientes de 65 anos (Kajdi 2025); NO es un adulto joven sano",
+   "method": "derivado: media simple de la cifra de mujeres y la de hombres (referencia sin sexo); la cohorte tiene 27 mujeres y 14 hombres, asi que no es la media ponderada",
+   "source": "kajdi_2025",
+   "verified": false,
+   "derived": true,
+   "derived_from": [
+    "kajdi_gmin_f",
+    "kajdi_gmin_m"
+   ],
+   "applied_in_model": true,
+   "notes": "CM-3: se aplica al modelo por falta de datos de adultos jovenes. Probablemente SUBESTIMA el volumen del adulto de referencia (sarcopenia y grasa intramuscular a los 65 anos; pacientes con dolor trocanterico, caderas asintomaticas). La altura de los sujetos no se publica: se asume 1.75 m."
   },
   {
    "id": "takahashi_addmag_posterior",

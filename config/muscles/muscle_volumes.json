@@ -18,6 +18,11 @@
    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13103013/",
    "reliability": "media",
    "title": "Ritsche P, Ledergerber R, Pansini M, Santini F, Faude O. J Imaging Inform Med 2025;39(2):1507-1518 - ecografia 3D frente a RM del volumen de los musculos del miembro inferior (15 voluntarios)"
+  },
+  "kajdi_2025": {
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12722596/",
+   "reliability": "media",
+   "title": "Kajdi GW, Goller SS, Zingg PO, Sutter R. Insights Imaging 2025 - infiltracion grasa y volumen de los gluteos mediano y menor en el dolor trocanterico unilateral (RM Dixon de 2 puntos; 41 pacientes)"
   }
  },
  "muscles": [
@@ -386,6 +391,31 @@
    "size_class": "pequeno",
    "aspect": 1.0,
    "notes": "Convencion visual de orden de magnitud, no medida."
+  },
+  {
+   "unit": "gluteus_medius.L",
+   "kind": "medido",
+   "aspect": 3.0,
+   "volume_cm3": 339.1,
+   "reference_height_m": 1.75,
+   "source": "kajdi_2025",
+   "notes": "Kajdi 2025 (RM Dixon, volumen del musculo entero), media simple de mujeres (270.1) y hombres (408.1) = 339.1 cm3 [kajdi_gmed_mean]. Cohorte de 65 anos con dolor trocanterico: probablemente subestima al adulto joven (limitacion metodologica declarada). La altura de los sujetos no se publica: se asume 1.75 m. Aspecto de la seccion (abanico aplanado) = convencion de forma, no dato."
+  },
+  {
+   "unit": "gluteus_minimus.L",
+   "kind": "medido",
+   "aspect": 2.5,
+   "volume_cm3": 92.15,
+   "reference_height_m": 1.75,
+   "source": "kajdi_2025",
+   "notes": "Kajdi 2025 (RM Dixon, volumen del musculo entero), media simple de mujeres (77.2) y hombres (107.1) = 92.15 cm3 [kajdi_gmin_mean]. Cohorte de 65 anos con dolor trocanterico: probablemente subestima al adulto joven (limitacion metodologica declarada). La altura de los sujetos no se publica: se asume 1.75 m. Aspecto de la seccion (abanico aplanado) = convencion de forma, no dato."
+  },
+  {
+   "unit": "gluteus_maximus.L",
+   "kind": "convencion",
+   "size_class": "muy_grande",
+   "aspect": 2.5,
+   "notes": "Convencion visual de orden de magnitud, no medida: no se consiguio un volumen medido del gluteo mayor (la clase mas alta es 700 cm3 y probablemente se queda corta). Aspecto = convencion de forma."
   }
  ]
 }
