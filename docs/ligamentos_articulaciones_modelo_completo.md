@@ -57,5 +57,5 @@ Las **265 articulaciones** (213 anteriores, 46 cigapofisarias y 6 del tarso) tie
 
 ## Deuda de anclaje
 
-Quedan **64 anclajes antiguos** a más de 12 mm de su hueso (cráneo lateral, costillas–vértebra, codo, muñeca, rodilla, tobillo…). Están fijados en `tests/test_anchor_debt.py`: la lista solo puede disminuir.
+Quedan **61 anclajes antiguos** a más de 12 mm de su hueso (cráneo lateral, costillas–vértebra, codo, muñeca, rodilla, tobillo…). Están fijados en `tests/test_anchor_debt.py`: la lista solo puede disminuir.
 

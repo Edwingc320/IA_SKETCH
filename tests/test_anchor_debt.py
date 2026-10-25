@@ -17,9 +17,6 @@ from anatomical_core.skeleton import build_model  # noqa: E402
 
 # (tipo, nombre del lado .L o sin lado, hueso). ATT = hito, LIG = extremo de ligamento (.a origen / .b insercion), JNT = centro de articulacion.
 KNOWN_DEBT = {
-    ("ATT", "coronoid_process.L", "mandible"),
-    ("ATT", "mastoid_process.L", "cranium"),
-    ("ATT", "superior_nuchal_line.L", "cranium"),
     ("ATT", "tibial_tuberosity.L", "tibia.L"),
     ("ATT", "ulnar_coronoid_process.L", "ulna.L"),
     ("JNT", "calcaneocuboid.L", "calcaneus.L"),
