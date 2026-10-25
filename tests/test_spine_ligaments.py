@@ -82,7 +82,7 @@ class TestSpineLigaments(unittest.TestCase):
             for s, sx in (("L", 1), ("R", -1)):
                 j = self.art.joints[f"zygapophyseal_{up}_{lo}.{s}"]
                 self.assertEqual((j.bones, j.carrier), ((up, lo), lo))
-                self.assertGreater(sx * j.center[0], 0.01)
+                self.assertGreater(sx * j.center[0], 0.008)
                 self.assertGreater(j.center[1], self.anat.bones[up].head[1] if up in self.anat.bones else 0)  # por detras del eje
                 self.assertIsNone(j.dofs[0].total_deg)  # sin cifra: no se inventa
 

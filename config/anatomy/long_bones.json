@@ -27,7 +27,7 @@
      0.0
     ]
    },
-   "description": "Escapula: de la cavidad glenoidea (= pivote del hombro de la base, cabeza del humero) al angulo inferior (nivel T7). Su acromion (outline[1]) coincide exactamente con el extremo de la clavicula base: la articulacion acromioclavicular. Queda sobre la cara posterior del torax sin tocar las costillas.",
+   "description": "Escapula: de la cavidad glenoidea (= pivote del hombro de la base, cabeza del humero) al angulo inferior (nivel T7). Su acromion (outline[1]) coincide exactamente con el extremo de la clavicula base: la articulacion acromioclavicular. Queda sobre la cara posterior del torax sin tocar las costillas. Contorno: glenoides, acromion, raiz de la espina, angulo inferior; luego vuelve al glenoides por el borde lateral y sale la apofisis coracoides (punto 5).",
    "outline": [
     {
      "at": "upper_arm.L.head"
@@ -49,6 +49,17 @@
     },
     {
      "at": "scapula.L.tail"
+    },
+    {
+     "at": "scapula.L.head"
+    },
+    {
+     "at": "upper_arm.L.head",
+     "offset_h": [
+      -0.011428571428571429,
+      -0.02,
+      -0.006857142857142858
+     ]
     }
    ],
    "outline_closed": true

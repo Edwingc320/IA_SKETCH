@@ -18,3 +18,21 @@ En cada uno de los 23 niveles (C2/C3 … L5/S1) hay cinco ligamentos y, por lado
 Las **articulaciones cigapofisarias** (`zygapophyseal_<sup>_<inf>.L/.R`, 46) son planas y no llevan cifra de rango (su orientación guía el movimiento de cada región; no hay cifra en las fuentes consultadas).
 
 **Limitación**: los cuerpos vertebrales no tienen anchura en el modelo, así que cada punto se coloca a 8–11 mm del eje del hueso (cara anterior −10 mm; posterior +8 mm; lámina +10 mm; espinosa +11 mm; transversa 11 mm lateral), en el orden anatómico correcto, pero **no sobre la apófisis real**. En L5/S1 el sacro se recorre de arriba abajo, así que los puntos se ponen junto al promontorio.
+
+## 2. Tórax y hombro — `config/articulations/thorax_ligaments.json`
+
+| Grupo | Ligamentos | Fuentes |
+|---|---|---|
+| Costillas | radiado de la cabeza de la costilla (12; más un haz superior en las costillas 2–10 por las hemifacetas), costotransverso, costotransverso superior y costotransverso lateral (10 cada uno) | [UAMS](https://medicine.uams.edu/neuroscience/education/medical-school-courses/human-structure-module/anatomy-tables/joint-tables/joints-and-ligaments-of-the-thorax/), [TTUHSC](https://anatomy.ttuhscep.edu/anatomytables/joints_thorax.html); el radiado, además [cuestionario](https://wiki.voka.io/anatomy-quizzes/thorax/thoracic-cage-connections/) (fiabilidad baja). **Verificar en un atlas el detalle de las inserciones costotransversas** |
+| Esternón | radiado esternocostal anterior y posterior (costillas 1–7), interchondral (8–10), manubrioesternal y xifoesternal (anterior y posterior) | [Elsevier](https://www.elsevier.com/resources/anatomy/connective-tissue/connective-tissue-of-thorax/radiate-sternochondral-ligaments/23210), UAMS, TTUHSC |
+| Hombro | glenohumeral superior, medio, inferior (bandas anterior y posterior) y coracohumeral | [Wikipedia](https://en.wikipedia.org/wiki/Glenohumeral_ligaments), [Radiopaedia](https://radiopaedia.org/articles/ighl?lang=gb), [Hand Therapy Academy](https://handtherapyacademy.com/evaluation/the-function-of-the-glenohumeral-joint-ligaments/); la inserción humeral del medio varía entre fuentes |
+| Esternoclavicular | anterior y posterior (el costoclavicular y el interclavicular ya existían) | [Wikipedia anterior](https://en.wikipedia.org/wiki/Anterior_sternoclavicular_ligament), [posterior](https://en.wikipedia.org/wiki/Posterior_sternoclavicular_ligament) |
+
+La **articulación escapulotorácica no tiene ligamentos**: se sostiene por músculos y fascia (excepción documentada y comprobada por una prueba).
+
+Cambios de huesos para que los puntos queden sobre el hueso: la escápula añade el **borde lateral** (vuelve del ángulo inferior al glenoides) y la **apófisis coracoides** al contorno, y los tubérculos mayor y menor y la tuberosidad deltoidea se colocan a 11 mm del eje del húmero (que no tiene anchura en el modelo). Con ello cuatro ligamentos antiguos (coracoclavicular conoide y trapezoide, coracoacromial) y tres hitos pasaron a menos de 12 mm.
+
+## Deuda de anclaje
+
+Quedan **72 anclajes antiguos** a más de 12 mm de su hueso (cráneo lateral, costillas–vértebra, codo, muñeca, rodilla, tobillo…). Están fijados en `tests/test_anchor_debt.py`: la lista solo puede disminuir.
+

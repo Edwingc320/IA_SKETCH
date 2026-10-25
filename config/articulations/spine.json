@@ -32,8 +32,8 @@
    "center": {
     "at": "C2.head",
     "offset_h": [
-     0.006857142857142858,
-     0.004571428571428572,
+     0.005142857142857143,
+     0.003428571428571429,
      0.0
     ]
    },
@@ -53,7 +53,7 @@
    "sources": [
     "learnmuscles_spine"
    ],
-   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 9 mm lateral y 6 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
   },
   {
    "name": "zygapophyseal_C3_C4.L",
@@ -67,8 +67,8 @@
    "center": {
     "at": "C3.head",
     "offset_h": [
-     0.006857142857142858,
-     0.004571428571428572,
+     0.005142857142857143,
+     0.003428571428571429,
      0.0
     ]
    },
@@ -88,7 +88,7 @@
    "sources": [
     "learnmuscles_spine"
    ],
-   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 9 mm lateral y 6 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
   },
   {
    "name": "zygapophyseal_C4_C5.L",
@@ -102,8 +102,8 @@
    "center": {
     "at": "C4.head",
     "offset_h": [
-     0.006857142857142858,
-     0.004571428571428572,
+     0.005142857142857143,
+     0.003428571428571429,
      0.0
     ]
    },
@@ -123,7 +123,7 @@
    "sources": [
     "learnmuscles_spine"
    ],
-   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 9 mm lateral y 6 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
   },
   {
    "name": "zygapophyseal_C5_C6.L",
@@ -137,8 +137,8 @@
    "center": {
     "at": "C5.head",
     "offset_h": [
-     0.006857142857142858,
-     0.004571428571428572,
+     0.005142857142857143,
+     0.003428571428571429,
      0.0
     ]
    },
@@ -158,7 +158,7 @@
    "sources": [
     "learnmuscles_spine"
    ],
-   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 9 mm lateral y 6 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
   },
   {
    "name": "zygapophyseal_C6_C7.L",
@@ -172,8 +172,8 @@
    "center": {
     "at": "C6.head",
     "offset_h": [
-     0.006857142857142858,
-     0.004571428571428572,
+     0.005142857142857143,
+     0.003428571428571429,
      0.0
     ]
    },
@@ -193,7 +193,7 @@
    "sources": [
     "learnmuscles_spine"
    ],
-   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 9 mm lateral y 6 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
   },
   {
    "name": "zygapophyseal_C7_T1.L",
@@ -207,8 +207,8 @@
    "center": {
     "at": "C7.head",
     "offset_h": [
-     0.006857142857142858,
-     0.004571428571428572,
+     0.005142857142857143,
+     0.003428571428571429,
      0.0
     ]
    },
@@ -228,7 +228,7 @@
    "sources": [
     "learnmuscles_spine"
    ],
-   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 9 mm lateral y 6 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
   },
   {
    "name": "zygapophyseal_T1_T2.L",
@@ -242,8 +242,8 @@
    "center": {
     "at": "T1.head",
     "offset_h": [
-     0.006857142857142858,
-     0.004571428571428572,
+     0.005142857142857143,
+     0.003428571428571429,
      0.0
     ]
    },
@@ -263,7 +263,7 @@
    "sources": [
     "learnmuscles_spine"
    ],
-   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 9 mm lateral y 6 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
   },
   {
    "name": "zygapophyseal_T2_T3.L",
@@ -277,8 +277,8 @@
    "center": {
     "at": "T2.head",
     "offset_h": [
-     0.006857142857142858,
-     0.004571428571428572,
+     0.005142857142857143,
+     0.003428571428571429,
      0.0
     ]
    },
@@ -298,7 +298,7 @@
    "sources": [
     "learnmuscles_spine"
    ],
-   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 9 mm lateral y 6 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
   },
   {
    "name": "zygapophyseal_T3_T4.L",
@@ -312,8 +312,8 @@
    "center": {
     "at": "T3.head",
     "offset_h": [
-     0.006857142857142858,
-     0.004571428571428572,
+     0.005142857142857143,
+     0.003428571428571429,
      0.0
     ]
    },
@@ -333,7 +333,7 @@
    "sources": [
     "learnmuscles_spine"
    ],
-   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 9 mm lateral y 6 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
   },
   {
    "name": "zygapophyseal_T4_T5.L",
@@ -347,8 +347,8 @@
    "center": {
     "at": "T4.head",
     "offset_h": [
-     0.006857142857142858,
-     0.004571428571428572,
+     0.005142857142857143,
+     0.003428571428571429,
      0.0
     ]
    },
@@ -368,7 +368,7 @@
    "sources": [
     "learnmuscles_spine"
    ],
-   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 9 mm lateral y 6 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
   },
   {
    "name": "zygapophyseal_T5_T6.L",
@@ -382,8 +382,8 @@
    "center": {
     "at": "T5.head",
     "offset_h": [
-     0.006857142857142858,
-     0.004571428571428572,
+     0.005142857142857143,
+     0.003428571428571429,
      0.0
     ]
    },
@@ -403,7 +403,7 @@
    "sources": [
     "learnmuscles_spine"
    ],
-   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 9 mm lateral y 6 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
   },
   {
    "name": "zygapophyseal_T6_T7.L",
@@ -417,8 +417,8 @@
    "center": {
     "at": "T6.head",
     "offset_h": [
-     0.006857142857142858,
-     0.004571428571428572,
+     0.005142857142857143,
+     0.003428571428571429,
      0.0
     ]
    },
@@ -438,7 +438,7 @@
    "sources": [
     "learnmuscles_spine"
    ],
-   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 9 mm lateral y 6 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
   },
   {
    "name": "zygapophyseal_T7_T8.L",
@@ -452,8 +452,8 @@
    "center": {
     "at": "T7.head",
     "offset_h": [
-     0.006857142857142858,
-     0.004571428571428572,
+     0.005142857142857143,
+     0.003428571428571429,
      0.0
     ]
    },
@@ -473,7 +473,7 @@
    "sources": [
     "learnmuscles_spine"
    ],
-   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 9 mm lateral y 6 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
   },
   {
    "name": "zygapophyseal_T8_T9.L",
@@ -487,8 +487,8 @@
    "center": {
     "at": "T8.head",
     "offset_h": [
-     0.006857142857142858,
-     0.004571428571428572,
+     0.005142857142857143,
+     0.003428571428571429,
      0.0
     ]
    },
@@ -508,7 +508,7 @@
    "sources": [
     "learnmuscles_spine"
    ],
-   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 9 mm lateral y 6 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
   },
   {
    "name": "zygapophyseal_T9_T10.L",
@@ -522,8 +522,8 @@
    "center": {
     "at": "T9.head",
     "offset_h": [
-     0.006857142857142858,
-     0.004571428571428572,
+     0.005142857142857143,
+     0.003428571428571429,
      0.0
     ]
    },
@@ -543,7 +543,7 @@
    "sources": [
     "learnmuscles_spine"
    ],
-   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 9 mm lateral y 6 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
   },
   {
    "name": "zygapophyseal_T10_T11.L",
@@ -557,8 +557,8 @@
    "center": {
     "at": "T10.head",
     "offset_h": [
-     0.006857142857142858,
-     0.004571428571428572,
+     0.005142857142857143,
+     0.003428571428571429,
      0.0
     ]
    },
@@ -578,7 +578,7 @@
    "sources": [
     "learnmuscles_spine"
    ],
-   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 9 mm lateral y 6 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
   },
   {
    "name": "zygapophyseal_T11_T12.L",
@@ -592,8 +592,8 @@
    "center": {
     "at": "T11.head",
     "offset_h": [
-     0.006857142857142858,
-     0.004571428571428572,
+     0.005142857142857143,
+     0.003428571428571429,
      0.0
     ]
    },
@@ -613,7 +613,7 @@
    "sources": [
     "learnmuscles_spine"
    ],
-   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 9 mm lateral y 6 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
   },
   {
    "name": "zygapophyseal_T12_L1.L",
@@ -627,8 +627,8 @@
    "center": {
     "at": "T12.head",
     "offset_h": [
-     0.006857142857142858,
-     0.004571428571428572,
+     0.005142857142857143,
+     0.003428571428571429,
      0.0
     ]
    },
@@ -648,7 +648,7 @@
    "sources": [
     "learnmuscles_spine"
    ],
-   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 9 mm lateral y 6 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
   },
   {
    "name": "zygapophyseal_L1_L2.L",
@@ -662,8 +662,8 @@
    "center": {
     "at": "L1.head",
     "offset_h": [
-     0.006857142857142858,
-     0.004571428571428572,
+     0.005142857142857143,
+     0.003428571428571429,
      0.0
     ]
    },
@@ -683,7 +683,7 @@
    "sources": [
     "learnmuscles_spine"
    ],
-   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 9 mm lateral y 6 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
   },
   {
    "name": "zygapophyseal_L2_L3.L",
@@ -697,8 +697,8 @@
    "center": {
     "at": "L2.head",
     "offset_h": [
-     0.006857142857142858,
-     0.004571428571428572,
+     0.005142857142857143,
+     0.003428571428571429,
      0.0
     ]
    },
@@ -718,7 +718,7 @@
    "sources": [
     "learnmuscles_spine"
    ],
-   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 9 mm lateral y 6 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
   },
   {
    "name": "zygapophyseal_L3_L4.L",
@@ -732,8 +732,8 @@
    "center": {
     "at": "L3.head",
     "offset_h": [
-     0.006857142857142858,
-     0.004571428571428572,
+     0.005142857142857143,
+     0.003428571428571429,
      0.0
     ]
    },
@@ -753,7 +753,7 @@
    "sources": [
     "learnmuscles_spine"
    ],
-   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 9 mm lateral y 6 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
   },
   {
    "name": "zygapophyseal_L4_L5.L",
@@ -767,8 +767,8 @@
    "center": {
     "at": "L4.head",
     "offset_h": [
-     0.006857142857142858,
-     0.004571428571428572,
+     0.005142857142857143,
+     0.003428571428571429,
      0.0
     ]
    },
@@ -788,7 +788,7 @@
    "sources": [
     "learnmuscles_spine"
    ],
-   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 9 mm lateral y 6 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
   },
   {
    "name": "zygapophyseal_L5_sacrum.L",
@@ -802,8 +802,8 @@
    "center": {
     "at": "L5.head",
     "offset_h": [
-     0.006857142857142858,
-     0.004571428571428572,
+     0.005142857142857143,
+     0.003428571428571429,
      0.0
     ]
    },
@@ -823,7 +823,7 @@
    "sources": [
     "learnmuscles_spine"
    ],
-   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 12 mm lateral y 8 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
+   "notes": "Une las apofisis articulares superior e inferior de dos vertebras; centro a 9 mm lateral y 6 mm posterior del eje (el cuerpo vertebral no tiene anchura en el modelo)."
   }
  ],
  "ligaments": [

@@ -13,7 +13,7 @@ Reglas para cualquier agente o desarrollador. **Regla principal: no se modifican
 1. Sistema de coordenadas: +X izquierda, **+Y atrás (anterior = −Y)**, +Z arriba; el personaje mira a −Y; sufijo de lado `.L` / `.R`. Unidades: metros; la geometría se define en fracciones de la altura H (referencia 1,75 m) y escala linealmente con `--height` (`1.70`, `170cm`, `5ft7in`).
 2. **Sin drivers ni scripts embebidos** en el `.blend`: un driver que lee el propio hueso que limita crea un ciclo de dependencias y deja de ser determinista.
 3. Los dof se componen en el orden listado en `joints.json` (= orden Euler de las restricciones *Limit Rotation*); los ejes sin dof se bloquean a 0.
-4. Todo hito, extremo de ligamento o sitio muscular debe quedar a **menos de 12 mm** (a 1,75 m; escala con la altura) de la superficie de su hueso. Todo extremo de hueso debe terminar en otra estructura o en un hito definido.
+4. Todo hito, extremo de ligamento o sitio muscular debe quedar a **menos de 12 mm** (a 1,75 m; escala con la altura) de la superficie de su hueso. Todo extremo de hueso debe terminar en otra estructura o en un hito definido. **Todo anclaje nuevo cumple los 12 mm**; los 72 anclajes antiguos que aún no (cráneo lateral, vértebras, costillas, codo, rodilla…) están fijados en `tests/test_anchor_debt.py`, un trinquete: la lista solo puede disminuir.
 5. Los nombres normalizados no se renombran sin aprobación: lado como sufijo, `little` (no `pinky`), `sternum_body`, `sacrum`, `coccyx`.
 
 ## 3. Datos y fuentes
