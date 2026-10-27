@@ -19,7 +19,7 @@ Estado de partida: huesos, articulaciones y ligamentos completos; músculos del 
 3. **Ligamentos sin puntos de tensado**: el iliofemoral rodea el cuello del fémur en flexión y extensión; el pubofemoral y el isquiofemoral envuelven el cuello. Hoy son segmentos rectos.
 4. **Tendones con fuente débil o ninguna** en el muslo: sartorio, grácil, aductores, isquiotibiales, cuádriceps (4 sin fuente y 4 con fuente baja).
 5. **Rutas de tendón**: el psoas-ilíaco gira sobre la rama púbica y la cápsula (guía ausente); la cintilla iliotibial no tiene vía intermedia sobre el trocánter mayor.
-6. **ROM**: la extensión de cadera del modelo (15°) está entre 10° (StatPearls) y valores mayores en otras referencias; faltan límites coherentes de las rotaciones con la flexión de cadera.
+6. **ROM**: la extensión de cadera del modelo (15°) está entre 10° (StatPearls) y valores mayores en otras referencias; faltan límites coherentes de las rotaciones con la flexión de cadera. *CM-7 (2026-10-27): auditado; la extensión se mantiene en 15° (rango entre fuentes 10–30, media medida 17); queda pendiente la dependencia de las rotaciones con la flexión.*
 7. **Deuda de anclaje del muslo**: 4 anclajes antiguos a más de 12 mm (ver `tests/test_anchor_debt.py`).
 
 ## Pasos
@@ -32,7 +32,7 @@ Estado de partida: huesos, articulaciones y ligamentos completos; músculos del 
 | CM-4 (hecho) | Puntos de tensado de los ligamentos de la cadera | `waypoints` en los ligamentos (nuevo campo, con prueba) | el ligamento no atraviesa el cuello femoral en flexión de 0 a 120° |
 | CM-5 (hecho) | Rutas completas del psoas-ilíaco y de la cintilla iliotibial | vías en `tendons_lower_limb.json` | cada vía a < 12 mm del hueso; longitud de la ruta crece con la flexión |
 | CM-6 (hecho) | Músculos que faltan (aductor corto, pectíneo, obturadores, piriforme, cuadrado femoral) | unidades nuevas con hitos óseos | un origen y una inserción sobre hito; fuente o «verificar» |
-| CM-7 | ROM de la cadera revisado | rangos con fuente y límites en Blender | tabla de discrepancias resuelta; golden actualizado si cambia la base |
+| CM-7 (hecho) | ROM de la cadera revisado | rangos con fuente y límites en Blender | tabla de discrepancias resuelta; golden actualizado si cambia la base |
 | CM-8 | Reducir la deuda de anclaje del muslo | `KNOWN_DEBT` sin entradas del muslo | el trinquete baja de 61 |
 | CM-9 | Cierre de la región | actualizar `docs/estado/caderas_muslo.md` y `docs/avances/` | suite completa en verde y mutaciones detectadas |
 
@@ -53,3 +53,10 @@ Estado de partida: huesos, articulaciones y ligamentos completos; músculos del 
 
 - Sin acceso a los artículos, el volumen de la pierna seguirá por convención: **no se debe presentar como medido**.
 - Los puntos de tensado exigen un modelo de colisión simple (cilindro o esfera del cuello femoral) que hoy no existe.
+
+## Hallazgos metodológicos de CM-7
+
+- El rig y el registro «publicado» significan cosas distintas: el rig es un **techo** (lo máximo que la articulación puede dar) y StatPearls da un valor **típico** activo. Comparar uno con otro como si fueran lo mismo produce una falsa discrepancia; por eso ahora hay `range_deg` (rango entre fuentes) y `rig` (a qué límite corresponde) y una validación (`ART_ROM_RIG_OUTSIDE`).
+- Bajar la extensión a 10° habría **reducido** el rango validado sin respaldo (10 es el mínimo de las fuentes), habría exigido actualizar el golden y las restricciones Limit Rotation, y habría dejado fuera la media medida (17°). Se decidió mantener 15°. Los barridos también se prueban con 5° y 10° de extensión, de modo que el cambio sería seguro si algún día se decide.
+- Los signos del rig se comprobaron con la cinemática directa: axial positivo = rotación interna.
+- Las fuentes nuevas se leyeron en resúmenes de búsqueda; la hoja que atribuye cifras a la AAOS es secundaria (fiabilidad baja): conviene contrastar con la guía de la AAOS.

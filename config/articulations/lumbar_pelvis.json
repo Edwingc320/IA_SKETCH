@@ -142,6 +142,21 @@
    "url": "https://en.wikipedia.org/wiki/Adductor_muscles_of_the_hip",
    "reliability": "media",
    "title": "Wikipedia - aductores de la cadera: pectineo (pecten del pubis -> linea pectinea del femur), aductor corto (cuerpo y rama inferior del pubis -> linea pectinea y linea aspera proximal); las fuentes discrepan en detalles"
+  },
+  "aaos_hip_2020": {
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8167346/table/table1-1941738120953418",
+   "reliability": "media",
+   "title": "Sports Health 2020 (tabla 1): valores normativos de movilidad de la cadera segun el metodo de la AAOS; medias aproximadas flexion 128, extension 17 (en decubito prono), abduccion 33, aduccion 14, rotacion interna 42, externa 44 grados; leido en el resumen de busqueda"
+  },
+  "hip_rom_aaos_chart": {
+   "url": "https://pabau.com/templates/hip-range-of-motion-test/",
+   "reliability": "baja",
+   "title": "Hoja clinica (Pabau) con los valores redondeados atribuidos a los protocolos de la AAOS: flexion 120, extension 30, abduccion 45, aduccion 30, rotaciones 45; fuente secundaria: VERIFICAR en la guia de la AAOS"
+  },
+  "hip_rom_physiotutors": {
+   "url": "https://physiotutors.com/?p=8890",
+   "reliability": "media",
+   "title": "Physiotutors - movilidad normal de la cadera: flexion 110-120, extension 10-15, abduccion 30-50, aduccion 30, rotacion interna 30-40, externa 40-60 grados; leido en el resumen de busqueda"
   }
  },
  "joints": [
@@ -493,34 +508,115 @@
      "name": "flexion",
      "total_deg": 120,
      "source": "statpearls_hip",
-     "note": "activa; con la rodilla flexionada y de forma pasiva llega a ~145 (tarjetas de estudio)"
+     "note": "CM-7: `total_deg` es el valor de StatPearls (fuente principal, sin cambios); `range_deg` es el rango entre todas las fuentes. StatPearls 120 (activa); AAOS 2020 128; hoja AAOS 120; Physiotutors 110-120. Limite del rig: flexion +120. Nota previa: activa; con la rodilla flexionada y de forma pasiva llega a ~145 (tarjetas de estudio)",
+     "other_sources": [
+      "aaos_hip_2020",
+      "hip_rom_aaos_chart",
+      "hip_rom_physiotutors"
+     ],
+     "rig": {
+      "dof": "flexion",
+      "bound": "max"
+     },
+     "range_deg": [
+      110,
+      128
+     ]
     },
     {
      "name": "extension",
      "total_deg": 10,
-     "source": "statpearls_hip"
+     "source": "statpearls_hip",
+     "other_sources": [
+      "aaos_hip_2020",
+      "hip_rom_aaos_chart",
+      "hip_rom_physiotutors"
+     ],
+     "rig": {
+      "dof": "flexion",
+      "bound": "min"
+     },
+     "note": "CM-7: `total_deg` es el valor de StatPearls (fuente principal, sin cambios); `range_deg` es el rango entre todas las fuentes. StatPearls 10; AAOS 2020 17 (prono); hoja AAOS 30; Physiotutors 10-15. Limite del rig: flexion -15 (15 grados): dentro del rango y cerca de la media medida (17); se mantiene.",
+     "range_deg": [
+      10,
+      30
+     ]
     },
     {
      "name": "abduccion",
      "total_deg": 45,
-     "source": "statpearls_hip"
+     "source": "statpearls_hip",
+     "other_sources": [
+      "aaos_hip_2020",
+      "hip_rom_aaos_chart",
+      "hip_rom_physiotutors"
+     ],
+     "rig": {
+      "dof": "abduction",
+      "bound": "max"
+     },
+     "note": "CM-7: `total_deg` es el valor de StatPearls (fuente principal, sin cambios); `range_deg` es el rango entre todas las fuentes. StatPearls 45; AAOS 2020 33; hoja AAOS 45; Physiotutors 30-50. Limite del rig: abduction +45.",
+     "range_deg": [
+      30,
+      50
+     ]
     },
     {
      "name": "aduccion",
      "total_deg": 25,
-     "source": "statpearls_hip"
+     "source": "statpearls_hip",
+     "other_sources": [
+      "aaos_hip_2020",
+      "hip_rom_aaos_chart",
+      "hip_rom_physiotutors"
+     ],
+     "rig": {
+      "dof": "abduction",
+      "bound": "min"
+     },
+     "note": "CM-7: `total_deg` es el valor de StatPearls (fuente principal, sin cambios); `range_deg` es el rango entre todas las fuentes. StatPearls 25; AAOS 2020 14; hoja AAOS 30; Physiotutors 30. Limite del rig: abduction -30 (en el borde superior del rango).",
+     "range_deg": [
+      14,
+      30
+     ]
     },
     {
      "name": "rotacion_interna",
      "total_deg": 15,
      "source": "statpearls_hip",
-     "note": "otras referencias dan 35-40"
+     "note": "CM-7: `total_deg` es el valor de StatPearls (fuente principal, sin cambios); `range_deg` es el rango entre todas las fuentes. StatPearls 15; AAOS 2020 42; hoja AAOS 45; Physiotutors 30-40. En el rig la rotacion interna es axial POSITIVA (la punta del pie va hacia medial); limite 45 (en el borde superior del rango). Nota previa: otras referencias dan 35-40",
+     "other_sources": [
+      "aaos_hip_2020",
+      "hip_rom_aaos_chart",
+      "hip_rom_physiotutors"
+     ],
+     "rig": {
+      "dof": "axial",
+      "bound": "max"
+     },
+     "range_deg": [
+      15,
+      45
+     ]
     },
     {
      "name": "rotacion_externa",
      "total_deg": 35,
      "source": "statpearls_hip",
-     "note": "otras referencias dan 45-50"
+     "note": "CM-7: `total_deg` es el valor de StatPearls (fuente principal, sin cambios); `range_deg` es el rango entre todas las fuentes. StatPearls 35; AAOS 2020 44; hoja AAOS 45; Physiotutors 40-60. En el rig la rotacion externa es axial NEGATIVA; limite 40. Nota previa: otras referencias dan 45-50",
+     "other_sources": [
+      "aaos_hip_2020",
+      "hip_rom_aaos_chart",
+      "hip_rom_physiotutors"
+     ],
+     "rig": {
+      "dof": "axial",
+      "bound": "min"
+     },
+     "range_deg": [
+      35,
+      60
+     ]
     }
    ],
    "rig_driver": "hip.L",

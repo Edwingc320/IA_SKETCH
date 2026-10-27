@@ -35,6 +35,9 @@ class DofRange:
     note: str = ""
     unit: str = "deg"  # "deg" (grados) o "mm" (p. ej. apertura de la boca)
     per_side: bool = False  # True: la fuente da el valor hacia UN lado (no el rango total)
+    other_sources: tuple = ()  # fuentes adicionales cuyas cifras entran en `total_deg` (rango entre fuentes)
+    rig: tuple | None = None  # (dof de la base, 'min'|'max'): el limite del rig que le corresponde; la validacion exige que quede dentro de `range_deg`
+    range_deg: tuple | None = None  # rango entre TODAS las fuentes (la fuente principal sigue en `total_deg`)
 
 
 @dataclass(frozen=True)
@@ -150,7 +153,12 @@ def _dofs(raw, where) -> tuple:
         unit = str(d.get("unit", "deg"))
         if unit not in ("deg", "mm"):
             raise ConfigError(f"{where}.dofs[{i}]: unit '{unit}' invalida (deg | mm)")
-        out.append(DofRange(str(d["name"]), rng, d.get("source"), str(d.get("note", "")), unit, bool(d.get("per_side", False))))
+        rig = d.get("rig")
+        if rig is not None and (not isinstance(rig, dict) or rig.get("bound") not in ("min", "max") or not rig.get("dof")):
+            raise ConfigError(f"{where}.dofs[{i}]: 'rig' debe ser {{\"dof\": nombre, \"bound\": \"min\"|\"max\"}}")
+        out.append(DofRange(str(d["name"]), rng, d.get("source"), str(d.get("note", "")), unit, bool(d.get("per_side", False)),
+                            tuple(d.get("other_sources", ())), (str(rig["dof"]), str(rig["bound"])) if rig else None,
+                            (float(d["range_deg"][0]), float(d["range_deg"][1])) if d.get("range_deg") else None))
     return tuple(out)
 
 

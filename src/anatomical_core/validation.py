@@ -621,6 +621,16 @@ def validate_articulations(base: SkeletonModel, anat, art) -> list:
                     out.append(Issue("error", "ART_DOF_NO_SOURCE", f"'{n}.{d.name}': cifra sin fuente"))
             if d.source:
                 check_sources(f"{n}.{d.name}", [d.source])
+            check_sources(f"{n}.{d.name}", d.other_sources)
+            if d.rig is not None:  # armonizacion del rig con la literatura: el limite del rig debe caer dentro del rango publicado entre fuentes
+                bj = base.joints.get(j.rig_driver) if j.rig_driver else None
+                bd = next((x for x in bj.dofs if x.name == d.rig[0]), None) if bj else None
+                if bd is None or d.range_deg is None:
+                    out.append(Issue("error", "ART_ROM_RIG_UNKNOWN", f"'{n}.{d.name}': el dof del rig '{d.rig[0]}' no existe o no hay rango publicado"))
+                else:
+                    limit = abs(bd.min_deg if d.rig[1] == "min" else bd.max_deg)
+                    if not (d.range_deg[0] - 1e-9 <= limit <= d.range_deg[1] + 1e-9):
+                        out.append(Issue("error", "ART_ROM_RIG_OUTSIDE", f"'{n}.{d.name}': el limite del rig ({limit:g} grados, {j.rig_driver}.{d.rig[0]} {d.rig[1]}) queda fuera del rango publicado entre fuentes {d.range_deg}"))
     for n, lg in art.ligaments.items():
         check_sources(n, lg.sources)
         if lg.joint is not None and lg.joint not in art.joints:

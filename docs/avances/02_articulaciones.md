@@ -16,7 +16,7 @@ Solo 18 de las 265 se mueven hoy con una articulación de la base (`rig_driver`)
 
 - Una restricción *Limit Rotation* local por articulación, con el orden Euler de sus grados de libertad (el primero se aplica primero) y los ejes sin grado de libertad bloqueados a 0.
 - Pivote exactamente en la cabeza del hueso hijo en las 19 articulaciones.
-- Cambios deliberados de la base: codo `[pronation, flexion]`, pronación ±80°; cadera extensión 15°.
+- Cambios deliberados de la base: codo `[pronation, flexion]`, pronación ±80°; cadera extensión 15° (CM-7, 2026-10-27: auditada y mantenida; los seis rangos de la cadera llevan el rango entre fuentes `range_deg` y el límite del rig `rig`, y la validación exige que el límite caiga dentro).
 - **Limitación honesta:** la rotación axial de la rodilla solo con flexión se exige en la validación de la pose, no en Blender (un driver que lee el propio hueso crea un ciclo de dependencias y es no determinista).
 - No hay límites de rig para la ATM ni las intervertebrales: requieren la capa de poses del nivel 1 (viable, no construida).
 
