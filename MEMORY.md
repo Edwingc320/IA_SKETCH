@@ -88,3 +88,20 @@ Motor reproducible y configurable de esqueleto humano 3D en **Blender 5.0.1** (P
 - Llevar la deformación por la armadura al resto de ligamentos y tendones que cruzan una articulación (hoy solo los de la cadera y los seis tendones con envoltura).
 - Eliminar la desviación visual del anillo de la unión miotendinosa (huesos auxiliares con restricciones).
 
+## Estado (2026-10-27) — añadido tras CM-7
+- `muscle-model`: **410 pruebas** en Blender (y Python puro). CM-1 (parcial) a CM-7 hechos; faltan CM-8 (deuda de anclaje del muslo) y CM-9 (cierre de la región).
+- `main` no recibió CM-5 a CM-7 (hitos y obstáculos de apoyo, `range_deg`/`rig` y su validación están solo en `muscle-model`).
+
+## Decisiones añadidas (CM-7)
+23. **ROM de la cadera**: se auditaron los seis rangos contra StatPearls (registro previo; su página no apareció en la búsqueda), las medias normativas de la AAOS de 2020 (128/17 prono/33/14/42/44), una hoja con los valores redondeados de la AAOS (fuente secundaria, fiabilidad baja) y Physiotutors. Rangos entre fuentes: flexión 110–128, extensión 10–30, abducción 30–50, aducción 14–30, rotación interna 15–45, externa 35–60. Los límites del rig (flexión −15…120, abducción −30…45, axial −40…45) caen dentro. **Se mantiene la extensión de 15°**: bajarla a 10° (el mínimo de las fuentes) reduciría el rango validado sin respaldo y exigiría tocar el golden y las restricciones; no cambió `joints.json`, ni Limit Rotation, ni el golden. Se añadieron `other_sources`, `range_deg` y `rig` a los dof publicados y la validación `ART_ROM_RIG_OUTSIDE`.
+
+## Lecciones técnicas añadidas (CM-7)
+- Una discrepancia aparente entre el rig y la literatura puede ser un error de categoría (techo frente a valor típico): antes de cambiar el rig, definir qué significa cada cifra.
+- Una prueba antigua que fija el valor de la fuente principal (`total_deg[0]`) obliga a no reutilizar ese campo para otro significado: se añadió un campo nuevo en lugar de reinterpretar el existente.
+- El dof `axial` de la cadera: positivo = rotación interna (la punta del pie va a medial), comprobado con la FK; mi primera suposición estaba al revés.
+
+## Pendiente añadido (CM-7)
+- Coherencia de las rotaciones de la cadera con la flexión (los límites del rig son independientes por eje).
+- Contrastar la hoja secundaria de la AAOS con la guía original; localizar la página de StatPearls de la cadera.
+- Sigue pendiente: CM-8 (deuda de anclaje), CM-9 (cierre), y todo lo anotado en «Pendiente añadido (2026-10-27)».
+
