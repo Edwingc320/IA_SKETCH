@@ -125,3 +125,19 @@ Motor reproducible y configurable de esqueleto humano 3D en **Blender 5.0.1** (P
 - CM-9: cierre de la región caderas y muslo (estado, avances y pruebas con mutaciones).
 - Deuda restante (53): tobillo (pierna y pie), columna, costillas, codo, muñeca y cráneo.
 
+## HITO COMPLETADO: caderas y muslo (CM-1 a CM-9), 2026-10-27
+- **Estado final** (`muscle-model`): **434 pruebas** en verde en Blender. **190 unidades músculo-tendinosas** (95 por lado; la solicitud de cierre decía 172, que era el recuento antes de CM-5 y CM-6 — se registra la cifra real), **94 volúmenes** de vientres (47 por lado: 31 medidos —Holzbaur 24, Ritsche 5, Kajdi 2— y 16 por convención), 16 ligamentos y 24 tendones con envoltura, 20 superficies de obstáculo, 13 y 22 poses de barrido, trinquete de deuda **congelado en 53** (cero en muslo y rodilla).
+- **Entregables**: informe de cierre `docs/estado/caderas_muslo_cierre.md`, pruebas de región `tests/test_region_closure_hips_thigh.py`, batería `scripts/mutation_battery.py` (**26 de 26 mutaciones detectadas, 0 sin detectar** (148 s).).
+
+## Decisiones añadidas (CM-9)
+27. **Cierre con limitaciones, no con perfección**: CM-1 sigue «parcial» y se dice. La región se considera cerrada porque todo lo construido cumple las reglas vigentes y las carencias están registradas con su causa.
+28. **Verificación externa**: la comparación visual con Netter, Sobotta o Gray no es posible (obras con derechos, sin acceso a sus imágenes); se hizo una verificación dimensional y de relaciones anatómicas contra la literatura leída en resúmenes de búsqueda: centro de la cabeza a la línea media 91 mm (≈ 89), cabeza 44 mm (38–48), cuello 30 mm (28–34), ángulo cervicodiafisario 116,7° (119–133: ligero varo, limitación declarada), fémur 0,242 H. Escala isométrica comprobada punto a punto a 1,50, 1,75 y 2,05 m.
+
+## Lecciones técnicas añadidas (CM-9)
+- Un proceso lanzado con `&` desde la herramienta de shell sobrevive al comando: **no relanzar una batería que modifica archivos mientras otra sigue viva**; comprobar con `Get-CimInstance Win32_Process` y restaurar `config/` con `git checkout` si una mutación quedó a medias. La batería ahora se niega a empezar con `config/` sin confirmar y registra la restauración con `atexit`.
+- Los números de una solicitud (172 unidades) pueden estar desactualizados: se verifican contra el código antes de escribirlos en la memoria del proyecto.
+
+## Pendiente añadido (CM-9)
+- Deslizamiento de la rótula; volúmenes medidos (Handsfield 2014, Ward 2009, Lube 2016); contrastar con artículos y atlas lo leído en resúmenes; ángulo cervicodiafisario (varo leve); envolturas por armadura para el resto de ligamentos y tendones; origen del psoas en L1–L5.
+- Siguiente región según `docs/plan/00_plan_general.md`: tren superior y torso (planes `10_tren_superior.md` y `20_torso.md`).
+

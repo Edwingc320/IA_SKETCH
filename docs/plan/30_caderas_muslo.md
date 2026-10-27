@@ -34,7 +34,7 @@ Estado de partida: huesos, articulaciones y ligamentos completos; músculos del 
 | CM-6 (hecho) | Músculos que faltan (aductor corto, pectíneo, obturadores, piriforme, cuadrado femoral) | unidades nuevas con hitos óseos | un origen y una inserción sobre hito; fuente o «verificar» |
 | CM-7 (hecho) | ROM de la cadera revisado | rangos con fuente y límites en Blender | tabla de discrepancias resuelta; golden actualizado si cambia la base |
 | CM-8 (hecho) | Reducir la deuda de anclaje del muslo | `KNOWN_DEBT` sin entradas del muslo | el trinquete baja de 61 |
-| CM-9 | Cierre de la región | actualizar `docs/estado/caderas_muslo.md` y `docs/avances/` | suite completa en verde y mutaciones detectadas |
+| CM-9 (hecho) | Cierre de la región | actualizar `docs/estado/caderas_muslo.md` y `docs/avances/` | suite completa en verde y mutaciones detectadas |
 
 ## Investigación (eje 1 a 4), qué buscar y dónde
 
@@ -67,3 +67,7 @@ Estado de partida: huesos, articulaciones y ligamentos completos; músculos del 
 - Los obstáculos de la tibia **no** se usan en los `avoid` de los ligamentos de la rodilla: varios de sus anclajes (colateral tibial, cruzados) quedan dentro del cuerpo de la tibia proximal por construcción. Solo los colaterales evitan el fémur.
 - El **ligamento rotuliano** necesita el deslizamiento de la rótula (hoy la rótula es rígida al fémur): sin él, el ligamento se alarga 3× y atraviesa el fémur a flexiones altas. Queda como paso pendiente para la región (después de CM-9) y la prueba lo mide.
 - Una auditoría completa de anclajes de la región debe excluir lo que sigue siendo deuda ajena (el tobillo), pero comprobar que sigue en el trinquete.
+
+## Cierre (CM-9, 2026-10-27)
+
+Región cerrada con limitaciones: ver [../estado/caderas_muslo_cierre.md](../estado/caderas_muslo_cierre.md). Lo que queda abierto de esta región, por orden: deslizamiento de la rótula (el ligamento rotuliano no mantiene su longitud ni evita el fémur por encima de ~100° de flexión); volúmenes medidos de los músculos sin dato (CM-1 sigue parcial); contrastar las fuentes leídas en resúmenes con los artículos y con un atlas; envolturas por armadura para el resto de ligamentos y tendones que cruzan una articulación; origen del psoas en L1–L5.
