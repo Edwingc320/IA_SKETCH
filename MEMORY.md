@@ -105,3 +105,23 @@ Motor reproducible y configurable de esqueleto humano 3D en **Blender 5.0.1** (P
 - Contrastar la hoja secundaria de la AAOS con la guía original; localizar la página de StatPearls de la cadera.
 - Sigue pendiente: CM-8 (deuda de anclaje), CM-9 (cierre), y todo lo anotado en «Pendiente añadido (2026-10-27)».
 
+## Estado (2026-10-27) — añadido tras CM-8
+- `muscle-model`: **426 pruebas** en Blender (y Python puro). CM-1 (parcial) a CM-8 hechos; falta CM-9 (cierre de la región caderas y muslo).
+- Trinquete de deuda de anclaje: **53** (61 → 58 con CM-5 → 53 con CM-8). Muslo y rodilla sin deuda; queda tobillo (sindesmosis y astragalino), columna, costillas, codo, muñeca y cráneo.
+
+## Decisiones añadidas (CM-8)
+24. **Obstáculos de la rodilla**: `tibial_proximal` (cápsula de 23 mm; profundidad AP de 46 mm entre 35 y 47 de las series), `patellar_body` (11 mm de radio; grosor de 22 mm, publicado 19–22; eje 11 mm por detrás de la línea del modelo, que es la cara anterior) y `fibular_head_body` (esfera de 10 mm sin cifra). Sanan la tuberosidad tibial, el extremo tibial del rotuliano, la femororrotuliana (lado rótula) y la tibioperonea proximal (tibia y peroné). Los de la tibia no entran en ningún `avoid` (varios anclajes quedan dentro por construcción).
+25. **Ligamentos de la rodilla con `deform`**: cruzados, colateral tibial, colateral peroneo y rotuliano siguen a sus huesos en Blender; tolerancia 12 mm (antes 30–40). Los colaterales evitan el fémur; los cruzados llevan `avoid_reason` (intraarticulares). Nuevo `validate_knee_ligament_poses` (barrido de cadera y rodilla hasta 135°).
+26. **Limitación conocida del ligamento rotuliano**: la rótula es rígida al fémur; el ligamento pasa de 27 mm a 81 mm a 135° y atraviesa el cóndilo y la diáfisis desde ~100°. Fijado en una prueba; falta un deslizamiento de la rótula.
+
+## Lecciones técnicas añadidas (CM-8)
+- Una auditoría de anclajes de una región debe incluir ligamentos, tendones, hitos y centros de articulación, y reconocer la deuda ajena (tobillo) comprobando que sigue en el trinquete.
+- Un anclaje exactamente en el límite (`d == tol`) no es deuda para el trinquete (`> tol`); las pruebas de auditoría usan `<=`.
+- Un nombre de superficie no puede coincidir con el de un hito (`fibular_head`): comparten espacio de nombres con articulaciones y ligamentos.
+- El control negativo de un ligamento corto y junto al eje (los cruzados) deja el extremo a solo ≈ 12 mm: el umbral de la prueba depende de la geometría.
+
+## Pendiente añadido (CM-8)
+- Deslizamiento de la rótula (dof de la articulación femororrotuliana) para que el ligamento rotuliano mantenga su longitud y no atraviese el fémur; entonces pasa a evitar el fémur y se invierte la prueba de la limitación.
+- CM-9: cierre de la región caderas y muslo (estado, avances y pruebas con mutaciones).
+- Deuda restante (53): tobillo (pierna y pie), columna, costillas, codo, muñeca y cráneo.
+
