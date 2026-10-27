@@ -67,7 +67,7 @@ class TestHipLigamentsInBlender(unittest.TestCase):
                 self.assertEqual([m.type for m in o.modifiers], ["ARMATURE"])
                 self.assertEqual({g.name for g in o.vertex_groups}, {b for b, _ in lp.nodes(self.art.ligaments[f"{n}.{s}"])})
                 self.assertTrue(o["ac_deform"])
-        rigid = bpy.data.objects["LIG_patellar.L"]  # el resto sigue siendo rigido
+        rigid = bpy.data.objects["LIG_sacrotuberous.L"]  # el resto sigue siendo rigido
         self.assertEqual((rigid.parent_type, len(rigid.modifiers)), ("BONE", 0))
 
     def test_the_file_validates_in_rest_including_the_deformed_ligaments(self):

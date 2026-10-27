@@ -33,7 +33,7 @@ Estado de partida: huesos, articulaciones y ligamentos completos; músculos del 
 | CM-5 (hecho) | Rutas completas del psoas-ilíaco y de la cintilla iliotibial | vías en `tendons_lower_limb.json` | cada vía a < 12 mm del hueso; longitud de la ruta crece con la flexión |
 | CM-6 (hecho) | Músculos que faltan (aductor corto, pectíneo, obturadores, piriforme, cuadrado femoral) | unidades nuevas con hitos óseos | un origen y una inserción sobre hito; fuente o «verificar» |
 | CM-7 (hecho) | ROM de la cadera revisado | rangos con fuente y límites en Blender | tabla de discrepancias resuelta; golden actualizado si cambia la base |
-| CM-8 | Reducir la deuda de anclaje del muslo | `KNOWN_DEBT` sin entradas del muslo | el trinquete baja de 61 |
+| CM-8 (hecho) | Reducir la deuda de anclaje del muslo | `KNOWN_DEBT` sin entradas del muslo | el trinquete baja de 61 |
 | CM-9 | Cierre de la región | actualizar `docs/estado/caderas_muslo.md` y `docs/avances/` | suite completa en verde y mutaciones detectadas |
 
 ## Investigación (eje 1 a 4), qué buscar y dónde
@@ -60,3 +60,10 @@ Estado de partida: huesos, articulaciones y ligamentos completos; músculos del 
 - Bajar la extensión a 10° habría **reducido** el rango validado sin respaldo (10 es el mínimo de las fuentes), habría exigido actualizar el golden y las restricciones Limit Rotation, y habría dejado fuera la media medida (17°). Se decidió mantener 15°. Los barridos también se prueban con 5° y 10° de extensión, de modo que el cambio sería seguro si algún día se decide.
 - Los signos del rig se comprobaron con la cinemática directa: axial positivo = rotación interna.
 - Las fuentes nuevas se leyeron en resúmenes de búsqueda; la hoja que atribuye cifras a la AAOS es secundaria (fiabilidad baja): conviene contrastar con la guía de la AAOS.
+
+## Hallazgos de CM-8
+
+- Las tres superficies nuevas (tibia proximal, rótula y cabeza del peroné) sanan cinco anclajes antiguos, pero son **convención de obstáculo**: el trinquete baja porque el hueso gana cuerpo, no porque se hayan movido los puntos. Dos de ellas tienen una cifra publicada de apoyo (grosor de la rótula 19–22 mm; profundidad de la tibia proximal 35–47 mm) y la de la cabeza del peroné no.
+- Los obstáculos de la tibia **no** se usan en los `avoid` de los ligamentos de la rodilla: varios de sus anclajes (colateral tibial, cruzados) quedan dentro del cuerpo de la tibia proximal por construcción. Solo los colaterales evitan el fémur.
+- El **ligamento rotuliano** necesita el deslizamiento de la rótula (hoy la rótula es rígida al fémur): sin él, el ligamento se alarga 3× y atraviesa el fémur a flexiones altas. Queda como paso pendiente para la región (después de CM-9) y la prueba lo mide.
+- Una auditoría completa de anclajes de la región debe excluir lo que sigue siendo deuda ajena (el tobillo), pero comprobar que sigue en el trinquete.

@@ -17,7 +17,6 @@ from anatomical_core.skeleton import build_model  # noqa: E402
 
 # (tipo, nombre del lado .L o sin lado, hueso). ATT = hito, LIG = extremo de ligamento (.a origen / .b insercion), JNT = centro de articulacion.
 KNOWN_DEBT = {
-    ("ATT", "tibial_tuberosity.L", "tibia.L"),
     ("ATT", "ulnar_coronoid_process.L", "ulna.L"),
     ("JNT", "calcaneocuboid.L", "calcaneus.L"),
     ("JNT", "costotransverse_01.L", "T1"),
@@ -51,12 +50,9 @@ KNOWN_DEBT = {
     ("JNT", "midcarpal.L", "hamate.L"),
     ("JNT", "midcarpal.L", "trapezium.L"),
     ("JNT", "midcarpal.L", "triquetrum.L"),
-    ("JNT", "patellofemoral.L", "patella.L"),
     ("JNT", "pisotriquetral.L", "triquetrum.L"),
     ("JNT", "proximal_radioulnar.L", "radius.L"),
     ("JNT", "proximal_radioulnar.L", "ulna.L"),
-    ("JNT", "proximal_tibiofibular.L", "fibula.L"),
-    ("JNT", "proximal_tibiofibular.L", "tibia.L"),
     ("JNT", "radiocarpal.L", "radius.L"),
     ("JNT", "radiocarpal.L", "scaphoid.L"),
     ("JNT", "scapulothoracic.L", "rib_05.L"),
@@ -68,7 +64,6 @@ KNOWN_DEBT = {
     ("LIG", "annular.L.b", "ulna.L"),
     ("LIG", "cfl.L.b", "calcaneus.L"),
     ("LIG", "nuchal.a", "C7"),
-    ("LIG", "patellar.L.b", "tibia.L"),
     ("LIG", "pitfl.L.a", "tibia.L"),
     ("LIG", "posterior_atlanto_occipital_membrane.a", "C1"),
     ("LIG", "sphenomandibular.L.b", "mandible"),
@@ -76,6 +71,8 @@ KNOWN_DEBT = {
     ("LIG", "transverse_atlas.b", "C1"),
     ("LIG", "ulnar_collateral_elbow.L.b", "ulna.L"),
 }
+DEBT_CEILING = 53  # techo actual del trinquete: solo puede bajar (61 -> 58 en CM-5 -> 53 en CM-8)
+ANKLE_NAMES = ("distal_tibiofibular", "talocrural", "aitfl", "pitfl")
 NOT_ON_BONE = {"body_center_of_mass", "head_center_of_gravity"}
 
 
@@ -111,6 +108,16 @@ class TestAnchorDebtOnlyShrinks(unittest.TestCase):
     def test_corrected_anchors_leave_the_list(self):
         fixed = sorted(KNOWN_DEBT - violations())
         self.assertEqual(fixed, [], "ya estan a menos de 12 mm: quitalos de KNOWN_DEBT")
+
+    def test_the_ceiling_only_goes_down_and_the_thigh_and_knee_are_clean(self):
+        """CM-8 (2026-10-27): el trinquete bajo de 61 a 58 (CM-5) y a 53 (CM-8). El techo no sube y el muslo y la rodilla no vuelven a tener deuda: ningun anclaje
+        de femur, rotula, ni de la meseta tibial, la tuberosidad tibial o la articulacion tibioperonea proximal. Lo que queda en tibia y perone es del tobillo."""
+        self.assertLessEqual(len(KNOWN_DEBT), DEBT_CEILING)
+        self.assertEqual(len(KNOWN_DEBT), 53)
+        for kind, name, bone in KNOWN_DEBT:
+            self.assertFalse(bone.startswith(("femur", "patella")), (kind, name, bone))
+            if bone.startswith(("tibia", "fibula")):
+                self.assertTrue(name.startswith(ANKLE_NAMES), (kind, name, bone))  # solo tobillo (sindesmosis y astragalino)
 
 
 if __name__ == "__main__":

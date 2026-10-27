@@ -79,7 +79,7 @@ class TestHipLigamentPaths(unittest.TestCase):
 
     def test_every_node_is_within_12_mm_of_its_host_bone_and_the_insertions_sit_on_the_neck_surface(self):
         for n, lg in self.art.ligaments.items():
-            if not lg.deform:
+            if not lg.deform or n[:-2] not in HIP_LIGAMENTS:
                 continue
             for bone, p in lp.nodes(lg):
                 self.assertLess(articulations.bone_distance(p, bone, self.base, self.anat, self.art.surfaces), self.tol, n)
@@ -194,7 +194,8 @@ class TestHipLigamentPaths(unittest.TestCase):
         rigid = [lg for lg in self.art.ligaments.values() if not lg.deform]
         self.assertGreater(len(rigid), 600)
         self.assertTrue(all(lg.via == () for lg in rigid))
-        self.assertEqual(sorted(n for n, lg in self.art.ligaments.items() if lg.deform), sorted(f"{n}.{s}" for n in HIP_LIGAMENTS for s in "LR"))
+        knee = ("anterior_cruciate", "posterior_cruciate", "tibial_collateral", "fibular_collateral", "patellar")  # CM-8
+        self.assertEqual(sorted(n for n, lg in self.art.ligaments.items() if lg.deform), sorted(f"{n}.{s}" for n in HIP_LIGAMENTS + knee for s in "LR"))
 
 
 if __name__ == "__main__":

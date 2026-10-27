@@ -663,8 +663,8 @@ def validate_articulations(base: SkeletonModel, anat, art) -> list:
         for a in lg.avoid:
             if a not in art.surfaces:
                 out.append(Issue("error", "ART_AVOID_UNKNOWN", f"Ligamento '{n}': evita la superficie desconocida '{a}'"))
-        if lg.deform and not lg.avoid:
-            out.append(Issue("error", "ART_AVOID_EMPTY", f"Ligamento '{n}': tiene envoltura (deform) y no dice que superficies evita"))
+        if lg.deform and not lg.avoid and not lg.avoid_reason:
+            out.append(Issue("error", "ART_AVOID_EMPTY", f"Ligamento '{n}': tiene envoltura (deform) y no dice que superficies evita ni por que no evita ninguna"))
         if lg.deform and not lg.via and lg.from_bone == lg.to_bone:
             out.append(Issue("error", "ART_DEFORM_USELESS", f"Ligamento '{n}': deform sin guias y con los dos extremos en el mismo hueso"))
         span = length(sub(lg.b, lg.a))
@@ -716,6 +716,28 @@ def validate_ligament_poses(base: SkeletonModel, anat, art, sides=("L", "R")) ->
                 lg = art.ligaments[n]
                 if not lg.avoid:
                     continue
+                clear = lp.path_clearance(lp.posed_path(lg, base, anat, posed), [surfaces[a] for a in lg.avoid])
+                if clear < -tol:
+                    out.append(Issue("error", "LIG_PENETRATES", f"'{n}' atraviesa el femur {-clear * 1000:.1f} mm en la pose '{pose_name}'"))
+    return out
+
+
+def validate_knee_ligament_poses(base: SkeletonModel, anat, art, sides=("L", "R")) -> list:
+    """Barrido de cadera y rodilla (ligament_paths.LEG_SWEEP, rodilla hasta 135 grados): ningun ligamento de la rodilla con `deform` y `avoid` atraviesa los
+    obstaculos del femur. Los que no evitan nada (cruzados: intraarticulares; rotuliano: sin deslizamiento de la rotula) solo se comprueban en Blender."""
+    from . import ligament_paths as lp
+
+    out = []
+    tol = lp.PENETRATION_TOL_M * base.height_m / 1.75
+    for side in sides:
+        joint = art.joints.get(f"tibiofemoral.{side}")
+        if joint is None:
+            continue
+        names = [n for n in joint.ligaments if art.ligaments[n].deform and art.ligaments[n].avoid]
+        for pose_name, posed in lp.leg_sweep_poses(base, side):
+            surfaces = {s.name: s for s in lp.posed_surfaces(art, base, anat, posed)}
+            for n in names:
+                lg = art.ligaments[n]
                 clear = lp.path_clearance(lp.posed_path(lg, base, anat, posed), [surfaces[a] for a in lg.avoid])
                 if clear < -tol:
                     out.append(Issue("error", "LIG_PENETRATES", f"'{n}' atraviesa el femur {-clear * 1000:.1f} mm en la pose '{pose_name}'"))

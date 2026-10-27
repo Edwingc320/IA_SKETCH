@@ -137,7 +137,8 @@ class TestHipRomAudit(unittest.TestCase):
     def test_every_wrapped_ligament_and_tendon_is_covered_by_the_sweeps(self):
         deform_lig = sorted(n for n, lg in self.art.ligaments.items() if lg.deform)
         deform_ten = sorted(n for n, t in self.tm.tendons.items() if t.deform)
-        self.assertEqual(deform_lig, sorted(f"{n}.{s}" for n in HIP_LIGAMENTS for s in "LR"))
+        knee = ("anterior_cruciate", "posterior_cruciate", "tibial_collateral", "fibular_collateral", "patellar")  # CM-8
+        self.assertEqual(deform_lig, sorted(f"{n}.{s}" for n in HIP_LIGAMENTS + knee for s in "LR"))
         self.assertEqual(deform_ten, sorted(f"{n}.{s}" for n in DEFORM_TENDONS for s in "LR"))  # si se anade uno nuevo con envoltura, esta lista y su barrido se actualizan
         self.assertEqual(len(lp.LEG_SWEEP), 22)
 

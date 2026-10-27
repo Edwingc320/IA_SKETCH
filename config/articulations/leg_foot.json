@@ -97,6 +97,16 @@
    "url": "https://xuebao.jlu.edu.cn/yxb/EN/Y2010/V36/I1/159",
    "reliability": "baja",
    "title": "Estudio de RM de 69 rodillas normales (Acta Univ Med Jilin 2010): radio del condilo lateral distal 29-33 mm y posterior 16-19 mm; leido en el resumen de busqueda. El modelo usa 22 mm, intermedio: CONVENCION"
+  },
+  "patella_morphometry": {
+   "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8981413/",
+   "reliability": "media",
+   "title": "Morfometria de la rotula seca y de sus facetas (PMC8981413) y otras series: grosor 19-22 mm (cadaveres 18.9-20.7; RM 20.1-22.3), altura ~42 mm, anchura ~45 mm; leido en el resumen de busqueda. El modelo usa 22 mm de grosor"
+  },
+  "tibia_proximal_morphometry": {
+   "url": "https://avesis.hacettepe.edu.tr/yayin/080dfc02-c93d-4378-aee2-fbd23cbd701a/reappraisal-of-the-proximal-tibia-anatomy-in-turkish-population",
+   "reliability": "media",
+   "title": "Anatomia de la tibia proximal en poblacion turca (57 tibias secas): profundidad anteroposterior del condilo medial 39.8 mm, lateral 34.7 mm y del area intercondilea 41.6 mm; otras series dan 46.5 (RM de 132 rodillas) y 46.75 mm (138 tibias) para la profundidad total; leido en el resumen de busqueda. El modelo usa 46 mm (radio 23)"
   }
  },
  "joints": [
@@ -1064,8 +1074,10 @@
     "orthobullets_knee",
     "brainscape_knee"
    ],
-   "notes": "De la cara medial del condilo femoral lateral al area intercondilea anterior de la tibia; limita la traslacion anterior de la tibia.",
-   "tolerance_m": 0.03
+   "notes": "De la cara medial del condilo femoral lateral al area intercondilea anterior de la tibia; limita la traslacion anterior de la tibia. CM-8: sigue a sus huesos en Blender (malla deformada por la armadura).",
+   "tolerance_m": 0.012,
+   "deform": true,
+   "avoid_reason": "Ligamento intraarticular: nace y acaba entre los condilos, dentro de los cuerpos que dan las esferas de convencion del femur; no hay obstaculo que evitar. Se comprueba en Blender que su extremo tibial sigue a la tibia."
   },
   {
    "name": "posterior_cruciate.L",
@@ -1101,8 +1113,10 @@
     "orthobullets_knee",
     "brainscape_knee"
    ],
-   "notes": "De la cara interna del condilo femoral medial al area intercondilea posterior de la tibia; limita la traslacion posterior.",
-   "tolerance_m": 0.03
+   "notes": "De la cara interna del condilo femoral medial al area intercondilea posterior de la tibia; limita la traslacion posterior. CM-8: sigue a sus huesos en Blender (malla deformada por la armadura).",
+   "tolerance_m": 0.012,
+   "deform": true,
+   "avoid_reason": "Ligamento intraarticular: nace y acaba entre los condilos, dentro de los cuerpos que dan las esferas de convencion del femur; no hay obstaculo que evitar. Se comprueba en Blender que su extremo tibial sigue a la tibia."
   },
   {
    "name": "tibial_collateral.L",
@@ -1138,8 +1152,13 @@
     "orthobullets_knee",
     "brainscape_knee"
    ],
-   "notes": "Del epicondilo medial a la tibia proximal; resiste el valgo. Fuente debil: verificar en un atlas.",
-   "tolerance_m": 0.04
+   "notes": "Del epicondilo medial a la tibia proximal; resiste el valgo. Fuente debil: verificar en un atlas. CM-8: sigue a sus huesos en Blender (malla deformada por la armadura).",
+   "tolerance_m": 0.012,
+   "deform": true,
+   "avoid": [
+    "femoral_lateral_condyle.L",
+    "femoral_shaft.L"
+   ]
   },
   {
    "name": "fibular_collateral.L",
@@ -1166,8 +1185,12 @@
     "orthobullets_knee",
     "brainscape_knee"
    ],
-   "notes": "Del epicondilo lateral femoral a la cabeza del perone; resiste el varo.",
-   "tolerance_m": 0.04
+   "notes": "Del epicondilo lateral femoral a la cabeza del perone; resiste el varo. CM-8: sigue a sus huesos en Blender (malla deformada por la armadura).",
+   "tolerance_m": 0.012,
+   "deform": true,
+   "avoid": [
+    "femoral_shaft.L"
+   ]
   },
   {
    "name": "patellar.L",
@@ -1198,8 +1221,10 @@
     "orthobullets_knee",
     "brainscape_knee"
    ],
-   "notes": "Del apice de la rotula a la tuberosidad tibial.",
-   "tolerance_m": 0.04
+   "notes": "Del apice de la rotula a la tuberosidad tibial. CM-8: sigue a sus huesos en Blender (malla deformada por la armadura).",
+   "tolerance_m": 0.012,
+   "deform": true,
+   "avoid_reason": "LIMITACION CONOCIDA: la rotula del modelo sigue rigida al femur (no se desliza), asi que con la flexion de la rodilla el ligamento pasa de 27 mm a 81 mm a 135 grados y atraviesa el condilo y la diafisis del femur a partir de cierta flexion. Se necesita el deslizamiento de la rotula para evitarlo. Hasta entonces solo se garantiza que sus extremos siguen a su hueso y quedan a < 12 mm."
   },
   {
    "name": "anterior_proximal_tibiofibular.L",
@@ -2513,6 +2538,73 @@
     "femoral_condyle_radius"
    ],
    "notes": "Esfera de 22 mm de radio cuya superficie lateral pasa por el epicondilo lateral; valor intermedio entre el radio posterior (16-19 mm) y el distal (29-33 mm) del estudio citado. Convencion de obstaculo."
+  },
+  {
+   "name": "tibial_proximal.L",
+   "mirror": true,
+   "bone": "tibia.L",
+   "kind": "capsule",
+   "a": {
+    "at": "tibia.L.head",
+    "offset_h": [
+     0.0,
+     0.0,
+     -0.013143
+    ]
+   },
+   "b": {
+    "at": "tibia.L.head",
+    "offset_h": [
+     0.0,
+     0.0,
+     -0.042857
+    ]
+   },
+   "radius_m": 0.023,
+   "sources": [
+    "tibia_proximal_morphometry"
+   ],
+   "notes": "Capsula de 23 mm de radio (46 mm de profundidad anteroposterior) cuya cara superior queda a la altura de la meseta tibial y que llega 75 mm bajo ella. Convencion de obstaculo con el centro del rango publicado (35-47 mm segun la serie): da cuerpo a la tibia proximal, incluida la tuberosidad tibial."
+  },
+  {
+   "name": "patellar_body.L",
+   "mirror": true,
+   "bone": "patella.L",
+   "kind": "capsule",
+   "a": {
+    "at": "patella.L.head",
+    "offset_h": [
+     0.0,
+     0.006286,
+     0.0
+    ]
+   },
+   "b": {
+    "at": "patella.L.tail",
+    "offset_h": [
+     0.0,
+     0.006286,
+     0.0
+    ]
+   },
+   "radius_m": 0.011,
+   "sources": [
+    "patella_morphometry"
+   ],
+   "notes": "Capsula de 11 mm de radio (22 mm de grosor) cuyo eje esta 11 mm por detras de la linea del modelo (la linea es la cara anterior de la rotula). Convencion de obstaculo con el grosor publicado (19-22 mm)."
+  },
+  {
+   "name": "fibular_head_body.L",
+   "mirror": true,
+   "bone": "fibula.L",
+   "kind": "sphere",
+   "a": {
+    "at": "fibula.L.head"
+   },
+   "radius_m": 0.01,
+   "sources": [],
+   "no_numeric_source": true,
+   "notes": "Esfera de 10 mm de radio centrada en la cabeza del peroné. Convencion visual sin cifra publicada consultada: da cuerpo a la cabeza del peroné para la articulacion tibioperonea proximal."
   }
  ]
 }

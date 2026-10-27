@@ -101,6 +101,7 @@ class Ligament:
     mechanics: dict | None = None  # propiedades mecanicas (rigidez, longitud sin tension): convencion parametrica declarada si no hay dato
     deform: bool = False  # True: en Blender cada nodo sigue a su hueso (malla deformada por la armadura); False: rigido, emparentado al hueso de origen
     avoid: tuple = ()  # nombres de las `BoneSurface` que la trayectoria no puede atravesar (cada ligamento con envoltura dice cuales)
+    avoid_reason: str = ""  # si `deform` y `avoid` esta vacio: por que (ligamento intraarticular o limitacion conocida)
 
 
 @dataclass(frozen=True)
@@ -211,7 +212,7 @@ def build_articulations(base: SkeletonModel, anat: AnatomyModel, data_list) -> A
                     sw(lg["name"]), sw(lg["from"]["bone"]), sw(lg["to"]["bone"]), ev(fa, side, None), ev(fb, side, None),
                     sw(lg["joint"]) if lg.get("joint") else None, lg.get("typical_length_m"),
                     tuple(lg.get("sources", [])), str(lg.get("notes", "")), float(lg.get("tolerance_m", 0.03)) * tol_k, region,
-                    via, dict(lg["mechanics"]) if lg.get("mechanics") else None, bool(lg.get("deform", False)), tuple(sw(x) for x in lg.get("avoid", []))))
+                    via, dict(lg["mechanics"]) if lg.get("mechanics") else None, bool(lg.get("deform", False)), tuple(sw(x) for x in lg.get("avoid", [])), str(lg.get("avoid_reason", ""))))
         for i, at in enumerate(data.get("attachments", [])):
             spec = _point_spec(at["point"], f"attachments[{i}].point")
             for side in _sides(at):
