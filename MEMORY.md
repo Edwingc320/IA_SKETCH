@@ -57,3 +57,34 @@ Motor reproducible y configurable de esqueleto humano 3D en **Blender 5.0.1** (P
 - Crear el repositorio en GitHub o autenticar, y hacer `git push` de `main` y `muscle-model`.
 - Verificar en un atlas los tendones sin fuente o con fuente débil, los ligamentos de los dedos del pie y los costotransversos.
 - Reducir los 61 anclajes antiguos de `test_anchor_debt.py` (costillas–vértebra, codo, muñeca, rodilla, tobillo).
+
+## Estado (2026-10-27) — añadido tras CM-6
+- `main`: modelo óseo + ligamentos de la cadera con envoltura (CM-4). 311 pruebas en Blender.
+- `muscle-model`: `main` + músculos. **397 pruebas** en Blender (y Python puro). 95 unidades músculo-tendinosas por lado (190), 47 volúmenes por lado (94, contando los glúteos), 58 anclajes antiguos en el trinquete.
+- Remoto: `origin` = https://github.com/Edwingc320/IA_SKETCH.git (la nota de «Repository not found» de arriba quedó obsoleta: el push funciona; `main`, `muscle-model` y el tag `v0.1.0` están subidos).
+- Región en curso: caderas y muslo (`docs/estado/caderas_muslo.md`). CM-1 (parcial) a CM-6 hechos; faltan CM-7 (ROM de la cadera), CM-8 (deuda de anclaje del muslo) y CM-9 (cierre).
+
+## Decisiones añadidas (CM-1 a CM-6)
+17. **CM-1/CM-2 (volúmenes)**: `config/muscles/volume_measurements.json` es el registro de la literatura (Ritsche 2025, Trappe 2001, Kajdi 2025; Takahashi 2025 sin verificar, «no usar»). Se aplicaron al modelo los cinco vientres de Ritsche (vasto lateral 636,5; bíceps femoral 197,4, cabeza larga como hipótesis; gastrocnemio medial 224,7 y lateral 112,6; tibial anterior 119,4 cm³) con altura de referencia 1,75 m **asumida**. Las clases de convención sobrestimaban (tibial anterior 350 frente a 119,4). Recto femoral, vasto intermedio y medial son derivados y siguen por convención.
+18. **CM-3 (glúteos)**: `muscle_volumes` admite músculos de la capa `muscles` (eje centroide de los orígenes → inserción). Mediano 339,1 y menor 92,15 cm³ = media simple de mujeres y hombres de Kajdi (cohorte de 65 años con dolor trocantérico: subestima, declarado); el mayor, convención `muy_grande`.
+19. **CM-4 (cadera, en `main`)**: `Ligament.via/mechanics/deform`, `bone_surfaces` y el módulo `ligament_paths`. Extremos del pubofemoral e isquiofemoral movidos del eje del cuello (dentro del hueso) a su superficie; guía de envoltura en el pubofemoral; mallas deformadas por la armadura. Rigidez y longitud sin tensión: convención paramétrica declarada, sin valores.
+20. **CM-5 (rutas)**: eminencia iliopúbica como polea del psoas-ilíaco; cintilla iliotibial nueva y tensor de la fascia lata con guías sobre el trocánter mayor y el epicóndilo lateral; obstáculos nuevos del fémur y la rama del pubis (convención); `avoid` por unidad; barrido de 22 poses (`LEG_SWEEP`). El origen del ilíaco se desplazó 10,8 mm a la cara interna de la lámina del ilion (el hito `iliac_fossa.L` está 9,8 mm por fuera). La deuda de anclaje bajó 61 → 58 por las superficies de convención del fémur, no por datos nuevos.
+21. **CM-6 (músculos profundos)**: piriforme, obturadores interno y externo, gemelos, cuadrado femoral, pectíneo y aductor corto; hitos `pectineal_crest`, `obturator_margin`, `trochanteric_fossa`, `intertrochanteric_crest`; obstáculo `ischial_ramus` (cápsula de 5 mm, convención); la lámina del sacro entra en el barrido. Las fuentes discrepan (inserción del cuadrado y del obturador externo, si los gemelos insertan en el tendón del obturador interno): se eligió la versión mayoritaria y se anotó.
+22. **Política de ramas con ligamentos**: el trabajo de ligamentos va a `main` y se fusiona en `muscle-model`; lo que afecta a hitos y obstáculos de CM-5/CM-6 (capa ósea de apoyo) quedó solo en `muscle-model`, así que `main` no tiene el hito de la eminencia ni los obstáculos del fémur distal.
+
+## Lecciones técnicas añadidas
+- **Mezcla lineal de la armadura**: un punto interior de un tramo entre dos huesos que giran entre sí no queda sobre la recta entre los nodos posados (error ≈ u(1−u)(R_b−R_a)(B−A)). Comprobar la penetración sobre los nodos, no sobre los anillos intermedios. Se había sobreafirmado en CM-5 y se corrigió en CM-6.
+- Un obstáculo nuevo cambia la distancia al hueso de anclajes antiguos: el trinquete exigió quitar tres entradas; los obstáculos que solapan una zona de inserción (p. ej. la esfera del trocánter sobre la base del cuello) deben quedar fuera del `avoid` de las rutas que insertan ahí.
+- Un hito de la base puede estar al otro lado de la lámina del hueso (fosa ilíaca a 9,8 mm por fuera): comprobar los cortes de lámina antes de fiarse de un hito como origen.
+- Una guía que no hace falta para esquivar un obstáculo se detecta quitándola; si la prueba no falla, se dice (epicóndilo lateral).
+- Las búsquedas web solo dan resúmenes: las cifras y las fuentes leídas así se marcan «leído en el resumen de búsqueda» y de fiabilidad media o baja.
+- En PowerShell un `foreach ($t in …)` dentro de una orden pasada por Bash se rompe por la expansión de `$`: usar la herramienta PowerShell.
+
+## Pendiente añadido (2026-10-27)
+- CM-7: ROM de la cadera (el rig permite 15° de extensión; `articulations` documenta 10° de StatPearls).
+- CM-8: deuda de anclaje del muslo; CM-9: cierre de la región. Después: tren superior, torso, pierna y pie, cabeza y cuello, piel (`docs/plan/`).
+- Volúmenes sin dato: glúteo mayor, semitendinoso, semimembranoso, aductores, grácil, sartorio, TFL, psoas, ilíaco, sóleo, peroneos y los nuevos profundos; Handsfield 2014, Ward 2009 y Lube 2016 siguen inaccesibles.
+- Verificar en un atlas el origen del psoas (T12–L5; hoy L2), el paso de la cintilla sobre el trocánter mayor, la posición de la eminencia iliopúbica y de los cuatro hitos de CM-6.
+- Llevar la deformación por la armadura al resto de ligamentos y tendones que cruzan una articulación (hoy solo los de la cadera y los seis tendones con envoltura).
+- Eliminar la desviación visual del anillo de la unión miotendinosa (huesos auxiliares con restricciones).
+
