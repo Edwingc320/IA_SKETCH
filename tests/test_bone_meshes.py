@@ -81,8 +81,8 @@ class TestFemurMesh(unittest.TestCase):
         self.base, self.anat, self.art, self.model = build_all()
 
     def test_both_femurs_are_closed_positive_and_valid(self):
-        self.assertEqual(sorted(self.model.meshes), ["femur.L", "femur.R"])
-        for m in self.model.meshes.values():
+        self.assertEqual([n for n in sorted(self.model.meshes) if n.startswith("femur")], ["femur.L", "femur.R"])
+        for m in (self.model.meshes["femur.L"], self.model.meshes["femur.R"]):
             self.assertEqual(euler_characteristic(list(m.verts), [list(f) for f in m.faces]), 2, m.name)
             self.assertGreater(m.volume_m3, 3.0e-4)  # ~514 cm3 a 1.75 m
             self.assertLess(m.volume_m3, 8.0e-4)
@@ -179,6 +179,164 @@ class TestFemurMesh(unittest.TestCase):
         self.assertIn("BMESH_BLEND_EXTRA", [i.code for i in bm.validate_bone_meshes_snapshot(self.model, bad)])
 
 
+PELVIS = ("ilium", "ischium", "pubis", "sacrum", "coccyx")
+SKIP_LANDMARKS = ("body_center_of_mass", "head_center_of_gravity")  # no son puntos de hueso
+
+
+def pelvis_landmarks(art):
+    return [(n, a) for n, a in art.attachments.items() if a.region == "lumbar_pelvis" and a.bone.split(".")[0] in PELVIS and n not in SKIP_LANDMARKS and not n.endswith(".R")]
+
+
+def pelvis_contract(base, anat, art, model, tol=None):
+    """Violaciones del contrato de F2: huecos, anillo pelvico cerrado, hitos a < 12 mm y generos."""
+    tol = tol if tol is not None else 0.012 * base.height_m / 1.75
+    bad = []
+    if model.meshes["sacrum"].genus != 8:
+        bad.append("sacrum: no tiene los 8 agujeros sacros")
+    for n, a in pelvis_landmarks(art):
+        if bm.mesh_distance(a.point, model.meshes[a.bone]) >= tol:
+            bad.append(f"hito {n} a mas de 12 mm de {a.bone}")
+    m = model.meshes
+    touch = lambda a, b: min(min(length(sub(p, q)) for q in b.verts) for p in a.verts)  # noqa: E731
+    k = base.height_m / 1.75
+    if touch(m["pubis.L"], m["pubis.R"]) > 0.004 * k:
+        bad.append("sinfisis abierta: los pubis no se tocan")
+    ramus = replace(m["ischium.L"], verts=tuple(v for v in m["ischium.L"].verts if v[1] < -0.045 * k))  # extremo anterior de la rama (lejos del acetabulo)
+    if not ramus.verts or touch(ramus, m["pubis.L"]) > 0.004 * k:
+        bad.append("anillo abierto: la rama isquiopubiana no llega al pubis")
+    if touch(m["sacrum"], m["ilium.L"]) > 0.010 * k:  # declarado: la interlinea sacroiliaca del modelo es de ~8 mm (real 2-4 mm)
+        bad.append("sacroiliaca abierta")
+    foramen = (0.056 * k, -0.015 * k, 0.866 * k)
+    if any(bm.mesh_distance(foramen, m[f"{n}.L"]) == 0.0 for n in ("ilium", "ischium", "pubis")):
+        bad.append("el agujero obturador esta tapado")
+    return bad
+
+
+class TestPelvisMeshes(unittest.TestCase):
+    def setUp(self):
+        self.base, self.anat, self.art, self.model = build_all()
+
+    def test_ten_meshes_closed_with_the_declared_openings(self):
+        self.assertEqual(sorted(self.model.meshes), sorted(["femur.L", "femur.R", "ilium.L", "ilium.R", "ischium.L", "ischium.R", "pubis.L", "pubis.R", "sacrum", "coccyx"]))
+        for n, m in self.model.meshes.items():
+            self.assertEqual(euler_characteristic(list(m.verts), [list(f) for f in m.faces]), 2 - 2 * m.genus, n)
+            self.assertGreater(m.volume_m3, 1e-6, n)
+        self.assertEqual(self.model.meshes["sacrum"].genus, 8)  # cuatro pares de agujeros sacros, como en la imagen
+        self.assertTrue(all(self.model.meshes[n].genus == 0 for n in self.model.meshes if n != "sacrum"))
+        self.assertEqual(bm.validate_bone_meshes(self.base, self.anat, self.model), [])
+
+    def test_the_sacral_foramina_are_real_holes_in_two_columns_of_four(self):
+        sacrum = self.model.meshes["sacrum"]
+        data = [b for b in bm.load_mesh_data()["bones"] if b["name"] == "sacrum"][0]
+        self.assertEqual(len(data["holes"]), 8)
+        from anatomical_core.anatomy import _eval, _point_spec
+        centres = [_eval(_point_spec(h["center"], "h"), self.base, self.anat.bones) for h in data["holes"]]
+        for c in centres:
+            d = bm.mesh_distance(c, sacrum)
+            self.assertAlmostEqual(d, 0.0045, delta=0.001)  # el centro del agujero esta a un radio de la pared: vacio
+        left = sorted((c for c in centres if c[0] > 0), key=lambda c: -c[2])
+        right = sorted((c for c in centres if c[0] < 0), key=lambda c: -c[2])
+        self.assertEqual((len(left), len(right)), (4, 4))
+        for a, b in zip(left, right):
+            self.assertAlmostEqual(a[0], -b[0], places=9)  # simetricos
+            self.assertAlmostEqual(a[2], b[2], places=9)
+
+    def test_the_pelvic_ring_closes_with_the_symphysis_the_obturator_foramen_and_the_sacroiliac(self):
+        self.assertEqual(pelvis_contract(self.base, self.anat, self.art, self.model), [])
+
+    def test_every_pelvic_landmark_is_within_12_mm_of_its_mesh_at_three_heights_both_sides(self):
+        for h in (1.5, 1.75, 2.05):
+            base, anat, art, model = build_all(h)
+            tol = 0.012 * h / 1.75
+            lm = pelvis_landmarks(art)
+            self.assertGreaterEqual(len(lm), 17)
+            for n, a in lm:
+                self.assertLess(bm.mesh_distance(a.point, model.meshes[a.bone]), tol, (h, n))
+                if n.endswith(".L"):
+                    r = art.attachments[n[:-2] + ".R"]
+                    self.assertLess(bm.mesh_distance(r.point, model.meshes[r.bone]), tol, (h, n, "R"))
+            self.assertEqual(pelvis_contract(base, anat, art, model), [], h)
+
+    def test_the_pelvis_scales_isometrically(self):
+        ref = {n: m.volume_m3 for n, m in self.model.meshes.items()}
+        for h in (1.5, 2.05):
+            _, _, _, m2 = build_all(h)
+            for n, v in ref.items():
+                self.assertAlmostEqual(m2.meshes[n].volume_m3 / v, (h / 1.75) ** 3, places=7, msg=(h, n))
+
+    def test_symmetry_and_the_slab_style(self):
+        key = lambda v: tuple(round(c, 9) for c in v)  # noqa: E731
+        for n in ("ilium", "ischium", "pubis"):
+            l, r = self.model.meshes[f"{n}.L"], self.model.meshes[f"{n}.R"]
+            self.assertEqual(sorted(key(mirror_point(p)) for p in l.verts), sorted(key(q) for q in r.verts), n)
+        s = self.model.meshes["sacrum"]
+        # el sacro es simetrico respecto a x = 0 salvo el empuje lateral de 2-4 mm de algunos puntos intermedios del contorno (declarado)
+        far = max(min(length(sub(mirror_point(p), q)) for q in s.verts) for p in s.verts)
+        self.assertLess(far, 0.006)
+        self.assertFalse(self.model.meshes["ilium.L"].smooth or s.smooth)  # laminas: sombreado plano
+        self.assertTrue(self.model.meshes["pubis.L"].smooth)
+
+    def test_the_regions_ligaments_and_muscle_origins_were_not_touched(self):
+        """F2 no modifica ligamentos ni origenes musculares: los hitos y ligamentos de la region siguen exactamente donde estaban (valores de CM-1 a CM-10)."""
+        a = self.art.attachments
+        self.assertEqual(tuple(round(c, 4) for c in a["ischial_tuberosity.L"].point), (0.0613, 0.021, 0.8225))
+        self.assertEqual(tuple(round(c, 4) for c in a["iliopubic_eminence.L"].point), (0.0449, -0.0415, 0.9009))
+        self.assertEqual(tuple(round(c, 4) for c in self.art.ligaments["iliofemoral.L"].a), (0.1067, -0.0262, 0.9581))
+        self.assertEqual(len(self.art.ligaments), 620)
+
+    # ---- mutaciones de F2
+    def test_mutation_a_sacral_hole_removed_is_caught(self):
+        data = copy.deepcopy(bm.load_mesh_data())
+        next(b for b in data["bones"] if b["name"] == "sacrum")["holes"].pop()
+        base, anat, art, bad = build_all(data=data)
+        self.assertEqual(bad.meshes["sacrum"].genus, 7)
+        self.assertIn("sacrum: no tiene los 8 agujeros sacros", pelvis_contract(base, anat, art, bad))
+
+    def test_mutation_an_open_ring_or_a_covered_foramen_or_a_displaced_ilium_is_caught(self):
+        data = copy.deepcopy(bm.load_mesh_data())
+        isch = next(b for b in data["bones"] if b["name"] == "ischium.L")
+        isch["stations"][0]["offset_h"] = [x + d for x, d in zip(isch["stations"][0]["offset_h"], (0.0, 0.0, -0.06))]  # el extremo de la rama, 10 cm mas abajo
+        base, anat, art, bad = build_all(data=data)
+        self.assertTrue(any("anillo abierto" in v for v in pelvis_contract(base, anat, art, bad)))
+        data = copy.deepcopy(bm.load_mesh_data())
+        for p in next(b for b in data["bones"] if b["name"] == "ilium.L")["outline"]:
+            p["offset_h"][2] += 0.03  # toda la lamina 5 cm mas arriba: los hitos del ilion quedan fuera
+        base, anat, art, bad = build_all(data=data)
+        self.assertTrue(any("hito" in v for v in pelvis_contract(base, anat, art, bad)))
+        data = copy.deepcopy(bm.load_mesh_data())
+        for st in next(b for b in data["bones"] if b["name"] == "pubis.L")["stations"]:
+            st["a_m"], st["b_m"] = 0.07, 0.07  # pubis enorme: tapa el agujero obturador
+        base, anat, art, bad = build_all(data=data)
+        self.assertTrue(any("obturador" in v for v in pelvis_contract(base, anat, art, bad)))
+
+    def test_mutation_a_degenerate_slab_outline_is_rejected(self):
+        data = copy.deepcopy(bm.load_mesh_data())
+        next(b for b in data["bones"] if b["name"] == "ilium.L")["outline"] = [{"at": "pelvis.head"}, {"at": "pelvis.tail"}]
+        with self.assertRaises(ConfigError):
+            build_all(data=data)
+        data = copy.deepcopy(bm.load_mesh_data())
+        next(b for b in data["bones"] if b["name"] == "ilium.L")["thickness_m"] = 0.5
+        with self.assertRaises(ConfigError):
+            build_all(data=data)
+
+
+class TestSlabPrimitive(unittest.TestCase):
+    def test_a_slab_with_holes_has_the_analytic_volume_and_euler_two_minus_two_holes(self):
+        sq = [(0, 0, 0), (0.1, 0, 0), (0.1, 0.1, 0), (0, 0.1, 0)]
+        verts, faces = bm.slab(sq, 0.01)
+        from anatomical_core.volumes import signed_volume
+        self.assertAlmostEqual(signed_volume(verts, faces), 1e-4, places=12)
+        r1, r2 = 0.02, 0.01
+        verts, faces = bm.slab(sq, 0.01, [{"center": (0.05, 0.05, 0), "radius": r1}, {"center": (0.02, 0.02, 0), "radius": r2}])
+        self.assertEqual(euler_characteristic(verts, [list(f) for f in faces]), -2)
+        poly = lambda r: 0.5 * 12 * r * r * math.sin(2 * math.pi / 12)  # noqa: E731
+        self.assertAlmostEqual(signed_volume(verts, faces), 0.01 * (0.01 - poly(r1) - poly(r2)), places=12)
+
+    def test_a_slab_does_not_accept_a_crossing_outline(self):
+        with self.assertRaises(ConfigError):
+            bm.slab([(0, 0, 0), (1, 0, 0), (0, 1, 0), (1, 1, 0)], 0.01)  # corbata: area neta nula
+
+
 @unittest.skipUnless(HAVE_BPY, "requiere Blender (bpy)")
 class TestBoneMeshesInBlender(unittest.TestCase):
     @classmethod
@@ -202,6 +360,21 @@ class TestBoneMeshesInBlender(unittest.TestCase):
             fill = o.data.materials[0].diffuse_color
             self.assertTrue(all(0.8 < c < 0.9 for c in fill[:3]))  # gris claro de la imagen
             self.assertTrue(o.data.materials[1].use_backface_culling)
+        self.assertEqual(bm.validate_bone_meshes_snapshot(self.model, self.bscene.read_back_bone_meshes()), [])
+
+    def test_the_ten_pelvic_and_femoral_objects_follow_their_bones_with_the_declared_shading(self):
+        import bpy
+        self.scene.open_blend(self.path)
+        names = sorted(f"BM_{n}" for n in self.model.meshes)
+        self.assertEqual(len(names), 10)
+        for n in names:
+            o = bpy.data.objects[n]
+            self.assertEqual((o.parent.name, o.parent_bone), ("AC_Armature", n[3:]))
+            smooth = self.model.meshes[n[3:]].smooth
+            self.assertEqual(all(p.use_smooth for p in o.data.polygons), smooth, n)  # laminas planas, lofts suaves
+            self.assertEqual(len(o.data.polygons) > 0, True)
+        self.assertEqual(len(bpy.data.objects["BM_sacrum"].data.vertices), len(self.model.meshes["sacrum"].verts))
+        self.assertFalse(bpy.data.objects["BM_ilium.L"].hide_render)
         self.assertEqual(bm.validate_bone_meshes_snapshot(self.model, self.bscene.read_back_bone_meshes()), [])
 
     def test_the_femur_mesh_moves_with_the_hip(self):

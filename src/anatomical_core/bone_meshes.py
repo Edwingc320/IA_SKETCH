@@ -45,6 +45,8 @@ class BoneMesh:
     verts: tuple
     faces: tuple  # cuadrilateros y triangulos (los polos)
     notes: str
+    genus: int = 0  # numero de agujeros pasantes (agujeros sacros de una lamina): la caracteristica de Euler esperada es 2 - 2 genus
+    smooth: bool = True  # sombreado suave (lofts) o plano (laminas de caras anchas: pelvis, sacro)
 
     @property
     def volume_m3(self) -> float:
@@ -58,7 +60,7 @@ class BoneMeshModel:
 
     def signature(self) -> str:
         r = lambda v: [round(c, 6) for c in v]  # noqa: E731
-        return hashlib.sha256(json.dumps({n: [[r(s.point), round(s.a, 6), round(s.b, 6)] for s in m.stations] for n, m in sorted(self.meshes.items())}, sort_keys=True).encode()).hexdigest()
+        return hashlib.sha256(json.dumps({n: [[[r(s.point), round(s.a, 6), round(s.b, 6)] for s in m.stations], len(m.verts), m.genus] for n, m in sorted(self.meshes.items())}, sort_keys=True).encode()).hexdigest()
 
 
 def load_mesh_data(meshes_dir: Path | str | None = None):
@@ -152,6 +154,9 @@ def build_bone_meshes(base: SkeletonModel, anat: AnatomyModel, data) -> BoneMesh
         name = str(d["name"])
         if name not in anat.bones:
             raise ConfigError(f"{w}: el hueso del nivel 1 '{name}' no existe")
+        if d.get("kind", "loft") == "slab":
+            _build_slab(out, d, w, name, k, base, anat)
+            continue
         raw = d.get("stations", [])
         if len(raw) < 2:
             raise ConfigError(f"{w}: hacen falta al menos 2 estaciones")
@@ -164,11 +169,12 @@ def build_bone_meshes(base: SkeletonModel, anat: AnatomyModel, data) -> BoneMesh
         cs, ce = (float(d["cap_start_m"]) * k if "cap_start_m" in d else None), (float(d["cap_end_m"]) * k if "cap_end_m" in d else None)
         sides = int(d.get("sides", DEFAULT_SIDES))
         for side in (("L", "R") if d.get("mirror") else (None,)):
+            wr = tuple(float(c) for c in d.get("width_ref", (1.0, 0.0, 0.0)))  # eje de referencia de la anchura de la seccion
             if side == "R":
                 stations = tuple(Station(mirror_point(s.point), s.a, s.b) for s in left)
-                ref = (-1.0, 0.0, 0.0)
+                ref = (-wr[0], wr[1], wr[2])
             else:
-                stations, ref = tuple(left), (1.0, 0.0, 0.0)
+                stations, ref = tuple(left), wr
             verts, faces = loft(stations, sides, ref, cs, ce)
             nm = _swap_side(name, side or "L")
             if nm in out:
@@ -196,6 +202,32 @@ def validate_bone_meshes_snapshot(model: BoneMeshModel, snap: dict) -> list:
     if extra:
         out.append(Issue("error", "BMESH_BLEND_EXTRA", f"Objetos de malla osea no esperados: {sorted(extra)[:5]}"))
     return out
+
+
+def _build_slab(out: dict, d: dict, w: str, name: str, k: float, base: SkeletonModel, anat: AnatomyModel) -> None:
+    outline = [_eval(_point_spec(p, f"{w}.outline[{i}]"), base, anat.bones) for i, p in enumerate(d.get("outline", []))]
+    if len(outline) < 3:
+        raise ConfigError(f"{w}: una lamina necesita al menos 3 puntos de contorno")
+    thick = float(d["thickness_m"]) * k
+    if not 0.001 * k <= thick <= 0.1:
+        raise ConfigError(f"{w}: grosor fuera de rango (1 mm - 10 cm)")
+    holes = [{"center": _eval(_point_spec(h["center"], f"{w}.holes[{i}]"), base, anat.bones), "radius": float(h["radius_m"]) * k} for i, h in enumerate(d.get("holes", []))]
+    bend = None
+    if d.get("bend"):
+        b = d["bend"]
+        bend = {"p0": _eval(_point_spec(b["p0"], f"{w}.bend.p0"), base, anat.bones), "p1": _eval(_point_spec(b["p1"], f"{w}.bend.p1"), base, anat.bones), "amount": float(b["amount_m"]) * k}
+    for side in (("L", "R") if d.get("mirror") else (None,)):
+        if side == "R":
+            o = [mirror_point(p) for p in outline]
+            hs = [{"center": mirror_point(h["center"]), "radius": h["radius"]} for h in holes]
+            bd = {"p0": mirror_point(bend["p0"]), "p1": mirror_point(bend["p1"]), "amount": bend["amount"]} if bend else None
+        else:
+            o, hs, bd = outline, holes, bend
+        verts, faces = slab(o, thick, hs, bd)
+        nm = _swap_side(name, side or "L")
+        if nm in out:
+            raise ConfigError(f"Malla duplicada '{nm}'")
+        out[nm] = BoneMesh(nm, (), tuple(verts), tuple(faces), str(d.get("notes", "")), len(hs), bool(d.get("smooth", False)))
 
 
 def mesh_distance(p: Vec3, mesh: BoneMesh) -> float:
@@ -226,14 +258,14 @@ def validate_bone_meshes(base: SkeletonModel, anat: AnatomyModel, model: BoneMes
         if not all(math.isfinite(c) for v in verts for c in v):
             out.append(Issue("error", "BMESH_NON_FINITE", f"'{n}': vertices no finitos"))
             continue
-        if euler_characteristic(verts, faces) != 2:
-            out.append(Issue("error", "BMESH_NOT_CLOSED", f"'{n}': la malla no es una superficie cerrada (caracteristica de Euler != 2)"))
+        if euler_characteristic(verts, faces) != 2 - 2 * m.genus:
+            out.append(Issue("error", "BMESH_NOT_CLOSED", f"'{n}': la malla no es una superficie cerrada con {m.genus} agujeros (caracteristica de Euler != {2 - 2 * m.genus})"))
         if m.volume_m3 <= 1e-9:
             out.append(Issue("error", "BMESH_VOLUME", f"'{n}': volumen no positivo"))
         right = n[:-2] + ".R" if n.endswith(".L") else None
         if right and right in model.meshes:
             r = model.meshes[right]
-            if len(r.verts) != len(m.verts) or abs(r.volume_m3 - m.volume_m3) > 1e-4 * m.volume_m3:  # los cuadrilateros alabeados se triangulan distinto al invertir el orden: ~4e-6 de diferencia
+            if len(r.verts) != len(m.verts) or abs(r.volume_m3 - m.volume_m3) > 2e-3 * m.volume_m3:  # los cuadrilateros alabeados se triangulan distinto al invertir el orden: hasta ~4e-4 de diferencia (los vertices se comparan aparte, exactos)
                 out.append(Issue("error", "BMESH_ASYMMETRIC", f"'{n}' y '{right}' no son simetricas (vertices o volumen distintos)"))
             else:
                 grid = {}
@@ -247,3 +279,137 @@ def validate_bone_meshes(base: SkeletonModel, anat: AnatomyModel, model: BoneMes
                         out.append(Issue("error", "BMESH_ASYMMETRIC", f"'{n}' no es el espejo de '{right}'"))
                         break
     return out
+
+
+# --- Laminas con grosor (pelvis, sacro) ------------------------------------------------------------------------------------------------------------
+def _newell_normal(pts: list) -> Vec3:
+    n = (0.0, 0.0, 0.0)
+    for i, p in enumerate(pts):
+        q = pts[(i + 1) % len(pts)]
+        n = add(n, ((p[1] - q[1]) * (p[2] + q[2]), (p[2] - q[2]) * (p[0] + q[0]), (p[0] - q[0]) * (p[1] + q[1])))
+    if length(n) < 1e-12:
+        raise ConfigError("Contorno de lamina degenerado: area nula (puntos colineales o contorno que se cruza)")
+    return normalize(n)
+
+
+def _area2(poly: list) -> float:
+    return sum(poly[i][0] * poly[(i + 1) % len(poly)][1] - poly[(i + 1) % len(poly)][0] * poly[i][1] for i in range(len(poly)))
+
+
+def _seg_cross(a, b, c, d) -> bool:
+    """True si los segmentos ab y cd se cruzan en un punto interior (no cuenta compartir un extremo)."""
+    def o(p, q, r):
+        return (q[0] - p[0]) * (r[1] - p[1]) - (q[1] - p[1]) * (r[0] - p[0])
+    if a == c or a == d or b == c or b == d:
+        return False
+    return o(a, b, c) * o(a, b, d) < 0 and o(c, d, a) * o(c, d, b) < 0
+
+
+def triangulate(outer: list, holes: list) -> list:
+    """Triangulacion (indices) de un poligono 2D con agujeros por puentes + recorte de orejas. `outer` es CCW y los agujeros CW. Los indices son los de la lista
+    concatenada [outer + holes...]."""
+    pts = list(outer) + [p for h in holes for p in h]
+    ring = list(range(len(outer)))
+    offs = len(outer)
+    rings = []
+    for h in holes:
+        rings.append(list(range(offs, offs + len(h))))
+        offs += len(h)
+    for hr in sorted(rings, key=lambda r: -max(pts[i][0] for i in r)):  # agujeros de derecha a izquierda
+        m = max(hr, key=lambda i: pts[i][0])
+        order = sorted(range(len(ring)), key=lambda k: (pts[ring[k]][0] - pts[m][0]) ** 2 + (pts[ring[k]][1] - pts[m][1]) ** 2)
+        for k in order:  # el vertice visible mas cercano: el puente no cruza ninguna arista
+            v = ring[k]
+            edges = [(ring[j], ring[(j + 1) % len(ring)]) for j in range(len(ring))] + [(hr[j], hr[(j + 1) % len(hr)]) for j in range(len(hr))]
+            if all(not _seg_cross(pts[v], pts[m], pts[a], pts[b]) for a, b in edges):
+                j = hr.index(m)
+                rot = hr[j:] + hr[:j]
+                ring = ring[:k + 1] + rot + [m] + ring[k:]
+                break
+        else:
+            raise ConfigError("No se pudo unir un agujero al contorno de la lamina")
+    tris, idx = [], list(ring)
+    guard = 0
+    while len(idx) > 3 and guard < 20000:
+        guard += 1
+        ear = False
+        for k in range(len(idx)):
+            a, b, c = idx[k - 1], idx[k], idx[(k + 1) % len(idx)]
+            pa, pb, pc = pts[a], pts[b], pts[c]
+            if (pb[0] - pa[0]) * (pc[1] - pa[1]) - (pb[1] - pa[1]) * (pc[0] - pa[0]) <= 1e-18:
+                continue  # vertice reflejo o degenerado
+            inside = False
+            for v in idx:
+                if v in (a, b, c) or pts[v] in (pa, pb, pc):
+                    continue
+                q = pts[v]
+                d1 = (pb[0] - pa[0]) * (q[1] - pa[1]) - (pb[1] - pa[1]) * (q[0] - pa[0])
+                d2 = (pc[0] - pb[0]) * (q[1] - pb[1]) - (pc[1] - pb[1]) * (q[0] - pb[0])
+                d3 = (pa[0] - pc[0]) * (q[1] - pc[1]) - (pa[1] - pc[1]) * (q[0] - pc[0])
+                if d1 >= -1e-18 and d2 >= -1e-18 and d3 >= -1e-18:
+                    inside = True
+                    break
+            if not inside:
+                tris.append((a, b, c))
+                idx.pop(k)
+                ear = True
+                break
+        if not ear:
+            raise ConfigError("Triangulacion de la lamina sin orejas: el contorno se cruza o es degenerado")
+    tris.append(tuple(idx))
+    return tris
+
+
+def slab(outline: list, thickness: float, holes: list | None = None, bend: dict | None = None) -> tuple:
+    """(vertices, caras) de una lamina con grosor: el contorno 3D (y sus agujeros circulares {"center", "radius"}) se triangula en su plano medio, se desplaza
+    +-thickness/2 a lo largo de la normal y se cierra con paredes. `bend` = {"p0", "p1", "amount"} curva la lamina a lo largo del eje p0-p1
+    (amount * 4 s (1 - s), s en [0, 1]). Genero = numero de agujeros."""
+    holes = holes or []
+    n = _newell_normal(outline)
+    centre = tuple(sum(p[i] for p in outline) / len(outline) for i in range(3))
+    e1 = normalize(cross(n, (0.0, 0.0, 1.0)) if abs(n[2]) < 0.9 else cross(n, (1.0, 0.0, 0.0)))
+    e2 = cross(n, e1)
+    to2 = lambda p: (dot(sub(p, centre), e1), dot(sub(p, centre), e2))  # noqa: E731
+    outer3 = list(outline)
+    hole_loops3 = []
+    for h in holes:
+        c, r = h["center"], h["radius"]
+        hole_loops3.append([add(c, add(scale(e1, r * math.cos(2 * math.pi * k / 12)), scale(e2, r * math.sin(2 * math.pi * k / 12)))) for k in range(12)])
+    o2 = [to2(p) for p in outer3]
+    if _area2(o2) < 0:
+        outer3, o2 = outer3[::-1], o2[::-1]
+    h2 = []
+    for loop in hole_loops3:
+        pl = [to2(p) for p in loop]
+        if _area2(pl) > 0:
+            loop, pl = loop[::-1], pl[::-1]
+        h2.append(pl)
+    hole_loops3 = [lp if _area2([to2(p) for p in lp]) < 0 else lp[::-1] for lp in hole_loops3]
+    allp = outer3 + [p for lp in hole_loops3 for p in lp]
+    tris = triangulate(o2, h2)
+
+    def shift(p):
+        if not bend:
+            return 0.0
+        a, b = bend["p0"], bend["p1"]
+        ab = sub(b, a)
+        s = max(0.0, min(1.0, dot(sub(p, a), ab) / dot(ab, ab)))
+        return float(bend["amount"]) * 4 * s * (1 - s)
+    half = thickness / 2
+    top = [add(p, scale(n, half + shift(p))) for p in allp]
+    bot = [add(p, scale(n, -half + shift(p))) for p in allp]
+    verts = top + bot
+    off = len(allp)
+    faces = [(a, b, c) for a, b, c in tris] + [(a + off, c + off, b + off) for a, b, c in tris]
+    rings = [list(range(len(outer3)))]
+    start = len(outer3)
+    for lp in hole_loops3:
+        rings.append(list(range(start, start + len(lp))))
+        start += len(lp)
+    for ring in rings:
+        for k in range(len(ring)):
+            a, b = ring[k], ring[(k + 1) % len(ring)]
+            faces.append((a, a + off, b + off, b))
+    if signed_volume(verts, faces) < 0:
+        faces = [tuple(reversed(f)) for f in faces]
+    return verts, faces

@@ -237,6 +237,45 @@ def bmesh_unknown_bone(d):
     d["bones"][0]["name"] = "no_such_bone.L"
 
 
+# ---- pelvis y sacro (F2)
+@mutation(BM, ["test_bone_meshes"])
+def bmesh_sacral_foramen_removed(d):
+    by(d["bones"], "sacrum")["holes"].pop()
+
+
+@mutation(BM, ["test_bone_meshes"])
+def bmesh_pelvic_ring_opened_at_the_ischiopubic_ramus(d):
+    st = by(d["bones"], "ischium.L")["stations"][0]
+    st["offset_h"] = [st["offset_h"][0], st["offset_h"][1], st["offset_h"][2] - 0.06]
+
+
+@mutation(BM, ["test_bone_meshes"])
+def bmesh_ilium_slab_displaced_upwards(d):
+    for p in by(d["bones"], "ilium.L")["outline"]:
+        p["offset_h"][2] += 0.03
+
+
+@mutation(BM, ["test_bone_meshes"])
+def bmesh_pubis_oversized_covers_the_obturator_foramen(d):
+    for st in by(d["bones"], "pubis.L")["stations"]:
+        st["a_m"] = st["b_m"] = 0.07
+
+
+@mutation(BM, ["test_bone_meshes"])
+def bmesh_ilium_outline_degenerate(d):
+    by(d["bones"], "ilium.L")["outline"] = [{"at": "pelvis.head"}, {"at": "pelvis.tail"}]
+
+
+@mutation(BM, ["test_bone_meshes"])
+def bmesh_slab_thickness_absurd(d):
+    by(d["bones"], "ilium.L")["thickness_m"] = 0.5
+
+
+@mutation(BM, ["test_bone_meshes"])
+def bmesh_sacrum_made_smooth_shaded(d):
+    by(d["bones"], "sacrum")["smooth"] = True
+
+
 def run_one(name, file, fn, tests):
     original = file.read_bytes()
     atexit.register(file.write_bytes, original)  # si el proceso termina a medias, los bytes originales se restauran

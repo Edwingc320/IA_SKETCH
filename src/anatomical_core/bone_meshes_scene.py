@@ -27,7 +27,7 @@ def add_bone_meshes(model: BoneMeshModel, anat) -> None:
     for n, m in model.meshes.items():
         o = scene._mesh_object(f"BM_{n}", m.verts, m.faces, col, fill, "bone_mesh")
         o.data.materials.append(line)
-        o.data.polygons.foreach_set("use_smooth", [True] * len(o.data.polygons))
+        o.data.polygons.foreach_set("use_smooth", [m.smooth] * len(o.data.polygons))
         mod = o.modifiers.new("AC_Outline", "SOLIDIFY")
         mod.thickness, mod.offset, mod.use_flip_normals, mod.material_offset = OUTLINE_M * k, 1.0, True, 1
         o["ac_region"], o["ac_bone"], o["ac_volume_cm3"] = anat.bones[n].region, n, m.volume_m3 * 1e6
