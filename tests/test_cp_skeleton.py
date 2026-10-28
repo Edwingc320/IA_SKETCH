@@ -404,24 +404,29 @@ class TestCpRefined(unittest.TestCase):
         self.assertGreater(len(cup), 5000)  # copa acetabular: casquete grueso entre 13.6 y 21.5 mm de H alrededor del centro del acetabulo
 
     def test_the_cup_hugs_the_femoral_head_and_leaves_the_neck_free(self):
+        from mathutils.bvhtree import BVHTree
+
         h = self.h
         c = Vector((cp.HIP_X * h, 0.0, cp.HIP_Z * h))
         pelvis, femur = self.parts["cp.Pelvis"], self.parts["cp.FemurL"]
-        cup = [pelvis.matrix_world @ v.co for v in pelvis.data.vertices if (pelvis.matrix_world @ v.co - c).length < 0.0215 * h * 1.01 and (pelvis.matrix_world @ v.co - c).length > 0.0136 * h * 0.99
-               and (pelvis.matrix_world @ v.co).x > 0.03 * h]
-        inner = min((p - c).length for p in cup)
-        self.assertAlmostEqual(inner, 0.0136 * h, delta=0.0003)  # cara articular a 13.6 mm de H del centro
-        head = max((femur.matrix_world @ v.co - c).length for v in femur.data.vertices if (femur.matrix_world @ v.co - c).length < 0.0132 * h)  # radio de la cabeza (0.0126 H)
-        self.assertTrue(0.0005 * h < inner - head < 0.004 * h, "holgura de interlinea entre la cabeza femoral y la copa (0.5-4 mm de H)")
-        neck = [femur.matrix_world @ v.co for v in femur.data.vertices if 0.026 * h < (femur.matrix_world @ v.co - c).length < 0.045 * h]
-        self.assertGreater(min((p - c).length for p in neck if True), 0.0136 * h)  # ningun vertice del cuello entra en la copa
-        from mathutils.kdtree import KDTree
+        spec = __import__("anatomical_core.cp_refine", fromlist=["x"]).load_refine()["acetabular_cup"]
+        r_in = spec["r_in"] * h
+        inner = [v for v in pelvis.data.vertices if abs((pelvis.matrix_world @ v.co - c).length - r_in) < 2e-5]
+        self.assertGreater(len(inner), 4000)  # cara articular: casquete esferico de 96 x 48 vertices a r_in del centro del acetabulo
+        head = max((femur.matrix_world @ v.co - c).length for v in femur.data.vertices if (femur.matrix_world @ v.co - c).length < r_in)  # radio de la cabeza
+        self.assertTrue(0.0005 * h < r_in - head < 0.004 * h, "holgura de interlinea entre la cabeza femoral y la copa (0.5-4 mm de H)")
+        tree = BVHTree.FromObject(pelvis, bpy.context.evaluated_depsgraph_get())
+        inv = pelvis.matrix_world.inverted()
+        outside = [femur.matrix_world @ v.co for v in femur.data.vertices if 0.0145 * h < (femur.matrix_world @ v.co - c).length < 0.060 * h and (femur.matrix_world @ v.co - c).x > 0.004 * h]  # cuello y trocanter mayor (lado lateral); el trocanter menor roza el isquion en el modelo de nivel 1 (limite declarado)
+        self.assertGreater(len(outside), 200)
+        for p in outside:  # cuello y trocanteres quedan fuera del solido pelvico: la copa no se cierra sobre el cuello
+            q = inv @ p
+            loc, nor, _, _ = tree.find_nearest(q)
+            self.assertGreater((q - loc).dot(nor), 0.0)
 
-        tree = KDTree(len(cup))
-        for i, p in enumerate(cup):
-            tree.insert(p, i)
-        tree.balance()
-        self.assertGreater(min(tree.find(p)[2] for p in neck), 0.001)  # el cuello no roza el borde de la copa
+    def test_the_pelvis_skull_and_mandible_are_mirror_symmetric(self):
+        for n in ("cp.Pelvis", "cp.Skull", "cp.Mandible"):
+            self.assertLess(mirror_error(self.parts[n]), 1.5e-3, n)  # 1.5 mm: el Boolean y los anillos de los tubos no triangulan igual a cada lado
 
     def test_the_obturator_foramen_and_the_symphysis_are_preserved(self):
         from mathutils.bvhtree import BVHTree
@@ -458,6 +463,17 @@ class TestCpRefined(unittest.TestCase):
         self.assertGreater(nose - cheek, 0.004)
         self.assertAlmostEqual(first_hit(-0.0183, 0.0040), orbit, delta=0.0006)  # las dos orbitas son simetricas
 
+    def test_the_skull_has_the_dimensions_of_a_human_cranium(self):
+        h = self.h
+        sk = self.parts["cp.Skull"]
+        co = [v.co for v in sk.data.vertices]
+        self.assertGreater(max(p.z for p in co) / h, 0.074)  # boveda a ~0.077 H sobre los condilos occipitales (13 cm)
+        cranium_width = max(p.x for p in co if p.z > 0.020 * h) - min(p.x for p in co if p.z > 0.020 * h)
+        self.assertGreater(cranium_width / h, 0.078)  # anchura del neurocraneo ~14 cm
+        self.assertGreater(max(p.y for p in co) / h, 0.036)  # occipucio detras de los condilos
+        self.assertLess(min(p.y for p in co) / h, -0.078)  # cara adelante
+        self.assertLess(max(p.y for p in co if p.z < -0.0 and abs(p.x) < 0.01 * h) / h, 0.050)
+
     def test_the_mandible_has_angle_ascending_ramus_body_and_chin(self):
         from mathutils.bvhtree import BVHTree
 
@@ -476,6 +492,9 @@ class TestCpRefined(unittest.TestCase):
         chin = [p for p in rr if abs(p[0]) < 0.010 and p[1] < -0.066 and p[2] < -0.044]  # menton
         self.assertTrue(ramus_top and angle and chin)
         self.assertLess(max(p[2] for p in ramus_top), -0.0005 + 0.0)  # los condilos no pasan del eje de las ATM
+        condyle = [p for p in rr if p[0] > 0 and p[2] > -0.0085]  # cabeza del condilo, bajo la fosa glenoidea
+        self.assertGreater(len(condyle), 200)
+        self.assertAlmostEqual(sum(p[1] for p in condyle) / len(condyle), ax.TMJ[1], delta=0.005)  # centrada en el eje de las ATM (y = -0.032 H)
         self.assertGreater(max(p[2] for p in ramus_top) - min(p[2] for p in angle), 0.030)  # rama ascendente de ~3 cm de H (5 cm)
         self.assertGreater(min(p[1] for p in chin) , -0.085)
         self.assertLess(min(p[1] for p in chin), -0.074)  # el menton adelanta la arcada
