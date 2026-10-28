@@ -13,7 +13,7 @@ import bpy
 from mathutils import Vector
 
 from . import geometry as geo
-from . import scene, volumes
+from . import patella_tracking, scene, volumes
 from .anatomy import LAYER, AnatomyModel
 
 COLLECTION_VISUALS = "AC_Anatomy_Visuals"
@@ -27,8 +27,9 @@ _OUTLINE_COLOR = (0.55, 0.45, 0.30, 1.0)
 _CARTILAGE_COLOR = (0.62, 0.78, 0.86, 1.0)  # cartilago costal (azul palido)
 
 
-def add_anatomy(anat: AnatomyModel, base_bone_names) -> None:
-    """Anade el nivel 1 a la escena actual (que ya contiene la base creada por scene.build_scene)."""
+def add_anatomy(anat: AnatomyModel, base_bone_names, base=None) -> None:
+    """Anade el nivel 1 a la escena actual (que ya contiene la base creada por scene.build_scene). Con `base`, los huesos con `tracking` (la rotula) llevan un hueso
+    auxiliar (patella_carrier) y las restricciones que reproducen patella_tracking sin drivers."""
     sc = bpy.context.scene
     arm_obj = bpy.data.objects[scene.ARMATURE_OBJECT]
     arm = arm_obj.data
@@ -49,6 +50,19 @@ def add_anatomy(anat: AnatomyModel, base_bone_names) -> None:
             e.align_roll(Vector(b.frame[2]))
         for b in anat.bones.values():
             e = eb[b.name]
+            if b.tracking and base is not None:  # la rotula cuelga de su hueso auxiliar, que cuelga del femur y gira alrededor del pivote de la rodilla
+                joint = base.joints[f"{b.tracking['driver_joint']}.{patella_tracking.side_of(b.name)}"]
+                driver = base.bones[joint.bone]
+                c = eb.new(patella_tracking.carrier_name(b.name))
+                c.head = joint.pivot
+                c.tail = geo.add(joint.pivot, geo.scale(geo.normalize(geo.sub(driver.tail, driver.head)), 0.03 * anat.height_m / 1.75))
+                c.align_roll(Vector(driver.frame[2]))  # mismos ejes locales que el hueso que la mueve: Copy Rotation en espacio local
+                c.parent = eb[b.parent]
+                c.use_connect = False
+                c.use_deform = False
+                e.parent = c
+                e.use_connect = False
+                continue
             e.parent = eb[b.parent]
             e.use_connect = geo.length(geo.sub(eb[b.parent].tail, e.head)) < 1e-6
     finally:
@@ -66,6 +80,13 @@ def add_anatomy(anat: AnatomyModel, base_bone_names) -> None:
         bone["ac_region"] = b.region
         bone["ac_reference"] = json.dumps(list(b.reference))
         bone["ac_anatomical_parent"] = b.anatomical_parent or b.parent  # relacion anatomica (el padre del rig es bone.parent)
+        if b.tracking and base is not None:
+            helper = arm.bones[patella_tracking.carrier_name(b.name)]
+            region_colls[b.region].assign(helper)
+            helper["ac_layer"] = "rig_helper"
+            helper["ac_tracking_for"] = b.name
+    if base is not None:
+        _add_tracking_constraints(anat, base, arm_obj)
 
     inverses = scene._bone_parent_inverses(sc, arm_obj, list(anat.bones))
     mat = scene._material("AC_Mat_anatomy", _BONE_COLOR)
@@ -100,6 +121,38 @@ def add_anatomy(anat: AnatomyModel, base_bone_names) -> None:
     }
     sc[scene.META_KEY] = json.dumps(meta)
     bpy.context.view_layer.update()
+
+
+def _add_tracking_constraints(anat: AnatomyModel, base, arm_obj) -> None:
+    """Restricciones (no drivers) que reproducen patella_tracking.patella_transform: Copy Rotation del eje de flexion con influencia `pitch_ratio` en el hueso
+    auxiliar, y Transformation (flexion -> desplazamiento radial lineal) en la rotula, en el eje local del hueso que gira con el auxiliar."""
+    for b in anat.bones.values():
+        if not b.tracking:
+            continue
+        t = b.tracking
+        joint = base.joints[f"{t['driver_joint']}.{patella_tracking.side_of(b.name)}"]
+        dof = next(d for d in joint.dofs if d.name == t["driver_dof"])
+        carrier = arm_obj.pose.bones[patella_tracking.carrier_name(b.name)]
+        con = carrier.constraints.new("COPY_ROTATION")
+        con.name = "AC_PatellaPitch"
+        con.target, con.subtarget = arm_obj, joint.bone
+        con.use_x, con.use_y, con.use_z = True, False, False
+        con.owner_space = con.target_space = "LOCAL"
+        con.influence = float(t["pitch_ratio"])
+        r0 = geo.normalize(geo.sub(geo.scale(geo.add(b.head, b.tail), 0.5), joint.pivot))
+        local = [geo.dot(r0, axis) for axis in b.frame]  # direccion radial en los ejes locales de la rotula
+        per_deg = float(t["radial_mm_per_deg"]) / 1000.0 * base.height_m / 1.75  # a 1.75 m; escala con la altura
+        top = dof.max_deg
+        tc = arm_obj.pose.bones[b.name].constraints.new("TRANSFORM")
+        tc.name = "AC_PatellaGlide"
+        tc.target, tc.subtarget = arm_obj, joint.bone
+        tc.map_from, tc.map_to = "ROTATION", "LOCATION"
+        tc.from_rotation_mode = "AUTO"
+        tc.from_min_x_rot, tc.from_max_x_rot = 0.0, math.radians(top)
+        tc.map_to_x_from = tc.map_to_y_from = tc.map_to_z_from = "X"
+        tc.to_min_x = tc.to_min_y = tc.to_min_z = 0.0
+        tc.to_max_x, tc.to_max_y, tc.to_max_z = (per_deg * top * c for c in local)
+        tc.owner_space = tc.target_space = "LOCAL"
 
 
 def read_back_anatomy() -> dict:

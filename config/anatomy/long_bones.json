@@ -233,7 +233,14 @@
      -0.00457
     ]
    },
-   "description": "Rotula: delante de la rodilla."
+   "description": "Rotula: delante de la rodilla.",
+   "tracking": {
+    "driver_joint": "knee",
+    "driver_dof": "flexion",
+    "pitch_ratio": 0.9,
+    "radial_mm_per_deg": -0.04,
+    "notes": "Deslizamiento de la rotula (CM-10): gira alrededor del eje de la rodilla c=0.9 veces la flexion (inclinacion o pitch) y se acerca al eje 0.04 mm por grado (5.4 mm a 135). Parametros AJUSTADOS a la geometria del modelo para que el ligamento rotuliano (27 mm en reposo) cambie de longitud como mucho ~10 % sin que la rotula entre en el femur; la relacion entre la flexion de la rotula y la de la rodilla NO se pudo verificar en la literatura (solo que la longitud del tendon rotuliano casi no cambia entre 30 y 110 grados). Convencion declarada."
+   }
   },
   {
    "name": "tibia.L",

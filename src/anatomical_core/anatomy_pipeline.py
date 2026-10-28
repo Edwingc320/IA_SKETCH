@@ -89,6 +89,7 @@ def generate(output_blend, config_dir=None, anatomy_dir=None, reference_path=Non
         art_issues = validation.validate_articulations(base, anat, art)
         art_issues += validation.validate_ligament_poses(base, anat, art)  # barrido de la cadera: ningun ligamento atraviesa el femur
         art_issues += validation.validate_knee_ligament_poses(base, anat, art)  # barrido de cadera y rodilla: ligamentos de la rodilla
+        art_issues += validation.validate_patella_tracking(base, anat, art)  # deslizamiento de la rotula: sin penetracion, a < 12 mm de los condilos, ligamento estable
         for i in art_issues:
             log(str(i))
         issues += art_issues
@@ -136,7 +137,7 @@ def generate(output_blend, config_dir=None, anatomy_dir=None, reference_path=Non
 
     scene.reset_scene()
     scene.build_scene(base, neutral)
-    anatomy_scene.add_anatomy(anat, list(base.bones))
+    anatomy_scene.add_anatomy(anat, list(base.bones), base)
     if art is not None:
         articulations_scene.add_articulations(art, base.height_m)
     if mus is not None:

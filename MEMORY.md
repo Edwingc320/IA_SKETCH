@@ -141,3 +141,22 @@ Motor reproducible y configurable de esqueleto humano 3D en **Blender 5.0.1** (P
 - Deslizamiento de la rótula; volúmenes medidos (Handsfield 2014, Ward 2009, Lube 2016); contrastar con artículos y atlas lo leído en resúmenes; ángulo cervicodiafisario (varo leve); envolturas por armadura para el resto de ligamentos y tendones; origen del psoas en L1–L5.
 - Siguiente región según `docs/plan/00_plan_general.md`: tren superior y torso (planes `10_tren_superior.md` y `20_torso.md`).
 
+## Estado (2026-10-28) — añadido tras CM-10
+- `muscle-model`: deslizamiento de la rótula implementado. Verificación **dirigida** (no suite completa, por instrucción del 2026-10-28): 182 pruebas puras de los módulos afectados y los módulos de Blender `test_anatomy_blender` (20), `test_knee_anchors` (15) y `test_patellar_tracking` (16, con las 22 poses a 1,50/1,75/2,05 m) en verde; 7 mutaciones del deslizamiento y del cuádriceps detectadas (7/7). La última suite completa en Blender (450 pruebas) tuvo 3 fallos previstos que se corrigieron después y **no se reejecutó entera**; la cifra total de pruebas vigente es 450.
+- Limitación de la rótula (CM-8/CM-9) **resuelta**: ligamento rotuliano 26,7 → 29,2 mm (antes 81,1), sin penetración; cuádriceps con dos guías troclears.
+
+## Decisiones añadidas (CM-10)
+29. **Cinemática de la rótula**: rotación alrededor del eje de la rodilla de 0,9 × la flexión (121,5° a 135°) y acercamiento de 0,04 mm/° (5,4 mm), ambos AJUSTADOS a la geometría (ligamento de 27 mm; solo relaciones ≳ 0,85 mantienen su longitud). No se verificó la relación fisiológica; la literatura solo confirma que el tendón rotuliano casi no cambia de longitud entre 30 y 110°. No se modelan tilt ni spin.
+30. **Implementación en Blender sin drivers** (hueso auxiliar + Copy Rotation + Transformation); el hueso auxiliar es capa `rig_helper` y el validador del nivel 1 acepta que la rótula cuelgue de él. Los cuatro vientres del cuádriceps pasan a `deform` con dos guías troclears.
+
+## Lecciones técnicas añadidas (CM-10)
+- Una prueba de escala a tres alturas detectó que un parámetro en mm/° no escalaba con la altura (0,7 mm de error a 1,50 m): todo parámetro absoluto de la geometría debe definirse a 1,75 m y escalarse.
+- Una restricción Transformation de Blender solo mapea linealmente: para que el desplazamiento radial gire con la rotación hay que colgarlo de un hueso hijo del que gira (el auxiliar), no del mismo.
+- Con una longitud de ligamento corta (27 mm), solo una inclinación ≳ 0,85 × la flexión mantiene su longitud: el dato geométrico limita la cinemática elegible.
+- No lanzar baterías o suites con `&`/segundo plano sin comprobar procesos vivos; y respetar «solo lo modificado»: se detuvo una batería completa y se relanzó filtrada.
+
+## Pendiente añadido (CM-10)
+- Verificar la relación flexión de la rótula / flexión de la rodilla y la longitud real del ligamento rotuliano (~45–50 mm) y, si se corrige la longitud, reajustar los parámetros.
+- Tilt y spin de la rótula; guías troclears con datos de superficie real.
+- Reejecutar la suite completa en Blender cuando se cierre la siguiente región.
+

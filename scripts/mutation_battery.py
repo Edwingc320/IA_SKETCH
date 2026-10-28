@@ -19,6 +19,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 CFG = ROOT / "config"
 LP, LF, TL, TT = (CFG / "articulations" / "lumbar_pelvis.json", CFG / "articulations" / "leg_foot.json", CFG / "muscles" / "tendons_lower_limb.json", CFG / "muscles" / "tendons_trunk_head.json")
+LB = CFG / "anatomy" / "long_bones.json"
 MV, VM, JN = CFG / "muscles" / "muscle_volumes.json", CFG / "muscles" / "volume_measurements.json", CFG / "joints.json"
 
 HIP = ["test_hip_ligament_paths", "test_hip_rom"]
@@ -26,6 +27,7 @@ ILIO = ["test_iliopsoas_itb_paths"]
 DEEP = ["test_deep_hip_muscles"]
 KNEE = ["test_knee_anchors", "test_anchor_debt"]
 VOL = ["test_muscle_volumes", "test_volume_measurements"]
+PAT = ["test_patellar_tracking", "test_knee_anchors"]
 ART = ["test_articulations", "test_lumbar_pelvis", "test_tendons"]
 
 
@@ -184,6 +186,32 @@ def tibial_collateral_anchor_displaced(d):
 @mutation(LF, KNEE)
 def fibular_head_obstacle_removed(d):
     d["bone_surfaces"] = [s for s in d["bone_surfaces"] if s["name"] != "fibular_head_body.L"]
+
+
+# ---- deslizamiento de la rotula (CM-10)
+@mutation(LB, PAT)
+def patella_pitch_ratio_half(d):
+    by(d["bones"], "patella.L")["tracking"]["pitch_ratio"] = 0.5
+
+
+@mutation(LB, PAT)
+def patella_radial_glide_wrong_sign(d):
+    by(d["bones"], "patella.L")["tracking"]["radial_mm_per_deg"] = 0.3
+
+
+@mutation(LB, PAT)
+def patella_tracking_removed(d):
+    by(d["bones"], "patella.L").pop("tracking")
+
+
+@mutation(TL, PAT)
+def quadriceps_loses_its_trochlear_guides(d):
+    by(d["tendons"], "vastus_lateralis.L")["via"] = []
+
+
+@mutation(LF, PAT)
+def patellar_ligament_stops_avoiding_the_femur(d):
+    by(d["ligaments"], "patellar.L")["avoid"] = []
 
 
 def run_one(name, file, fn, tests):

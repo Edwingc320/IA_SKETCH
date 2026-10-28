@@ -50,3 +50,7 @@ Apuntes y tablas (Semmelweis, Pearson, GMCH, Universidad de Wisconsin, Wikipedia
 - Longitudes reales de tendón (con fuente) para sustituir la convención.
 - Rutas con más puntos de guía (retináculos extensor y flexor del tobillo, poleas de los dedos) y envainado.
 - Músculos intrínsecos de la mano y del pie, fibras medias del trapecio completas, músculos de la cara, diafragma y suelo pélvico.
+
+## Tendón cuadricipital y deslizamiento de la rótula (CM-10)
+
+Recto femoral y los tres vastos pasan a `deform` con dos guías troclears (cara anterior de la diáfisis y de los cóndilos, a 6 mm de las superficies de convención) y terminan en la rótula, que ahora se desliza con la flexión de la rodilla (`patella.tracking`). Sin las guías la recta atravesaba el fémur 10–15 mm a flexión profunda. Sus tubos de Blender acompañan a la rótula; las mallas de volumen siguen la nueva ruta.

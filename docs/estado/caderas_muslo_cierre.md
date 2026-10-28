@@ -50,7 +50,7 @@ La escala isométrica se comprobó punto a punto: nodos de ligamentos y tendones
 
 ## Limitaciones conocidas (registro formal)
 
-1. **Deslizamiento de la rótula.** La rótula sigue rígida al fémur. El ligamento rotuliano pasa de 27 mm a 81 mm a 135° de flexión y atraviesa el cóndilo y la diáfisis desde unos **100°**. Solo se garantiza que sus extremos siguen a su hueso y quedan a < 12 mm. Pendiente: dof de deslizamiento de la rótula en la articulación femororrotuliana (cinemática articular del rig); entonces el ligamento pasará a evitar el fémur y se invertirá la prueba que lo fija.
+1. **Deslizamiento de la rótula — RESUELTA en CM-10 (2026-10-28), ver «Actualización CM-10».** Al cierre de CM-9 la rótula seguía rígida al fémur. El ligamento rotuliano pasa de 27 mm a 81 mm a 135° de flexión y atraviesa el cóndilo y la diáfisis desde unos **100°**. Solo se garantiza que sus extremos siguen a su hueso y quedan a < 12 mm. Pendiente: dof de deslizamiento de la rótula en la articulación femororrotuliana (cinemática articular del rig); entonces el ligamento pasará a evitar el fémur y se invertirá la prueba que lo fija.
 2. **Mezcla lineal de la armadura en los tubos.** Los nodos de los tubos con envoltura son exactos, pero el anillo de la unión músculo-tendón se desvía de la recta exacta **hasta 23 mm** (obturador interno a 120° de flexión con aducción). Es visual: el modelo de datos es la recta entre nodos y las pruebas de penetración usan los nodos. La prueba acota el desvío en 30 mm.
 3. **Obstáculos de convención.** Las veinte superficies (cabeza, cuello, trocánter, diáfisis, cóndilo, rama del pubis, isquion, tibia proximal, rótula y cabeza del peroné) dan cuerpo a huesos que son líneas; solo las de la cabeza, el cuello, el cóndilo, la tibia proximal y la rótula tienen una cifra publicada de apoyo y las demás dicen «convención». La deuda de anclaje baja en parte por ellas.
 4. **Varo leve** del cuello femoral (116,7° frente a 119–133°).
@@ -136,3 +136,22 @@ Suite completa en Blender: `[SUMMARY] ejecutadas=434 fallos=0 errores=0 omitidas
 ## Siguiente
 
 Región siguiente según `docs/plan/00_plan_general.md`: tren superior y torso (CM no aplica). Antes, conviene resolver el deslizamiento de la rótula y reintentar los volúmenes medidos (Handsfield 2014 si se consigue el PDF).
+
+## Actualización CM-10 (2026-10-28): deslizamiento de la rótula
+
+La primera limitación del cierre queda resuelta. La rótula (`patella.L/R`) lleva ahora un bloque `tracking` en `config/anatomy/long_bones.json` y se mueve respecto al fémur con la flexión de la rodilla (`src/anatomical_core/patella_tracking.py`): gira alrededor del eje de la rodilla **0,9 × la flexión** (inclinación o pitch: 121,5° a 135°) y se acerca al eje **0,04 mm por grado** (5,4 mm a 135°, escalado con la altura).
+
+| Medida (barrido de 22 poses, 1,50 / 1,75 / 2,05 m, ambos lados) | Antes (CM-9) | Ahora |
+|---|---|---|
+| Longitud del ligamento rotuliano | 26,7 → **81,1** mm a 135° (×3,04) | 26,7 → **29,2** mm (+9 %) |
+| Ligamento frente a cóndilo y diáfisis | atravesaba desde ~100° (−9,4 mm a 135°) | ≥ 12,7 mm de margen |
+| Cuerpo de la rótula frente al cóndilo | rígida (sin sentido a flexión profunda) | 3,4–5,7 mm de separación (< 12 mm) y sin entrar en el cóndilo ni la diáfisis |
+| Tendón cuadricipital (RF, VL, VM, VI) | recta sin guías; atravesaba el fémur (−10 a −15 mm) | dos guías troclears; sin penetración |
+
+**Cómo se implementa en Blender (sin drivers):** un hueso auxiliar `patella_carrier.L/R` (capa `rig_helper`, colgado del fémur, con el pivote de la rodilla como cabeza) lleva una restricción Copy Rotation del eje de flexión del `shin` con influencia 0,9, y la rótula cuelga de él con una restricción Transformation que la desplaza en su eje radial local. Los 22 estados del barrido se comparan en Blender con el modelo a 0,2 mm.
+
+**Honestidad sobre los parámetros.** La relación 0,9 y el acercamiento de 0,04 mm/° están **ajustados a la geometría del modelo** (cuyo ligamento rotuliano mide 27 mm, no los ~45–50 mm reales): para esa longitud solo valores de la relación ≳ 0,85 mantienen constante la distancia. **No se pudo verificar en la literatura la relación entre la flexión de la rótula y la de la rodilla** (la búsqueda solo confirmó que la longitud del tendón rotuliano casi no cambia entre 30 y 110° y que se acorta al principio). Es una convención declarada, no un dato. Una relación fisiológica menor (~0,6–0,7, no verificada) exigiría un ligamento más largo.
+
+**Efectos laterales declarados:** (1) el **deslizamiento radial escalaba mal con la altura** (error de 0,7 mm a 1,50 m detectado por la prueba de escala) y se corrigió; (2) la rótula ya no cuelga directamente de `thigh` en Blender: la validación del nivel 1 acepta el hueso auxiliar; (3) los cuatro vientres del cuádriceps pasan a `deform` con dos guías troclears (sus tubos de Blender acompañan a la rótula) y sus mallas de volumen siguen la nueva ruta; (4) la prueba de simetría de volúmenes acepta 1 micra (el redondeo de coma flotante llega a 0,04 micras).
+
+**Limitaciones que siguen abiertas:** mezcla lineal de la armadura (hasta 23 mm en el anillo de la unión), obstáculos de convención, varo leve del cuello, fuentes leídas en resúmenes, CM-1 parcial. El bloque de la rótula no modela la inclinación mediolateral ni la rotación (tilt, spin): solo el deslizamiento en el plano sagital.

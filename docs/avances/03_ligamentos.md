@@ -43,4 +43,4 @@ Iliofemoral, pubofemoral e isquiofemoral (`lumbar_pelvis.json`) son ahora poligo
 - Guías de envoltura y deformación con la armadura solo en los tres ligamentos de la cadera; el resto de ligamentos que cruzan una articulación (rodilla, tobillo, hombro...) siguen siendo un segmento rígido emparentado al hueso de origen.
 - Verificar en un atlas los costotransversos y los de los dedos del pie.
 - Reducir los 53 anclajes antiguos a más de 12 mm (en la región del muslo y la rodilla ya no queda ninguno; faltan tobillo, columna, costillas, codo, muñeca y cráneo).
-- Deslizamiento de la rótula: sin él el ligamento rotuliano se alarga 3× a 135° y atraviesa el fémur desde ~100° (CM-8).
+- Deslizamiento de la rótula: **resuelto en CM-10** (el ligamento rotuliano pasa de 26,7 a 29,2 mm entre 0 y 135° y evita el fémur); sus parámetros están ajustados a la geometría y la relación de 0,9 no se pudo verificar en la literatura.

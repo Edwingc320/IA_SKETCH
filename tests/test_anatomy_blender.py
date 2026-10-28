@@ -62,7 +62,11 @@ class TestAnatomyInBlender(unittest.TestCase):
         arm = self.open()
         bones = arm.data.bones
         for n, b in self.anat.bones.items():
-            self.assertEqual(bones[n].parent.name, b.parent, n)
+            if b.tracking:  # la rotula cuelga de su hueso auxiliar (patella_carrier), que cuelga del segmento de la base (CM-10)
+                helper = bones[n].parent
+                self.assertEqual((helper.name, helper.parent.name, helper.get("ac_layer")), (f"{n.split('.')[0]}_carrier.{n[-1]}", b.parent, "rig_helper"), n)
+            else:
+                self.assertEqual(bones[n].parent.name, b.parent, n)
             self.assertEqual(bones[n].get("ac_layer"), "anatomy_L1")
         self.assertEqual(bones["ilium.L"].parent.name, "sacrum")  # el ilion cuelga del sacro (sacroiliaca)
         self.assertEqual(bones["ischium.L"].parent.name, "ilium.L")
@@ -239,7 +243,7 @@ class TestAnatomyInBlender(unittest.TestCase):
         arm = self.open()
         cols = arm.data.collections_all
         self.assertEqual(len(cols["L1_spine_head"].bones), 26)
-        self.assertEqual(len(cols["L1_long_bones"].bones), 16)
+        self.assertEqual(len(cols["L1_long_bones"].bones), 16 + 2)  # + los dos huesos auxiliares de la rotula (patella_carrier.L/R, CM-10)
         for n, b in self.anat.bones.items():
             self.assertEqual(arm.data.bones[n]["ac_anatomical_parent"], b.anatomical_parent or b.parent, n)
         self.assertEqual(arm.data.bones["cranium"]["ac_anatomical_parent"], "C1")

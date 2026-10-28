@@ -71,3 +71,7 @@ Estado de partida: huesos, articulaciones y ligamentos completos; músculos del 
 ## Cierre (CM-9, 2026-10-27)
 
 Región cerrada con limitaciones: ver [../estado/caderas_muslo_cierre.md](../estado/caderas_muslo_cierre.md). Lo que queda abierto de esta región, por orden: deslizamiento de la rótula (el ligamento rotuliano no mantiene su longitud ni evita el fémur por encima de ~100° de flexión); volúmenes medidos de los músculos sin dato (CM-1 sigue parcial); contrastar las fuentes leídas en resúmenes con los artículos y con un atlas; envolturas por armadura para el resto de ligamentos y tendones que cruzan una articulación; origen del psoas en L1–L5.
+
+## CM-10 (2026-10-28): deslizamiento de la rótula
+
+Resuelve la limitación pendiente de CM-8/CM-9. Ver [../estado/caderas_muslo_cierre.md](../estado/caderas_muslo_cierre.md#actualización-cm-10-2026-10-28-deslizamiento-de-la-rótula).

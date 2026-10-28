@@ -125,7 +125,7 @@ class TestKneeAnchors(unittest.TestCase):
             self.assertEqual(self.art.ligaments[f"fibular_collateral.{s}"].avoid, (f"femoral_shaft.{s}",))
             for n in ("anterior_cruciate", "posterior_cruciate"):
                 self.assertIn("intraarticular", self.art.ligaments[f"{n}.{s}"].avoid_reason)
-            self.assertIn("LIMITACION CONOCIDA", self.art.ligaments[f"patellar.{s}"].avoid_reason)
+            self.assertEqual(self.art.ligaments[f"patellar.{s}"].avoid, (f"femoral_lateral_condyle.{s}", f"femoral_shaft.{s}"))  # CM-10: ya evita el femur
         self.assertEqual([i for i in validation.validate_articulations(self.base, self.anat, self.art) if i.severity == "error"], [])
 
     def test_the_knee_sweep_up_to_135_degrees_has_no_penetration_at_three_heights(self):
@@ -142,24 +142,24 @@ class TestKneeAnchors(unittest.TestCase):
                         lg = art.ligaments[f"{n}.{side}"]
                         self.assertGreater(lp.path_clearance(lp.posed_path(lg, base, anat, posed), [sf[a] for a in lg.avoid]), 0.001 * h / 1.75, (h, side, pose_name, n))
 
-    def test_known_limitation_the_patellar_ligament_without_patellar_gliding(self):
-        """Medido: sin deslizamiento de la rotula el ligamento rotuliano pasa de 27 mm a 81 mm a 135 grados y atraviesa el condilo/diafisis a partir de ~100 grados.
-        Si algun dia la rotula se desliza, esta prueba debe cambiar (y el ligamento pasar a evitar el femur)."""
+    def test_the_patellar_ligament_limitation_of_cm8_is_resolved_by_the_patellar_glide(self):
+        """CM-8 midio que, con la rotula rigida al femur, el ligamento rotuliano pasaba de 27 mm a 81 mm a 135 grados y atravesaba el femur desde ~100 grados.
+        Desde CM-10 la rotula se desliza (anatomy: patella.L.tracking): el ligamento evita el femur y casi no cambia de longitud. Detalle en test_patellar_tracking."""
         lg = self.art.ligaments["patellar.L"]
+        self.assertEqual(lg.avoid, ("femoral_lateral_condyle.L", "femoral_shaft.L"))
+        self.assertEqual(lg.avoid_reason, "")
 
         def at(deg):
             posed = pose_mod.apply_pose(self.base, PoseDef("t", {"knee.L": {"flexion": float(deg)}}))
             sf = {s.name: s for s in lp.posed_surfaces(self.art, self.base, self.anat, posed)}
             path = lp.posed_path(lg, self.base, self.anat, posed)
-            return lp.path_length(path), lp.path_clearance(path, [sf["femoral_lateral_condyle.L"], sf["femoral_shaft.L"]], 30)
+            return lp.path_length(path), lp.path_clearance(path, [sf[a] for a in lg.avoid], 30)
         l0, c0 = at(0)
         l135, c135 = at(135)
         self.assertAlmostEqual(l0, 0.0267, places=3)
-        self.assertGreater(l135 / l0, 2.5)  # un ligamento real casi no cambia de longitud: es el sintoma de que falta el deslizamiento
-        self.assertGreater(c0, 0.010)
-        self.assertLess(c135, -0.005)
-        first = next(d for d in range(0, 136, 5) if at(d)[1] < 0)
-        self.assertGreaterEqual(first, 100)  # hasta ~100 grados no atraviesa
+        self.assertLess(l135 / l0, 1.15)  # antes 3.04
+        self.assertGreater(c135, 0.010)  # antes -9.4 mm
+        self.assertTrue(all(at(d)[1] > 0.010 for d in range(0, 136, 5)))
 
     # ---- mutaciones
     def test_mutation_removing_a_new_obstacle_brings_the_debt_back(self):

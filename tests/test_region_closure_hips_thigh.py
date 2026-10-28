@@ -21,7 +21,7 @@ from anatomical_core.skeleton import build_model  # noqa: E402
 HIP_LIGAMENTS = ("iliofemoral", "pubofemoral", "ischiofemoral")
 KNEE_LIGAMENTS = ("anterior_cruciate", "posterior_cruciate", "tibial_collateral", "fibular_collateral", "patellar")
 DEFORM_TENDONS = ("psoas_major", "iliacus", "tensor_fasciae_latae", "iliotibial_tract", "piriformis", "obturator_internus", "gemellus_superior", "gemellus_inferior",
-                  "obturator_externus", "quadratus_femoris", "pectineus", "adductor_brevis")
+                  "obturator_externus", "quadratus_femoris", "pectineus", "adductor_brevis", "rectus_femoris", "vastus_lateralis", "vastus_medialis", "vastus_intermedius")
 SURFACES = ("femoral_head", "femoral_neck", "femoral_greater_trochanter", "femoral_shaft", "femoral_lateral_condyle", "pubic_ramus", "ischial_ramus",
             "tibial_proximal", "patellar_body", "fibular_head_body")
 DOCS = ROOT / "docs"
@@ -131,7 +131,8 @@ class TestRegionClosure(unittest.TestCase):
         for needle in ("deslizamiento de la rótula", "100°", "hasta 23 mm", "varo", "resúmenes de búsqueda", "Netter", "172", "190", "94", "53"):
             self.assertIn(needle, report, needle)
         patellar = self.art.ligaments["patellar.L"]
-        self.assertIn("LIMITACION CONOCIDA", patellar.avoid_reason)
+        self.assertEqual(patellar.avoid_reason, "")  # CM-10: la limitacion de la rotula quedo resuelta por el deslizamiento
+        self.assertIn("CM-10", report)
 
     def test_status_documents_agree_with_the_code(self):
         estado = (DOCS / "estado" / "caderas_muslo.md").read_text(encoding="utf-8")

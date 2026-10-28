@@ -1221,10 +1221,13 @@
     "orthobullets_knee",
     "brainscape_knee"
    ],
-   "notes": "Del apice de la rotula a la tuberosidad tibial. CM-8: sigue a sus huesos en Blender (malla deformada por la armadura).",
+   "notes": "Del apice de la rotula a la tuberosidad tibial. CM-8: sigue a sus huesos en Blender (malla deformada por la armadura). CM-10: con el deslizamiento de la rotula (anatomy: patella.L.tracking) su longitud cambia solo de 26.7 a 29.2 mm entre 0 y 135 grados y no atraviesa el femur.",
    "tolerance_m": 0.012,
    "deform": true,
-   "avoid_reason": "LIMITACION CONOCIDA: la rotula del modelo sigue rigida al femur (no se desliza), asi que con la flexion de la rodilla el ligamento pasa de 27 mm a 81 mm a 135 grados y atraviesa el condilo y la diafisis del femur a partir de cierta flexion. Se necesita el deslizamiento de la rotula para evitarlo. Hasta entonces solo se garantiza que sus extremos siguen a su hueso y quedan a < 12 mm."
+   "avoid": [
+    "femoral_lateral_condyle.L",
+    "femoral_shaft.L"
+   ]
   },
   {
    "name": "anterior_proximal_tibiofibular.L",

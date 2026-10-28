@@ -33,7 +33,7 @@ SP = {"flexion": 120.0, "extension": 10.0, "abduccion": 45.0, "aduccion": 25.0, 
 RIG_LIMITS = {"flexion": (-15.0, 120.0), "abduction": (-30.0, 45.0), "axial": (-40.0, 45.0)}
 HIP_LIGAMENTS = ("iliofemoral", "pubofemoral", "ischiofemoral")
 DEFORM_TENDONS = ("psoas_major", "iliacus", "tensor_fasciae_latae", "iliotibial_tract", "piriformis", "obturator_internus", "gemellus_superior", "gemellus_inferior",
-                  "obturator_externus", "quadratus_femoris", "pectineus", "adductor_brevis")
+                  "obturator_externus", "quadratus_femoris", "pectineus", "adductor_brevis", "rectus_femoris", "vastus_lateralis", "vastus_medialis", "vastus_intermedius")
 
 
 def build_all(height=None):

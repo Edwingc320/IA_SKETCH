@@ -81,7 +81,32 @@
     "landmark": "anterior_inferior_iliac_spine.L",
     "structure": "espina iliaca anteroinferior"
    },
-   "via": [],
+   "via": [
+    {
+     "bone": "femur.L",
+     "point": {
+      "at": "thigh.L.head"
+     },
+     "offset_h": [
+      0.002286,
+      -0.01102,
+      -0.21
+     ],
+     "structure": "cara anterior de la diafisis del femur, sobre la rotula (guia de envoltura del tendon cuadricipital, a 6 mm de la capsula de la diafisis)"
+    },
+    {
+     "bone": "femur.L",
+     "point": {
+      "at": "thigh.L.head"
+     },
+     "offset_h": [
+      0.004571,
+      -0.016,
+      -0.242143
+     ],
+     "structure": "cara anterior de los condilos (troclea), a 6 mm de la esfera del condilo (guia de envoltura)"
+    }
+   ],
    "insertion": {
     "landmark": "patella_base.L",
     "structure": "base de la rotula"
@@ -91,7 +116,12 @@
    "sources": [
     "tutorchase_origin"
    ],
-   "notes": "Tendon cuadricipital; la rotula se continua con el ligamento rotuliano hasta la tuberosidad tibial. Verificar en un atlas."
+   "notes": "Tendon cuadricipital; la rotula se continua con el ligamento rotuliano hasta la tuberosidad tibial. Verificar en un atlas. CM-10: el tendon cuadricipital rodea la troclea con dos guias y termina en la rotula, que se desliza con la flexion de la rodilla; no atraviesa el femur en el barrido de 22 poses.",
+   "deform": true,
+   "avoid": [
+    "femoral_shaft.L",
+    "femoral_lateral_condyle.L"
+   ]
   },
   {
    "name": "vastus_lateralis.L",
@@ -103,7 +133,32 @@
     "landmark": "greater_trochanter.L",
     "structure": "trocanter mayor"
    },
-   "via": [],
+   "via": [
+    {
+     "bone": "femur.L",
+     "point": {
+      "at": "thigh.L.head"
+     },
+     "offset_h": [
+      0.002286,
+      -0.01102,
+      -0.21
+     ],
+     "structure": "cara anterior de la diafisis del femur, sobre la rotula (guia de envoltura del tendon cuadricipital, a 6 mm de la capsula de la diafisis)"
+    },
+    {
+     "bone": "femur.L",
+     "point": {
+      "at": "thigh.L.head"
+     },
+     "offset_h": [
+      0.004571,
+      -0.016,
+      -0.242143
+     ],
+     "structure": "cara anterior de los condilos (troclea), a 6 mm de la esfera del condilo (guia de envoltura)"
+    }
+   ],
    "insertion": {
     "landmark": "patella_base.L",
     "structure": "base de la rotula"
@@ -113,7 +168,12 @@
    "sources": [
     "tutorchase_origin"
    ],
-   "notes": " Verificar en un atlas."
+   "notes": " Verificar en un atlas. CM-10: el tendon cuadricipital rodea la troclea con dos guias y termina en la rotula, que se desliza con la flexion de la rodilla; no atraviesa el femur en el barrido de 22 poses.",
+   "deform": true,
+   "avoid": [
+    "femoral_shaft.L",
+    "femoral_lateral_condyle.L"
+   ]
   },
   {
    "name": "vastus_medialis.L",
@@ -142,7 +202,32 @@
      0.0
     ]
    },
-   "via": [],
+   "via": [
+    {
+     "bone": "femur.L",
+     "point": {
+      "at": "thigh.L.head"
+     },
+     "offset_h": [
+      0.002286,
+      -0.01102,
+      -0.21
+     ],
+     "structure": "cara anterior de la diafisis del femur, sobre la rotula (guia de envoltura del tendon cuadricipital, a 6 mm de la capsula de la diafisis)"
+    },
+    {
+     "bone": "femur.L",
+     "point": {
+      "at": "thigh.L.head"
+     },
+     "offset_h": [
+      0.004571,
+      -0.016,
+      -0.242143
+     ],
+     "structure": "cara anterior de los condilos (troclea), a 6 mm de la esfera del condilo (guia de envoltura)"
+    }
+   ],
    "insertion": {
     "landmark": "patella_base.L",
     "structure": "base de la rotula"
@@ -152,7 +237,12 @@
    "sources": [
     "tutorchase_origin"
    ],
-   "notes": " Verificar en un atlas."
+   "notes": " Verificar en un atlas. CM-10: el tendon cuadricipital rodea la troclea con dos guias y termina en la rotula, que se desliza con la flexion de la rodilla; no atraviesa el femur en el barrido de 22 poses.",
+   "deform": true,
+   "avoid": [
+    "femoral_shaft.L",
+    "femoral_lateral_condyle.L"
+   ]
   },
   {
    "name": "vastus_intermedius.L",
@@ -181,7 +271,32 @@
      0.0
     ]
    },
-   "via": [],
+   "via": [
+    {
+     "bone": "femur.L",
+     "point": {
+      "at": "thigh.L.head"
+     },
+     "offset_h": [
+      0.002286,
+      -0.01102,
+      -0.21
+     ],
+     "structure": "cara anterior de la diafisis del femur, sobre la rotula (guia de envoltura del tendon cuadricipital, a 6 mm de la capsula de la diafisis)"
+    },
+    {
+     "bone": "femur.L",
+     "point": {
+      "at": "thigh.L.head"
+     },
+     "offset_h": [
+      0.004571,
+      -0.016,
+      -0.242143
+     ],
+     "structure": "cara anterior de los condilos (troclea), a 6 mm de la esfera del condilo (guia de envoltura)"
+    }
+   ],
    "insertion": {
     "landmark": "patella_base.L",
     "structure": "base de la rotula"
@@ -191,7 +306,12 @@
    "sources": [
     "tutorchase_origin"
    ],
-   "notes": " Verificar en un atlas."
+   "notes": " Verificar en un atlas. CM-10: el tendon cuadricipital rodea la troclea con dos guias y termina en la rotula, que se desliza con la flexion de la rodilla; no atraviesa el femur en el barrido de 22 poses.",
+   "deform": true,
+   "avoid": [
+    "femoral_shaft.L",
+    "femoral_lateral_condyle.L"
+   ]
   },
   {
    "name": "sartorius.L",

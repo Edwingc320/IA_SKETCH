@@ -744,6 +744,47 @@ def validate_knee_ligament_poses(base: SkeletonModel, anat, art, sides=("L", "R"
     return out
 
 
+PATELLA_GAP_MAX_M = 0.012  # la rotula queda a < 12 mm de los condilos femorales (a 1.75 m; escala con la altura)
+PATELLA_LIGAMENT_RATIO_MAX = 1.15  # el ligamento rotuliano cambia de longitud como mucho un 15 % en todo el recorrido (la literatura: casi constante entre 30 y 110 grados)
+
+
+def validate_patella_tracking(base: SkeletonModel, anat, art, sides=("L", "R")) -> list:
+    """Deslizamiento de la rotula (patella_tracking) en el barrido de cadera y rodilla (LEG_SWEEP, rodilla hasta 135 grados): la rotula no entra en el femur, queda
+    a < 12 mm de los condilos y el ligamento rotuliano mantiene su longitud (<= 15 % de cambio) y no atraviesa el femur."""
+    from . import ligament_paths as lp
+
+    out = []
+    k = base.height_m / 1.75
+    for side in sides:
+        patella = anat.bones.get(f"patella.{side}")
+        if patella is None or not patella.tracking:
+            continue
+        surface, ligament = art.surfaces.get(f"patellar_body.{side}"), art.ligaments.get(f"patellar.{side}")
+        femur = [art.surfaces[n] for n in (f"femoral_lateral_condyle.{side}", f"femoral_shaft.{side}") if n in art.surfaces]
+        lengths = []
+        for pose_name, posed in lp.leg_sweep_poses(base, side):
+            sf = {s.name: s for s in lp.posed_surfaces(art, base, anat, posed)}
+            if surface is not None:
+                body = sf[surface.name]
+                samples = [tuple(body.a[i] + (body.b[i] - body.a[i]) * j / 20 for i in range(3)) for j in range(21)]
+                cond = sf.get(f"femoral_lateral_condyle.{side}")
+                for target in [sf[f.name] for f in femur]:
+                    if min(target.signed_distance(p) for p in samples) - body.radius_m < -lp.PENETRATION_TOL_M * k:
+                        out.append(Issue("error", "PATELLA_PENETRATES", f"La rotula {side} entra en '{target.name}' en la pose '{pose_name}'"))
+                if cond is not None:
+                    gap = min(cond.signed_distance(p) for p in samples) - body.radius_m
+                    if gap > PATELLA_GAP_MAX_M * k:
+                        out.append(Issue("error", "PATELLA_GAP", f"La rotula {side} queda a {gap * 1000:.1f} mm del condilo en la pose '{pose_name}' (maximo {PATELLA_GAP_MAX_M * 1000 * k:.1f})"))
+            if ligament is not None:
+                path = lp.posed_path(ligament, base, anat, posed)
+                lengths.append(lp.path_length(path))
+                if ligament.avoid and lp.path_clearance(path, [sf[a] for a in ligament.avoid]) < -lp.PENETRATION_TOL_M * k:
+                    out.append(Issue("error", "PATELLA_LIGAMENT_PENETRATES", f"El ligamento rotuliano {side} atraviesa el femur en la pose '{pose_name}'"))
+        if lengths and max(lengths) / min(lengths) > PATELLA_LIGAMENT_RATIO_MAX:
+            out.append(Issue("error", "PATELLA_LIGAMENT_LENGTH", f"El ligamento rotuliano {side} cambia de {min(lengths) * 1000:.1f} a {max(lengths) * 1000:.1f} mm (maximo +{(PATELLA_LIGAMENT_RATIO_MAX - 1) * 100:.0f} %)"))
+    return out
+
+
 def validate_articulations_snapshot(art, snap: dict) -> list:
     """Compara los marcadores de union leidos de Blender con el modelo (posicion y padre)."""
     from . import ligament_paths
@@ -781,8 +822,15 @@ def validate_anatomy_snapshot(anat, snap: dict) -> list:
         if s is None:
             out.append(Issue("error", "ANAT_BLEND_MISSING", f"El .blend no contiene el hueso anatomico '{n}'"))
             continue
-        if s["parent"] != b.parent:
-            out.append(Issue("error", "ANAT_BLEND_PARENT", f"'{n}': padre {s['parent']!r} != {b.parent!r}"))
+        expected_parent = b.parent
+        if b.tracking:  # la rotula cuelga de su hueso auxiliar (patella_carrier), que cuelga del padre anatomico del rig
+            from .patella_tracking import carrier_name
+            expected_parent = carrier_name(n)
+            helper = sb.get(expected_parent)
+            if helper is None or helper["parent"] != b.parent or helper.get("layer") != "rig_helper":
+                out.append(Issue("error", "ANAT_BLEND_TRACKING_HELPER", f"'{n}': falta el hueso auxiliar '{expected_parent}' colgado de '{b.parent}'"))
+        if s["parent"] != expected_parent:
+            out.append(Issue("error", "ANAT_BLEND_PARENT", f"'{n}': padre {s['parent']!r} != {expected_parent!r}"))
         if s.get("layer") != "anatomy_L1":
             out.append(Issue("error", "ANAT_BLEND_LAYER", f"'{n}' no esta marcado como nivel 1"))
         if s.get("anatomical_parent") != (b.anatomical_parent or b.parent):

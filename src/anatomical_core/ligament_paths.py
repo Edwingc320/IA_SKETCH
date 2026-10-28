@@ -8,6 +8,7 @@ Los obstaculos son las `BoneSurface` del modelo (esfera de la cabeza y capsula d
 `path_clearance` devuelve la distancia con signo mas pequena entre la poligonal y los obstaculos (negativa = penetra)."""
 from __future__ import annotations
 
+from . import patella_tracking
 from .articulations import ArticulationModel, Ligament
 from .geometry import add, length, scale, sub
 from .pose import PosedSkeleton
@@ -63,8 +64,17 @@ def rest_samples(lg: Ligament, samples: int = PATH_SAMPLES) -> list:
     return [add(a, scale(sub(b, a), i / samples)) for a, b in zip(pts, pts[1:]) for i in range(samples + 1)]
 
 
+def pose_point(name: str, p, base: SkeletonModel, anat, posed: PosedSkeleton):
+    """Punto `p` (en reposo) de la estructura que cuelga del hueso `name`, llevado a la pose. Un hueso con `tracking` (la rotula) se mueve ademas respecto a su
+    padre en funcion de la flexion de la rodilla (patella_tracking)."""
+    b = anat.bones.get(name)
+    if b is not None and b.tracking:
+        p = patella_tracking.patella_transform(b, base, patella_tracking.knee_flexion(posed, b)).apply(p)
+    return posed.bones[rig_bone(name, base, anat)].apply(p)
+
+
 def posed_path(lg: Ligament, base: SkeletonModel, anat, posed: PosedSkeleton) -> list:
-    return [posed.bones[rig_bone(b, base, anat)].apply(p) for b, p in nodes(lg)]
+    return [pose_point(b, p, base, anat, posed) for b, p in nodes(lg)]
 
 
 def posed_surfaces(art: ArticulationModel, base: SkeletonModel, anat, posed: PosedSkeleton) -> list:
@@ -73,8 +83,7 @@ def posed_surfaces(art: ArticulationModel, base: SkeletonModel, anat, posed: Pos
 
     out = []
     for s in art.surfaces.values():
-        pb = posed.bones[rig_bone(s.bone, base, anat)]
-        out.append(replace(s, a=pb.apply(s.a), b=pb.apply(s.b)))
+        out.append(replace(s, a=pose_point(s.bone, s.a, base, anat, posed), b=pose_point(s.bone, s.b, base, anat, posed)))
     return out
 
 
@@ -107,7 +116,7 @@ def tendon_nodes(t) -> list:
 
 
 def posed_nodes(node_list, base: SkeletonModel, anat, posed: PosedSkeleton) -> list:
-    return [posed.bones[rig_bone(b, base, anat)].apply(p) for b, p in node_list]
+    return [pose_point(b, p, base, anat, posed) for b, p in node_list]
 
 
 def plate_triangles(anat, bone: str) -> list:

@@ -95,6 +95,7 @@ class AnatomyBoneDef:
     anatomical_parent: str
     cartilage: tuple = ()  # PointSpec: trayecto del cartilago (costal) que cierra el hueso, de su cola a su destino
     volume: dict | None = None  # forma volumetrica parametrica (p. ej. la boveda craneal), ver volumes.py
+    tracking: dict | None = None  # movimiento propio del hueso respecto a su padre en funcion de una articulacion de la base (rotula), ver patella_tracking.py
 
 
 @dataclass(frozen=True)
@@ -141,6 +142,22 @@ def _volume_spec(raw, where: str):
     return dict(raw)
 
 
+def _tracking_spec(raw, where: str):
+    if raw is None:
+        return None
+    if not isinstance(raw, dict):
+        raise ConfigError(f"{where}: se esperaba un objeto")
+    for key in ("driver_joint", "driver_dof", "pitch_ratio", "radial_mm_per_deg"):
+        if key not in raw:
+            raise ConfigError(f"{where}: falta '{key}'")
+    ratio, radial = _finite(raw["pitch_ratio"], f"{where}.pitch_ratio"), _finite(raw["radial_mm_per_deg"], f"{where}.radial_mm_per_deg")
+    if not 0.0 < ratio <= 1.5:
+        raise ConfigError(f"{where}.pitch_ratio fuera de rango (0-1.5]: {ratio}")
+    if abs(radial) > 1.0:
+        raise ConfigError(f"{where}.radial_mm_per_deg fuera de rango (|x| <= 1 mm por grado): {radial}")
+    return dict(raw)
+
+
 def load_anatomy_config(anatomy_dir: Path | str | None = None, reference_path: Path | str | None = None) -> AnatomyConfig:
     adir = Path(anatomy_dir) if anatomy_dir else ANATOMY_DIR
     reference = tuple(normalize_reference_name(n) for n in load_reference(reference_path))
@@ -169,6 +186,7 @@ def load_anatomy_config(anatomy_dir: Path | str | None = None, reference_path: P
                 anatomical_parent=str(b.get("anatomical_parent", b["parent"])),
                 cartilage=tuple(_point_spec(p, f"{w}.cartilage[{k}]") for k, p in enumerate(b.get("cartilage", []))),
                 volume=_volume_spec(b.get("volume"), f"{w}.volume"),
+                tracking=_tracking_spec(b.get("tracking"), f"{w}.tracking"),
             ))
         for i, a in enumerate(data.get("anchors", [])):
             anchors.append(AnchorDef(str(a["point"]), str(a["equals"]), str(a.get("description", ""))))
@@ -192,6 +210,7 @@ class AnatomyBone:
     anatomical_parent: str | None = None  # relacion anatomica (None = igual que parent)
     cartilage: tuple = ()  # puntos (Vec3) del cartilago costal: el primero es la cola del hueso
     volume: dict | None = None  # especificacion de la forma volumetrica (None = octaedro fino de visualizacion)
+    tracking: dict | None = None  # movimiento propio respecto al padre en funcion de una articulacion de la base (rotula)
 
     @property
     def side(self) -> str | None:
@@ -214,7 +233,7 @@ class AnatomyModel:
             "base": self.base_signature,
             "bones": {n: [b.parent, r(b.head), r(b.tail), [r(a) for a in b.frame], list(b.reference), [r(p) for p in b.outline]]
                       + ([b.anatomical_parent] if b.anatomical_parent not in (None, b.parent) else [])
-                      + ([[r(p) for p in b.cartilage]] if b.cartilage else []) + ([b.volume] if b.volume else [])
+                      + ([[r(p) for p in b.cartilage]] if b.cartilage else []) + ([b.volume] if b.volume else []) + ([b.tracking] if b.tracking else [])
                       for n, b in sorted(self.bones.items())},
         }
         return hashlib.sha256(json.dumps(payload, sort_keys=True).encode("utf-8")).hexdigest()
@@ -275,7 +294,7 @@ def build_anatomy(base: SkeletonModel, cfg: AnatomyConfig) -> AnatomyModel:
                 b = left
                 bone = AnatomyBone(name, parent, mirror_point(b.head), mirror_point(b.tail), b.length, mirror_frame(b.frame),
                                    d.region, reference, tuple(mirror_point(p) for p in b.outline), b.outline_closed, anat_parent,
-                                   tuple(mirror_point(p) for p in b.cartilage), b.volume)
+                                   tuple(mirror_point(p) for p in b.cartilage), b.volume, b.tracking)
             else:
                 head, tail = _eval(d.head, base, bones), _eval(d.tail, base, bones)
                 ln = length(sub(tail, head))
@@ -288,10 +307,10 @@ def build_anatomy(base: SkeletonModel, cfg: AnatomyConfig) -> AnatomyModel:
                 bone = AnatomyBone(name, parent, head, tail, ln, frame, d.region, reference, (), d.outline_closed, anat_parent)
                 bones[name] = bone  # el contorno puede usar la cabeza/cola del propio hueso
                 outline = tuple(_eval(p, base, bones) for p in d.outline)
-                bone = AnatomyBone(name, parent, head, tail, ln, frame, d.region, reference, outline, d.outline_closed, anat_parent, (), d.volume)
+                bone = AnatomyBone(name, parent, head, tail, ln, frame, d.region, reference, outline, d.outline_closed, anat_parent, (), d.volume, d.tracking)
                 bones[name] = bone
                 cartilage = tuple(_eval(p, base, bones) for p in d.cartilage)
-                bone = AnatomyBone(name, parent, head, tail, ln, frame, d.region, reference, outline, d.outline_closed, anat_parent, cartilage, d.volume)
+                bone = AnatomyBone(name, parent, head, tail, ln, frame, d.region, reference, outline, d.outline_closed, anat_parent, cartilage, d.volume, d.tracking)
                 left = bone
             bones[name] = bone
     anchors = []
