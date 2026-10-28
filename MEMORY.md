@@ -185,3 +185,8 @@ Motor reproducible y configurable de esqueleto humano 3D en **Blender 5.0.1** (P
 - Añadidas `acetabulum` (copa roja, `kind: cup`), `acetabular_roof`, `obturator_frame` (slab con agujero poligonal) y `pubic_symphysis`; `BoneMesh` gana `bone` (padre) y `tone` (grey/bone/joint). Pelvis y sacro en tono hueso; femur gris. 17 mallas.
 - Contrato `hip_contract` (tests): la cabeza entra en la copa con 0,5–3,5 mm de holgura, el cuello queda libre (≥ 2 mm del borde), la copa se funde con ilion/isquion/pubis (< 4 mm), el agujero obturador sigue vacío (≥ 15 mm de cualquier malla) y la sínfisis toca los dos pubis.
 - IoU medio 0,402 (frente 0,425, espalda 0,434, lado 0,346). Verificación dirigida: `test_bone_meshes` (42) y `mutation_battery -k bmesh`.
+
+## Línea cp.* (2026-10-28)
+- A petición del usuario, esqueleto pélvico-femoral-lumbar generado desde cero e independiente de `BM_*`: `cp_skeleton.py` + `scripts/cp_skeleton.py`; objetos `cp.Pelvis`, `cp.FemurL/R`, `cp.LumbarSpine`.
+- Origen articular: cabeza femoral, punto medio de acetábulos, disco L5-S1. Redimensionado uniforme por pieza (`cp_resize`, `--dim`) y global (`--height`).
+- 12 pruebas de Blender y 9 mutaciones (1 equivalente). Comando: `blender -b --python scripts\cp_skeleton.py -- --height 1.75`.
