@@ -144,6 +144,8 @@ Comparacion con la imagen de referencia del esqueleto: renderiza las siluetas en
 
 Mallas oseas solidas (F1-F2 del esqueleto de referencia): `configonesone_meshes.json` (femur, ilion, isquion, pubis, sacro con 8 agujeros sacros, coccix); pruebas `python -m unittest tests.test_bone_meshes` (28 con Blender), mutaciones `python scripts\mutation_battery.py -k bmesh` (11) y primer plano de una seccion con `blender -b outputnatomy_level1.blend --python scriptsender_bone_closeup.py -- front outputeference_compare\pelvis_front.png ilium ischium pubis sacrum coccyx`.
 
+Articulacion coxofemoral solida (F2b): `acetabulum` (copa roja), `acetabular_roof`, `obturator_frame` y `pubic_symphysis` en `config\bones\bone_meshes.json`; pruebas `python -m unittest tests.test_bone_meshes.TestHipJoint` y mutaciones `python scripts\mutation_battery.py -k bmesh_hip`.
+
 Bateria de mutaciones de la region caderas y muslo (restaura los archivos; `-k texto` ejecuta solo las que lo contienen): `python scripts\mutation_battery.py`. Informe de cierre: `docs\estado\caderas_muslo_cierre.md`.
 
 Resumen esperado: `[SUMMARY] ejecutadas=450 fallos=0 errores=0 omitidas=0` (en `muscle-model`; `main` ejecuta 311) y `RESULTADO FINAL: OK`. Las pruebas fijan los valores **por defecto** de `config\`; si editas la configuración, ejecuta `-Task Generate` (la validación interna siempre corre) y, si un test de valores por defecto falla por tus cambios, es esperado.

@@ -180,3 +180,8 @@ Motor reproducible y configurable de esqueleto humano 3D en **Blender 5.0.1** (P
 - Límites: interlínea sacroilíaca ~8 mm (tolerancia de prueba 10 mm); sacro simétrico a ±6 mm.
 - Verificación dirigida: `test_bone_meshes` (28, con Blender) y `mutation_battery -k bmesh` (11/11). No se corrió la suite completa.
 - Siguiente: F3 (caja torácica).
+
+## Esqueleto de referencia: F2b articulación coxofemoral (2026-10-28)
+- Añadidas `acetabulum` (copa roja, `kind: cup`), `acetabular_roof`, `obturator_frame` (slab con agujero poligonal) y `pubic_symphysis`; `BoneMesh` gana `bone` (padre) y `tone` (grey/bone/joint). Pelvis y sacro en tono hueso; femur gris. 17 mallas.
+- Contrato `hip_contract` (tests): la cabeza entra en la copa con 0,5–3,5 mm de holgura, el cuello queda libre (≥ 2 mm del borde), la copa se funde con ilion/isquion/pubis (< 4 mm), el agujero obturador sigue vacío (≥ 15 mm de cualquier malla) y la sínfisis toca los dos pubis.
+- IoU medio 0,402 (frente 0,425, espalda 0,434, lado 0,346). Verificación dirigida: `test_bone_meshes` (42) y `mutation_battery -k bmesh`.
