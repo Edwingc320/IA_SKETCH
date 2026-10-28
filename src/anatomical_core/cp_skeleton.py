@@ -23,6 +23,9 @@ from mathutils import Matrix, Vector
 
 PREFIX = "cp."
 REF_HEIGHT_M = 1.75
+# cadena de emparentamiento (hijo -> padre): todo cuelga de la pelvis; el orden es de la pelvis hacia fuera
+PARENTS = {"cp.FemurL": "cp.Pelvis", "cp.FemurR": "cp.Pelvis", "cp.LumbarSpine": "cp.Pelvis", "cp.ThoracicSpine": "cp.LumbarSpine", "cp.CervicalSpine": "cp.ThoracicSpine",
+           "cp.Skull": "cp.CervicalSpine", "cp.Mandible": "cp.Skull"}
 SIDES = 20
 CAP_RINGS = 3
 BONE_COLOR = (0.95, 0.92, 0.84, 1.0)
@@ -243,7 +246,7 @@ def remove_generated() -> None:
 
 
 def build_cp_skeleton(height_m: float = REF_HEIGHT_M, dims: dict | None = None, parent: bool = True) -> dict:
-    """Genera cp.Pelvis, cp.FemurL, cp.FemurR y cp.LumbarSpine (y los redimensiona segun `dims`: {nombre: dimension_m}; `cp.Femur` aplica a ambos femures).
+    """Genera cp.Pelvis, cp.FemurL/R, cp.LumbarSpine, cp.ThoracicSpine, cp.CervicalSpine, cp.Skull y cp.Mandible (y los redimensiona segun `dims`: {nombre: dimension_m}; `cp.Femur` aplica a ambos femures).
     Devuelve {nombre: objeto}."""
     if height_m <= 0.3:
         raise ValueError("La altura debe ser > 0.3 m")
@@ -260,15 +263,22 @@ def build_cp_skeleton(height_m: float = REF_HEIGHT_M, dims: dict | None = None, 
         parts[f"cp.Femur{side}"] = _object(f"cp.Femur{side}", bm, o, d, "hip_knee_length", h, col)
     bm, o, d = build_lumbar(h)
     parts["cp.LumbarSpine"] = _object("cp.LumbarSpine", bm, o, d, "lumbar_height", h, col)
-    pelvis = parts["cp.Pelvis"]
+    from . import cp_axial as ax  # (import tardio: cp_axial usa las primitivas de este modulo)
+
+    for name, builder in (("ThoracicSpine", ax.build_thoracic), ("CervicalSpine", ax.build_cervical), ("Skull", ax.build_skull), ("Mandible", ax.build_mandible)):
+        bm, o, d, ref_name = builder(h)
+        parts[f"cp.{name}"] = _object(f"cp.{name}", bm, o, d, ref_name, h, col)
+    parts["cp.ThoracicSpine"]["cp_levels"] = " ".join(ax.THORACIC_LEVELS)  # de abajo (T12) a arriba (T1)
+    parts["cp.CervicalSpine"]["cp_levels"] = " ".join(ax.CERVICAL_LEVELS)
+    parts["cp.LumbarSpine"]["cp_levels"] = "L5 L4 L3 L2 L1"
     bpy.context.view_layer.update()
     for n, ob in parts.items():
-        if n != "cp.Pelvis":
-            ob["cp_anchor_local"] = tuple(pelvis.matrix_world.inverted() @ ob.matrix_world.translation)  # articulacion con la pelvis (en su espacio)
+        if n in PARENTS:
+            par = parts[PARENTS[n]]
+            ob["cp_anchor_local"] = tuple(par.matrix_world.inverted() @ ob.matrix_world.translation)  # articulacion con su padre (en el espacio del padre)
     if parent:
-        for n, ob in parts.items():
-            if n != "cp.Pelvis":
-                _parent_keep_transform(ob, pelvis)
+        for n in PARENTS:  # de la pelvis hacia fuera: cada padre ya esta en su sitio
+            _parent_keep_transform(parts[n], parts[PARENTS[n]])
     for key, value in (dims or {}).items():
         for n in (["cp.FemurL", "cp.FemurR"] if key == "cp.Femur" else [key]):
             if n not in parts:
@@ -287,12 +297,11 @@ def cp_resize(obj, new_dim_m: float) -> float:
     obj.data.transform(Matrix.Scale(f, 4))
     obj.data.update()
     obj["cp_ref_dim_m"] = new_dim_m
-    if obj.name == PREFIX + "Pelvis":
-        bpy.context.view_layer.update()
-        for ch in obj.children:
-            anchor = Vector(ch["cp_anchor_local"]) * f
-            ch["cp_anchor_local"] = tuple(anchor)
-            ch.matrix_world.translation = obj.matrix_world @ anchor
+    bpy.context.view_layer.update()
+    for ch in obj.children:  # los hijos siguen a su anclaje articular (y, con ellos, toda su cadena)
+        anchor = Vector(ch["cp_anchor_local"]) * f
+        ch["cp_anchor_local"] = tuple(anchor)
+        ch.matrix_world.translation = obj.matrix_world @ anchor
     return f
 
 
@@ -319,6 +328,12 @@ def validate(parts: dict) -> list:
         bm.free()
         if o.vertex_groups:
             out.append(f"{n}: tiene vertex groups")
+        if any(x.parent for x in parts.values()) and n != PREFIX + "Pelvis":
+            root = o
+            while root.parent:
+                root = root.parent
+            if root.name != PREFIX + "Pelvis":
+                out.append(f"{n}: no esta conectada a la pelvis")
         if any(abs(c - 1.0) > 1e-9 for c in o.scale) or any(abs(c) > 1e-9 for c in o.rotation_euler):
             out.append(f"{n}: transformaciones sin aplicar")
     return out

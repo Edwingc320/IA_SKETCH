@@ -17,7 +17,19 @@ except ImportError:  # pragma: no cover
     HAVE_BPY = False
 
 if HAVE_BPY:
+    from anatomical_core import cp_axial as ax
     from anatomical_core import cp_skeleton as cp
+
+
+def mirror_error(o):
+    from mathutils import kdtree
+
+    vs = o.data.vertices
+    tree = kdtree.KDTree(len(vs))
+    for i, v in enumerate(vs):
+        tree.insert(v.co, i)
+    tree.balance()
+    return max(tree.find(Vector((-v.co.x, v.co.y, v.co.z)))[2] for v in vs)
 
 
 def extents(o):
@@ -32,7 +44,7 @@ class TestCpSkeleton(unittest.TestCase):
         self.parts = cp.build_cp_skeleton(1.75)
 
     def test_four_independent_objects_with_the_cp_index_names(self):
-        self.assertEqual(sorted(self.parts), ["cp.FemurL", "cp.FemurR", "cp.LumbarSpine", "cp.Pelvis"])
+        self.assertEqual(sorted(self.parts), ["cp.CervicalSpine", "cp.FemurL", "cp.FemurR", "cp.LumbarSpine", "cp.Mandible", "cp.Pelvis", "cp.Skull", "cp.ThoracicSpine"])
         self.assertEqual(sorted(o.name for o in bpy.data.objects), sorted(self.parts))
         for o in self.parts.values():
             self.assertEqual(o.type, "MESH")
@@ -160,9 +172,150 @@ class TestCpSkeleton(unittest.TestCase):
         with self.assertRaises(ValueError):
             cp.build_cp_skeleton(0.1)
         with self.assertRaises(ValueError):
-            cp.build_cp_skeleton(1.75, {"cp.Skull": 0.2})
+            cp.build_cp_skeleton(1.75, {"cp.Sternum": 0.2})
         with self.assertRaises(ValueError):
             cp.cp_resize(self.parts["cp.Pelvis"], -1.0)
+
+
+@unittest.skipUnless(HAVE_BPY, "requiere Blender (bpy)")
+class TestCpAxial(unittest.TestCase):
+    """Columna toracica y cervical, craneo y mandibula, conectados a la pelvis por la cadena de emparentamiento."""
+
+    def setUp(self):
+        bpy.ops.wm.read_factory_settings(use_empty=True)
+        self.parts = cp.build_cp_skeleton(1.75)
+        bpy.context.view_layer.update()
+        self.h = 1.75
+
+    def world_z(self, name):
+        return self.parts[name].matrix_world.translation.z
+
+    def test_the_eight_parts_exist_and_form_one_chain_down_to_the_pelvis(self):
+        self.assertEqual(sorted(self.parts), ["cp.CervicalSpine", "cp.FemurL", "cp.FemurR", "cp.LumbarSpine", "cp.Mandible", "cp.Pelvis", "cp.Skull", "cp.ThoracicSpine"])
+        for n, par in cp.PARENTS.items():
+            self.assertIs(self.parts[n].parent, self.parts[par], n)
+        for n, o in self.parts.items():
+            while o.parent:
+                o = o.parent
+            self.assertEqual(o.name, "cp.Pelvis", n)  # toda pieza llega a la pelvis
+        self.assertEqual(cp.validate(self.parts), [])
+
+    def test_every_part_has_the_same_bone_tone(self):
+        mats = {o.data.materials[0].name for o in self.parts.values()}
+        self.assertEqual(mats, {"cp_bone"})
+        self.assertEqual(tuple(round(c, 2) for c in bpy.data.materials["cp_bone"].diffuse_color[:3]), (0.95, 0.92, 0.84))
+
+    def test_each_segment_starts_where_the_previous_one_ends(self):
+        h = self.h
+        lum_top = self.world_z("cp.LumbarSpine") + ax.LUMBAR_TOTAL * h
+        self.assertAlmostEqual(self.world_z("cp.ThoracicSpine"), lum_top + ax.THOR_DISC_H / 2 * h, places=5)
+        thor_top = self.world_z("cp.ThoracicSpine") + ax.thoracic_total() * h
+        self.assertAlmostEqual(self.world_z("cp.CervicalSpine"), thor_top + ax.CERV_DISC_H / 2 * h, places=5)
+        cerv_top = self.world_z("cp.CervicalSpine") + ax.cervical_total() * h
+        self.assertAlmostEqual(self.world_z("cp.Skull"), cerv_top + 0.0010 * h, places=5)
+
+    def test_origins_are_the_articular_centres(self):
+        h = self.h
+        for name, half in (("cp.ThoracicSpine", ax.THOR_DISC_H / 2 * h), ("cp.CervicalSpine", ax.CERV_DISC_H / 2 * h)):  # centro del disco T12/L1 y C7/T1
+            poles = [v.co.copy() for v in self.parts[name].data.vertices if abs(v.co.length - half) < 1e-5]
+            self.assertTrue(any((a + b).length < 1e-5 for a in poles for b in poles if a is not b), name)
+        xs = [v.co.x for v in self.parts["cp.Skull"].data.vertices]
+        self.assertAlmostEqual(max(xs) + min(xs), 0.0, delta=1e-5)  # el craneo es simetrico respecto al plano sagital del origen
+        for n in ("cp.Skull", "cp.Mandible"):  # cada vertice espejado en x coincide con otro vertice de la misma malla (hasta 0.5 mm)
+            self.assertLess(mirror_error(self.parts[n]), 1e-3, n)  # 0.5 mm: los anillos de los tubos espejados giran su fase
+        tmj = self.parts["cp.Skull"].matrix_world.translation + Vector((0.0, ax.TMJ[1], ax.TMJ[2])) * h
+        self.assertLess((self.parts["cp.Mandible"].matrix_world.translation - tmj).length, 1e-5)
+
+    def test_the_anthropometric_lengths_govern_the_axial_skeleton(self):
+        h = self.h
+        sk = self.parts["cp.Skull"]
+        vertex = max((sk.matrix_world @ v.co).z for v in sk.data.vertices)
+        menton = min((self.parts["cp.Mandible"].matrix_world @ v.co).z for v in self.parts["cp.Mandible"].data.vertices)
+        self.assertAlmostEqual(vertex / h, 1.0, delta=0.006)  # vertice a 1.00 H
+        self.assertAlmostEqual(menton / h, 0.870, delta=0.008)  # menton a 0.87 H (Winter)
+        self.assertAlmostEqual(self.parts["cp.ThoracicSpine"]["cp_ref_dim_m"] / h, 0.18, delta=0.012)  # 12 vertebras toracicas con discos (~0.30 m)
+        self.assertAlmostEqual(self.parts["cp.CervicalSpine"]["cp_ref_dim_m"] / h, 0.088, delta=0.012)
+        self.assertGreater((sk.matrix_world.translation.z + ax.SKULL_BASE_TO_VERTEX * h) / h, 0.99)
+
+    def test_the_spine_keeps_its_sagittal_curves(self):
+        h = self.h
+
+        def front_y(name, frac):  # y mas anterior (el cuerpo vertebral) en una franja a la fraccion `frac` de la altura de la pieza
+            vs = self.parts[name].data.vertices
+            z0, z1 = min(v.co.z for v in vs), max(v.co.z for v in vs)
+            zc = z0 + (z1 - z0) * frac
+            band = [v.co.y for v in vs if abs(v.co.z - zc) < 0.012 * h]
+            return min(band)
+
+        thor = [front_y("cp.ThoracicSpine", f) for f in (0.1, 0.5, 0.9)]
+        self.assertGreater(thor[1] - 0.5 * (thor[0] + thor[2]), 0.5 * ax.KYPHOSIS * h)  # cifosis: el centro del torax esta mas atras que sus extremos
+        cerv = [front_y("cp.CervicalSpine", f) for f in (0.1, 0.5, 0.9)]
+        self.assertLess(cerv[1] - 0.5 * (cerv[0] + cerv[2]), -0.0008 * h)  # lordosis: el centro del cuello esta mas adelante (la forma de C1-C2 enmascara parte de la flecha)
+
+    def test_the_vertebral_levels_are_recorded(self):
+        self.assertEqual(self.parts["cp.ThoracicSpine"]["cp_levels"], " ".join(ax.THORACIC_LEVELS))
+        self.assertEqual(self.parts["cp.CervicalSpine"]["cp_levels"], " ".join(ax.CERVICAL_LEVELS))
+        self.assertEqual(len(ax.THORACIC_LEVELS), 12)
+        self.assertEqual(len(ax.CERVICAL_LEVELS), 7)
+
+    def test_skull_and_mandible_have_head_proportions(self):
+        h = self.h
+        sk, md = self.parts["cp.Skull"], self.parts["cp.Mandible"]
+        ex = lambda o, i: max(v.co[i] for v in o.data.vertices) - min(v.co[i] for v in o.data.vertices)  # noqa: E731
+        self.assertTrue(0.075 * h < ex(sk, 0) < 0.100 * h, "anchura del craneo (~14.5 cm)")
+        self.assertTrue(0.105 * h < ex(sk, 1) < 0.125 * h, "longitud antero-posterior (~19 cm con arcada dental)")
+        self.assertTrue(0.100 * h < ex(sk, 2) < 0.140 * h, "altura del craneo (~21 cm con la cara)")
+        self.assertTrue(0.060 * h < ex(md, 0) < 0.090 * h, "anchura bicondilea de la mandibula")
+        profile = [v.co for v in sk.data.vertices if abs(v.co.x - 0.0175 * h) < 0.0025 * h and abs(v.co.z - 0.012 * h) < 0.0025 * h and v.co.y < -0.060 * h]
+        self.assertTrue(profile, "orbitas con reborde")
+        self.assertGreaterEqual(ax.ORBIT_DEPTH, 0.010)  # las orbitas y la abertura nasal se hunden (profundidad), no solo se marcan con un reborde
+        self.assertGreaterEqual(ax.NASAL_DEPTH, 0.006)
+        import bmesh
+
+        bm = bmesh.new()
+        bmesh.ops.create_uvsphere(bm, u_segments=16, v_segments=8, radius=0.05)
+        before = [(v.co.copy(), v.co.y) for v in bm.verts]
+        ax.dent(bm, (0.0, -0.05, 0.0), 0.02, 0.01, (0, 1, 0))  # el vertice central se hunde casi la profundidad completa y los lejanos no se mueven
+        centre = Vector((0.0, -0.05, 0.0))
+        moved = [(v.co.y - y0, (p0 - centre).length) for v, (p0, y0) in zip(bm.verts, before)]
+        self.assertGreater(max(d for d, _ in moved), 0.004)
+        self.assertTrue(all(abs(d) < 1e-12 for d, dist in moved if dist >= 0.02))
+        bm.free()
+
+    def test_resizing_a_segment_carries_the_whole_chain_above_it(self):
+        z = {n: self.world_z(n) for n in ("cp.LumbarSpine", "cp.ThoracicSpine", "cp.Skull")}
+        cp.cp_resize(self.parts["cp.LumbarSpine"], self.parts["cp.LumbarSpine"]["cp_ref_dim_m"] * 1.2)
+        bpy.context.view_layer.update()
+        self.assertAlmostEqual(self.world_z("cp.ThoracicSpine") - z["cp.LumbarSpine"], 1.2 * (z["cp.ThoracicSpine"] - z["cp.LumbarSpine"]), places=5)
+        self.assertAlmostEqual(self.world_z("cp.Skull") - self.world_z("cp.ThoracicSpine"), z["cp.Skull"] - z["cp.ThoracicSpine"], places=5)  # el resto de la cadena viaja rigido
+        self.assertEqual(cp.validate(self.parts), [])
+
+    def test_the_axial_skeleton_scales_with_the_height(self):
+        ref = {n: ([max(v.co[i] for v in o.data.vertices) - min(v.co[i] for v in o.data.vertices) for i in range(3)], o.matrix_world.translation.copy()) for n, o in self.parts.items()}
+        parts = cp.build_cp_skeleton(2.05)
+        bpy.context.view_layer.update()
+        k = 2.05 / 1.75
+        for n in ("cp.ThoracicSpine", "cp.CervicalSpine", "cp.Skull", "cp.Mandible"):
+            o = parts[n]
+            for i in range(3):
+                self.assertAlmostEqual((max(v.co[i] for v in o.data.vertices) - min(v.co[i] for v in o.data.vertices)) / ref[n][0][i], k, places=4, msg=n)
+            self.assertLess((o.matrix_world.translation - ref[n][1] * k).length, 1e-5, n)
+        self.assertEqual(cp.validate(parts), [])
+
+    # ---- mutaciones
+    def test_mutation_a_part_cut_off_from_the_chain_is_reported(self):
+        sk = self.parts["cp.Skull"]
+        mw = sk.matrix_world.copy()
+        sk.parent = None
+        sk.matrix_world = mw
+        self.assertTrue(any("no esta conectada" in i for i in cp.validate(self.parts)))
+
+    def test_mutation_the_axial_dims_are_resizable_through_the_cli_names(self):
+        parts = cp.build_cp_skeleton(1.75, {"cp.Skull": 0.20, "cp.Mandible": 0.12, "cp.ThoracicSpine": 0.30})
+        self.assertAlmostEqual(parts["cp.Skull"]["cp_ref_dim_m"], 0.20, places=9)
+        self.assertAlmostEqual(parts["cp.Mandible"]["cp_ref_dim_m"], 0.12, places=9)
+        self.assertAlmostEqual(parts["cp.ThoracicSpine"]["cp_ref_dim_m"], 0.30, places=9)
+        self.assertEqual(cp.validate(parts), [])
 
 
 if __name__ == "__main__":

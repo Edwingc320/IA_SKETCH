@@ -3,7 +3,8 @@
     blender -b --python scripts\cp_skeleton.py -- [--height 1.75] [--dim cp.FemurL=0.46] [--dim cp.Pelvis=0.30] [--no-parent] [--out output\cp_skeleton.blend]
 
 `--dim PIEZA=metros` redimensiona la pieza de forma uniforme (misma estructura y proporcion); `cp.Femur` aplica a los dos femures. Dimensiones de referencia:
-cp.Pelvis = ancho biiliaco, cp.Femur* = longitud cabeza-rodilla, cp.LumbarSpine = altura L5-L1."""
+cp.Pelvis = ancho biiliaco, cp.Femur* = longitud cabeza-rodilla, cp.LumbarSpine / cp.ThoracicSpine / cp.CervicalSpine = altura, cp.Skull = longitud antero-posterior,
+cp.Mandible = anchura bicondilea. Cadena: Pelvis > Lumbar > Toracica > Cervical > Craneo > Mandibula (redimensionar una pieza arrastra la cadena que cuelga de ella)."""
 import argparse
 import sys
 from pathlib import Path
