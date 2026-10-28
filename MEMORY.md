@@ -168,3 +168,10 @@ Motor reproducible y configurable de esqueleto humano 3D en **Blender 5.0.1** (P
 - **Pendiente de verificación**: la suite completa en Blender no se reejecutó entera tras CM-10.
 - Lección: un comando de Bash con `rm` fuera del proyecto fue bloqueado por seguridad (y con él el resto del comando): `C:\output` (ruta relativa mal resuelta por Blender) quedó sin borrar y lo debe borrar el usuario.
 
+## Esqueleto de referencia: F1 hecha (2026-10-28)
+- **Decisiones del usuario**: los datos antropométricos mandan en las longitudes de los segmentos; la imagen manda en la forma, la silueta y la postura; discrepancias por sección, documentadas; «idéntico» = forma y silueta + estilo (gris liso y contorno oscuro).
+- **F1**: `bone_meshes.py` (loft), `bone_meshes_scene.py`, `config/bones/bone_meshes.json`, `tests/test_bone_meshes.py` (15 pruebas) y 4 mutaciones en `scripts/mutation_battery.py`. Primer hueso: fémur L/R; hitos a ≤ 9 mm. IoU medio 0,37 (antes 0,35).
+- **Discrepancia para F8**: los fémures de la imagen convergen hacia las rodillas; el modelo tiene el eje mecánico vertical.
+- Verificación dirigida (por la instrucción de solo lo modificado): pruebas puras y de Blender de `test_bone_meshes` y `test_anatomy_blender`; no se corrió la suite completa.
+- Siguiente: F2 (pelvis y sacro: láminas con grosor, agujeros sacros y obturadores, sínfisis).
+

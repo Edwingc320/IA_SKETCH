@@ -51,7 +51,7 @@ Se conserva **todo lo construido** (base congelada, rig, hitos, ligamentos, tend
 | Fase | Contenido | Criterio de aceptación |
 |---|---|---|
 | F0 ✅ | banco de comparación (render de siluetas + IoU y perfil de anchura contra la imagen) y línea base | scripts versionados; línea base de la tabla anterior |
-| F1 | **núcleo de mallas óseas**: lofts, láminas, tubos; emparentado al hueso; escala; estilo de la imagen; validación (malla cerrada, volumen > 0, sin autointersección gruesa) | pruebas puras y de Blender; un hueso de ejemplo (fémur) en las tres vistas |
+| F1 ✅ | **núcleo de mallas óseas**: lofts, láminas, tubos; emparentado al hueso; escala; estilo de la imagen; validación (malla cerrada, volumen > 0, sin autointersección gruesa) | pruebas puras y de Blender; un hueso de ejemplo (fémur) en las tres vistas |
 | F2 | pelvis y sacro (alas, agujeros sacros y obturadores, sínfisis, cóccix) | IoU de la sección y distancia de los anclajes a la malla < 12 mm |
 | F3 | caja torácica (esternón, 12 pares de costillas con cartílago) | idem |
 | F4 | columna (C1–L5, curvaturas, apófisis) | idem |
@@ -63,6 +63,10 @@ Se conserva **todo lo construido** (base congelada, rig, hitos, ligamentos, tend
 | F10 | ensamblaje, pose A de la imagen y verificación final | IoU medio ≥ 0,75; ninguna sección fuera de ± 5 % en sus proporciones; todas las pruebas previas en verde |
 
 Orden por impacto visual y dependencia: primero el tronco (pelvis, tórax, columna), que ancla muslo y brazos, después cráneo, miembros superiores y miembros inferiores. Un commit por fase, con pruebas y mutaciones, y los documentos al día después de cada commit.
+
+## Decisiones tomadas (2026-10-28)
+
+Los datos antropométricos mandan en las **longitudes** de los segmentos; la imagen manda en la **forma, silueta y postura**; las discrepancias se deciden y documentan **por sección**. «Idéntico» = forma y silueta con relleno gris liso y contorno oscuro (sin imitar sombreado ni rugosidades).
 
 ## Riesgos y decisiones abiertas
 

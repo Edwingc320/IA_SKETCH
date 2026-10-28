@@ -18,11 +18,20 @@ out_dir.mkdir(parents=True, exist_ok=True)
 RES_X, RES_Y, FILL = 542, 650, 0.90  # mismo aspecto que la referencia (1083 x 1300); el esqueleto ocupa el 90 % del alto
 
 sc = bpy.context.scene
-bones = [o for o in bpy.data.objects if o.name.startswith("ANA_")]
+solid = {o.name[3:] for o in bpy.data.objects if o.name.startswith("BM_")}  # huesos con malla solida (nivel 2): sustituyen a su forma fina del nivel 1
+def covered(name):  # forma fina del nivel 1 (visual, contorno o cartilago) de un hueso que ya tiene malla solida
+    for prefix in ("ANA_outline_", "ANA_cartilage_", "ANA_"):
+        if name.startswith(prefix):
+            return name[len(prefix):] in solid
+    return False
+
+
+bones = [o for o in bpy.data.objects if o.name.startswith("BM_") or (o.name.startswith("ANA_") and not covered(o.name))]
 if not bones:
     raise SystemExit("El archivo no contiene huesos del nivel 1 (ANA_*): usa output/anatomy_level1.blend")
+shown = set(o.name for o in bones)
 for o in bpy.data.objects:
-    o.hide_render = not o.name.startswith("ANA_")
+    o.hide_render = o.name not in shown
     o.hide_viewport = o.hide_render
 ys = [(o.matrix_world @ Vector(c)) for o in bones for c in o.bound_box]
 zmin, zmax = min(v.z for v in ys), max(v.z for v in ys)

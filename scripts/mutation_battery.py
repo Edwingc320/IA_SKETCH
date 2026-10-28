@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CFG = ROOT / "config"
 LP, LF, TL, TT = (CFG / "articulations" / "lumbar_pelvis.json", CFG / "articulations" / "leg_foot.json", CFG / "muscles" / "tendons_lower_limb.json", CFG / "muscles" / "tendons_trunk_head.json")
 LB = CFG / "anatomy" / "long_bones.json"
+BM = CFG / "bones" / "bone_meshes.json"
 MV, VM, JN = CFG / "muscles" / "muscle_volumes.json", CFG / "muscles" / "volume_measurements.json", CFG / "joints.json"
 
 HIP = ["test_hip_ligament_paths", "test_hip_rom"]
@@ -212,6 +213,28 @@ def quadriceps_loses_its_trochlear_guides(d):
 @mutation(LF, PAT)
 def patellar_ligament_stops_avoiding_the_femur(d):
     by(d["ligaments"], "patellar.L")["avoid"] = []
+
+
+# ---- mallas oseas solidas (F1 del esqueleto de referencia)
+@mutation(BM, ["test_bone_meshes"])
+def bmesh_trochanter_station_moved_down(d):
+    d["bones"][0]["stations"][2]["offset_h"] = [0.0, 0.0, -0.2]
+
+
+@mutation(BM, ["test_bone_meshes"])
+def bmesh_shaft_station_too_thin(d):
+    d["bones"][0]["stations"][4]["a_m"] = 0.004
+    d["bones"][0]["stations"][4]["b_m"] = 0.004
+
+
+@mutation(BM, ["test_bone_meshes"])
+def bmesh_head_station_oversized(d):
+    d["bones"][0]["stations"][0]["a_m"] = 0.5
+
+
+@mutation(BM, ["test_bone_meshes"])
+def bmesh_unknown_bone(d):
+    d["bones"][0]["name"] = "no_such_bone.L"
 
 
 def run_one(name, file, fn, tests):

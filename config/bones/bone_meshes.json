@@ -1,0 +1,92 @@
+{
+ "schema_version": 2,
+ "description": "Mallas oseas solidas (nivel 2) como lofts de secciones elipticas a lo largo de una trayectoria de estaciones; a_m y b_m son semiejes en metros a 1.75 m (escalan con la altura). La forma sigue la imagen de referencia; las longitudes y los hitos vienen del modelo antropometrico.",
+ "bones": [
+  {
+   "name": "femur.L",
+   "mirror": true,
+   "cap_start_m": 0.022,
+   "cap_end_m": 0.02,
+   "stations": [
+    {
+     "at": "thigh.L.head",
+     "offset_h": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "a_m": 0.022,
+     "b_m": 0.022,
+     "note": "cabeza femoral"
+    },
+    {
+     "at": "thigh.L.head",
+     "offset_h": [
+      0.012857,
+      0.001286,
+      -0.007857
+     ],
+     "a_m": 0.0155,
+     "b_m": 0.0155,
+     "note": "cuello"
+    },
+    {
+     "at": "thigh.L.head",
+     "offset_h": [
+      0.016,
+      0.002857,
+      -0.017143
+     ],
+     "a_m": 0.022,
+     "b_m": 0.02,
+     "note": "trocanter mayor"
+    },
+    {
+     "at": "thigh.L.head",
+     "offset_h": [
+      0.01407,
+      0.002513,
+      -0.044286
+     ],
+     "a_m": 0.0155,
+     "b_m": 0.0155,
+     "note": "diafisis proximal"
+    },
+    {
+     "at": "thigh.L.head",
+     "offset_h": [
+      0.007976,
+      0.001424,
+      -0.13
+     ],
+     "a_m": 0.0145,
+     "b_m": 0.0155,
+     "note": "diafisis media"
+    },
+    {
+     "at": "thigh.L.head",
+     "offset_h": [
+      0.003913,
+      0.000699,
+      -0.187143
+     ],
+     "a_m": 0.0185,
+     "b_m": 0.0185,
+     "note": "diafisis distal"
+    },
+    {
+     "at": "thigh.L.head",
+     "offset_h": [
+      0.0,
+      0.0,
+      -0.233543
+     ],
+     "a_m": 0.033,
+     "b_m": 0.03,
+     "note": "condilos"
+    }
+   ],
+   "notes": "Femur: cabeza esferica de 44 mm, cuello de 30 mm hacia el trocanter mayor, diafisis de unos 29 mm y condilos de 66 x 60 mm; cabeza y trocanter a las alturas de los hitos del modelo. Primera pieza de la capa (F1)."
+  }
+ ]
+}

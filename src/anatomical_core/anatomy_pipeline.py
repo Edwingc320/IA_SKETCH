@@ -10,7 +10,7 @@ import json
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from . import anatomy, anatomy_scene, articulations, articulations_scene, muscle_volumes, muscle_volumes_scene, muscles, muscles_scene, scene, tendons, tendons_scene, validation
+from . import anatomy, anatomy_scene, bone_meshes, bone_meshes_scene, articulations, articulations_scene, muscle_volumes, muscle_volumes_scene, muscles, muscles_scene, scene, tendons, tendons_scene, validation
 from . import pose as pose_mod
 from .config import PoseDef, load_config
 from .skeleton import build_model
@@ -122,6 +122,18 @@ def generate(output_blend, config_dir=None, anatomy_dir=None, reference_path=Non
             raise AnatomyGenerationError("La capa de tendones no supera la validacion", ten_issues)
         log(f"[INFO] Capa de tendones: {len(ten.tendons)} unidades musculo-tendinosas, {len(ten.sources)} fuentes")
 
+    bmesh = None
+    bmesh_data = bone_meshes.load_mesh_data()
+    if bmesh_data:
+        bmesh = bone_meshes.build_bone_meshes(base, anat, bmesh_data)
+        bmesh_issues = bone_meshes.validate_bone_meshes(base, anat, bmesh)
+        for i in bmesh_issues:
+            log(str(i))
+        issues += bmesh_issues
+        if validation.errors(bmesh_issues):
+            raise AnatomyGenerationError("Las mallas oseas solidas no superan la validacion", bmesh_issues)
+        log(f"[INFO] Mallas oseas solidas (nivel 2): {len(bmesh.meshes)} huesos")
+
     mvol = None
     mvol_data = muscle_volumes.load_volume_data()
     if mvol_data and ten is not None:
@@ -146,6 +158,8 @@ def generate(output_blend, config_dir=None, anatomy_dir=None, reference_path=Non
         tendons_scene.add_tendons(ten)
     if mvol is not None:
         muscle_volumes_scene.add_muscle_volumes(ten, mvol)
+    if bmesh is not None:
+        bone_meshes_scene.add_bone_meshes(bmesh, anat)
     scene.save_blend(output_blend)
     log(f"[INFO] Guardado: {output_blend} ({output_blend.stat().st_size} bytes)")
 
@@ -160,6 +174,8 @@ def generate(output_blend, config_dir=None, anatomy_dir=None, reference_path=Non
         anat_blend += tendons.validate_tendons_snapshot(ten, tendons_scene.read_back_tendons())
     if mvol is not None:
         anat_blend += muscle_volumes.validate_volumes_snapshot(ten, mvol, muscle_volumes_scene.read_back_muscle_volumes())
+    if bmesh is not None:
+        anat_blend += bone_meshes.validate_bone_meshes_snapshot(bmesh, bone_meshes_scene.read_back_bone_meshes())
     for i in base_blend + anat_blend:
         log(str(i))
     issues += base_blend + anat_blend
