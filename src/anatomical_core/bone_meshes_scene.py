@@ -10,6 +10,9 @@ from .bone_meshes import BoneMeshModel
 
 COLLECTION = "AC_BoneMeshes"
 _FILL = (0.86, 0.86, 0.85, 1.0)  # gris claro de la imagen (relleno 224-236 de 255)
+_BONE = (0.95, 0.92, 0.84, 1.0)  # hueso claro (pelvis y sacro)
+_JOINT = (0.80, 0.10, 0.10, 1.0)  # rojo: poligonos de union articular (copa acetabular)
+_FILLS = {"grey": ("AC_Mat_bone_mesh", _FILL), "bone": ("AC_Mat_bone_mesh_bone", _BONE), "joint": ("AC_Mat_bone_mesh_joint", _JOINT)}
 _LINE = (0.10, 0.10, 0.10, 1.0)  # contorno oscuro
 OUTLINE_M = 0.0025  # espesor del contorno a 1.75 m
 
@@ -19,19 +22,19 @@ def add_bone_meshes(model: BoneMeshModel, anat) -> None:
     arm_obj = bpy.data.objects[scene.ARMATURE_OBJECT]
     col = bpy.data.collections.new(COLLECTION)
     sc.collection.children.link(col)
-    fill = scene._material("AC_Mat_bone_mesh", _FILL)
+    fills = {t: scene._material(n, c) for t, (n, c) in _FILLS.items()}
     line = scene._material("AC_Mat_bone_mesh_outline", _LINE)
     line.use_backface_culling = True  # solo se ve la cara trasera del casco: el contorno
-    inverses = scene._bone_parent_inverses(sc, arm_obj, sorted({m.name for m in model.meshes.values()}))
+    inverses = scene._bone_parent_inverses(sc, arm_obj, sorted({m.parent_bone for m in model.meshes.values()}))
     k = model.height_m / 1.75
     for n, m in model.meshes.items():
-        o = scene._mesh_object(f"BM_{n}", m.verts, m.faces, col, fill, "bone_mesh")
+        o = scene._mesh_object(f"BM_{n}", m.verts, m.faces, col, fills[m.tone], "bone_mesh")
         o.data.materials.append(line)
         o.data.polygons.foreach_set("use_smooth", [m.smooth] * len(o.data.polygons))
         mod = o.modifiers.new("AC_Outline", "SOLIDIFY")
         mod.thickness, mod.offset, mod.use_flip_normals, mod.material_offset = OUTLINE_M * k, 1.0, True, 1
-        o["ac_region"], o["ac_bone"], o["ac_volume_cm3"] = anat.bones[n].region, n, m.volume_m3 * 1e6
-        scene._attach_to_bone(o, arm_obj, n, inverses)
+        o["ac_region"], o["ac_bone"], o["ac_volume_cm3"], o["ac_tone"] = anat.bones[m.parent_bone].region, m.parent_bone, m.volume_m3 * 1e6, m.tone
+        scene._attach_to_bone(o, arm_obj, m.parent_bone, inverses)
     bpy.context.view_layer.update()
 
 

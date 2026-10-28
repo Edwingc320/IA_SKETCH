@@ -218,13 +218,13 @@ def patellar_ligament_stops_avoiding_the_femur(d):
 # ---- mallas oseas solidas (F1 del esqueleto de referencia)
 @mutation(BM, ["test_bone_meshes"])
 def bmesh_trochanter_station_moved_down(d):
-    d["bones"][0]["stations"][2]["offset_h"] = [0.0, 0.0, -0.2]
+    d["bones"][0]["stations"][3]["offset_h"] = [0.0, 0.0, -0.2]
 
 
 @mutation(BM, ["test_bone_meshes"])
 def bmesh_shaft_station_too_thin(d):
-    d["bones"][0]["stations"][4]["a_m"] = 0.004
-    d["bones"][0]["stations"][4]["b_m"] = 0.004
+    d["bones"][0]["stations"][5]["a_m"] = 0.004
+    d["bones"][0]["stations"][5]["b_m"] = 0.004
 
 
 @mutation(BM, ["test_bone_meshes"])
@@ -274,6 +274,68 @@ def bmesh_slab_thickness_absurd(d):
 @mutation(BM, ["test_bone_meshes"])
 def bmesh_sacrum_made_smooth_shaded(d):
     by(d["bones"], "sacrum")["smooth"] = True
+
+
+# ---- articulacion coxofemoral: copa acetabular, techo, marco obturador y sinfisis (F2b)
+HIP = ["test_bone_meshes.TestHipJoint"]
+
+
+@mutation(BM, HIP)
+def bmesh_hip_cup_too_small_pinches_the_head(d):
+    by(d["bones"], "acetabulum.L").update(r_in_m=0.0200, r_out_m=0.0280)
+
+
+@mutation(BM, HIP)
+def bmesh_hip_cup_too_large_leaves_a_wide_gap(d):
+    by(d["bones"], "acetabulum.L").update(r_in_m=0.0300, r_out_m=0.0380)
+
+
+@mutation(BM, HIP)
+def bmesh_hip_cup_turned_towards_the_pelvis(d):
+    by(d["bones"], "acetabulum.L")["axis"] = [0.84, -0.20, -0.50]
+
+
+@mutation(BM, HIP)
+def bmesh_hip_cup_closes_over_the_neck(d):
+    by(d["bones"], "acetabulum.L")["theta_max_deg"] = 165.0
+
+
+@mutation(BM, HIP)
+def bmesh_hip_cup_roof_removed(d):
+    d["bones"] = [b for b in d["bones"] if b["name"] != "acetabular_roof.L"]
+
+
+@mutation(BM, HIP)
+def bmesh_hip_cup_tone_not_red(d):
+    by(d["bones"], "acetabulum.L")["tone"] = "bone"
+
+
+@mutation(BM, HIP)
+def bmesh_hip_pelvis_tone_back_to_grey(d):
+    by(d["bones"], "ilium.L")["tone"] = "grey"
+
+
+@mutation(BM, HIP)
+def bmesh_hip_obturator_frame_without_hole(d):
+    by(d["bones"], "obturator_frame.L")["holes"] = []
+
+
+@mutation(BM, HIP)
+def bmesh_hip_obturator_frame_floating_in_the_air(d):
+    f = by(d["bones"], "obturator_frame.L")
+    for p in f["outline"] + f["holes"][0]["loop"]:
+        p["offset_h"][1] += 0.1
+
+
+@mutation(BM, HIP)
+def bmesh_hip_symphysis_displaced_upwards(d):
+    for s in by(d["bones"], "pubic_symphysis")["stations"]:
+        s["offset_h"][2] += 0.03
+
+
+@mutation(BM, HIP)
+def bmesh_hip_femur_head_neck_step_too_abrupt(d):
+    by(d["bones"], "femur.L")["stations"][1]["a_m"] = 0.012
 
 
 def run_one(name, file, fn, tests):

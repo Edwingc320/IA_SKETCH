@@ -47,6 +47,12 @@ class BoneMesh:
     notes: str
     genus: int = 0  # numero de agujeros pasantes (agujeros sacros de una lamina): la caracteristica de Euler esperada es 2 - 2 genus
     smooth: bool = True  # sombreado suave (lofts) o plano (laminas de caras anchas: pelvis, sacro)
+    bone: str = ""  # hueso del nivel 1 del que cuelga si la malla no lleva su nombre (copa acetabular, sinfisis, marco obturador); vacio = `name`
+    tone: str = "grey"  # estilo: "grey" (gris liso de la imagen), "bone" (hueso claro) o "joint" (rojo: poligonos de union articular)
+
+    @property
+    def parent_bone(self) -> str:
+        return self.bone or self.name
 
     @property
     def volume_m3(self) -> float:
@@ -143,6 +149,66 @@ def loft(stations: tuple, sides: int = DEFAULT_SIDES, width_ref: Vec3 = (1.0, 0.
     return verts, faces
 
 
+TONES = ("grey", "bone", "joint")
+
+
+def cup(center: Vec3, axis: Vec3, r_in: float, r_out: float, theta_max: float, n_theta: int = 10, n_phi: int = 24) -> tuple:
+    """(vertices, caras) de una copa: casquete esferico grueso (cascara entre r_in y r_out) de semiangulo `theta_max` (rad) alrededor de `axis`. Cerrada
+    (genero 0, Euler 2) y orientada hacia fuera. La cara interior (r_in) es la superficie articular que abraza la cabeza del femur."""
+    if not 0.0 < r_in < r_out:
+        raise ConfigError("Copa articular: se exige 0 < r_in < r_out")
+    if not 0.2 <= theta_max <= math.pi - 0.2:
+        raise ConfigError("Copa articular: el semiangulo debe estar entre 0.2 rad y pi - 0.2 rad")
+    ax = normalize(axis)
+    u = normalize(cross(ax, (0.0, 0.0, 1.0)) if abs(ax[2]) < 0.9 else cross(ax, (1.0, 0.0, 0.0)))
+    v = cross(ax, u)
+    verts, poles = [], {}
+    for tag, r in (("o", r_out), ("i", r_in)):
+        verts.append(add(center, scale(ax, r)))
+        poles[tag] = len(verts) - 1
+        for i in range(1, n_theta + 1):
+            th = theta_max * i / n_theta
+            for k in range(n_phi):
+                ph = 2 * math.pi * k / n_phi
+                d = add(scale(ax, math.cos(th)), add(scale(u, math.sin(th) * math.cos(ph)), scale(v, math.sin(th) * math.sin(ph))))
+                verts.append(add(center, scale(d, r)))
+    ring = lambda tag, i, k: poles[tag] + 1 + (i - 1) * n_phi + (k % n_phi)  # noqa: E731
+    faces = []
+    for tag, flip in (("o", False), ("i", True)):
+        f = [(poles[tag], ring(tag, 1, k + 1), ring(tag, 1, k)) for k in range(n_phi)]
+        for i in range(1, n_theta):
+            for k in range(n_phi):
+                f.append((ring(tag, i, k), ring(tag, i, k + 1), ring(tag, i + 1, k + 1), ring(tag, i + 1, k)))
+        faces += [tuple(reversed(q)) if flip else q for q in f]
+    for k in range(n_phi):  # borde: une la cara exterior con la interior
+        faces.append((ring("o", n_theta, k), ring("o", n_theta, k + 1), ring("i", n_theta, k + 1), ring("i", n_theta, k)))
+    if signed_volume(verts, faces) < 0:
+        faces = [tuple(reversed(q)) for q in faces]
+    return verts, faces
+
+
+def _tone(d: dict, w: str) -> str:
+    t = str(d.get("tone", "grey"))
+    if t not in TONES:
+        raise ConfigError(f"{w}: tone '{t}' no valido (grey, bone o joint)")
+    return t
+
+
+def _build_cup(out: dict, d: dict, w: str, name: str, bone: str, k: float, base: SkeletonModel, anat: AnatomyModel) -> None:
+    centre = _eval(_point_spec(d["center"], f"{w}.center"), base, anat.bones)
+    axis = tuple(float(c) for c in d["axis"])
+    r_in, r_out = float(d["r_in_m"]) * k, float(d["r_out_m"]) * k
+    if not 0.005 <= r_in <= 0.1:
+        raise ConfigError(f"{w}: r_in fuera de rango (5 mm - 10 cm)")
+    for side in (("L", "R") if d.get("mirror") else (None,)):
+        c, ax = (mirror_point(centre), (-axis[0], axis[1], axis[2])) if side == "R" else (centre, axis)
+        verts, faces = cup(c, ax, r_in, r_out, math.radians(float(d["theta_max_deg"])), int(d.get("rings", 10)), int(d.get("sides", 24)))
+        nm = _swap_side(name, side or "L")
+        if nm in out:
+            raise ConfigError(f"Malla duplicada '{nm}'")
+        out[nm] = BoneMesh(nm, (), tuple(verts), tuple(faces), str(d.get("notes", "")), 0, bool(d.get("smooth", True)), _swap_side(bone, side or "L"), _tone(d, w))
+
+
 def build_bone_meshes(base: SkeletonModel, anat: AnatomyModel, data) -> BoneMeshModel:
     """Malla de cada hueso de la especificacion (y de su espejo) a la altura de `base`."""
     if not data:
@@ -152,10 +218,14 @@ def build_bone_meshes(base: SkeletonModel, anat: AnatomyModel, data) -> BoneMesh
     for i, d in enumerate(data.get("bones", [])):
         w = f"bone_meshes.bones[{i}]"
         name = str(d["name"])
-        if name not in anat.bones:
-            raise ConfigError(f"{w}: el hueso del nivel 1 '{name}' no existe")
+        bone = str(d.get("bone", name))
+        if bone not in anat.bones:
+            raise ConfigError(f"{w}: el hueso del nivel 1 '{bone}' no existe")
+        if d.get("kind", "loft") == "cup":
+            _build_cup(out, d, w, name, bone, k, base, anat)
+            continue
         if d.get("kind", "loft") == "slab":
-            _build_slab(out, d, w, name, k, base, anat)
+            _build_slab(out, d, w, name, bone, k, base, anat)
             continue
         raw = d.get("stations", [])
         if len(raw) < 2:
@@ -179,7 +249,7 @@ def build_bone_meshes(base: SkeletonModel, anat: AnatomyModel, data) -> BoneMesh
             nm = _swap_side(name, side or "L")
             if nm in out:
                 raise ConfigError(f"Malla duplicada '{nm}'")
-            out[nm] = BoneMesh(nm, stations, tuple(verts), tuple(faces), str(d.get("notes", "")))
+            out[nm] = BoneMesh(nm, stations, tuple(verts), tuple(faces), str(d.get("notes", "")), 0, bool(d.get("smooth", True)), _swap_side(bone, side or "L"), _tone(d, w))
     return BoneMeshModel(out, base.height_m)
 
 
@@ -194,8 +264,8 @@ def validate_bone_meshes_snapshot(model: BoneMeshModel, snap: dict) -> list:
             out.append(Issue("error", "BMESH_BLEND_MISSING", f"Falta el objeto 'BM_{n}'"))
             continue
         lo, hi = tuple(min(v[i] for v in m.verts) for i in range(3)), tuple(max(v[i] for v in m.verts) for i in range(3))
-        if s["parent_bone"] != n:
-            out.append(Issue("error", "BMESH_BLEND_PARENT", f"'BM_{n}' no esta emparentado a '{n}'"))
+        if s["parent_bone"] != m.parent_bone:
+            out.append(Issue("error", "BMESH_BLEND_PARENT", f"'BM_{n}' no esta emparentado a '{m.parent_bone}'"))
         if s["n_verts"] != len(m.verts) or any(abs(a - b) > BLEND_TOL for a, b in zip(lo + hi, tuple(s["bbox"][0]) + tuple(s["bbox"][1]))):
             out.append(Issue("error", "BMESH_BLEND_SHAPE", f"'BM_{n}': la malla del .blend no coincide con la del modelo"))
     extra = {k for k in snap if k[3:] not in model.meshes}
@@ -204,14 +274,15 @@ def validate_bone_meshes_snapshot(model: BoneMeshModel, snap: dict) -> list:
     return out
 
 
-def _build_slab(out: dict, d: dict, w: str, name: str, k: float, base: SkeletonModel, anat: AnatomyModel) -> None:
+def _build_slab(out: dict, d: dict, w: str, name: str, bone: str, k: float, base: SkeletonModel, anat: AnatomyModel) -> None:
     outline = [_eval(_point_spec(p, f"{w}.outline[{i}]"), base, anat.bones) for i, p in enumerate(d.get("outline", []))]
     if len(outline) < 3:
         raise ConfigError(f"{w}: una lamina necesita al menos 3 puntos de contorno")
     thick = float(d["thickness_m"]) * k
     if not 0.001 * k <= thick <= 0.1:
         raise ConfigError(f"{w}: grosor fuera de rango (1 mm - 10 cm)")
-    holes = [{"center": _eval(_point_spec(h["center"], f"{w}.holes[{i}]"), base, anat.bones), "radius": float(h["radius_m"]) * k} for i, h in enumerate(d.get("holes", []))]
+    holes = [{"loop": [_eval(_point_spec(q, f"{w}.holes[{i}].loop"), base, anat.bones) for q in h["loop"]]} if "loop" in h else
+             {"center": _eval(_point_spec(h["center"], f"{w}.holes[{i}]"), base, anat.bones), "radius": float(h["radius_m"]) * k} for i, h in enumerate(d.get("holes", []))]
     bend = None
     if d.get("bend"):
         b = d["bend"]
@@ -219,7 +290,7 @@ def _build_slab(out: dict, d: dict, w: str, name: str, k: float, base: SkeletonM
     for side in (("L", "R") if d.get("mirror") else (None,)):
         if side == "R":
             o = [mirror_point(p) for p in outline]
-            hs = [{"center": mirror_point(h["center"]), "radius": h["radius"]} for h in holes]
+            hs = [{"loop": [mirror_point(q) for q in h["loop"]]} if "loop" in h else {"center": mirror_point(h["center"]), "radius": h["radius"]} for h in holes]
             bd = {"p0": mirror_point(bend["p0"]), "p1": mirror_point(bend["p1"]), "amount": bend["amount"]} if bend else None
         else:
             o, hs, bd = outline, holes, bend
@@ -227,7 +298,7 @@ def _build_slab(out: dict, d: dict, w: str, name: str, k: float, base: SkeletonM
         nm = _swap_side(name, side or "L")
         if nm in out:
             raise ConfigError(f"Malla duplicada '{nm}'")
-        out[nm] = BoneMesh(nm, (), tuple(verts), tuple(faces), str(d.get("notes", "")), len(hs), bool(d.get("smooth", False)))
+        out[nm] = BoneMesh(nm, (), tuple(verts), tuple(faces), str(d.get("notes", "")), len(hs), bool(d.get("smooth", False)), _swap_side(bone, side or "L"), _tone(d, w))
 
 
 def mesh_distance(p: Vec3, mesh: BoneMesh) -> float:
@@ -251,8 +322,8 @@ def validate_bone_meshes(base: SkeletonModel, anat: AnatomyModel, model: BoneMes
 
     out = []
     for n, m in model.meshes.items():
-        if n not in anat.bones:
-            out.append(Issue("error", "BMESH_BONE_UNKNOWN", f"La malla '{n}' no corresponde a un hueso del nivel 1"))
+        if m.parent_bone not in anat.bones or m.name != n:
+            out.append(Issue("error", "BMESH_BONE_UNKNOWN", f"La malla '{n}' no cuelga de un hueso del nivel 1"))
             continue
         verts, faces = list(m.verts), [list(f) for f in m.faces]
         if not all(math.isfinite(c) for v in verts for c in v):
@@ -373,6 +444,9 @@ def slab(outline: list, thickness: float, holes: list | None = None, bend: dict 
     outer3 = list(outline)
     hole_loops3 = []
     for h in holes:
+        if "loop" in h:  # agujero poligonal (marco del agujero obturador): puntos 3D en el plano de la lamina
+            hole_loops3.append(list(h["loop"]))
+            continue
         c, r = h["center"], h["radius"]
         hole_loops3.append([add(c, add(scale(e1, r * math.cos(2 * math.pi * k / 12)), scale(e2, r * math.sin(2 * math.pi * k / 12)))) for k in range(12)])
     o2 = [to2(p) for p in outer3]

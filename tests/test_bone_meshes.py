@@ -136,15 +136,15 @@ class TestFemurMesh(unittest.TestCase):
     # ---- mutaciones
     def test_mutation_a_station_moved_far_away_breaks_the_landmark_contract(self):
         data = copy.deepcopy(bm.load_mesh_data())
-        data["bones"][0]["stations"][2]["offset_h"] = [0.0, 0.0, -0.2]  # el trocanter, 35 cm mas abajo
+        data["bones"][0]["stations"][3]["offset_h"] = [0.0, 0.0, -0.2]  # el trocanter, 35 cm mas abajo
         _, anat, art, bad = build_all(data=data)
         d = bm.mesh_distance(art.attachments["greater_trochanter.L"].point, bad.meshes["femur.L"])
         self.assertGreater(d, 0.012)
 
     def test_mutation_a_thin_station_is_detected_as_a_bad_shaft(self):
         data = copy.deepcopy(bm.load_mesh_data())
-        data["bones"][0]["stations"][4]["a_m"] = 0.004
-        data["bones"][0]["stations"][4]["b_m"] = 0.004
+        data["bones"][0]["stations"][5]["a_m"] = 0.004
+        data["bones"][0]["stations"][5]["b_m"] = 0.004
         _, _, _, thin = build_all(data=data)
         good = self.model.meshes["femur.L"]
         self.assertLess(thin.meshes["femur.L"].volume_m3, 0.9 * good.volume_m3)
@@ -166,7 +166,7 @@ class TestFemurMesh(unittest.TestCase):
     def test_snapshot_validator_catches_a_wrong_parent_a_missing_object_and_a_changed_shape(self):
         l = self.model.meshes["femur.L"]
         lo, hi = tuple(min(v[i] for v in l.verts) for i in range(3)), tuple(max(v[i] for v in l.verts) for i in range(3))
-        good = {f"BM_{n}": {"parent_bone": n, "n_verts": len(m.verts), "bbox": [tuple(min(v[i] for v in m.verts) for i in range(3)), tuple(max(v[i] for v in m.verts) for i in range(3))]}
+        good = {f"BM_{n}": {"parent_bone": m.parent_bone, "n_verts": len(m.verts), "bbox": [tuple(min(v[i] for v in m.verts) for i in range(3)), tuple(max(v[i] for v in m.verts) for i in range(3))]}
                 for n, m in self.model.meshes.items()}
         self.assertEqual(bm.validate_bone_meshes_snapshot(self.model, good), [])
         bad = {**good, "BM_femur.L": {**good["BM_femur.L"], "parent_bone": "thigh.L"}}
@@ -217,12 +217,13 @@ class TestPelvisMeshes(unittest.TestCase):
         self.base, self.anat, self.art, self.model = build_all()
 
     def test_ten_meshes_closed_with_the_declared_openings(self):
-        self.assertEqual(sorted(self.model.meshes), sorted(["femur.L", "femur.R", "ilium.L", "ilium.R", "ischium.L", "ischium.R", "pubis.L", "pubis.R", "sacrum", "coccyx"]))
+        self.assertEqual(sorted(self.model.meshes), sorted(["femur.L", "femur.R", "ilium.L", "ilium.R", "ischium.L", "ischium.R", "pubis.L", "pubis.R", "sacrum", "coccyx",
+                                                            "acetabulum.L", "acetabulum.R", "acetabular_roof.L", "acetabular_roof.R", "obturator_frame.L", "obturator_frame.R", "pubic_symphysis"]))
         for n, m in self.model.meshes.items():
             self.assertEqual(euler_characteristic(list(m.verts), [list(f) for f in m.faces]), 2 - 2 * m.genus, n)
             self.assertGreater(m.volume_m3, 1e-6, n)
         self.assertEqual(self.model.meshes["sacrum"].genus, 8)  # cuatro pares de agujeros sacros, como en la imagen
-        self.assertTrue(all(self.model.meshes[n].genus == 0 for n in self.model.meshes if n != "sacrum"))
+        self.assertEqual({n: m.genus for n, m in self.model.meshes.items() if m.genus}, {"sacrum": 8, "obturator_frame.L": 1, "obturator_frame.R": 1})  # los marcos obturadores son anillos
         self.assertEqual(bm.validate_bone_meshes(self.base, self.anat, self.model), [])
 
     def test_the_sacral_foramina_are_real_holes_in_two_columns_of_four(self):
@@ -337,6 +338,218 @@ class TestSlabPrimitive(unittest.TestCase):
             bm.slab([(0, 0, 0), (1, 0, 0), (0, 1, 0), (1, 1, 0)], 0.01)  # corbata: area neta nula
 
 
+JOINTS = ("acetabulum.L", "acetabulum.R")
+HIP_NEW = ("acetabulum.L", "acetabulum.R", "acetabular_roof.L", "acetabular_roof.R", "obturator_frame.L", "obturator_frame.R", "pubic_symphysis")
+PELVIC_MASSES = ("ilium", "ischium", "pubis", "obturator_frame", "acetabulum", "acetabular_roof")
+
+
+def _touches(a, b, lim):
+    """True si algun vertice de `a` esta a menos de `lim` de algun vertice de `b` (rejilla de celdas `lim`: rapido)."""
+    grid = {}
+    for q in b.verts:
+        grid.setdefault(tuple(int(c // lim) for c in q), []).append(q)
+    for p in a.verts:
+        c = tuple(int(x // lim) for x in p)
+        for dx in (-1, 0, 1):
+            for dy in (-1, 0, 1):
+                for dz in (-1, 0, 1):
+                    if any(length(sub(p, q)) < lim for q in grid.get((c[0] + dx, c[1] + dy, c[2] + dz), ())):
+                        return True
+    return False
+
+
+def _closest(points, mesh, n=24):
+    """Los `n` puntos mas cercanos a los vertices de `mesh` (por vertice: barato); sobre ellos se mide despues la distancia exacta a la superficie."""
+    return sorted(points, key=lambda p: min((p[0] - q[0]) ** 2 + (p[1] - q[1]) ** 2 + (p[2] - q[2]) ** 2 for q in mesh.verts))[:n]
+
+
+def _surface_distance(p, mesh, reach=0.006):
+    """Distancia de un punto a la superficie de la malla: como `mesh_distance` (sin el caso interior) pero descartando los triangulos lejanos."""
+    from anatomical_core.anatomy import point_triangle_distance
+
+    best = float("inf")
+    verts = mesh.verts
+    for f in mesh.faces:
+        for i in range(1, len(f) - 1):
+            a, b, c = verts[f[0]], verts[f[i]], verts[f[i + 1]]
+            if min(length(sub(p, a)), length(sub(p, b)), length(sub(p, c))) > best + reach:
+                continue
+            best = min(best, point_triangle_distance(p, a, b, c))
+    return best
+
+
+def hip_contract(base, model):
+    """Violaciones del contrato de la articulacion coxofemoral (F2b): copa que abraza la cabeza sin tocarla, cuello libre, copa fundida con la pelvis, marco del
+    agujero obturador con el agujero vacio y sinfisis que une los dos pubis."""
+    from anatomical_core.volumes import point_inside
+
+    k = base.height_m / 1.75
+    m = model.meshes
+    bad = []
+    for side in "LR":
+        C = base.bones[f"thigh.{side}"].head
+        cup, fem = m[f"acetabulum.{side}"], m[f"femur.{side}"]
+        cv, cf = list(cup.verts), [list(f) for f in cup.faces]
+        near = [v for v in fem.verts if length(sub(v, C)) < 0.05 * k]
+        if any(point_inside(v, cv, cf) for v in near):
+            bad.append(f"{side}: la cabeza o el cuello del femur penetra la copa")
+        head = [v for v in near if length(sub(v, C)) < 0.026 * k]
+        gap = min(_surface_distance(v, cup) for v in _closest(head, cup))
+        if not 0.0005 * k <= gap <= 0.0035 * k:
+            bad.append(f"{side}: holgura cabeza-copa de {gap * 1000:.1f} mm (esperado 0.5-3.5 mm)")
+        neck = [v for v in near if length(sub(v, C)) > 0.032 * k]
+        if min(_surface_distance(v, cup) for v in _closest(neck, cup)) < 0.002 * k:
+            bad.append(f"{side}: el cuello roza el borde de la copa")
+        roof = m.get(f"acetabular_roof.{side}")  # sin techo, la copa queda separada de la lamina del ilion
+        for other in (f"ilium.{side}", f"ischium.{side}", f"pubis.{side}"):
+            if not (_touches(cup, m[other], 0.004 * k) or (roof and _touches(roof, m[other], 0.004 * k))):
+                bad.append(f"{side}: la copa no esta fundida con {other}")
+        if not (roof and _touches(roof, cup, 0.002 * k)):
+            bad.append(f"{side}: el techo no toca la copa")
+        fr = m[f"obturator_frame.{side}"]
+        if fr.genus != 1:
+            bad.append(f"{side}: el marco obturador no tiene el agujero")
+        if not (_touches(fr, m[f"ischium.{side}"], 0.004 * k) and _touches(fr, m[f"pubis.{side}"], 0.004 * k)):
+            bad.append(f"{side}: el marco obturador no esta empotrado en el hueso")
+    fo = (0.0491 * k, -0.0198 * k, 0.8678 * k)
+    for n, mm in m.items():
+        if n.split(".")[0] in PELVIC_MASSES and n.endswith(".L") and bm.mesh_distance(fo, mm) < 0.015 * k:
+            bad.append(f"el agujero obturador esta tapado o invadido por {n}")
+    sy = m["pubic_symphysis"]
+    if not (_touches(sy, m["pubis.L"], 0.001 * k) and _touches(sy, m["pubis.R"], 0.001 * k)):
+        bad.append("la sinfisis no une los dos pubis")
+    return bad
+
+
+class TestHipJoint(unittest.TestCase):
+    def setUp(self):
+        self.base, self.anat, self.art, self.model = build_all()
+        self.m = self.model.meshes
+
+    def test_the_new_meshes_are_closed_and_have_their_tones_and_parent_bones(self):
+        for n in HIP_NEW:
+            x = self.m[n]
+            self.assertEqual(euler_characteristic(list(x.verts), [list(f) for f in x.faces]), 2 - 2 * x.genus, n)
+            self.assertGreater(x.volume_m3, 1e-6, n)
+        self.assertEqual({n: self.m[n].tone for n in HIP_NEW}, {"acetabulum.L": "joint", "acetabulum.R": "joint", "acetabular_roof.L": "bone", "acetabular_roof.R": "bone",
+                                                              "obturator_frame.L": "grey", "obturator_frame.R": "grey", "pubic_symphysis": "grey"})
+        self.assertEqual(self.m["acetabulum.R"].parent_bone, "ilium.R")
+        self.assertEqual(self.m["obturator_frame.L"].parent_bone, "ischium.L")
+        self.assertEqual(self.m["pubic_symphysis"].parent_bone, "pubis.L")
+        self.assertEqual({n: x.tone for n, x in self.m.items() if x.tone == "bone" and n.split(".")[0] in ("ilium", "ischium", "pubis", "sacrum", "coccyx")}.keys(),
+                         {n for n in self.m if n.split(".")[0] in ("ilium", "ischium", "pubis", "sacrum", "coccyx")})  # la pelvis es hueso claro
+        self.assertEqual({n for n, x in self.m.items() if x.tone == "joint"}, set(JOINTS))  # solo la union articular va en rojo
+        self.assertEqual(self.m["femur.L"].tone, "grey")
+        self.assertEqual(bm.validate_bone_meshes(self.base, self.anat, self.model), [])
+
+    def test_the_cup_hugs_the_femoral_head_and_leaves_the_neck_free(self):
+        self.assertEqual(hip_contract(self.base, self.model), [])
+        C = self.base.bones["thigh.L"].head
+        self.assertAlmostEqual(min(length(sub(v, C)) for v in self.m["acetabulum.L"].verts), 0.0235, places=6)  # cara articular a 23.5 mm: 1.5 mm de interlinea sobre la cabeza de 22 mm
+        self.assertAlmostEqual(max(length(sub(v, C)) for v in self.m["acetabulum.L"].verts), 0.0315, places=6)
+
+    def test_the_cup_is_fused_with_the_pelvis_and_the_ring_stays_closed(self):
+        for s in "LR":
+            self.assertTrue(_touches(self.m[f"acetabular_roof.{s}"], self.m[f"ilium.{s}"], 0.004))
+            self.assertTrue(_touches(self.m[f"acetabulum.{s}"], self.m[f"ischium.{s}"], 0.004))
+            self.assertTrue(_touches(self.m[f"acetabulum.{s}"], self.m[f"pubis.{s}"], 0.004))
+        self.assertEqual(pelvis_contract(self.base, self.anat, self.art, self.model), [])
+
+    def test_the_hip_contract_holds_at_three_heights_with_both_sides_symmetric(self):
+        for h in (1.5, 1.75, 2.05):
+            base, anat, art, model = build_all(h)
+            self.assertEqual(hip_contract(base, model), [], h)
+            self.assertEqual(bm.validate_bone_meshes(base, anat, model), [], h)
+            self.assertAlmostEqual(model.meshes["acetabulum.L"].volume_m3 / self.m["acetabulum.L"].volume_m3, (h / 1.75) ** 3, places=7)
+        key = lambda v: tuple(round(c, 9) for c in v)  # noqa: E731
+        for n in ("acetabulum", "acetabular_roof", "obturator_frame"):
+            self.assertEqual(sorted(key(mirror_point(p)) for p in self.m[f"{n}.L"].verts), sorted(key(q) for q in self.m[f"{n}.R"].verts), n)
+        sy = self.m["pubic_symphysis"]
+        self.assertLess(max(min(length(sub(mirror_point(p), q)) for q in sy.verts) for p in sy.verts), 1e-6)  # simetrica respecto a x = 0
+
+    def test_the_head_neck_transition_is_gradual(self):
+        fem = next(b for b in bm.load_mesh_data()["bones"] if b["name"] == "femur.L")["stations"]
+        self.assertEqual(fem[1]["note"], "union cabeza-cuello")
+        radii = [s["a_m"] for s in fem[:3]]
+        self.assertTrue(radii[0] > radii[1] > radii[2])
+        self.assertLessEqual(max(a - b for a, b in zip(radii, radii[1:])), 0.0065)  # sin escalones bruscos entre cabeza (22 mm), union (20.5) y cuello (15.5)
+
+    def test_hip_landmarks_stay_within_12_mm_of_their_meshes_at_three_heights(self):
+        names = ("anterior_inferior_iliac_spine", "inferior_gluteal_line", "ischial_spine", "obturator_margin", "iliopubic_eminence", "trochanteric_fossa", "intertrochanteric_crest",
+                 "lesser_trochanter", "greater_trochanter", "pubic_body", "ischial_tuberosity", "pectineal_crest")
+        for h in (1.5, 1.75, 2.05):
+            base, anat, art, model = build_all(h)
+            for n in names:
+                for s in "LR":
+                    a = art.attachments[f"{n}.{s}"]
+                    self.assertLess(bm.mesh_distance(a.point, model.meshes[a.bone]), 0.012 * h / 1.75, (h, n, s))
+
+    def test_the_regions_ligaments_and_muscle_origins_were_not_touched_by_the_joint_meshes(self):
+        a = self.art.attachments
+        self.assertEqual(tuple(round(c, 4) for c in a["ischial_tuberosity.L"].point), (0.0613, 0.021, 0.8225))
+        self.assertEqual(tuple(round(c, 4) for c in self.art.ligaments["iliofemoral.L"].a), (0.1067, -0.0262, 0.9581))
+        self.assertEqual(len(self.art.ligaments), 620)
+
+    # ---- mutaciones
+    def _built(self, edit):
+        data = copy.deepcopy(bm.load_mesh_data())
+        edit(data["bones"])
+        return build_all(data=data)
+
+    def test_mutation_a_cup_that_is_too_large_or_too_small_is_caught(self):
+        for r_in in (0.0200, 0.0300):
+            base, _, _, bad = self._built(lambda bones, r=r_in: next(b for b in bones if b["name"] == "acetabulum.L").update(r_in_m=r, r_out_m=r + 0.008))
+            self.assertNotEqual(hip_contract(base, bad), [], r_in)
+
+    def test_mutation_a_cup_turned_round_or_displaced_is_caught(self):
+        base, _, _, bad = self._built(lambda bones: next(b for b in bones if b["name"] == "acetabulum.L").update(axis=[0.84, -0.20, -0.50]))
+        self.assertTrue(any("penetra" in v or "holgura" in v for v in hip_contract(base, bad)))
+        base, _, _, bad = self._built(lambda bones: next(b for b in bones if b["name"] == "acetabulum.L")["center"].update(offset_h=[0.0, 0.0, 0.03]))
+        self.assertNotEqual(hip_contract(base, bad), [])
+
+    def test_mutation_a_cup_that_closes_over_the_neck_or_loses_its_roof_is_caught(self):
+        base, _, _, bad = self._built(lambda bones: next(b for b in bones if b["name"] == "acetabulum.L").update(theta_max_deg=165.0))
+        self.assertTrue(any("cuello" in v or "penetra" in v for v in hip_contract(base, bad)))
+        data = copy.deepcopy(bm.load_mesh_data())
+        data["bones"] = [b for b in data["bones"] if b["name"] != "acetabular_roof.L"]  # sin techo la copa queda separada de la lamina del ilion
+        base, _, _, bad = build_all(data=data)
+        self.assertTrue(any("fundida" in v for v in hip_contract(base, bad)))
+
+    def test_mutation_a_blocked_foramen_or_a_floating_frame_or_a_split_symphysis_is_caught(self):
+        base, _, _, bad = self._built(lambda bones: next(b for b in bones if b["name"] == "obturator_frame.L").update(holes=[]))
+        self.assertTrue(any("marco" in v or "agujero" in v for v in hip_contract(base, bad)))
+        def float_frame(bones):  # el marco entero (contorno y borde del agujero) 17 cm hacia atras: queda fuera del hueso
+            f = next(b for b in bones if b["name"] == "obturator_frame.L")
+            for p in f["outline"] + f["holes"][0]["loop"]:
+                p["offset_h"][1] += 0.1
+        base, _, _, bad = self._built(float_frame)
+        self.assertTrue(any("empotrado" in v or "invadido" in v for v in hip_contract(base, bad)))
+        base, _, _, bad = self._built(lambda bones: [s["offset_h"].__setitem__(2, s["offset_h"][2] + 0.03) for s in next(b for b in bones if b["name"] == "pubic_symphysis")["stations"]])
+        self.assertTrue(any("sinfisis" in v for v in hip_contract(base, bad)))
+
+    def test_mutation_invalid_cup_and_tone_data_are_rejected(self):
+        for edit in (lambda b: b.update(tone="rojo"), lambda b: b.update(theta_max_deg=5.0), lambda b: b.update(r_in_m=0.04, r_out_m=0.03), lambda b: b.update(bone="no_such_bone.L")):
+            data = copy.deepcopy(bm.load_mesh_data())
+            edit(next(b for b in data["bones"] if b["name"] == "acetabulum.L"))
+            with self.assertRaises(ConfigError):
+                build_all(data=data)
+
+
+class TestCupPrimitive(unittest.TestCase):
+    def test_a_cup_has_the_analytic_volume_and_is_a_closed_genus_zero_shell(self):
+        r_in, r_out, th = 0.02, 0.03, math.radians(90)
+        verts, faces = bm.cup((0.0, 0.0, 0.0), (0.0, 0.0, 1.0), r_in, r_out, th, n_theta=24, n_phi=48)
+        self.assertEqual(euler_characteristic(verts, [list(f) for f in faces]), 2)
+        from anatomical_core.volumes import signed_volume
+        exact = 2 * math.pi / 3 * (r_out ** 3 - r_in ** 3)  # semiesfera hueca
+        self.assertAlmostEqual(signed_volume(verts, faces) / exact, 1.0, delta=0.01)
+
+    def test_a_cup_rejects_bad_radii_and_angles(self):
+        for args in ((0.03, 0.02, 1.5), (0.0, 0.02, 1.5), (0.02, 0.03, 0.05), (0.02, 0.03, 3.1)):
+            with self.assertRaises(ConfigError):
+                bm.cup((0.0, 0.0, 0.0), (1.0, 0.0, 0.0), *args)
+
+
 @unittest.skipUnless(HAVE_BPY, "requiere Blender (bpy)")
 class TestBoneMeshesInBlender(unittest.TestCase):
     @classmethod
@@ -362,14 +575,16 @@ class TestBoneMeshesInBlender(unittest.TestCase):
             self.assertTrue(o.data.materials[1].use_backface_culling)
         self.assertEqual(bm.validate_bone_meshes_snapshot(self.model, self.bscene.read_back_bone_meshes()), [])
 
-    def test_the_ten_pelvic_and_femoral_objects_follow_their_bones_with_the_declared_shading(self):
+    def test_the_seventeen_pelvic_and_femoral_objects_follow_their_bones_with_the_declared_tones_and_shading(self):
         import bpy
         self.scene.open_blend(self.path)
         names = sorted(f"BM_{n}" for n in self.model.meshes)
-        self.assertEqual(len(names), 10)
+        self.assertEqual(len(names), 17)
         for n in names:
             o = bpy.data.objects[n]
-            self.assertEqual((o.parent.name, o.parent_bone), ("AC_Armature", n[3:]))
+            self.assertEqual((o.parent.name, o.parent_bone), ("AC_Armature", self.model.meshes[n[3:]].parent_bone))
+            self.assertEqual(o.get("ac_tone"), self.model.meshes[n[3:]].tone)
+            self.assertEqual(tuple(round(c, 2) for c in o.data.materials[0].diffuse_color[:3]), {"grey": (0.86, 0.86, 0.85), "bone": (0.95, 0.92, 0.84), "joint": (0.8, 0.1, 0.1)}[self.model.meshes[n[3:]].tone], n)
             smooth = self.model.meshes[n[3:]].smooth
             self.assertEqual(all(p.use_smooth for p in o.data.polygons), smooth, n)  # laminas planas, lofts suaves
             self.assertEqual(len(o.data.polygons) > 0, True)

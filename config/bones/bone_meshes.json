@@ -22,6 +22,17 @@
     {
      "at": "thigh.L.head",
      "offset_h": [
+      0.006,
+      0.0006,
+      -0.0037
+     ],
+     "a_m": 0.019,
+     "b_m": 0.019,
+     "note": "union cabeza-cuello"
+    },
+    {
+     "at": "thigh.L.head",
+     "offset_h": [
       0.012857,
       0.001286,
       -0.007857
@@ -208,7 +219,8 @@
      ]
     }
    ],
-   "notes": "Ilion: lamina de 12 mm sobre el contorno del nivel 1 (cresta convexa); sin aberturas. Hitos del ilion sobre la lamina o a < 12 mm de ella."
+   "notes": "Ilion: lamina de 12 mm sobre el contorno del nivel 1 (cresta convexa); sin aberturas. Hitos del ilion sobre la lamina o a < 12 mm de ella.",
+   "tone": "bone"
   },
   {
    "name": "pubis.L",
@@ -288,7 +300,8 @@
      "note": "sinfisis"
     }
    ],
-   "notes": "Pubis: rama superior y cuerpo hasta la sinfisis del pubis (el extremo medial toca el del lado opuesto en x = 0)."
+   "notes": "Pubis: rama superior y cuerpo hasta la sinfisis del pubis (el extremo medial toca el del lado opuesto en x = 0).",
+   "tone": "bone"
   },
   {
    "name": "ischium.L",
@@ -390,7 +403,8 @@
      "note": "acetabulo"
     }
    ],
-   "notes": "Isquion: rama isquiopubiana (cierra el agujero obturador con el pubis y el acetabulo), tuberosidad, cuerpo y espina isquiatica."
+   "notes": "Isquion: rama isquiopubiana (cierra el agujero obturador con el pubis y el acetabulo), tuberosidad, cuerpo y espina isquiatica.",
+   "tone": "bone"
   },
   {
    "name": "sacrum",
@@ -596,7 +610,8 @@
     },
     "amount_m": 0.006
    },
-   "notes": "Sacro: lamina de 25 mm, concava hacia delante (6 mm), con cuatro pares de agujeros sacros (radio 4.5 mm), como en la imagen de referencia."
+   "notes": "Sacro: lamina de 25 mm, concava hacia delante (6 mm), con cuatro pares de agujeros sacros (radio 4.5 mm), como en la imagen de referencia.",
+   "tone": "bone"
   },
   {
    "name": "coccyx",
@@ -642,7 +657,329 @@
      "note": "apice"
     }
    ],
-   "notes": "Coccix: tres estaciones que se afinan hasta el apice."
+   "notes": "Coccix: tres estaciones que se afinan hasta el apice.",
+   "tone": "bone"
+  },
+  {
+   "name": "acetabulum.L",
+   "bone": "ilium.L",
+   "kind": "cup",
+   "mirror": true,
+   "tone": "joint",
+   "smooth": true,
+   "center": {
+    "at": "thigh.L.head",
+    "offset_h": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "axis": [
+    -0.841854,
+    0.200441,
+    0.501104
+   ],
+   "r_in_m": 0.0235,
+   "r_out_m": 0.0315,
+   "theta_max_deg": 100.0,
+   "notes": "Copa articular del acetabulo: casquete esferico grueso (23.5-31.5 mm) centrado en la cabeza femoral; holgura de 1.5 mm con la cabeza (interlinea). Poligonos de union en rojo."
+  },
+  {
+   "name": "acetabular_roof.L",
+   "bone": "ilium.L",
+   "mirror": true,
+   "tone": "bone",
+   "width_ref": [
+    0,
+    0,
+    1
+   ],
+   "cap_start_m": 0.004,
+   "cap_end_m": 0.004,
+   "stations": [
+    {
+     "at": "pelvis.head",
+     "offset_h": [
+      0.032631,
+      0.015548,
+      0.013323
+     ],
+     "a_m": 0.013,
+     "b_m": 0.011,
+     "note": "ilion (lamina)"
+    },
+    {
+     "at": "pelvis.head",
+     "offset_h": [
+      0.034739,
+      0.009578,
+      0.011172
+     ],
+     "a_m": 0.0125,
+     "b_m": 0.011,
+     "note": "techo del acetabulo"
+    },
+    {
+     "at": "pelvis.head",
+     "offset_h": [
+      0.036847,
+      0.003608,
+      0.00902
+     ],
+     "a_m": 0.011,
+     "b_m": 0.011,
+     "note": "polo de la copa"
+    }
+   ],
+   "notes": "Techo del acetabulo: puente macizo entre la lamina del ilion y el polo de la copa (cierra el hueco que dejaba la lamina)."
+  },
+  {
+   "name": "obturator_frame.L",
+   "bone": "ischium.L",
+   "kind": "slab",
+   "mirror": true,
+   "tone": "grey",
+   "smooth": false,
+   "thickness_m": 0.004,
+   "outline": [
+    {
+     "at": "pelvis.head",
+     "offset_h": [
+      0.011104,
+      -0.031222,
+      -0.031476
+     ]
+    },
+    {
+     "at": "pelvis.head",
+     "offset_h": [
+      0.01452,
+      -0.024746,
+      -0.042555
+     ]
+    },
+    {
+     "at": "pelvis.head",
+     "offset_h": [
+      0.018475,
+      -0.018478,
+      -0.050142
+     ]
+    },
+    {
+     "at": "pelvis.head",
+     "offset_h": [
+      0.024136,
+      -0.010803,
+      -0.055469
+     ]
+    },
+    {
+     "at": "pelvis.head",
+     "offset_h": [
+      0.033191,
+      0.000994,
+      -0.061946
+     ]
+    },
+    {
+     "at": "pelvis.head",
+     "offset_h": [
+      0.040665,
+      0.006597,
+      -0.049666
+     ]
+    },
+    {
+     "at": "pelvis.head",
+     "offset_h": [
+      0.042476,
+      0.005534,
+      -0.036367
+     ]
+    },
+    {
+     "at": "pelvis.head",
+     "offset_h": [
+      0.044059,
+      0.004474,
+      -0.024188
+     ]
+    },
+    {
+     "at": "pelvis.head",
+     "offset_h": [
+      0.042354,
+      -0.000712,
+      -0.010321
+     ]
+    },
+    {
+     "at": "pelvis.head",
+     "offset_h": [
+      0.031975,
+      -0.011851,
+      -0.013057
+     ]
+    },
+    {
+     "at": "pelvis.head",
+     "offset_h": [
+      0.024959,
+      -0.018862,
+      -0.017119
+     ]
+    },
+    {
+     "at": "pelvis.head",
+     "offset_h": [
+      0.01831,
+      -0.025253,
+      -0.022052
+     ]
+    }
+   ],
+   "holes": [
+    {
+     "loop": [
+      {
+       "at": "pelvis.head",
+       "offset_h": [
+        0.014979,
+        -0.026682,
+        -0.03208
+       ]
+      },
+      {
+       "at": "pelvis.head",
+       "offset_h": [
+        0.018421,
+        -0.020887,
+        -0.040129
+       ]
+      },
+      {
+       "at": "pelvis.head",
+       "offset_h": [
+        0.021357,
+        -0.016333,
+        -0.045336
+       ]
+      },
+      {
+       "at": "pelvis.head",
+       "offset_h": [
+        0.025226,
+        -0.010949,
+        -0.04957
+       ]
+      },
+      {
+       "at": "pelvis.head",
+       "offset_h": [
+        0.032198,
+        -0.001403,
+        -0.056536
+       ]
+      },
+      {
+       "at": "pelvis.head",
+       "offset_h": [
+        0.037854,
+        0.002592,
+        -0.046193
+       ]
+      },
+      {
+       "at": "pelvis.head",
+       "offset_h": [
+        0.038601,
+        0.000994,
+        -0.035762
+       ]
+      },
+      {
+       "at": "pelvis.head",
+       "offset_h": [
+        0.040157,
+        0.000615,
+        -0.026614
+       ]
+      },
+      {
+       "at": "pelvis.head",
+       "offset_h": [
+        0.039472,
+        -0.002856,
+        -0.015127
+       ]
+      },
+      {
+       "at": "pelvis.head",
+       "offset_h": [
+        0.030885,
+        -0.011705,
+        -0.018955
+       ]
+      },
+      {
+       "at": "pelvis.head",
+       "offset_h": [
+        0.025953,
+        -0.016466,
+        -0.022529
+       ]
+      },
+      {
+       "at": "pelvis.head",
+       "offset_h": [
+        0.021121,
+        -0.021248,
+        -0.025524
+       ]
+      }
+     ]
+    }
+   ],
+   "notes": "Marco poligonal del agujero obturador: anillo plano de 4 mm con 12 lados, empotrado 7 mm en el hueso y con un labio de 3.5 mm hacia el agujero (que queda vacio)."
+  },
+  {
+   "name": "pubic_symphysis",
+   "bone": "pubis.L",
+   "tone": "grey",
+   "width_ref": [
+    0,
+    0,
+    1
+   ],
+   "cap_start_m": 0.002,
+   "cap_end_m": 0.002,
+   "stations": [
+    {
+     "at": "pelvis.head",
+     "offset_h": [
+      -0.002571,
+      -0.034457,
+      -0.029714
+     ],
+     "a_m": 0.0105,
+     "b_m": 0.016,
+     "note": "pubis derecho"
+    },
+    {
+     "at": "pelvis.head",
+     "offset_h": [
+      0.002571,
+      -0.034457,
+      -0.029714
+     ],
+     "a_m": 0.0105,
+     "b_m": 0.016,
+     "note": "pubis izquierdo"
+    }
+   ],
+   "notes": "Sinfisis del pubis: disco que une los dos pubis en x = 0 (simetrico)."
   }
  ]
 }
