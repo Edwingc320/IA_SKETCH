@@ -190,3 +190,8 @@ Motor reproducible y configurable de esqueleto humano 3D en **Blender 5.0.1** (P
 - A petición del usuario, esqueleto pélvico-femoral-lumbar generado desde cero e independiente de `BM_*`: `cp_skeleton.py` + `scripts/cp_skeleton.py`; objetos `cp.Pelvis`, `cp.FemurL/R`, `cp.LumbarSpine`.
 - Origen articular: cabeza femoral, punto medio de acetábulos, disco L5-S1. Redimensionado uniforme por pieza (`cp_resize`, `--dim`) y global (`--height`).
 - 12 pruebas de Blender y 9 mutaciones (1 equivalente). Comando: `blender -b --python scripts\cp_skeleton.py -- --height 1.75`.
+
+## Línea cp.*: esqueleto axial (2026-10-28)
+- `cp_axial.py`: `cp.ThoracicSpine`, `cp.CervicalSpine`, `cp.Skull`, `cp.Mandible` (origen: disco T12/L1, disco C7/T1, cóndilos occipitales, eje de las ATM). Mismo tono `cp_bone`; cadena Pelvis > Lumbar > Torácica > Cervical > Cráneo > Mandíbula.
+- Largos antropométricos (vértice 1,00 H, mentón 0,87 H); forma de la imagen (curvas, espinosas). La imagen dibuja la cabeza más pequeña: gana la antropometría.
+- 24 pruebas de Blender; límites: sin costillas, órbitas como depresión con reborde, vértebras sueltas dentro de cada objeto.

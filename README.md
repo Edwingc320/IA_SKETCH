@@ -146,7 +146,7 @@ Mallas oseas solidas (F1-F2 del esqueleto de referencia): `configonesone_meshe
 
 Articulacion coxofemoral solida (F2b): `acetabulum` (copa roja), `acetabular_roof`, `obturator_frame` y `pubic_symphysis` en `config\bones\bone_meshes.json`; pruebas `python -m unittest tests.test_bone_meshes.TestHipJoint` y mutaciones `python scripts\mutation_battery.py -k bmesh_hip`.
 
-Esqueleto parametrico `cp.*` (pelvis, femures y columna lumbar, generado desde cero): `blender -b --python scripts\cp_skeleton.py -- --height 1.75 --dim cp.Femur=0.45 --out output\cp_skeleton.blend` (`--dim PIEZA=metros` redimensiona la pieza de forma uniforme; `--no-parent` omite el emparentamiento). Pruebas: ejecutar `tests\test_cp_skeleton.py` dentro de Blender.
+Esqueleto parametrico `cp.*` (pelvis, femures, columna lumbar, toracica y cervical, craneo y mandibula, generado desde cero; cadena de emparentamiento hasta la pelvis; `--dim cp.Skull=0.20`, `cp.ThoracicSpine`, etc.): `blender -b --python scripts\cp_skeleton.py -- --height 1.75 --dim cp.Femur=0.45 --out output\cp_skeleton.blend` (`--dim PIEZA=metros` redimensiona la pieza de forma uniforme; `--no-parent` omite el emparentamiento). Pruebas: ejecutar `tests\test_cp_skeleton.py` dentro de Blender.
 
 Bateria de mutaciones de la region caderas y muslo (restaura los archivos; `-k texto` ejecuta solo las que lo contienen): `python scripts\mutation_battery.py`. Informe de cierre: `docs\estado\caderas_muslo_cierre.md`.
 
