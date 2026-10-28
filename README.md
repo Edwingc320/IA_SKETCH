@@ -140,6 +140,9 @@ La suite corre **dentro de Blender** y compara números reales, no solo que Blen
 
 - **`test_leg_foot.py`**: piernas y pies: jerarquía anatómica (fémur → ilion, tibia y peroné → fémur, rótula delante de la rodilla, astrágalo → tibia, tarso y metatarso, cadenas de dedos exactas con las puntas a menos de 12 mm del suelo) y puntos de unión.
 
+Comparacion con la imagen de referencia del esqueleto: renderiza las siluetas en Blender (`blender -b output\anatomy_level1.blend --python scripts\render_bones_silhouette.py`) y ejecuta `python scripts\compare_reference.py` (plan en `docs\plan\70_esqueleto_referencia.md`).
+ender_bones_silhouette.py`) y ejecuta `python scripts\compare_reference.py` (plan en `docs\plan8_esqueleto_referencia.md`).
+
 Bateria de mutaciones de la region caderas y muslo (restaura los archivos; `-k texto` ejecuta solo las que lo contienen): `python scripts\mutation_battery.py`. Informe de cierre: `docs\estado\caderas_muslo_cierre.md`.
 
 Resumen esperado: `[SUMMARY] ejecutadas=450 fallos=0 errores=0 omitidas=0` (en `muscle-model`; `main` ejecuta 311) y `RESULTADO FINAL: OK`. Las pruebas fijan los valores **por defecto** de `config\`; si editas la configuración, ejecuta `-Task Generate` (la validación interna siempre corre) y, si un test de valores por defecto falla por tus cambios, es esperado.

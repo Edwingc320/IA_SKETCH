@@ -160,3 +160,11 @@ Motor reproducible y configurable de esqueleto humano 3D en **Blender 5.0.1** (P
 - Tilt y spin de la rótula; guías troclears con datos de superficie real.
 - Reejecutar la suite completa en Blender cuando se cierre la siguiente región.
 
+## Nueva dirección (2026-10-28): esqueleto sólido idéntico a la imagen
+- El usuario pide volver a la estructura y trabajar el esqueleto **por secciones desde `esqueleto humano.jpg`** (stock, 3 vistas, 1083 × 1300), con resultado **idéntico a la imagen en 3D**. Plan `docs/plan/70_esqueleto_referencia.md` (F0–F10) y estado `docs/estado/esqueleto_referencia.md`.
+- **Hallazgo**: el modelo actual no se parece a la imagen: sus huesos son líneas, octaedros finos y volúmenes paramétricos; no hay costillas, vértebras ni huesos con forma. Línea base con el comparador de siluetas: IoU medio 0,35 (frente 0,36, espalda 0,37, lado 0,32), máscara de la imagen ruidosa.
+- **Hecho (F0)**: `scripts/render_bones_silhouette.py`, `scripts/compare_reference.py`, imagen en `.gitignore`.
+- **Decisiones pendientes**: qué manda si la imagen y los datos antropométricos discrepan; alcance de «idéntico» (silueta y forma con relleno liso, o también sombreado). Las regiones pendientes del plan regional (tren superior, torso...) quedan en pausa.
+- **Pendiente de verificación**: la suite completa en Blender no se reejecutó entera tras CM-10.
+- Lección: un comando de Bash con `rm` fuera del proyecto fue bloqueado por seguridad (y con él el resto del comando): `C:\output` (ruta relativa mal resuelta por Blender) quedó sin borrar y lo debe borrar el usuario.
+
