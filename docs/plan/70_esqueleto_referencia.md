@@ -52,7 +52,7 @@ Se conserva **todo lo construido** (base congelada, rig, hitos, ligamentos, tend
 |---|---|---|
 | F0 ✅ | banco de comparación (render de siluetas + IoU y perfil de anchura contra la imagen) y línea base | scripts versionados; línea base de la tabla anterior |
 | F1 ✅ | **núcleo de mallas óseas**: lofts, láminas, tubos; emparentado al hueso; escala; estilo de la imagen; validación (malla cerrada, volumen > 0, sin autointersección gruesa) | pruebas puras y de Blender; un hueso de ejemplo (fémur) en las tres vistas |
-| F2 | pelvis y sacro (alas, agujeros sacros y obturadores, sínfisis, cóccix) | IoU de la sección y distancia de los anclajes a la malla < 12 mm |
+| F2 ✔ | pelvis y sacro (alas, agujeros sacros y obturadores, sínfisis, cóccix) | IoU de la sección y distancia de los anclajes a la malla < 12 mm |
 | F3 | caja torácica (esternón, 12 pares de costillas con cartílago) | idem |
 | F4 | columna (C1–L5, curvaturas, apófisis) | idem |
 | F5 | cráneo y mandíbula con dientes | idem |

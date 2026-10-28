@@ -175,3 +175,8 @@ Motor reproducible y configurable de esqueleto humano 3D en **Blender 5.0.1** (P
 - Verificación dirigida (por la instrucción de solo lo modificado): pruebas puras y de Blender de `test_bone_meshes` y `test_anatomy_blender`; no se corrió la suite completa.
 - Siguiente: F2 (pelvis y sacro: láminas con grosor, agujeros sacros y obturadores, sínfisis).
 
+## Esqueleto de referencia: F2 hecha (2026-10-28)
+- **F2**: ilion y sacro son láminas con grosor (`kind: slab`, plano de Newell, orejas con puentes a los agujeros, `bend`), pubis/isquion/cóccix lofts; 10 mallas; sacro de género 8; anillo pélvico cerrado; hitos a < 12 mm. IoU medio 0,40 (antes 0,37).
+- Límites: interlínea sacroilíaca ~8 mm (tolerancia de prueba 10 mm); sacro simétrico a ±6 mm.
+- Verificación dirigida: `test_bone_meshes` (28, con Blender) y `mutation_battery -k bmesh` (11/11). No se corrió la suite completa.
+- Siguiente: F3 (caja torácica).

@@ -141,7 +141,8 @@ La suite corre **dentro de Blender** y compara números reales, no solo que Blen
 - **`test_leg_foot.py`**: piernas y pies: jerarquía anatómica (fémur → ilion, tibia y peroné → fémur, rótula delante de la rodilla, astrágalo → tibia, tarso y metatarso, cadenas de dedos exactas con las puntas a menos de 12 mm del suelo) y puntos de unión.
 
 Comparacion con la imagen de referencia del esqueleto: renderiza las siluetas en Blender (`blender -b output\anatomy_level1.blend --python scripts\render_bones_silhouette.py`) y ejecuta `python scripts\compare_reference.py` (plan en `docs\plan\70_esqueleto_referencia.md`).
-ender_bones_silhouette.py`) y ejecuta `python scripts\compare_reference.py` (plan en `docs\plan8_esqueleto_referencia.md`).
+
+Mallas oseas solidas (F1-F2 del esqueleto de referencia): `configonesone_meshes.json` (femur, ilion, isquion, pubis, sacro con 8 agujeros sacros, coccix); pruebas `python -m unittest tests.test_bone_meshes` (28 con Blender), mutaciones `python scripts\mutation_battery.py -k bmesh` (11) y primer plano de una seccion con `blender -b outputnatomy_level1.blend --python scriptsender_bone_closeup.py -- front outputeference_compare\pelvis_front.png ilium ischium pubis sacrum coccyx`.
 
 Bateria de mutaciones de la region caderas y muslo (restaura los archivos; `-k texto` ejecuta solo las que lo contienen): `python scripts\mutation_battery.py`. Informe de cierre: `docs\estado\caderas_muslo_cierre.md`.
 
