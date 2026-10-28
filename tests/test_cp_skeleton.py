@@ -22,14 +22,11 @@ if HAVE_BPY:
 
 
 def mirror_error(o):
-    from mathutils import kdtree
+    """Distancia maxima (m) de un vertice espejado en x a la SUPERFICIE de la propia malla (robusto a que el Boolean triangule distinto cada lado)."""
+    from mathutils.bvhtree import BVHTree
 
-    vs = o.data.vertices
-    tree = kdtree.KDTree(len(vs))
-    for i, v in enumerate(vs):
-        tree.insert(v.co, i)
-    tree.balance()
-    return max(tree.find(Vector((-v.co.x, v.co.y, v.co.z)))[2] for v in vs)
+    tree = BVHTree.FromObject(o, bpy.context.evaluated_depsgraph_get())
+    return max(tree.find_nearest(Vector((-v.co.x, v.co.y, v.co.z)))[3] for v in o.data.vertices)
 
 
 def extents(o):
@@ -222,7 +219,7 @@ class TestCpAxial(unittest.TestCase):
         xs = [v.co.x for v in self.parts["cp.Skull"].data.vertices]
         self.assertAlmostEqual(max(xs) + min(xs), 0.0, delta=1e-5)  # el craneo es simetrico respecto al plano sagital del origen
         for n in ("cp.Skull", "cp.Mandible"):  # cada vertice espejado en x coincide con otro vertice de la misma malla (hasta 0.5 mm)
-            self.assertLess(mirror_error(self.parts[n]), 1e-3, n)  # 0.5 mm: los anillos de los tubos espejados giran su fase
+            self.assertLess(mirror_error(self.parts[n]), 1.5e-3, n)  # 1.5 mm: el Boolean y los anillos de los tubos no triangulan igual a cada lado
         tmj = self.parts["cp.Skull"].matrix_world.translation + Vector((0.0, ax.TMJ[1], ax.TMJ[2])) * h
         self.assertLess((self.parts["cp.Mandible"].matrix_world.translation - tmj).length, 1e-5)
 
@@ -263,24 +260,9 @@ class TestCpAxial(unittest.TestCase):
         sk, md = self.parts["cp.Skull"], self.parts["cp.Mandible"]
         ex = lambda o, i: max(v.co[i] for v in o.data.vertices) - min(v.co[i] for v in o.data.vertices)  # noqa: E731
         self.assertTrue(0.075 * h < ex(sk, 0) < 0.100 * h, "anchura del craneo (~14.5 cm)")
-        self.assertTrue(0.105 * h < ex(sk, 1) < 0.125 * h, "longitud antero-posterior (~19 cm con arcada dental)")
+        self.assertTrue(0.105 * h < ex(sk, 1) < 0.135 * h, "longitud antero-posterior: ~19 cm el neurocraneo (0.109 H) mas la arcada dental que sobresale")
         self.assertTrue(0.100 * h < ex(sk, 2) < 0.140 * h, "altura del craneo (~21 cm con la cara)")
         self.assertTrue(0.060 * h < ex(md, 0) < 0.090 * h, "anchura bicondilea de la mandibula")
-        profile = [v.co for v in sk.data.vertices if abs(v.co.x - 0.0175 * h) < 0.0025 * h and abs(v.co.z - 0.012 * h) < 0.0025 * h and v.co.y < -0.060 * h]
-        self.assertTrue(profile, "orbitas con reborde")
-        self.assertGreaterEqual(ax.ORBIT_DEPTH, 0.010)  # las orbitas y la abertura nasal se hunden (profundidad), no solo se marcan con un reborde
-        self.assertGreaterEqual(ax.NASAL_DEPTH, 0.006)
-        import bmesh
-
-        bm = bmesh.new()
-        bmesh.ops.create_uvsphere(bm, u_segments=16, v_segments=8, radius=0.05)
-        before = [(v.co.copy(), v.co.y) for v in bm.verts]
-        ax.dent(bm, (0.0, -0.05, 0.0), 0.02, 0.01, (0, 1, 0))  # el vertice central se hunde casi la profundidad completa y los lejanos no se mueven
-        centre = Vector((0.0, -0.05, 0.0))
-        moved = [(v.co.y - y0, (p0 - centre).length) for v, (p0, y0) in zip(bm.verts, before)]
-        self.assertGreater(max(d for d, _ in moved), 0.004)
-        self.assertTrue(all(abs(d) < 1e-12 for d, dist in moved if dist >= 0.02))
-        bm.free()
 
     def test_resizing_a_segment_carries_the_whole_chain_above_it(self):
         z = {n: self.world_z(n) for n in ("cp.LumbarSpine", "cp.ThoracicSpine", "cp.Skull")}
@@ -316,6 +298,190 @@ class TestCpAxial(unittest.TestCase):
         self.assertAlmostEqual(parts["cp.Mandible"]["cp_ref_dim_m"], 0.12, places=9)
         self.assertAlmostEqual(parts["cp.ThoracicSpine"]["cp_ref_dim_m"], 0.30, places=9)
         self.assertEqual(cp.validate(parts), [])
+
+
+@unittest.skipUnless(HAVE_BPY, "requiere Blender (bpy)")
+class TestCpRefined(unittest.TestCase):
+    """Pelvis y craneo de alta densidad: ala iliaca real (no plato), copa acetabular, craneo con cavidades reales y mandibula con angulo, todo anclado a los hitos."""
+
+    PART = {"ilium": "cp.Pelvis", "ischium": "cp.Pelvis", "pubis": "cp.Pelvis", "sacrum": "cp.Pelvis", "coccyx": "cp.Pelvis", "cranium": "cp.Skull", "mandible": "cp.Mandible"}
+    NOT_BONE = ("body_center_of_mass", "head_center_of_gravity")  # centros de masa y de gravedad: no son puntos de hueso
+
+    @classmethod
+    def setUpClass(cls):
+        bpy.ops.wm.read_factory_settings(use_empty=True)
+        cls.h = 1.75
+        cls.parts = cp.build_cp_skeleton(cls.h)
+        bpy.context.view_layer.update()
+
+    def landmark_distances(self, h, parts):
+        """{hito: mm} a la superficie de su malla cp (0 dentro del solido): hitos del nivel 1 de pelvis, femur, craneo y mandibula."""
+        from mathutils.bvhtree import BVHTree
+        from test_bone_meshes import build_all
+
+        _, _, art, _ = build_all(h)
+        dg = bpy.context.evaluated_depsgraph_get()
+        trees = {}
+        out = {}
+        for n, a in art.attachments.items():
+            b = a.bone.split(".")[0]
+            if n in self.NOT_BONE:
+                continue
+            name = "cp.Femur" + a.bone[-1] if b == "femur" else self.PART.get(b)
+            if name is None:
+                continue
+            o = parts[name]
+            if name not in trees:
+                trees[name] = BVHTree.FromObject(o, dg)
+            q = o.matrix_world.inverted() @ Vector(a.point)
+            loc, nor, _, d = trees[name].find_nearest(q)
+            out[n] = 0.0 if (q - loc).dot(nor) < 0 else d * 1000.0
+        return out
+
+    def test_the_meshes_are_high_density(self):
+        counts = {n: len(o.data.polygons) for n, o in self.parts.items()}
+        self.assertGreater(counts["cp.Pelvis"], 60000)  # alas iliacas, copas y anillo isquiopubiano
+        self.assertGreater(counts["cp.Skull"], 60000)
+        self.assertGreater(counts["cp.Mandible"], 20000)
+        self.assertGreater(sum(counts.values()), 240000)
+        for n in ("cp.Pelvis", "cp.Skull", "cp.Mandible"):
+            self.assertTrue(all(p.use_smooth for p in self.parts[n].data.polygons), n)  # sombreado suave
+        self.assertEqual(cp.validate(self.parts), [])  # superficies cerradas (manifold) y con volumen positivo
+
+    def test_every_pelvis_femur_skull_and_mandible_landmark_is_within_12_mm_at_three_heights(self):
+        for h in (1.5, 1.75, 2.05):
+            parts = cp.build_cp_skeleton(h)
+            bpy.context.view_layer.update()
+            d = self.landmark_distances(h, parts)
+            self.assertGreaterEqual(len(d), 69, h)
+            bad = {n: round(v, 1) for n, v in d.items() if v >= 12.0 * h / 1.75}
+            self.assertEqual(bad, {}, h)
+        cp.build_cp_skeleton(1.75)  # deja la escena como la encontro la clase (las demas pruebas usan self.parts)
+        bpy.context.view_layer.update()
+        type(self).parts = {o.name: o for o in bpy.data.objects if o.name.startswith("cp.")}
+
+    def test_the_iliac_wing_is_a_curved_solid_sheet_not_a_flat_plate(self):
+        from anatomical_core import cp_refine
+
+        v, f = cp_refine.wing("L")
+        spec = cp_refine.load_refine()["iliac_wing"]
+        c0 = tuple(sum(p[i] for p in spec["outline"]) / len(spec["outline"]) for i in range(3))
+        n = cp_refine._newell([tuple(p) for p in spec["outline"]])
+        n = n if n[0] > 0 else tuple(-x for x in n)
+        off = [sum((p[i] - c0[i]) * n[i] for i in range(3)) for p in v]  # desplazamiento lateral respecto al plano medio del ilion
+        e2 = cp_refine._cross(n, cp_refine._norm(cp_refine._cross(n, (0, 0, 1))))
+        e2 = e2 if e2[2] > 0 else tuple(-x for x in e2)
+        height = [sum((p[i] - c0[i]) * e2[i] for i in range(3)) for p in v]
+        top = [o for o, hh in zip(off, height) if hh > 0.8 * max(height)]
+        mid = [o for o, hh in zip(off, height) if abs(hh) < 0.15 * max(height)]
+        self.assertGreater(sum(top) / len(top) - sum(mid) / len(mid), 0.002)  # cresta acampanada: el borde superior se abre hacia lateral respecto al centro
+        low = [o for o, hh in zip(off, height) if hh < 0.6 * min(height)]
+        self.assertLess(sum(low) / len(low) - sum(mid) / len(mid), -0.0005)  # fosa iliaca concava: el borde inferior se cierra hacia medial
+        thickness = max(off) - min(off)
+        self.assertGreater(thickness, 0.012)  # no es una lamina plana: se curva ~1.2-1.8 cm
+        wing = self.parts["cp.Pelvis"]
+        zs = [(wing.matrix_world @ p.co).z / self.h for p in wing.data.vertices]
+        self.assertGreater(max(zs), 0.60)  # la cresta llega a ~0.60 H, como el hito iliac_crest
+
+    def test_the_iliac_wing_connects_with_the_sacrum_and_the_acetabulum(self):
+        from mathutils.kdtree import KDTree
+
+        o = self.parts["cp.Pelvis"]
+        mw = o.matrix_world
+        vs = [mw @ v.co for v in o.data.vertices]
+        h = self.h
+        sacral = [p for p in vs if abs(p.x) < 0.02 * h and 0.50 * h < p.z < 0.57 * h and p.y > 0.02 * h]  # sacro
+        self.assertGreater(len(sacral), 500)
+        wing_edge = [p for p in vs if 0.02 * h < p.x < 0.04 * h and 0.55 * h < p.z < 0.60 * h and p.y > 0.015 * h]  # borde sacro del ala
+        self.assertGreater(len(wing_edge), 200)
+        tree = KDTree(len(sacral))
+        for i, p in enumerate(sacral):
+            tree.insert(p, i)
+        tree.balance()
+        self.assertLess(min(tree.find(p)[2] for p in wing_edge), 0.003)  # el ala toca el sacro (< 3 mm)
+        cup_centre = Vector((cp.HIP_X * h, 0.0, cp.HIP_Z * h))
+        cup = [p for p in vs if 0.0136 * h * 0.98 < (p - cup_centre).length < 0.0215 * h * 1.02 and p.x > 0.03 * h]
+        self.assertGreater(len(cup), 5000)  # copa acetabular: casquete grueso entre 13.6 y 21.5 mm de H alrededor del centro del acetabulo
+
+    def test_the_cup_hugs_the_femoral_head_and_leaves_the_neck_free(self):
+        h = self.h
+        c = Vector((cp.HIP_X * h, 0.0, cp.HIP_Z * h))
+        pelvis, femur = self.parts["cp.Pelvis"], self.parts["cp.FemurL"]
+        cup = [pelvis.matrix_world @ v.co for v in pelvis.data.vertices if (pelvis.matrix_world @ v.co - c).length < 0.0215 * h * 1.01 and (pelvis.matrix_world @ v.co - c).length > 0.0136 * h * 0.99
+               and (pelvis.matrix_world @ v.co).x > 0.03 * h]
+        inner = min((p - c).length for p in cup)
+        self.assertAlmostEqual(inner, 0.0136 * h, delta=0.0003)  # cara articular a 13.6 mm de H del centro
+        head = max((femur.matrix_world @ v.co - c).length for v in femur.data.vertices if (femur.matrix_world @ v.co - c).length < 0.0132 * h)  # radio de la cabeza (0.0126 H)
+        self.assertTrue(0.0005 * h < inner - head < 0.004 * h, "holgura de interlinea entre la cabeza femoral y la copa (0.5-4 mm de H)")
+        neck = [femur.matrix_world @ v.co for v in femur.data.vertices if 0.026 * h < (femur.matrix_world @ v.co - c).length < 0.045 * h]
+        self.assertGreater(min((p - c).length for p in neck if True), 0.0136 * h)  # ningun vertice del cuello entra en la copa
+        from mathutils.kdtree import KDTree
+
+        tree = KDTree(len(cup))
+        for i, p in enumerate(cup):
+            tree.insert(p, i)
+        tree.balance()
+        self.assertGreater(min(tree.find(p)[2] for p in neck), 0.001)  # el cuello no roza el borde de la copa
+
+    def test_the_obturator_foramen_and_the_symphysis_are_preserved(self):
+        from mathutils.bvhtree import BVHTree
+
+        h = self.h
+        o = self.parts["cp.Pelvis"]
+        tree = BVHTree.FromObject(o, bpy.context.evaluated_depsgraph_get())
+        foramen = o.matrix_world.inverted() @ Vector((0.0281 * h, -0.0113 * h, 0.4959 * h))  # centro del agujero obturador
+        loc, nor, _, d = tree.find_nearest(foramen)
+        self.assertGreater(d, 0.004)  # a >= 4 mm de cualquier malla de la pelvis (a 1.75 m)
+        self.assertGreater((foramen - loc).dot(nor), 0.0)  # fuera del solido: el agujero esta vacio
+        for sign in (1, -1):  # el agujero esta vacio en ambos lados
+            q = o.matrix_world.inverted() @ Vector((sign * 0.0281 * h, -0.0113 * h, 0.4959 * h))
+            loc, nor, _, d = tree.find_nearest(q)
+            self.assertGreater((q - loc).dot(nor), 0.0)
+        symphysis = [v.co for v in o.data.vertices if abs(v.co.x) < 0.0015 * h and -0.040 * h < v.co.y + 0.0 < -0.028 * h and abs(v.co.z + (cp.HIP_Z - 0.5003) * h) < 0.006 * h]
+        self.assertGreater(len(symphysis), 40)  # los dos pubis se tocan en x = 0 (sinfisis)
+
+    def test_the_skull_has_real_orbits_and_a_piriform_aperture(self):
+        h = self.h
+        sk = self.parts["cp.Skull"]
+
+        def first_hit(x, z):  # primer punto de la superficie que alcanza un rayo que avanza hacia atras (+y) por (x, z)
+            ok, loc, _, _ = sk.ray_cast(Vector((x * h, -0.2 * h, z * h)), Vector((0, 1, 0)))
+            self.assertTrue(ok)
+            return loc.y / h
+
+        rim = first_hit(0.0183, 0.0160)  # por encima de la orbita: reborde / frente
+        orbit = first_hit(0.0183, 0.0040)  # centro de la orbita
+        self.assertGreater(orbit - rim, 0.010)  # la orbita esta hundida >= 0.010 H (~17 mm) respecto a su reborde
+        cheek = first_hit(0.0250, -0.0120)
+        nose = first_hit(0.0, -0.0135)  # centro de la abertura piriforme
+        self.assertGreater(nose - first_hit(0.0, -0.0270), 0.006)  # hundida respecto a la zona nasal inferior
+        self.assertGreater(nose - cheek, 0.004)
+        self.assertAlmostEqual(first_hit(-0.0183, 0.0040), orbit, delta=0.0006)  # las dos orbitas son simetricas
+
+    def test_the_mandible_has_angle_ascending_ramus_body_and_chin(self):
+        from mathutils.bvhtree import BVHTree
+
+        h = self.h
+        md = self.parts["cp.Mandible"]
+        vs = [md.matrix_world @ v.co for v in md.data.vertices]
+        sk = self.parts["cp.Skull"]
+        s0 = sk.matrix_world.translation
+
+        def rel(p):  # (x, y, z) en H relativo al origen del craneo
+            return ((p.x - s0.x) / h, (p.y - s0.y) / h, (p.z - s0.z) / h)
+
+        rr = [rel(p) for p in vs]
+        ramus_top = [p for p in rr if p[0] > 0 and p[2] > -0.012]  # condilo y apofisis coronoides, arriba
+        angle = [p for p in rr if p[0] > 0.028 and p[2] < -0.040 and p[1] > -0.032]  # angulo mandibular, abajo y atras
+        chin = [p for p in rr if abs(p[0]) < 0.010 and p[1] < -0.066 and p[2] < -0.044]  # menton
+        self.assertTrue(ramus_top and angle and chin)
+        self.assertLess(max(p[2] for p in ramus_top), -0.0005 + 0.0)  # los condilos no pasan del eje de las ATM
+        self.assertGreater(max(p[2] for p in ramus_top) - min(p[2] for p in angle), 0.030)  # rama ascendente de ~3 cm de H (5 cm)
+        self.assertGreater(min(p[1] for p in chin) , -0.085)
+        self.assertLess(min(p[1] for p in chin), -0.074)  # el menton adelanta la arcada
+        pivot = md.matrix_world.translation
+        skull_tmj = s0 + Vector(ax.TMJ) * h
+        self.assertLess((pivot - skull_tmj).length, 1e-5)  # pivote cinematico en el eje de las ATM
 
 
 if __name__ == "__main__":

@@ -21,6 +21,8 @@ import bmesh
 import bpy
 from mathutils import Matrix, Vector
 
+from . import cp_refine
+
 PREFIX = "cp."
 REF_HEIGHT_M = 1.75
 # cadena de emparentamiento (hijo -> padre): todo cuelga de la pelvis; el orden es de la pelvis hacia fuera
@@ -29,6 +31,7 @@ PARENTS = {"cp.FemurL": "cp.Pelvis", "cp.FemurR": "cp.Pelvis", "cp.LumbarSpine":
 SIDES = 20
 CAP_RINGS = 3
 BONE_COLOR = (0.95, 0.92, 0.84, 1.0)
+HI_SIDES, HI_STEPS = 48, 14  # resolucion de los tubos de la pelvis y la mandibula (alta densidad)
 
 # --- proporciones (fracciones de H; derivadas de Drillis y Contini y de la anatomia de referencia) ------------------------------------------------
 HIP_X, HIP_Z = 0.052, 0.530  # centro acetabular (x lateral, z altura)
@@ -96,13 +99,23 @@ def tube(bm, pts, radii, ref=(1.0, 0.0, 0.0), caps=(None, None), sides=SIDES, st
         bm.faces.new((p1, grid[-1][k], grid[-1][(k + 1) % sides]))
 
 
-def ellipsoid(bm, centre, radii, axes=None):
+def ellipsoid(bm, centre, radii, axes=None, segments=SIDES + 4, rings=14):
     """Elipsoide de semiejes `radii` orientado por `axes` = (ex, ey, ez) ortonormales (por defecto, los del mundo)."""
     rot = Matrix.Identity(4)
     if axes:
         rot = Matrix((Vector(axes[0]), Vector(axes[1]), Vector(axes[2]))).transposed().to_4x4()
     m = Matrix.Translation(Vector(centre)) @ rot @ Matrix.Diagonal((radii[0], radii[1], radii[2], 1.0))
-    bmesh.ops.create_uvsphere(bm, u_segments=SIDES + 4, v_segments=14, radius=1.0, matrix=m)
+    part = bmesh.new()  # (en un bmesh aparte: create_uvsphere sobre una malla grande es O(n) por llamada)
+    bmesh.ops.create_uvsphere(part, u_segments=segments, v_segments=rings, radius=1.0, matrix=m)
+    _append(bm, part)
+
+
+def add_mesh(bm, verts, faces, scale=1.0, offset=(0.0, 0.0, 0.0)):
+    """Anade a `bm` una malla (vertices en H, caras de 3 o 4 indices) multiplicada por `scale` (la altura) y desplazada por `offset`."""
+    off = Vector(offset)
+    bv = [bm.verts.new(Vector(v) * scale + off) for v in verts]
+    for f in faces:
+        bm.faces.new([bv[i] for i in f])
 
 
 def _finish(bm, origin):
@@ -142,23 +155,23 @@ def build_pelvis(h: float) -> tuple:
     p = lambda x, y, z: _v(x, y, z, h)  # noqa: E731
     # sacro (cuña curva concava hacia delante) y coccix
     tube(bm, [p(0.0, 0.0215, 0.566), p(0.0, 0.0300, 0.548), p(0.0, 0.0420, 0.528), p(0.0, 0.0510, 0.510)],
-         [(0.0520 * h, 0.0125 * h), (0.0360 * h, 0.0105 * h), (0.0200 * h, 0.0085 * h), (0.0075 * h, 0.0060 * h)], ref=(1, 0, 0), caps=(0.0030 * h, 0.0020 * h))
-    tube(bm, [p(0.0, 0.0510, 0.510), p(0.0, 0.0560, 0.495), p(0.0, 0.0560, 0.480)], [(0.0075 * h, 0.0060 * h), (0.0055 * h, 0.0050 * h), (0.0020 * h, 0.0020 * h)], caps=(0.0, 0.003 * h))
+         [(0.0520 * h, 0.0125 * h), (0.0360 * h, 0.0105 * h), (0.0200 * h, 0.0085 * h), (0.0075 * h, 0.0060 * h)], ref=(1, 0, 0), caps=(0.0030 * h, 0.0020 * h), sides=HI_SIDES, steps=HI_STEPS)
+    tube(bm, [p(0.0, 0.0510, 0.510), p(0.0, 0.0560, 0.495), p(0.0, 0.0560, 0.480)], [(0.0075 * h, 0.0060 * h), (0.0055 * h, 0.0050 * h), (0.0020 * h, 0.0020 * h)], caps=(0.0, 0.003 * h),
+         sides=HI_SIDES, steps=HI_STEPS)
     for s in (1.0, -1.0):
-        sx = lambda x, y, z, s=s: p(s * x, y, z)  # noqa: E731
-        # ala iliaca: elipsoide aplanado orientado con su normal hacia lateral-delante, apoyado sobre el acetabulo y llegando al sacro
-        n = Vector((s * 0.88, -0.30, -0.36)).normalized()
-        e1 = n.cross(Vector((0, 0, 1))).normalized()
-        e2 = n.cross(e1).normalized()
-        ellipsoid(bm, sx(0.056, 0.012, 0.578), (0.0500 * h, 0.0520 * h, 0.0050 * h), axes=(e1, e2, n))
+        side = "L" if s > 0 else "R"
+        wv, wf = cp_refine.wing(side)  # ala iliaca: lente solida con el contorno del ilion, fosa concava y cresta acampanada (config/cp/refine.json)
+        add_mesh(bm, wv, wf, h)
+        cv, cf = cp_refine.cup(side)  # copa acetabular que abraza la cabeza del femur
+        add_mesh(bm, cv, cf, h)
         # isquion: acetabulo - espina - cuerpo - tuberosidad - rama isquiopubiana - sinfisis (cierra el agujero obturador con el pubis)
         tube(bm, [p(s * HIP_X, 0.0, HIP_Z), p(s * 0.0469, 0.0082, 0.5120), p(s * 0.0431, 0.0071, 0.5000), p(s * 0.0350, 0.0120, 0.4700), p(s * 0.0286, 0.0, 0.4689),
                   p(s * 0.0274, -0.0120, 0.4743), p(s * 0.0183, -0.0229, 0.4829), p(s * 0.0090, -0.0300, 0.4930), p(s * 0.0011, -0.0345, 0.5003)],
              [(0.0095 * h,) * 2, (0.0078 * h,) * 2, (0.0080 * h,) * 2, (0.0120 * h, 0.0130 * h), (0.0080 * h,) * 2, (0.0072 * h,) * 2, (0.0072 * h,) * 2, (0.0085 * h,) * 2, (0.0095 * h, 0.0140 * h)],
-             ref=(0, 0, 1), caps=(0.006 * h, 0.004 * h))
+             ref=(0, 0, 1), caps=(0.006 * h, 0.004 * h), sides=HI_SIDES, steps=HI_STEPS)
         # pubis: rama superior del acetabulo a la sinfisis
         tube(bm, [p(s * HIP_X, 0.0, HIP_Z), p(s * 0.0400, -0.0090, 0.5230), p(s * 0.0260, -0.0171, 0.5150), p(s * 0.0130, -0.0270, 0.5070), p(s * 0.0011, -0.0345, 0.5003)],
-             [(0.0095 * h,) * 2, (0.0072 * h,) * 2, (0.0068 * h, 0.0085 * h), (0.0075 * h, 0.0090 * h), (0.0095 * h, 0.0140 * h)], ref=(0, 0, 1), caps=(0.006 * h, 0.004 * h))
+             [(0.0095 * h,) * 2, (0.0072 * h,) * 2, (0.0068 * h, 0.0085 * h), (0.0075 * h, 0.0090 * h), (0.0095 * h, 0.0140 * h)], ref=(0, 0, 1), caps=(0.006 * h, 0.004 * h), sides=HI_SIDES, steps=HI_STEPS)
     _finish(bm, origin)
     xs = [v.co.x for v in bm.verts]
     return bm, origin, (max(xs) - min(xs))

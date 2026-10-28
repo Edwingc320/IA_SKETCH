@@ -1,0 +1,376 @@
+{
+ "schema_version": 2,
+ "description": "Parametros de la geometria de alta densidad de la linea cp.* (ala iliaca, copa acetabular y craneo). Unidades: fracciones de la altura H; el ala y la copa en el sistema del mundo (x lateral izquierda, y posterior, z arriba), el craneo relativo al centro de los condilos occipitales. Los puntos del contorno del ala son los del nivel 1 (ilium) divididos por 1.75; los anclajes del craneo son los hitos del nivel 1 en esa referencia.",
+ "iliac_wing": {
+  "outline": [
+   [
+    0.03,
+    0.0234,
+    0.5682
+   ],
+   [
+    0.0287,
+    0.0359,
+    0.5748
+   ],
+   [
+    0.03,
+    0.045,
+    0.58
+   ],
+   [
+    0.0542,
+    0.0279,
+    0.596
+   ],
+   [
+    0.0679,
+    0.0154,
+    0.6018
+   ],
+   [
+    0.075,
+    0.005,
+    0.6
+   ],
+   [
+    0.0776,
+    -0.0127,
+    0.5894
+   ],
+   [
+    0.0742,
+    -0.0276,
+    0.5728
+   ],
+   [
+    0.07,
+    -0.03,
+    0.565
+   ],
+   [
+    0.0633,
+    -0.015,
+    0.5475
+   ],
+   [
+    0.052,
+    0.0,
+    0.53
+   ],
+   [
+    0.0351,
+    0.0175,
+    0.5422
+   ],
+   [
+    0.0165,
+    0.0358,
+    0.5502
+   ],
+   [
+    0.0223,
+    0.0302,
+    0.5589
+   ]
+  ],
+  "n_theta": 192,
+  "n_rings": 80,
+  "smooth_deg": 3.0,
+  "margin": 0.0015,
+  "bowl": 0.0055,
+  "flare": 0.011,
+  "twist": 0.0,
+  "thickness": 0.0036,
+  "thickness_rim": 0.0025,
+  "thickness_crest": 0.005,
+  "rim_profile": 0.55,
+  "root": [
+   0.052,
+   0.0,
+   0.53
+  ],
+  "root_thickness": 0.009,
+  "root_sigma": 0.015,
+  "sacral_edge": [
+   0.0233,
+   0.03,
+   0.559
+  ],
+  "sacral_thickness": 0.006,
+  "sacral_sigma": 0.016
+ },
+ "acetabular_cup": {
+  "center": [
+   0.052,
+   0.0,
+   0.53
+  ],
+  "axis": [
+   -0.84,
+   0.2,
+   0.5
+  ],
+  "r_in": 0.0136,
+  "r_out": 0.0215,
+  "theta_deg": 100.0,
+  "rings": 48,
+  "sides": 96
+ },
+ "skull": {
+  "patches": [
+   {
+    "name": "neurocraneo",
+    "center": [
+     0.0,
+     -0.014,
+     0.03
+    ],
+    "n_theta": 288,
+    "n_rings": 143,
+    "ellipsoids": [
+     {
+      "name": "neurocraneo",
+      "c": [
+       0.0,
+       -0.013,
+       0.034
+      ],
+      "r": [
+       0.0385,
+       0.0525,
+       0.043
+      ]
+     },
+     {
+      "name": "occipucio",
+      "c": [
+       0.0,
+       0.004,
+       0.01
+      ],
+      "r": [
+       0.034,
+       0.034,
+       0.022
+      ]
+     },
+     {
+      "name": "parietal",
+      "c": [
+       0.0,
+       0.006,
+       0.031
+      ],
+      "r": [
+       0.0405,
+       0.038,
+       0.04
+      ]
+     },
+     {
+      "name": "temporal",
+      "c": [
+       0.027,
+       -0.006,
+       0.003
+      ],
+      "r": [
+       0.013,
+       0.021,
+       0.01
+      ],
+      "mirror": true
+     },
+     {
+      "name": "fosa glenoidea",
+      "c": [
+       0.03,
+       -0.03,
+       -0.006
+      ],
+      "r": [
+       0.01,
+       0.012,
+       0.007
+      ],
+      "mirror": true
+     }
+    ],
+    "bumps": [
+     {
+      "name": "arco superciliar",
+      "at": [
+       0.0185,
+       -0.064,
+       0.0165
+      ],
+      "radius": 0.012,
+      "height": 0.003,
+      "mirror": true
+     },
+     {
+      "name": "glabela",
+      "at": [
+       0.0,
+       -0.0655,
+       0.0165
+      ],
+      "radius": 0.008,
+      "height": 0.003
+     }
+    ],
+    "anchors": [
+     {
+      "name": "protuberancia occipital externa",
+      "at": [
+       0.0,
+       0.03069,
+       -0.00011
+      ],
+      "radius": 0.01,
+      "max": 0.03
+     },
+     {
+      "name": "linea nucal superior",
+      "at": [
+       0.01143,
+       0.01926,
+       -0.00697
+      ],
+      "radius": 0.008,
+      "max": 0.03,
+      "mirror": true
+     },
+     {
+      "name": "porion",
+      "at": [
+       0.03143,
+       -0.01789,
+       -0.00583
+      ],
+      "radius": 0.008,
+      "max": 0.03,
+      "mirror": true
+     },
+     {
+      "name": "fosa temporal",
+      "at": [
+       0.03714,
+       -0.03789,
+       0.02846
+      ],
+      "radius": 0.01,
+      "max": 0.03,
+      "mirror": true
+     }
+    ]
+   },
+   {
+    "name": "cara",
+    "center": [
+     0.0,
+     -0.05,
+     -0.005
+    ],
+    "n_theta": 256,
+    "n_rings": 127,
+    "ellipsoids": [
+     {
+      "name": "macizo facial",
+      "c": [
+       0.0,
+       -0.05,
+       -0.005
+      ],
+      "r": [
+       0.031,
+       0.027,
+       0.0335
+      ]
+     },
+     {
+      "name": "maxilar",
+      "c": [
+       0.0,
+       -0.062,
+       -0.026
+      ],
+      "r": [
+       0.019,
+       0.02,
+       0.011
+      ]
+     },
+     {
+      "name": "malar",
+      "c": [
+       0.0335,
+       -0.056,
+       -0.005
+      ],
+      "r": [
+       0.0125,
+       0.0115,
+       0.0105
+      ],
+      "mirror": true
+     }
+    ],
+    "bumps": [
+     {
+      "name": "puente nasal",
+      "at": [
+       0.0,
+       -0.077,
+       0.0087
+      ],
+      "radius": 0.006,
+      "height": 0.003
+     }
+    ],
+    "anchors": [
+     {
+      "name": "nasion",
+      "at": [
+       0.0,
+       -0.07674,
+       0.00846
+      ],
+      "radius": 0.007,
+      "max": 0.03
+     }
+    ]
+   }
+  ],
+  "carves": [
+   {
+    "name": "orbita",
+    "c": [
+     0.0183,
+     -0.068,
+     0.004
+    ],
+    "r": [
+     0.0112,
+     0.017,
+     0.0102
+    ],
+    "mirror": true
+   },
+   {
+    "name": "abertura piriforme",
+    "c": [
+     0.0,
+     -0.07,
+     -0.0135
+    ],
+    "r": [
+     0.0072,
+     0.0125,
+     0.0108
+    ]
+   }
+  ]
+ }
+}
