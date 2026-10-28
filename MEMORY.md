@@ -195,3 +195,9 @@ Motor reproducible y configurable de esqueleto humano 3D en **Blender 5.0.1** (P
 - `cp_axial.py`: `cp.ThoracicSpine`, `cp.CervicalSpine`, `cp.Skull`, `cp.Mandible` (origen: disco T12/L1, disco C7/T1, cóndilos occipitales, eje de las ATM). Mismo tono `cp_bone`; cadena Pelvis > Lumbar > Torácica > Cervical > Cráneo > Mandíbula.
 - Largos antropométricos (vértice 1,00 H, mentón 0,87 H); forma de la imagen (curvas, espinosas). La imagen dibuja la cabeza más pequeña: gana la antropometría.
 - 24 pruebas de Blender; límites: sin costillas, órbitas como depresión con reborde, vértebras sueltas dentro de cada objeto.
+
+## Línea cp.*: pelvis y cráneo de alta densidad (2026-10-28)
+- `cp_refine.py` + `config/cp/refine.json`: ala iliaca (lente con el contorno del ilion, fosa cóncava, cresta acampanada), copa acetabular y cráneo de dos parches estrellados; órbitas y abertura piriforme por Boolean exacto (caché en `cp_axial._SKULL_CACHE`, ~7 s la primera vez). Mandíbula con ángulo y pivote en las ATM (0, -0,032, -0,012) H.
+- 69 hitos de pelvis, fémur, cráneo y mandíbula a < 12 mm (1,50 / 1,75 / 2,05 m). IoU por región (`scripts/compare_cp_regions.py`): 0,517 → 0,531 (pelvis 0,442 → 0,461; cráneo 0,593 → 0,601).
+- Lección: `bmesh.ops.create_uvsphere` sobre una malla grande es O(n) por llamada: crear cada elipsoide en un bmesh aparte y añadirlo. El Boolean con `use_self=True` tardó 286 s; sin él, 7 s.
+- 34 pruebas de Blender y 16 mutaciones (todas detectadas tras reforzar pruebas; algunas mutaciones solo se detectaban en la clase de pruebas que no corría la batería).
