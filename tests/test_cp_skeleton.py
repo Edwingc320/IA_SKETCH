@@ -784,7 +784,7 @@ class TestCpSkullParts(unittest.TestCase):
         cls.sk = SkullGroup(cls.parts)
 
     BONES = ["cp.SkullFrontal", "cp.SkullOccipital", "cp.ParietalL", "cp.ParietalR", "cp.TemporalL", "cp.TemporalR", "cp.SphenoidL", "cp.SphenoidR"]
-    NAMES = sorted(["cp.CondyleL", "cp.CondyleR", "cp.MastoidL", "cp.MastoidR", "cp.Skull", "cp.SkullFace", "cp.TeethUpper", "cp.TemporalBaseL", "cp.TemporalBaseR", "cp.ZygomaticL", "cp.ZygomaticR"] + BONES)
+    NAMES = sorted(["cp.CondyleL", "cp.CondyleR", "cp.Skull", "cp.SkullFace", "cp.TeethUpper", "cp.ZygomaticL", "cp.ZygomaticR"] + BONES)
 
     def test_the_skull_is_made_of_independent_closed_pieces_not_one_solid(self):
         self.assertEqual(skull_names(self.parts), self.NAMES)
@@ -819,9 +819,10 @@ class TestCpSkullParts(unittest.TestCase):
                     return True
             return False
 
-        for a, b in (("cp.Skull", "cp.SkullFace"), ("cp.Skull", "cp.TemporalBaseL"), ("cp.Skull", "cp.TemporalBaseR"), ("cp.SkullFace", "cp.ZygomaticL"), ("cp.SkullFace", "cp.ZygomaticR"),
-                     ("cp.ZygomaticL", "cp.TemporalBaseL"), ("cp.ZygomaticR", "cp.TemporalBaseR"), ("cp.TemporalBaseL", "cp.MastoidL"), ("cp.TemporalBaseR", "cp.MastoidR"), ("cp.Skull", "cp.SkullFrontal"), ("cp.ZygomaticL", "cp.SkullFrontal"), ("cp.ZygomaticR", "cp.SkullFrontal"), ("cp.ZygomaticL", "cp.SphenoidL"), ("cp.ZygomaticR", "cp.SphenoidR"), ("cp.TemporalBaseL", "cp.TemporalL"), ("cp.TemporalBaseR", "cp.TemporalR"), ("cp.Skull", "cp.SkullOccipital"), ("cp.Skull", "cp.ParietalL"), ("cp.Skull", "cp.ParietalR"), ("cp.Skull", "cp.TemporalL"), ("cp.Skull", "cp.SphenoidL"), ("cp.Skull", "cp.CondyleL"),
-                     ("cp.Skull", "cp.CondyleR"), ("cp.SkullFace", "cp.TeethUpper"), ("cp.Mandible", "cp.TeethLower")):
+        for a, b in (("cp.Skull", "cp.SkullFace"), ("cp.SkullFace", "cp.ZygomaticL"), ("cp.SkullFace", "cp.ZygomaticR"), ("cp.ZygomaticL", "cp.TemporalL"), ("cp.ZygomaticR", "cp.TemporalR"),
+                     ("cp.Skull", "cp.SkullFrontal"), ("cp.ZygomaticL", "cp.SkullFrontal"), ("cp.ZygomaticR", "cp.SkullFrontal"), ("cp.ZygomaticL", "cp.SphenoidL"), ("cp.ZygomaticR", "cp.SphenoidR"),
+                     ("cp.Skull", "cp.SkullOccipital"), ("cp.Skull", "cp.ParietalL"), ("cp.Skull", "cp.ParietalR"), ("cp.Skull", "cp.TemporalL"), ("cp.Skull", "cp.TemporalR"),
+                     ("cp.Skull", "cp.SphenoidL"), ("cp.Skull", "cp.CondyleL"), ("cp.Skull", "cp.CondyleR"), ("cp.SkullFace", "cp.TeethUpper"), ("cp.Mandible", "cp.TeethLower")):
             self.assertTrue(touches(a, b) or touches(b, a), f"{a} y {b} no se tocan")
         self.assertEqual(sum(1 for o in bpy.data.objects if o.name.startswith(SKULL_PREFIXES)), len(self.NAMES))  # y siguen siendo objetos distintos (no se unieron)
 
@@ -933,6 +934,19 @@ class TestCpSkullParts(unittest.TestCase):
         self.assertEqual(len(bpy.data.collections["CP_Neurocraneo"]["cp_huesos_esperados"].split(", ")), 8)  # los 22 huesos: 8 del neurocraneo
         self.assertEqual(len(bpy.data.collections["CP_Viscerocraneo"]["cp_huesos_esperados"].split(", ")), 14)  # y 14 del viscerocraneo
         self.assertIs(self.parts["cp.Skull"].parent, self.parts["cp.CervicalSpine"])  # el parentesco no cambia
+
+    def test_each_temporal_bone_is_one_single_piece_with_all_its_parts(self):
+        for side, sx in (("L", 1), ("R", -1)):
+            n = f"cp.Temporal{side}"
+            o = self.parts[n]
+            self.assertEqual(islands(o), 1, n)  # escama, parte baja y mastoides fundidas: una sola componente conexa
+            for gone in (f"cp.TemporalBase{side}", f"cp.Mastoid{side}"):
+                self.assertNotIn(gone, self.parts, gone)  # ya no son objetos aparte
+            vs = [v.co for v in o.data.vertices]
+            self.assertTrue(any(p.z < -0.022 * self.h for p in vs), n)  # incluye la mastoides (baja: la parte baja sola llega a -0.017)
+            self.assertTrue(any(p.z > 0.02 * self.h for p in vs), n)  # y la escama (alta)
+            self.assertTrue(any(sx * p.x > 0.039 * self.h and p.y < -0.012 * self.h for p in vs), n)  # y la apofisis cigomatica (delante y por fuera)
+        self.assertEqual(sum(1 for x in bpy.data.objects if x.name.startswith("cp.Temporal")), 2)
 
     def test_every_skull_piece_is_mirror_symmetric(self):
         for n in self.NAMES + ["cp.Mandible", "cp.TeethLower"]:

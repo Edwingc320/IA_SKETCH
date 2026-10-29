@@ -29,12 +29,12 @@ REF_HEIGHT_M = 1.75
 PARENTS = {"cp.FemurL": "cp.Pelvis", "cp.FemurR": "cp.Pelvis", "cp.LumbarSpine": "cp.Pelvis", "cp.ThoracicSpine": "cp.LumbarSpine", "cp.CervicalSpine": "cp.ThoracicSpine",
            "cp.Skull": "cp.CervicalSpine", "cp.Mandible": "cp.Skull",
            # piezas independientes del craneo: cuelgan de la boveda (cp.Skull) y comparten su origen; no se unen en un solo solido
-           "cp.SkullFace": "cp.Skull", "cp.ZygomaticL": "cp.Skull", "cp.ZygomaticR": "cp.Skull", "cp.TemporalBaseL": "cp.Skull", "cp.TemporalBaseR": "cp.Skull", "cp.MastoidL": "cp.Skull",
-           "cp.MastoidR": "cp.Skull", "cp.CondyleL": "cp.Skull", "cp.CondyleR": "cp.Skull", "cp.TeethUpper": "cp.Skull", "cp.TeethLower": "cp.Mandible",
+           "cp.SkullFace": "cp.Skull", "cp.ZygomaticL": "cp.Skull", "cp.ZygomaticR": "cp.Skull",
+            "cp.CondyleL": "cp.Skull", "cp.CondyleR": "cp.Skull", "cp.TeethUpper": "cp.Skull", "cp.TeethLower": "cp.Mandible",
            # los cinco huesos de la boveda (cascaras independientes sobre el nucleo cp.Skull)
            "cp.SkullFrontal": "cp.Skull", "cp.SkullOccipital": "cp.Skull", "cp.ParietalL": "cp.Skull", "cp.ParietalR": "cp.Skull", "cp.TemporalL": "cp.Skull", "cp.TemporalR": "cp.Skull",
            "cp.SphenoidL": "cp.Skull", "cp.SphenoidR": "cp.Skull"}
-FOLLOW_PARENT_SCALE = ("cp.SkullFace", "cp.ZygomaticL", "cp.ZygomaticR", "cp.TemporalBaseL", "cp.TemporalBaseR", "cp.MastoidL", "cp.MastoidR", "cp.CondyleL", "cp.CondyleR", "cp.TeethUpper",
+FOLLOW_PARENT_SCALE = ("cp.SkullFace", "cp.ZygomaticL", "cp.ZygomaticR", "cp.CondyleL", "cp.CondyleR", "cp.TeethUpper",
                        "cp.TeethLower", "cp.SkullFrontal", "cp.SkullOccipital", "cp.ParietalL", "cp.ParietalR", "cp.TemporalL", "cp.TemporalR", "cp.SphenoidL", "cp.SphenoidR")  # cambian de tamano con su pieza madre (cp_resize)
 # Colecciones por seccion, anidadas bajo CP_Skeleton: (ruta) -> objetos que contiene (cada objeto en UNA sola coleccion; el parentesco no cambia)
 SECTIONS = {
@@ -44,7 +44,7 @@ SECTIONS = {
     ("Columna", "Toracica"): ("cp.ThoracicSpine",),
     ("Columna", "Cervical"): ("cp.CervicalSpine",),
     ("Craneo", "Neurocraneo"): ("cp.Skull", "cp.SkullFrontal", "cp.ParietalL", "cp.ParietalR", "cp.TemporalL", "cp.TemporalR", "cp.SkullOccipital", "cp.SphenoidL", "cp.SphenoidR",
-                                "cp.TemporalBaseL", "cp.TemporalBaseR", "cp.MastoidL", "cp.MastoidR", "cp.CondyleL", "cp.CondyleR"),
+                                "cp.CondyleL", "cp.CondyleR"),
     ("Craneo", "Viscerocraneo"): ("cp.SkullFace", "cp.ZygomaticL", "cp.ZygomaticR", "cp.Mandible"),
     ("Craneo", "Dientes"): ("cp.TeethUpper", "cp.TeethLower"),
 }

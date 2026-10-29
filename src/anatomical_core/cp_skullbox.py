@@ -501,7 +501,6 @@ def teeth_cage(lower: bool = False) -> "bmesh.types.BMesh":
 
 SKULL_PARTS = {  # nombre del objeto -> constructor de su jaula
     "Skull": vault_core, "SkullFace": face_cage, "ZygomaticL": lambda: zygomatic_cage(1.0), "ZygomaticR": lambda: zygomatic_cage(-1.0),
-    "TemporalBaseL": lambda: temporal_cage(1.0), "TemporalBaseR": lambda: temporal_cage(-1.0), "MastoidL": lambda: mastoid_cage(1.0), "MastoidR": lambda: mastoid_cage(-1.0),
     "CondyleL": lambda: condyle_cage(1.0), "CondyleR": lambda: condyle_cage(-1.0), "TeethUpper": lambda: teeth_cage(False),
 }
 
@@ -554,11 +553,53 @@ def subdivide(bm, levels: int = SUBSURF_LEVELS, scale: float = 1000.0) -> tuple:
 _CACHE: dict = {}
 
 
+TEMPORAL_EXTRAS = (("base", temporal_cage), ("mastoides", mastoid_cage))  # partes que se funden con la escama en UN solo hueso temporal
+
+
+def _union(a: tuple, b: tuple, scale: float = 1000.0) -> tuple:
+    """Union booleana (EXACT) de dos mallas cerradas (vertices, caras) en H -> (vertices, caras): una sola cascara. Trabaja a escala x`scale`."""
+    objs = []
+    for nm, (verts, faces) in (("cp_tmp_a", a), ("cp_tmp_b", b)):
+        me = bpy.data.meshes.new(nm)
+        me.from_pydata([tuple(c * scale for c in v) for v in verts], [], [tuple(f) for f in faces])
+        me.update()
+        o = bpy.data.objects.new(nm, me)
+        bpy.context.scene.collection.objects.link(o)
+        objs.append(o)
+    try:
+        mod = objs[0].modifiers.new("cp_union", "BOOLEAN")
+        mod.operation, mod.solver, mod.object = "UNION", "EXACT", objs[1]
+        bpy.context.view_layer.update()
+        with bpy.context.temp_override(object=objs[0], active_object=objs[0], selected_objects=[objs[0]]):
+            bpy.ops.object.modifier_apply(modifier=mod.name)
+        verts = [tuple(c / scale for c in v.co) for v in objs[0].data.vertices]
+        faces = [tuple(p.vertices) for p in objs[0].data.polygons]
+    finally:
+        for o in objs:
+            me = o.data
+            bpy.data.objects.remove(o, do_unlink=True)
+            bpy.data.meshes.remove(me)
+    return verts, faces
+
+
+def temporal_bones(squamae: dict) -> dict:
+    """{TemporalL, TemporalR}: cada hueso temporal es UNA sola pieza: la escama (cascara de la boveda) UNIDA con la parte baja (oido y apofisis cigomatica) y la apofisis mastoides."""
+    out = {}
+    for side, sx in (("L", 1.0), ("R", -1.0)):
+        piece = squamae[f"Temporal{side}"]
+        for _, cage in TEMPORAL_EXTRAS:
+            piece = _union(piece, subdivide(cage(sx), levels=SUBSURF_LEVELS))
+        out[f"Temporal{side}"] = piece
+    return out
+
+
 def skull_parts() -> dict:
     """{nombre: (vertices, caras)} de las piezas INDEPENDIENTES del craneo (en H, relativo al origen), ya subdivididas (cache)."""
     if "parts" not in _CACHE:
         _CACHE["parts"] = {n: subdivide(f(), levels=1 if n == "Skull" else SUBSURF_LEVELS) for n, f in SKULL_PARTS.items()}
-        _CACHE["parts"].update(vault_bones())  # los cinco huesos de la boveda, cascaras independientes sobre el nucleo (cp.Skull)
+        bones = vault_bones()  # los cinco huesos de la boveda, cascaras independientes sobre el nucleo (cp.Skull)
+        bones.update(temporal_bones(bones))  # el temporal es una sola pieza (escama + base + mastoides)
+        _CACHE["parts"].update(bones)
     return _CACHE["parts"]
 
 
