@@ -670,13 +670,11 @@ class TestCpSpine(unittest.TestCase):
         self.assertLess(d, 0.006)  # el disco L5-S1 toca el sacro (< 6 mm)
         q = self.cv.level_params(self.spine, "lumbar", "L3")
         cage = self.cv.disc_cage(q["bw"], q["bd"], cp.DISC_H, 0.16, 1.05)
-        for v in cage.verts:
-            v.co *= h
-        verts, _ = self.sb.subdivide(cage, levels=1, scale=1.0)
-        hd = cp.DISC_H * h
-        mid_r = max(abs(v[0]) for v in verts if abs(v[2]) < 0.15 * hd)
-        end_r = max(abs(v[0]) for v in verts if abs(v[2]) > 0.40 * hd)
-        self.assertGreater(mid_r, end_r * 1.03)  # disco lenticular: mas ancho en el centro que en los platillos
+        hd = cp.DISC_H
+        mid_r = max(abs(v.co.x) for v in cage.verts if abs(v.co.z) < 0.05 * hd)  # en la jaula (la subdivision redondea los platillos y falsearia la medida)
+        end_r = max(abs(v.co.x) for v in cage.verts if abs(v.co.z) > 0.45 * hd)
+        self.assertGreater(mid_r, end_r * 1.05)  # disco lenticular: mas ancho en el centro que en los platillos
+        cage.free()
 
     def test_no_temporary_or_duplicate_objects_are_left_behind(self):
         self.assertEqual(sorted(o.name for o in bpy.data.objects), sorted(self.parts))
