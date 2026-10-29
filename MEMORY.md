@@ -207,3 +207,9 @@ Motor reproducible y configurable de esqueleto humano 3D en **Blender 5.0.1** (P
 - **Error propio corregido**: `compare_cp_regions.figure_rows` medía la coronilla sobre la marca de agua (fila 31 en vez de ~72). Ahora usa el contorno oscuro de las columnas centrales. Cifras de IoU antiguas (0,442 / 0,461 / 0,593 / 0,601) eran absolutas erróneas; las nuevas: cráneo 0,784 (original) → 0,810 (elipsoides) → 0,806 (box); pelvis 0,445 → 0,472.
 - El box modeling NO mejora significativamente el IoU frente a la versión de elipsoides (0,812/0,783 vs 0,816/0,788 de frente/lado); sí frente al original.
 - Lecciones de bmesh: crear la capa `crease_edge` invalida las referencias a aristas (crearla al empezar); `inset_region` con `use_even_offset=True` produce picos tras ajustar a elipse (usar False); las caras de entrada pasan a ser la región interior y `ret['faces']` el anillo.
+
+## Reconstrucción central, etapa B: columna (2026-10-29)
+- Petición del usuario: reconstruir el esqueleto central (cráneo, columna, sacro, tórax, pelvis, fémures) por etapas; diagnóstico y plan en `docs/plan/71_reconstruccion_central.md`. Etapa B hecha: `cp_vertebra.py` + `config/cp/spine.json` (vértebras con cuerpo en riñón, arco con foramen, apófisis por región, discos lenticulares).
+- Hallazgos del diagnóstico: el tórax NO existe en `cp.*` (las costillas que se ven son polilíneas del nivel 1); **los cóndilos del fémur flotan ~5 cm bajo la diáfisis** (defecto abierto, etapa E); el cráneo sigue siendo un bloque.
+- Dimensiones de `spine.json` aproximadas y declaradas (no_numeric_source).
+- Lección: una prueba de forma sobre la malla subdividida puede no discriminar (la subdivisión redondea los bordes); medir en la jaula. Otra: las carillas costales y las apófisis contaminan las franjas de medida del cuerpo.
