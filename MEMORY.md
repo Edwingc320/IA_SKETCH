@@ -218,3 +218,9 @@ Motor reproducible y configurable de esqueleto humano 3D en **Blender 5.0.1** (P
 - `blender -b --factory-startup --python tests/run_tests.py` ejecuta por defecto SOLO el esqueleto óseo actual (`tests/suites.py`: CURRENT = `test_cp_skeleton`, 43 pruebas). `-- --suite legacy` = modelo viejo (492), `-- --suite all` = todo (535), `-- --only a,b` = módulos concretos. `scripts/run.ps1 -Task Test [-Suite current|legacy|all]`.
 - Las pruebas del modelo viejo NO se borran ni se relajan; solo dejan de ser la suite por defecto. Una prueba nueva del esqueleto actual se añade a `CURRENT`.
 - `tests/support.py` (`build_reference`) da los 69 hitos a las pruebas actuales sin importar pruebas del modelo viejo.
+
+## Cráneo en piezas independientes con bóveda ovoide (2026-10-29)
+- `cp.Skull` (bóveda ovoide, superelipsoide ajustado a las 3 imágenes), `cp.SkullFace`, cigomáticos, temporales, mastoides, cóndilos, `cp.TeethUpper`, y `cp.Mandible` + `cp.TeethLower`: cada una una malla cerrada propia (NO unir en un solo sólido). Parámetros en `config/cp/skull.json`; medidas de forma de las imágenes en `config/cp/skull_reference.json`.
+- Herramientas: `scripts/skull_reference.py` (siluetas), `scripts/compare_skull_reference.py --blend X` (IoU de forma + superposición), `scripts/render_skull_views.py -- carpeta etiqueta --mode silhouette|depth|parts|shaded`, `cp_skeleton.py --reference-images` (planos de las imágenes en el .blend).
+- IoU de forma: frente 0,838 → 0,889; perfil 0,856 → 0,857; atrás 0,827. Las imágenes de referencia nuevas están en `.gitignore`.
+- Lección: `bmesh.ops.inset_region` deja las caras de entrada como región interior y el anillo nuevo en `ret['faces']`; las máscaras de color (blanco casi puro) exigen umbral < 251, no 244; un plano con una mutación suave (solo un anillo del barrido) puede seguir tocando a su vecino: la mutación debe alejar toda la pieza.
