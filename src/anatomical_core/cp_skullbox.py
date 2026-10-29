@@ -455,7 +455,7 @@ def zygomatic_cage(sx: float) -> "bmesh.types.BMesh":
     de la fosa temporal que se solapa con la apofisis cigomatica del temporal). Pieza independiente."""
     up, ac = (0, 1, 0), (0, 0, 1)
     return sweep_box([
-        ((sx * 0.0300, -0.0562, 0.0152), up, 0.0040, 0.0017),  # extremo de la apofisis frontal (toca el frontal)
+        ((sx * 0.0285, -0.0562, 0.0152), up, 0.0040, 0.0017),  # extremo de la apofisis frontal (toca el frontal)
         ((sx * 0.0372, -0.0546, 0.0090), up, 0.0046, 0.0019),
         ((sx * 0.0408, -0.0538, 0.0020), (0, 1, 0.2), 0.0056, 0.0021),  # borde lateral de la orbita, por fuera de la cara
         ((sx * 0.0412, -0.0525, -0.0050), (0, 1, 0.4), 0.0075, 0.0026),  # cuerpo malar (el mas ancho)
@@ -604,7 +604,30 @@ def _boolean(a: tuple, b: tuple, op: str, scale: float = 1000.0) -> tuple:
             me = o.data
             bpy.data.objects.remove(o, do_unlink=True)
             bpy.data.meshes.remove(me)
-    return verts, faces
+    return _drop_slivers(verts, faces)
+
+
+def _drop_slivers(verts: list, faces: list, min_verts: int = 30) -> tuple:
+    """Quita los trozos sueltos diminutos (< `min_verts` vertices) que a veces deja un Boolean en bordes tangentes; las piezas reales no se tocan."""
+    par = list(range(len(verts)))
+
+    def find(a):
+        while par[a] != a:
+            par[a] = par[par[a]]
+            a = par[a]
+        return a
+
+    for f in faces:
+        for v in f[1:]:
+            par[find(v)] = find(f[0])
+    size = {}
+    for i in range(len(verts)):
+        size[find(i)] = size.get(find(i), 0) + 1
+    keep = [i for i in range(len(verts)) if size[find(i)] >= min_verts]
+    if len(keep) == len(verts):
+        return verts, faces
+    new = {v: k for k, v in enumerate(keep)}
+    return [verts[i] for i in keep], [tuple(new[v] for v in f) for f in faces if f[0] in new]
 
 
 def arch_halves(sx: float) -> tuple:
@@ -700,14 +723,23 @@ def face_bones(shape: dict | None = None) -> dict:
             neigh[pair[0]].append(pair[1])
             neigh[pair[1]].append(pair[0])
     for _ in range(int(fsu["groove_faces"])):
-        cut = [fi for fi in range(len(faces)) if label[fi] and any(label[n] and label[n] != label[fi] and label[n][:-1] != label[fi][:-1] for n in neigh[fi])]  # entre huesos distintos
-        for fi in cut:  # (el maxilar izquierdo y el derecho, y los nasales, se juntan en la linea media sin surco: sutura intermaxilar)
+        cut = [fi for fi in range(len(faces)) if label[fi] and label[fi] != "frontal"
+               and any(label[n] and label[n] != label[fi] and label[n] != "frontal" and label[n][:-1] != label[fi][:-1] for n in neigh[fi])]  # entre huesos distintos
+        for fi in cut:  # (maxilar L/R y nasales se juntan en la linea media sin surco; el frontal toca sin surco a nasal, lagrimal, cigomatico y maxilar: suturas fronto-*)
             label[fi] = None
     out = {}
     for nm in sorted({lb for lb in label if lb}):
         best = _largest_component({fi for fi in range(len(faces)) if label[fi] == nm}, neigh)
-        out[nm[:1].upper() + nm[1:]] = _shell(verts, faces, best, float(fsu["shell_thickness"]))
+        thick = {r["name"]: r["thickness"] for r in fsu["regions"] if "thickness" in r}.get(nm.rstrip("LR") if nm != "frontal" else nm, fsu["shell_thickness"])  # un grosor propio por hueso (el frontal, mas grueso, para solaparse con la boveda)
+        out[nm[:1].upper() + nm[1:]] = _shell(verts, faces, best, float(thick))
     return out
+
+
+def _core_without_base(core: tuple) -> tuple:
+    """El nucleo liso sin su parte baja: se corta por el plano `core_cut_z` (el mismo del recorte de los huesos), de modo que bajo la boveda solo queden las piezas con nombre."""
+    z = load_skull()["sutures"]["core_cut_z"]
+    box = [(-0.3, -0.3), (0.3, -0.3), (0.3, z), (-0.3, z)]
+    return _boolean(core, _prism(box, -0.3, 0.3), "DIFFERENCE")
 
 
 def skull_parts() -> dict:
@@ -716,8 +748,9 @@ def skull_parts() -> dict:
         _CACHE["parts"] = {n: subdivide(f(), levels=1 if n == "Skull" else SUBSURF_LEVELS) for n, f in SKULL_PARTS.items()}
         bones = vault_bones()  # los cinco huesos de la boveda, cascaras independientes sobre el nucleo (cp.Skull)
         bones.update(temporal_bones(bones))  # el temporal es una sola pieza (escama + base + mastoides + mitad posterior del arco)
+        bones["Skull"] = _core_without_base(_CACHE["parts"]["Skull"])  # fuera lo que cuelga bajo la boveda (no es de ningun hueso nombrado)
         face = face_bones()
-        bones["SkullFrontal"] = _union(bones["SkullFrontal"], face.pop("Frontal"))  # la ceja y el techo de la orbita son del frontal
+        bones["SkullFrontal"] = _union(face.pop("Frontal"), bones["SkullFrontal"])  # la ceja y el techo de la orbita son del frontal
         for side, sx in (("L", 1.0), ("R", -1.0)):  # el cigomatico: cuerpo malar + brazo frontal + mitad anterior del arco
             bones[f"Zygomatic{side}"] = _union(face.pop(f"Zygomatic{side}"), _ARCH.setdefault(side, arch_halves(sx))[0])
         bones.update(face)  # maxilares, nasales, lagrimales y etmoides

@@ -822,12 +822,10 @@ class TestCpSkullParts(unittest.TestCase):
 
         for a, b in (("cp.Skull", "cp.MaxillaL"), ("cp.Skull", "cp.MaxillaR"), ("cp.MaxillaL", "cp.ZygomaticL"), ("cp.MaxillaR", "cp.ZygomaticR"), ("cp.ZygomaticL", "cp.TemporalL"), ("cp.ZygomaticR", "cp.TemporalR"),
                      ("cp.MaxillaL", "cp.NasalL"), ("cp.MaxillaR", "cp.NasalR"), ("cp.MaxillaL", "cp.LacrimalL"), ("cp.MaxillaR", "cp.LacrimalR"), ("cp.LacrimalL", "cp.EthmoidL"), ("cp.LacrimalR", "cp.EthmoidR"),
-                     ("cp.MaxillaL", "cp.MaxillaR"), ("cp.NasalL", "cp.NasalR"), ("cp.Skull", "cp.SkullFrontal"), ("cp.ZygomaticL", "cp.SkullFrontal"), ("cp.ZygomaticR", "cp.SkullFrontal"), ("cp.ZygomaticL", "cp.SphenoidL"), ("cp.ZygomaticR", "cp.SphenoidR"),
+                     ("cp.MaxillaL", "cp.MaxillaR"), ("cp.NasalL", "cp.NasalR"), ("cp.Skull", "cp.SkullFrontal"), ("cp.SkullFrontal", "cp.NasalL"), ("cp.SkullFrontal", "cp.NasalR"), ("cp.SkullFrontal", "cp.LacrimalL"), ("cp.SkullFrontal", "cp.LacrimalR"), ("cp.SkullFrontal", "cp.MaxillaL"), ("cp.SkullFrontal", "cp.MaxillaR"), ("cp.ZygomaticL", "cp.SkullFrontal"), ("cp.ZygomaticR", "cp.SkullFrontal"), ("cp.ZygomaticL", "cp.SphenoidL"), ("cp.ZygomaticR", "cp.SphenoidR"),
                      ("cp.Skull", "cp.SkullOccipital"), ("cp.Skull", "cp.ParietalL"), ("cp.Skull", "cp.ParietalR"), ("cp.Skull", "cp.TemporalL"), ("cp.Skull", "cp.TemporalR"),
                      ("cp.Skull", "cp.SphenoidL"), ("cp.Skull", "cp.CondyleL"), ("cp.Skull", "cp.CondyleR"), ("cp.MaxillaL", "cp.TeethUpper"), ("cp.Mandible", "cp.TeethLower")):
             self.assertTrue(touches(a, b) or touches(b, a), f"{a} y {b} no se tocan")
-        for a, b in (("cp.SkullFrontal", "cp.NasalL"), ("cp.SkullFrontal", "cp.NasalR"), ("cp.SkullFrontal", "cp.LacrimalL"), ("cp.SkullFrontal", "cp.LacrimalR")):  # suturas con surco: a < 10 mm
-            self.assertTrue(touches(a, b, 0.010) or touches(b, a, 0.010), f"{a} y {b} no estan juntos")
         self.assertEqual(sum(1 for o in bpy.data.objects if o.name.startswith(SKULL_PREFIXES)), len(self.NAMES))  # y siguen siendo objetos distintos (no se unieron)
 
     def test_the_vault_is_a_smooth_ovoid_like_the_reference_images(self):
@@ -974,6 +972,24 @@ class TestCpSkullParts(unittest.TestCase):
             self.assertGreater(max(sx * p.x for p in zy), 0.0425 * h, sd)  # el cuerpo malar se une al maxilar: la mejilla es del cigomatico
         mx = [v.co for v in self.parts["cp.MaxillaL"].data.vertices]
         self.assertGreater(max(p.x for p in mx), 0.03 * h)
+
+    def test_the_frontal_joins_the_zygomatic_and_the_nasal_and_nothing_hangs_below_the_vault(self):
+        from mathutils.bvhtree import BVHTree
+
+        h = self.h
+        dg = bpy.context.evaluated_depsgraph_get()
+        fr = self.parts["cp.SkullFrontal"]
+        tree = BVHTree.FromObject(fr, dg)
+        for sd in "LR":
+            for other in (f"cp.Zygomatic{sd}", f"cp.Nasal{sd}"):
+                o = self.parts[other]
+                d = min(tree.find_nearest(v.co)[3] for v in o.data.vertices)
+                self.assertLess(d, 0.0015 * h, other)  # sutura fronto-cigomatica y fronto-nasal: tocan al frontal (< 2,6 mm)
+        self.assertLess(min(v.co.z for v in fr.data.vertices), 0.0095 * h)  # el frontal incluye la ceja y el techo de la orbita (baja hasta el nasal), no solo la boveda
+        self.assertEqual(islands(fr), 1)
+        core = self.parts["cp.Skull"]
+        self.assertGreater(min(v.co.z for v in core.data.vertices), -0.0105 * h)  # la esfera no cuelga bajo la boveda: solo quedan las piezas con nombre
+        self.assertEqual(islands(core), 1)
 
     def test_every_skull_piece_is_mirror_symmetric(self):
         for n in self.NAMES + ["cp.Mandible", "cp.TeethLower"]:

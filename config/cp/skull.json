@@ -299,7 +299,8 @@
      }
     ]
    }
-  ]
+  ],
+  "core_cut_z": -0.01
  },
  "face_sutures": {
   "description": "Mapa de suturas de la cara (plano frontal, x = |x| en H, z): cada region es un poligono; el primero que contiene el centro de la cara gana, el resto es el maxilar. y_min / y_max limitan la profundidad. Zigzag = W (dientes y amplitud en H). Entre huesos se quita una fila de caras (surco).",
@@ -319,7 +320,15 @@
        [
         0.07,
         0.0115
-       ],
+       ]
+      ],
+      "zigzag": {
+       "teeth": 4,
+       "amp": 0.0008
+      }
+     },
+     {
+      "pts": [
        [
         0.07,
         0.05
@@ -330,7 +339,9 @@
        ]
       ]
      }
-    ]
+    ],
+    "y_max": -0.048,
+    "thickness": 0.0035
    },
    {
     "name": "ethmoid",
