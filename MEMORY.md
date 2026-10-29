@@ -227,3 +227,4 @@ Motor reproducible y configurable de esqueleto humano 3D en **Blender 5.0.1** (P
 
 ## Bóveda en 5 huesos (2026-10-29)
 - Frontal, parietal L/R, temporal L/R, esfenoides L/R y occipital son mallas independientes cortadas de la bóveda por un mapa de polígonos (`sutures` en `config/cp/skull.json`); `cp.Skull` es ahora el núcleo liso. Las imágenes de referencia no van en el modelo.
+- Cigomático con brazo frontal y arco al temporal (2026-10-29): contactos con frontal, esfenoides y temporal sin fusión; ver AGENTS 30.
