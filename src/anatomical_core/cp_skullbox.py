@@ -569,7 +569,31 @@ _CACHE: dict = {}
 
 
 _ARCH: dict = {}
+ZYG_SMOOTH = 8  # iteraciones Taubin que pulen la union cuerpo malar - brazo - arco del cigomatico
 TEMPORAL_EXTRAS = (("base", temporal_cage), ("mastoides", mastoid_cage))  # partes que se funden con la escama en UN solo hueso temporal
+
+
+def smooth_taubin(verts: list, faces: list, iterations: int = 6, lam: float = 0.5, mu: float = -0.53) -> tuple:
+    """Suavizado Taubin (lambda|mu) de una malla (vertices, caras): alisa las uniones sin encoger la pieza (conserva el volumen). Devuelve (vertices, caras)."""
+    nb = [set() for _ in verts]
+    for f in faces:
+        for i in range(len(f)):
+            nb[f[i]].add(f[(i + 1) % len(f)])
+            nb[f[i]].add(f[i - 1])
+    nb = [tuple(n) for n in nb]
+    cur = [tuple(v) for v in verts]
+    for _ in range(iterations):
+        for k in (lam, mu):
+            nxt = []
+            for i, p in enumerate(cur):
+                n = nb[i]
+                if not n:
+                    nxt.append(p)
+                    continue
+                c = [sum(cur[j][a] for j in n) / len(n) for a in range(3)]
+                nxt.append(tuple(p[a] + k * (c[a] - p[a]) for a in range(3)))
+            cur = nxt
+    return cur, faces
 
 
 def _union(a: tuple, b: tuple, scale: float = 1000.0) -> tuple:
@@ -766,7 +790,7 @@ def skull_parts() -> dict:
         bones["Skull"] = _core_without_base(_CACHE["parts"]["Skull"])  # fuera lo que cuelga bajo la boveda (no es de ningun hueso nombrado)
         face = face_bones()
         for side, sx in (("L", 1.0), ("R", -1.0)):  # el cigomatico: cuerpo malar + brazo frontal + mitad anterior del arco
-            bones[f"Zygomatic{side}"] = _union(face.pop(f"Zygomatic{side}"), _ARCH.setdefault(side, arch_halves(sx))[0])
+            bones[f"Zygomatic{side}"] = smooth_taubin(*_union(face.pop(f"Zygomatic{side}"), _ARCH.setdefault(side, arch_halves(sx))[0]), iterations=ZYG_SMOOTH)  # una pieza, uniones pulidas
         bones.update(face)  # maxilares, nasales, lagrimales y etmoides
         _CACHE["parts"].update(bones)
     return _CACHE["parts"]

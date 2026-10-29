@@ -1007,6 +1007,29 @@ class TestCpSkullParts(unittest.TestCase):
         self.assertGreater(min(v.co.z for v in core.data.vertices), -0.0105 * h)  # la esfera no cuelga bajo la boveda: solo quedan las piezas con nombre
         self.assertEqual(islands(core), 1)
 
+    def test_each_zygomatic_is_one_polished_piece_that_keeps_its_volume(self):
+        import bmesh
+        import math
+
+        h = self.h
+        for sd in "LR":
+            o = self.parts[f"cp.Zygomatic{sd}"]
+            self.assertEqual(islands(o), 1, sd)  # cuerpo malar, brazo frontal y arco: una sola pieza
+            bm = bmesh.new()
+            bm.from_mesh(o.data)
+            self.assertAlmostEqual(bm.calc_volume() / h ** 3, 5.40e-6, delta=0.03 * 5.40e-6, msg=sd)  # el volumen actual se conserva (+-3 %)
+            nb = {}
+            for e in bm.edges:
+                a, b = e.verts[0].index, e.verts[1].index
+                nb.setdefault(a, []).append(b)
+                nb.setdefault(b, []).append(a)
+            vs = [v.co for v in bm.verts]
+            rough = sorted((vs[i] - sum((vs[j] for j in n), Vector()) / len(n)).length for i, n in nb.items())
+            bm.free()
+            self.assertLess(rough[int(len(rough) * 0.999)], 1.0e-3 * h, sd)  # uniones pulidas: sin escalones ni picos (sin pulir da ~1.7e-3 H)
+            xs = [p.x for p in vs]
+            self.assertGreater(max(abs(x) for x in xs), 0.0425 * h, sd)  # y la tridimensionalidad: sigue saliendo por fuera de la cara
+
     def test_every_skull_piece_is_mirror_symmetric(self):
         for n in self.NAMES + ["cp.Mandible", "cp.TeethLower"]:
             self.assertLess(pair_mirror_error(self.parts, n), 1.5e-3, n)
