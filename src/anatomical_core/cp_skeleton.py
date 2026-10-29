@@ -118,6 +118,18 @@ def add_mesh(bm, verts, faces, scale=1.0, offset=(0.0, 0.0, 0.0)):
         bm.faces.new([bv[i] for i in f])
 
 
+def mesh_to_bm(verts, faces, scale=1.0, offset=(0.0, 0.0, 0.0)):
+    """bmesh nuevo a partir de una malla grande (vertices en H, caras de cualquier tamano), multiplicada por `scale` y desplazada por `offset`: pasa por un Mesh de
+    Blender (from_pydata, en C), mucho mas rapido que crear vertices y caras uno a uno."""
+    ox, oy, oz = offset
+    me = bpy.data.meshes.new("cp_tmp_mesh")
+    me.from_pydata([(x * scale + ox, y * scale + oy, z * scale + oz) for x, y, z in verts], [], faces)
+    bm = bmesh.new()
+    bm.from_mesh(me)
+    bpy.data.meshes.remove(me)
+    return bm
+
+
 def _finish(bm, origin):
     bmesh.ops.translate(bm, vec=-Vector(origin), verts=bm.verts)
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces)

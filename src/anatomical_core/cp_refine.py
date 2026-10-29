@@ -1,14 +1,12 @@
-"""Geometria de ALTA DENSIDAD del ala iliaca, la copa acetabular y el craneo `cp.*` (Python puro: devuelve vertices y caras, sin bpy).
+"""Geometria de ALTA DENSIDAD del ala iliaca y la copa acetabular `cp.*` (Python puro: devuelve vertices y caras, sin bpy).
 
-Datos: `config/cp/refine.json` (coordenadas en fracciones de la altura H; el ala en el sistema del mundo, el craneo relativo al centro de los condilos occipitales).
+Datos: `config/cp/refine.json` (coordenadas en fracciones de la altura H, sistema del mundo).
 
 * Ala iliaca: una LENTE solida con el contorno real del ilion (el del nivel 1, suavizado), no un elipsoide: la malla es un "UV sphere" cuya silueta es el contorno
   y cuyo espesor es una funcion de la posicion (delgada en la fosa, gruesa en la cresta, en la raiz acetabular y en el borde sacro). La lamina media se curva en un
   cuenco abierto hacia medial (fosa iliaca concava) y se acampana hacia lateral en la cresta (cresta iliaca acampanada). El borde rodeado es romo.
 * Copa acetabular: casquete esferico grueso que abraza la cabeza del femur (holgura de interlinea) y por el que pasan el isquion y el pubis.
-* Craneo: dos parches cerrados ESTRELLADOS (neurocraneo y cara), cada uno con su centro: radio R(direccion) = union de elipsoides + protuberancias + anclajes (puntos de
-  hitos por los que la superficie debe pasar). Las cavidades (orbitas, abertura piriforme) son elipsoides `carves` que Blender resta con un Boolean exacto
-  (ver `cp_axial`): cavidades reales de paredes nitidas, no marcas.
+El craneo y la mandibula ya no salen de aqui: se modelan por box modeling con Subdivision Surface en `cp_skullbox`.
 
 Todo escala con la altura: las funciones trabajan en H y quien construye multiplica por la altura."""
 from __future__ import annotations
@@ -234,122 +232,12 @@ def acetabular_cup(spec: dict, side: str = "L") -> tuple:
     return verts, _orient_outwards(verts, faces)
 
 
-# --- craneo (superficie estrellada) ----------------------------------------------------------------------------------------------------------
-class _Ellipsoid:
-    __slots__ = ("q", "r")
-
-    def __init__(self, q, r):
-        self.q, self.r = tuple(q), tuple(r)
-
-    def far(self, c, d):
-        """Distancia de salida de un rayo desde `c` (dentro o fuera) en direccion unitaria `d` (0 si no lo corta)."""
-        ox, oy, oz = (c[0] - self.q[0]) / self.r[0], (c[1] - self.q[1]) / self.r[1], (c[2] - self.q[2]) / self.r[2]
-        dx, dy, dz = d[0] / self.r[0], d[1] / self.r[1], d[2] / self.r[2]
-        a = dx * dx + dy * dy + dz * dz
-        b = ox * dx + oy * dy + oz * dz
-        cc = ox * ox + oy * oy + oz * oz - 1.0
-        disc = b * b - a * cc
-        if disc < 0:
-            return 0.0
-        t = (-b + math.sqrt(disc)) / a
-        return t if t > 0 else 0.0
-
-
-def _symmetric(items: list) -> list:
-    """Duplica los elementos con `mirror: true` (x -> -x) y devuelve la lista completa."""
-    out = []
-    for it in items:
-        out.append(it)
-        if it.get("mirror"):
-            m = dict(it)
-            for key in ("c", "q", "dir", "at"):
-                if key in m:
-                    m[key] = _mirror(tuple(m[key]))
-            m["mirror"] = False
-            out.append(m)
-    return out
-
-
-def _patch_surface(patch: dict) -> tuple:
-    """(vertices, caras) de UN parche estrellado del craneo (H, relativo al origen): R(direccion) desde `patch['center']` = union de elipsoides + protuberancias + anclajes."""
-    c = tuple(patch["center"])
-    ells = [_Ellipsoid(e["c"], e["r"]) for e in _symmetric(patch["ellipsoids"])]
-    bumps = []
-    for b in _symmetric(patch.get("bumps", [])):
-        at = tuple(b["at"])
-        dist = math.sqrt(_dot(_sub(at, c), _sub(at, c)))
-        bumps.append((_norm(_sub(at, c)), float(b["height"]), float(b["radius"]) / dist))
-    anchors = []
-    for a in _symmetric(patch.get("anchors", [])):
-        at = tuple(a["at"])
-        dist = math.sqrt(_dot(_sub(at, c), _sub(at, c)))
-        anchors.append((_norm(_sub(at, c)), dist, float(a.get("radius", 0.008)) / dist, float(a.get("max", 0.03))))
-
-    def base(d):
-        r = max(e.far(c, d) for e in ells)
-        for u, h, al in bumps:
-            cs = _dot(d, u)
-            if cs > 0.5:
-                t = math.acos(min(1.0, cs)) / al
-                if t < 1.0:
-                    r += h * _smoothstep(1.0 - t) * (1.0 - t * t)
-        return r
-
-    deltas = []
-    for d, dist, al, mx in anchors:
-        delta = dist - base(d)
-        if abs(delta) > mx:
-            raise ConfigError(f"Anclaje del craneo a {abs(delta):.4f} H de la superficie (maximo {mx})")
-        deltas.append((d, delta, al))
-
-    def radius(d):
-        r = base(d)
-        for u, delta, al in deltas:
-            cs = _dot(d, u)
-            if cs > 0.9:
-                ang = math.acos(min(1.0, cs))
-                if ang < 3 * al:
-                    r += delta * math.exp(-(ang / al) ** 2)
-        return max(r, 0.005)
-
-    nt, nr = int(patch.get("n_theta", 288)), int(patch.get("n_rings", 143))
-    verts = [None]
-    for j in range(nr):
-        phi = math.pi * (j + 1) / (nr + 1)
-        sp, cp_ = math.sin(phi), math.cos(phi)
-        for k in range(nt):
-            th = 2 * math.pi * k / nt
-            d = (sp * math.cos(th), sp * math.sin(th), cp_)
-            r = radius(d)
-            verts.append((c[0] + d[0] * r, c[1] + d[1] * r, c[2] + d[2] * r))
-    for d in ((0.0, 0.0, 1.0), (0.0, 0.0, -1.0)):
-        r = radius(d)
-        pt = (c[0] + d[0] * r, c[1] + d[1] * r, c[2] + d[2] * r)
-        if d[2] > 0:
-            verts[0] = pt
-        else:
-            verts.append(pt)
-    return verts, _orient_outwards(verts, _uv_faces(nt, nr))
-
-
-def skull_patches(spec: dict) -> list:
-    """[(nombre, vertices, caras)] de los parches estrellados del craneo (neurocraneo y cara): cada uno con su centro, para que los rayos no incidan rasantes."""
-    return [(p["name"], *_patch_surface(p)) for p in spec["patches"]]
-
-
-def skull_carves(spec: dict) -> list:
-    """Elipsoides (centro, semiejes) que se restan del craneo (orbitas, abertura piriforme), con sus espejos."""
-    return [(tuple(e["c"]), tuple(e["r"])) for e in _symmetric(spec.get("carves", []))]
-
-
 @lru_cache(maxsize=4)
 def _cached(kind: str, key: str, path: str) -> tuple:
     spec = load_refine(path or None)
     if kind == "wing":
         return iliac_wing(spec["iliac_wing"], key)
-    if kind == "cup":
-        return acetabular_cup(spec["acetabular_cup"], key)
-    return skull_patches(spec["skull"])
+    return acetabular_cup(spec["acetabular_cup"], key)
 
 
 def wing(side: str = "L", path: str = "") -> tuple:
@@ -358,11 +246,3 @@ def wing(side: str = "L", path: str = "") -> tuple:
 
 def cup(side: str = "L", path: str = "") -> tuple:
     return _cached("cup", side, path)
-
-
-def skull_parts(path: str = "") -> list:
-    return list(_cached("skull", "", path))
-
-
-def carves(path: str = "") -> list:
-    return skull_carves(load_refine(path or None)["skull"])

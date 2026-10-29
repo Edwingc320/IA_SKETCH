@@ -40,11 +40,18 @@ def find_blender() -> str:
     raise SystemExit("No se encontro Blender: define ANATOMICAL_BLENDER")
 
 
-def figure_rows(masks: dict) -> dict:
+def figure_rows(path: Path = REF) -> dict:
+    """Filas (coronilla, suelo) de cada figura de la imagen, medidas con el CONTORNO OSCURO (< 110) de las columnas centrales: la marca de agua (gris claro) y los
+    artefactos del jpg no cuentan. (Con la mascara de relleno la coronilla salia en la fila 31, que es la marca de agua, ~40 px por encima del craneo.)"""
+    im = Image.open(path).convert("L")
+    _, boxes = reference_masks(path, return_boxes=True)
+    px = im.load()
     out = {}
-    for v, m in masks.items():
-        box = m.getbbox()
-        out[v] = (box[1], box[3] - 1)  # fila superior (coronilla) e inferior (suelo)
+    for v, (a, b) in boxes.items():
+        w = b - a
+        cols = range(a + int(0.30 * w), a + int(0.70 * w))
+        dark = [y for y in range(im.height) if sum(1 for x in cols if px[x, y] < 110) >= 3]
+        out[v] = (dark[0], dark[-1])
     return out
 
 
@@ -78,7 +85,7 @@ def region_iou(ref: Image.Image, model: Image.Image, rows: tuple, view: str, reg
 
 def run(blends: dict, out: Path) -> dict:
     refs = reference_masks(REF)
-    rows = figure_rows(refs)
+    rows = figure_rows()
     out.mkdir(parents=True, exist_ok=True)
     report = {}
     for label, blend in blends.items():

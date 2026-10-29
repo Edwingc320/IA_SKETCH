@@ -21,8 +21,8 @@ import bmesh
 import bpy
 from mathutils import Matrix, Vector
 
-from . import cp_refine
 from . import cp_skeleton as cp
+from . import cp_skullbox
 from .cp_skeleton import ellipsoid, tube
 
 THOR_DISC_H = 0.0020
@@ -226,104 +226,21 @@ def skull_origin(h: float) -> Vector:
     return Vector((0.0, cp.LUMBAR_Y0, skull_origin_z())) * h
 
 
-_SKULL_CACHE: dict = {}
-BOOL_SCALE = 1000.0  # el Boolean exacto se hace con el craneo a ~8 cm de lado (H x 1000): evita tolerancias de coordenadas diminutas
-
-
-def _temp_object(name, verts, faces):
-    me = bpy.data.meshes.new(name)
-    me.from_pydata([tuple(c * BOOL_SCALE for c in v) for v in verts], [], [tuple(f) for f in faces])
-    me.update()
-    o = bpy.data.objects.new(name, me)
-    bpy.context.scene.collection.objects.link(o)
-    return o
-
-
-def _boolean(target, operand, operation):
-    mod = target.modifiers.new("cp_bool", "BOOLEAN")
-    mod.operation, mod.object, mod.solver, mod.use_self = operation, operand, "EXACT", False
-    bpy.context.view_layer.update()
-    with bpy.context.temp_override(object=target, active_object=target, selected_objects=[target]):
-        bpy.ops.object.modifier_apply(modifier=mod.name)
-
-
-def carved_skull(path: str = "") -> tuple:
-    """(vertices, caras) del craneo en H relativo a su origen: UNION del neurocraneo y la cara (parches de `cp_refine`) menos las cavidades (orbitas, abertura piriforme),
-    con el Boolean EXACTO de Blender. El resultado se guarda en cache (la operacion tarda unos segundos): las reconstrucciones posteriores solo copian la malla."""
-    if path in _SKULL_CACHE:
-        return _SKULL_CACHE[path]
-    parts = cp_refine.skull_parts(path)
-    cutters, temps = cp_refine.carves(path), []
-    try:
-        skull = _temp_object("cp_tmp_skull", parts[0][1], parts[0][2])
-        temps.append(skull)
-        for _, v, f in parts[1:]:
-            other = _temp_object("cp_tmp_part", v, f)
-            temps.append(other)
-            _boolean(skull, other, "UNION")
-        for i, (c, r) in enumerate(cutters):
-            bm = bmesh.new()
-            ellipsoid(bm, Vector(c) * BOOL_SCALE, tuple(x * BOOL_SCALE for x in r), segments=64, rings=48)
-            me = bpy.data.meshes.new(f"cp_tmp_cut{i}")
-            bm.to_mesh(me)
-            bm.free()
-            cut = bpy.data.objects.new(f"cp_tmp_cut{i}", me)
-            bpy.context.scene.collection.objects.link(cut)
-            temps.append(cut)
-            _boolean(skull, cut, "DIFFERENCE")
-        me = skull.data
-        if len(me.polygons) < 1000:
-            raise RuntimeError("El Boolean del craneo no produjo una malla valida")
-        verts = [tuple(c / BOOL_SCALE for c in v.co) for v in me.vertices]
-        faces = [tuple(p.vertices) for p in me.polygons]
-    finally:
-        for o in temps:
-            m = o.data
-            bpy.data.objects.remove(o, do_unlink=True)
-            bpy.data.meshes.remove(m)
-    _SKULL_CACHE[path] = (verts, faces)
-    return _SKULL_CACHE[path]
-
-
 def build_skull(h: float) -> tuple:
-    """(bmesh, origen mundo, dimension de referencia, nombre): craneo de alta densidad con origen en el centro de los condilos occipitales; referencia = longitud antero-posterior.
-    La superficie estrellada (neurocraneo, occipucio, macizo facial, orbitas y abertura piriforme hundidas, arcos superciliares) viene de `cp_refine.skull`
-    (config/cp/refine.json); aqui se le suman los arcos cigomaticos, las apofisis mastoides, los condilos occipitales y la arcada dental superior."""
-    P = lambda x, y, z: Vector((x, y, z)) * h  # noqa: E731 (coordenadas relativas al origen, en H)
-    bm = bmesh.new()
-    verts, faces = carved_skull()
-    cp.add_mesh(bm, verts, faces, h)
-    for sx in (1.0, -1.0):
-        tube(bm, [P(sx * 0.0300, -0.0560, -0.0090), P(sx * 0.0380, -0.0465, -0.0087), P(sx * 0.0395, -0.0300, -0.0075), P(sx * 0.0350, -0.0140, -0.0040)],
-             [(0.0032 * h, 0.0028 * h), (0.0036 * h, 0.0030 * h), (0.0036 * h, 0.0030 * h), (0.0032 * h, 0.0028 * h)], ref=(0, 0, 1), caps=(0.002 * h, 0.002 * h),
-             sides=cp.HI_SIDES, steps=cp.HI_STEPS)  # arco cigomatico (hito zygomatic_arch)
-        ellipsoid(bm, P(sx * 0.0194, -0.0139, -0.0138), (0.0070 * h, 0.0085 * h, 0.0110 * h), segments=64, rings=40)  # apofisis mastoides (hito mastoid_process)
-        ellipsoid(bm, P(sx * 0.012, 0.004, -0.004), (0.0060 * h, 0.0140 * h, 0.0050 * h), segments=48, rings=32)  # condilos occipitales (origen de la articulacion atlanto-occipital)
-    tube(bm, [P(-0.022, -0.058, -0.033), P(-0.012, -0.074, -0.036), P(0, -0.079, -0.037), P(0.012, -0.074, -0.036), P(0.022, -0.058, -0.033)],
-         [(0.0036 * h, 0.0046 * h)] * 5, ref=(0, 1, 0), caps=(0.003 * h, 0.003 * h), sides=cp.HI_SIDES, steps=cp.HI_STEPS)  # arcada dental superior
+    """(bmesh, origen mundo, dimension de referencia, nombre): craneo por BOX MODELING estilizado (`cp_skullbox`: bloque con planos duros, orbitas y fosa nasal por
+    Inset/Extrude hacia dentro, arcos cigomaticos planos, creases y Subdivision Surface nivel 2) con origen en el centro de los condilos occipitales."""
+    verts, faces = cp_skullbox.box_skull()
+    bm = cp.mesh_to_bm(verts, faces, h)
     _finish_local(bm)
     ys = [v.co.y for v in bm.verts]
     return bm, skull_origin(h), max(ys) - min(ys), "skull_length"
 
 
 def build_mandible(h: float) -> tuple:
-    """(bmesh, origen mundo, dimension de referencia, nombre): mandibula de alta densidad con origen en el centro del eje de las ATM; referencia = anchura bicondilea.
-    Condilo, cuello condilar, rama ascendente (lamina), apofisis coronoides, angulo mandibular, cuerpo con menton y arcada dental inferior."""
-    P = lambda x, y, z: Vector((x - TMJ[0], y - TMJ[1], z - TMJ[2])) * h  # noqa: E731 (coordenadas del craneo, en H, relativas al eje de las ATM)
-    bm = bmesh.new()
-    hi = dict(sides=cp.HI_SIDES, steps=cp.HI_STEPS)
-    for sx in (1.0, -1.0):
-        ellipsoid(bm, P(sx * 0.0290, -0.0322, -0.0105), (0.0100 * h, 0.0048 * h, 0.0036 * h), segments=64, rings=40)  # condilo (alargado en sentido mediolateral)
-        tube(bm, [P(sx * 0.0285, -0.0322, -0.0120), P(sx * 0.0295, -0.0300, -0.0220), P(sx * 0.0305, -0.0275, -0.0330), P(sx * 0.0317, -0.0236, -0.0430)],
-             [(0.0042 * h, 0.0028 * h), (0.0075 * h, 0.0030 * h), (0.0095 * h, 0.0032 * h), (0.0090 * h, 0.0040 * h)], ref=(0, 1, 0), caps=(0.0, 0.002 * h), **hi)  # cuello y rama ascendente
-        tube(bm, [P(sx * 0.0295, -0.0285, -0.0200), P(sx * 0.0292, -0.0345, -0.0060), P(sx * 0.0290, -0.0362, -0.0030)],
-             [(0.0045 * h, 0.0026 * h), (0.0032 * h, 0.0023 * h), (0.0020 * h, 0.0018 * h)], ref=(0, 1, 0), caps=(0.0, 0.002 * h), **hi)  # apofisis coronoides
-        ellipsoid(bm, P(sx * 0.0317, -0.0236, -0.0430), (0.0060 * h, 0.0090 * h, 0.0070 * h), segments=48, rings=32)  # angulo mandibular
-        tube(bm, [P(sx * 0.0317, -0.0236, -0.0430), P(sx * 0.0305, -0.0390, -0.0465), P(sx * 0.0215, -0.0560, -0.0485), P(sx * 0.0080, -0.0705, -0.0490)],
-             [(0.0070 * h, 0.0050 * h), (0.0068 * h, 0.0052 * h), (0.0066 * h, 0.0054 * h), (0.0064 * h, 0.0056 * h)], ref=(0, 0, 1), caps=(0.002 * h, 0.002 * h), **hi)  # cuerpo
-    ellipsoid(bm, P(0, -0.0715, -0.0470), (0.0115 * h, 0.0075 * h, 0.0058 * h), segments=48, rings=32)  # menton
-    tube(bm, [P(-0.021, -0.056, -0.0405), P(-0.011, -0.070, -0.042), P(0, -0.075, -0.0425), P(0.011, -0.070, -0.042), P(0.021, -0.056, -0.0405)],
-         [(0.0034 * h, 0.0044 * h)] * 5, ref=(0, 1, 0), caps=(0.003 * h, 0.003 * h), **hi)  # arcada dental inferior
+    """(bmesh, origen mundo, dimension de referencia, nombre): mandibula por box modeling (barrido en U de secciones rectangulares: condilo, rama recta, gonion en esquina,
+    cuerpo y menton plano; Subdivision Surface nivel 2 con creases) con origen en el centro del eje de las ATM; referencia = anchura bicondilea."""
+    verts, faces = cp_skullbox.box_mandible()
+    bm = cp.mesh_to_bm(verts, faces, h, offset=tuple(-c * h for c in TMJ))
     _finish_local(bm)
     xs = [v.co.x for v in bm.verts]
     return bm, skull_origin(h) + Vector(TMJ) * h, max(xs) - min(xs), "mandible_width"

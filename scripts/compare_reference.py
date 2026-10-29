@@ -18,7 +18,7 @@ VIEWS = ("front", "back", "side")
 NORM_H = 600  # alto de comparacion en pixeles
 
 
-def reference_masks(path: Path) -> dict:
+def reference_masks(path: Path, return_boxes: bool = False):
     """Separa las tres figuras de la imagen (fondo blanco con marca de agua clara) y devuelve una mascara L (255 = hueso) por vista."""
     im = Image.open(path).convert("L")
     w, h = im.size
@@ -44,6 +44,8 @@ def reference_masks(path: Path) -> dict:
     out = {}
     for name, (a, b) in zip(VIEWS, merged):
         out[name] = im.crop((a, 0, b, h)).point(lambda v: 255 if v < 238 else 0)  # cuenta el relleno gris del hueso (224-236); la marca de agua es mas clara (>= 240)
+    if return_boxes:
+        return out, dict(zip(VIEWS, merged))  # columnas (inicio, fin) de cada figura
     return out
 
 

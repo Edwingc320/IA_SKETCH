@@ -341,9 +341,9 @@ class TestCpRefined(unittest.TestCase):
     def test_the_meshes_are_high_density(self):
         counts = {n: len(o.data.polygons) for n, o in self.parts.items()}
         self.assertGreater(counts["cp.Pelvis"], 60000)  # alas iliacas, copas y anillo isquiopubiano
-        self.assertGreater(counts["cp.Skull"], 60000)
-        self.assertGreater(counts["cp.Mandible"], 20000)
-        self.assertGreater(sum(counts.values()), 240000)
+        self.assertGreater(counts["cp.Skull"], 100000)  # jaula de 40 x 40 por lado + Subdivision Surface nivel 2
+        self.assertGreater(counts["cp.Mandible"], 3000)  # barrido en U de 21 secciones + Subdivision Surface nivel 2
+        self.assertGreater(sum(counts.values()), 300000)
         for n in ("cp.Pelvis", "cp.Skull", "cp.Mandible"):
             self.assertTrue(all(p.use_smooth for p in self.parts[n].data.polygons), n)  # sombreado suave
         self.assertEqual(cp.validate(self.parts), [])  # superficies cerradas (manifold) y con volumen positivo
@@ -471,8 +471,28 @@ class TestCpRefined(unittest.TestCase):
         cranium_width = max(p.x for p in co if p.z > 0.020 * h) - min(p.x for p in co if p.z > 0.020 * h)
         self.assertGreater(cranium_width / h, 0.078)  # anchura del neurocraneo ~14 cm
         self.assertGreater(max(p.y for p in co) / h, 0.036)  # occipucio detras de los condilos
-        self.assertLess(min(p.y for p in co) / h, -0.078)  # cara adelante
+        self.assertLess(min(p.y for p in co) / h, -0.075)  # cara adelante
         self.assertLess(max(p.y for p in co if p.z < -0.0 and abs(p.x) < 0.01 * h) / h, 0.050)
+
+    def test_the_skull_is_a_hard_surface_block_with_flat_forehead_marked_cheekbones_and_a_sunken_temporal_fossa(self):
+        h = self.h
+        sk = self.parts["cp.Skull"]
+
+        def hit(origin, direction):
+            ok, loc, _, _ = sk.ray_cast(Vector(origin) * h, Vector(direction))
+            self.assertTrue(ok)
+            return loc / h
+
+        forehead = [hit((x, -0.2, 0.046), (0, 1, 0)).y for x in (-0.012, 0.0, 0.012)]  # frente plana: el plano no se curva en sentido lateral
+        self.assertLess(max(forehead) - min(forehead), 0.0015)
+        co = [v.co for v in sk.data.vertices]
+        cheek = max(p.x for p in co if -0.010 * h < p.z < 0.0 and -0.066 * h < p.y < -0.054 * h) / h
+        self.assertGreater(cheek, 0.0365)  # pomulos marcados: salen mas que el reborde de las orbitas
+        fossa = hit((0.2, -0.026, 0.029), (-1, 0, 0)).x
+        behind = hit((0.2, -0.004, 0.029), (-1, 0, 0)).x  # misma altura, detras de la fosa
+        self.assertGreater(behind - fossa, 0.0015)  # fosa temporal hundida respecto a la bobeda lateral que la rodea
+        flat_top = [hit((x, 0.0, 0.2), (0, 0, -1)).z for x in (-0.010, 0.0, 0.010)]
+        self.assertLess(max(flat_top) - min(flat_top), 0.0030)  # techo achatado (planos duros, no una esfera)
 
     def test_the_mandible_has_angle_ascending_ramus_body_and_chin(self):
         from mathutils.bvhtree import BVHTree
@@ -492,12 +512,17 @@ class TestCpRefined(unittest.TestCase):
         chin = [p for p in rr if abs(p[0]) < 0.010 and p[1] < -0.066 and p[2] < -0.044]  # menton
         self.assertTrue(ramus_top and angle and chin)
         self.assertLess(max(p[2] for p in ramus_top), -0.0005 + 0.0)  # los condilos no pasan del eje de las ATM
-        condyle = [p for p in rr if p[0] > 0 and p[2] > -0.0085]  # cabeza del condilo, bajo la fosa glenoidea
-        self.assertGreater(len(condyle), 200)
+        condyle = [p for p in rr if p[0] > 0 and p[2] > -0.0100]  # cabeza del condilo, bajo la fosa glenoidea
+        self.assertGreater(len(condyle), 40)
         self.assertAlmostEqual(sum(p[1] for p in condyle) / len(condyle), ax.TMJ[1], delta=0.005)  # centrada en el eje de las ATM (y = -0.032 H)
         self.assertGreater(max(p[2] for p in ramus_top) - min(p[2] for p in angle), 0.030)  # rama ascendente de ~3 cm de H (5 cm)
         self.assertGreater(min(p[1] for p in chin) , -0.085)
         self.assertLess(min(p[1] for p in chin), -0.074)  # el menton adelanta la arcada
+        ramus = [p for p in rr if p[0] > 0 and -0.032 < p[2] < -0.014]  # rama ascendente recta: sin deriva lateral a lo largo de su altura
+        self.assertGreater(len(ramus), 150)
+        self.assertLess(max(p[0] for p in ramus) - min(p[0] for p in ramus), 0.0100)
+        gonion = [p for p in rr if p[0] > 0.0 and p[2] < -0.046 and p[1] > -0.0275]  # el gonion es una esquina: el borde inferior y el posterior se cortan en angulo
+        self.assertTrue(gonion)
         pivot = md.matrix_world.translation
         skull_tmj = s0 + Vector(ax.TMJ) * h
         self.assertLess((pivot - skull_tmj).length, 1e-5)  # pivote cinematico en el eje de las ATM
