@@ -26,8 +26,8 @@ Reutilizable: cadena de emparentamiento y `cp_resize`, marcos por tangente, `swe
 ## Procedimiento real
 
 - Regenerar: `blender -b --python scripts\cp_skeleton.py -- --height 1.75 --out output\cp_skeleton.blend`
-- Suite completa: `blender -b --factory-startup --python tests/run_tests.py`
-- Solo esta capa: módulo `tests/test_cp_skeleton.py` dentro de Blender.
+- Esqueleto óseo actual (por defecto): `blender -b --factory-startup --python tests/run_tests.py`
+- Modelo viejo: `... --python tests/run_tests.py -- --suite legacy`; todo: `-- --suite all`; módulos concretos: `-- --only test_cp_skeleton`.
 
 ## Plan por etapas (una región bien construida y comprobada antes de la siguiente)
 

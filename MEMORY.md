@@ -213,3 +213,8 @@ Motor reproducible y configurable de esqueleto humano 3D en **Blender 5.0.1** (P
 - Hallazgos del diagnóstico: el tórax NO existe en `cp.*` (las costillas que se ven son polilíneas del nivel 1); **los cóndilos del fémur flotan ~5 cm bajo la diáfisis** (defecto abierto, etapa E); el cráneo sigue siendo un bloque.
 - Dimensiones de `spine.json` aproximadas y declaradas (no_numeric_source).
 - Lección: una prueba de forma sobre la malla subdividida puede no discriminar (la subdivisión redondea los bordes); medir en la jaula. Otra: las carillas costales y las apófisis contaminan las franjas de medida del cuerpo.
+
+## Pruebas aisladas por suite (2026-10-29)
+- `blender -b --factory-startup --python tests/run_tests.py` ejecuta por defecto SOLO el esqueleto óseo actual (`tests/suites.py`: CURRENT = `test_cp_skeleton`, 43 pruebas). `-- --suite legacy` = modelo viejo (492), `-- --suite all` = todo (535), `-- --only a,b` = módulos concretos. `scripts/run.ps1 -Task Test [-Suite current|legacy|all]`.
+- Las pruebas del modelo viejo NO se borran ni se relajan; solo dejan de ser la suite por defecto. Una prueba nueva del esqueleto actual se añade a `CURRENT`.
+- `tests/support.py` (`build_reference`) da los 69 hitos a las pruebas actuales sin importar pruebas del modelo viejo.
