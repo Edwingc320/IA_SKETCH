@@ -29,12 +29,13 @@ REF_HEIGHT_M = 1.75
 PARENTS = {"cp.FemurL": "cp.Pelvis", "cp.FemurR": "cp.Pelvis", "cp.LumbarSpine": "cp.Pelvis", "cp.ThoracicSpine": "cp.LumbarSpine", "cp.CervicalSpine": "cp.ThoracicSpine",
            "cp.Skull": "cp.CervicalSpine", "cp.Mandible": "cp.Skull",
            # piezas independientes del craneo: cuelgan de la boveda (cp.Skull) y comparten su origen; no se unen en un solo solido
-           "cp.SkullFace": "cp.Skull", "cp.ZygomaticL": "cp.Skull", "cp.ZygomaticR": "cp.Skull",
+           "cp.ZygomaticL": "cp.Skull", "cp.ZygomaticR": "cp.Skull",
             "cp.CondyleL": "cp.Skull", "cp.CondyleR": "cp.Skull", "cp.TeethUpper": "cp.Skull", "cp.TeethLower": "cp.Mandible",
            # los cinco huesos de la boveda (cascaras independientes sobre el nucleo cp.Skull)
            "cp.SkullFrontal": "cp.Skull", "cp.SkullOccipital": "cp.Skull", "cp.ParietalL": "cp.Skull", "cp.ParietalR": "cp.Skull", "cp.TemporalL": "cp.Skull", "cp.TemporalR": "cp.Skull",
-           "cp.SphenoidL": "cp.Skull", "cp.SphenoidR": "cp.Skull"}
-FOLLOW_PARENT_SCALE = ("cp.SkullFace", "cp.ZygomaticL", "cp.ZygomaticR", "cp.CondyleL", "cp.CondyleR", "cp.TeethUpper",
+           "cp.SphenoidL": "cp.Skull", "cp.SphenoidR": "cp.Skull",
+           "cp.MaxillaL": "cp.Skull", "cp.MaxillaR": "cp.Skull", "cp.NasalL": "cp.Skull", "cp.NasalR": "cp.Skull", "cp.LacrimalL": "cp.Skull", "cp.LacrimalR": "cp.Skull", "cp.EthmoidL": "cp.Skull", "cp.EthmoidR": "cp.Skull"}
+FOLLOW_PARENT_SCALE = ("cp.MaxillaL", "cp.MaxillaR", "cp.NasalL", "cp.NasalR", "cp.LacrimalL", "cp.LacrimalR", "cp.EthmoidL", "cp.EthmoidR", "cp.ZygomaticL", "cp.ZygomaticR", "cp.CondyleL", "cp.CondyleR", "cp.TeethUpper",
                        "cp.TeethLower", "cp.SkullFrontal", "cp.SkullOccipital", "cp.ParietalL", "cp.ParietalR", "cp.TemporalL", "cp.TemporalR", "cp.SphenoidL", "cp.SphenoidR")  # cambian de tamano con su pieza madre (cp_resize)
 # Colecciones por seccion, anidadas bajo CP_Skeleton: (ruta) -> objetos que contiene (cada objeto en UNA sola coleccion; el parentesco no cambia)
 SECTIONS = {
@@ -43,9 +44,9 @@ SECTIONS = {
     ("Columna", "Lumbar"): ("cp.LumbarSpine",),
     ("Columna", "Toracica"): ("cp.ThoracicSpine",),
     ("Columna", "Cervical"): ("cp.CervicalSpine",),
-    ("Craneo", "Neurocraneo"): ("cp.Skull", "cp.SkullFrontal", "cp.ParietalL", "cp.ParietalR", "cp.TemporalL", "cp.TemporalR", "cp.SkullOccipital", "cp.SphenoidL", "cp.SphenoidR",
+    ("Craneo", "Neurocraneo"): ("cp.Skull", "cp.EthmoidL", "cp.EthmoidR", "cp.SkullFrontal", "cp.ParietalL", "cp.ParietalR", "cp.TemporalL", "cp.TemporalR", "cp.SkullOccipital", "cp.SphenoidL", "cp.SphenoidR",
                                 "cp.CondyleL", "cp.CondyleR"),
-    ("Craneo", "Viscerocraneo"): ("cp.SkullFace", "cp.ZygomaticL", "cp.ZygomaticR", "cp.Mandible"),
+    ("Craneo", "Viscerocraneo"): ("cp.MaxillaL", "cp.MaxillaR", "cp.NasalL", "cp.NasalR", "cp.LacrimalL", "cp.LacrimalR", "cp.ZygomaticL", "cp.ZygomaticR", "cp.Mandible"),
     ("Craneo", "Dientes"): ("cp.TeethUpper", "cp.TeethLower"),
 }
 # Los 22 huesos principales del craneo (8 del neurocraneo + 14 del viscerocraneo): referencia de lo que falta por modelar, guardada en la coleccion (propiedad `cp_huesos_esperados`)

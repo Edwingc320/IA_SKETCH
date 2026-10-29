@@ -457,8 +457,8 @@ def zygomatic_cage(sx: float) -> "bmesh.types.BMesh":
     return sweep_box([
         ((sx * 0.0300, -0.0562, 0.0152), up, 0.0040, 0.0017),  # extremo de la apofisis frontal (toca el frontal)
         ((sx * 0.0372, -0.0546, 0.0090), up, 0.0046, 0.0019),
-        ((sx * 0.0420, -0.0538, 0.0020), (0, 1, 0.2), 0.0056, 0.0021),  # borde lateral de la orbita, por fuera de la cara
-        ((sx * 0.0425, -0.0525, -0.0050), (0, 1, 0.4), 0.0075, 0.0026),  # cuerpo malar (el mas ancho)
+        ((sx * 0.0408, -0.0538, 0.0020), (0, 1, 0.2), 0.0056, 0.0021),  # borde lateral de la orbita, por fuera de la cara
+        ((sx * 0.0412, -0.0525, -0.0050), (0, 1, 0.4), 0.0075, 0.0026),  # cuerpo malar (el mas ancho)
         ((sx * 0.0415, -0.0490, -0.0092), (0, 0.4, 1), 0.0062, 0.0024),  # angulo inferior
         ((sx * 0.0410, -0.0420, -0.0088), ac, 0.0046, 0.0020),  # inicio de la apofisis temporal
         ((sx * 0.0415, -0.0330, -0.0080), ac, 0.0040, 0.0017),  # arco largo y fino
@@ -500,7 +500,7 @@ def teeth_cage(lower: bool = False) -> "bmesh.types.BMesh":
 
 
 SKULL_PARTS = {  # nombre del objeto -> constructor de su jaula
-    "Skull": vault_core, "SkullFace": face_cage, "ZygomaticL": lambda: zygomatic_cage(1.0), "ZygomaticR": lambda: zygomatic_cage(-1.0),
+    "Skull": vault_core,
     "CondyleL": lambda: condyle_cage(1.0), "CondyleR": lambda: condyle_cage(-1.0), "TeethUpper": lambda: teeth_cage(False),
 }
 
@@ -553,11 +553,36 @@ def subdivide(bm, levels: int = SUBSURF_LEVELS, scale: float = 1000.0) -> tuple:
 _CACHE: dict = {}
 
 
+_ARCH: dict = {}
 TEMPORAL_EXTRAS = (("base", temporal_cage), ("mastoides", mastoid_cage))  # partes que se funden con la escama en UN solo hueso temporal
 
 
 def _union(a: tuple, b: tuple, scale: float = 1000.0) -> tuple:
     """Union booleana (EXACT) de dos mallas cerradas (vertices, caras) en H -> (vertices, caras): una sola cascara. Trabaja a escala x`scale`."""
+    return _boolean(a, b, "UNION", scale)
+
+
+def _prism(poly: list, x0: float = -0.08, x1: float = 0.08) -> tuple:
+    """Prisma cerrado (vertices, caras) de un poligono (y, z) extruido en x de `x0` a `x1`; sirve de cortador para partir una pieza por una sutura poligonal."""
+    bm = bmesh.new()
+    lo = [bm.verts.new((x0, y, z)) for y, z in poly]
+    hi = [bm.verts.new((x1, y, z)) for y, z in poly]
+    n = len(poly)
+    bm.faces.new(lo)
+    bm.faces.new(list(reversed(hi)))
+    for i in range(n):
+        bm.faces.new((lo[i], lo[(i + 1) % n], hi[(i + 1) % n], hi[i]))
+    bmesh.ops.triangulate(bm, faces=bm.faces[:])
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    bm.verts.index_update()
+    verts = [tuple(v.co) for v in bm.verts]
+    faces = [tuple(v.index for v in f.verts) for f in bm.faces]
+    bm.free()
+    return verts, faces
+
+
+def _boolean(a: tuple, b: tuple, op: str, scale: float = 1000.0) -> tuple:
+    """Boolean EXACT (`op`: UNION, INTERSECT, DIFFERENCE) entre dos mallas cerradas (vertices, caras) en H. Trabaja a escala x`scale`."""
     objs = []
     for nm, (verts, faces) in (("cp_tmp_a", a), ("cp_tmp_b", b)):
         me = bpy.data.meshes.new(nm)
@@ -568,7 +593,7 @@ def _union(a: tuple, b: tuple, scale: float = 1000.0) -> tuple:
         objs.append(o)
     try:
         mod = objs[0].modifiers.new("cp_union", "BOOLEAN")
-        mod.operation, mod.solver, mod.object = "UNION", "EXACT", objs[1]
+        mod.operation, mod.solver, mod.object = op, "EXACT", objs[1]
         bpy.context.view_layer.update()
         with bpy.context.temp_override(object=objs[0], active_object=objs[0], selected_objects=[objs[0]]):
             bpy.ops.object.modifier_apply(modifier=mod.name)
@@ -582,6 +607,18 @@ def _union(a: tuple, b: tuple, scale: float = 1000.0) -> tuple:
     return verts, faces
 
 
+def arch_halves(sx: float) -> tuple:
+    """(delante, detras) del arco cigomatico partido por la SUTURA temporo-cigomatica en W, a la altura del origen de la mandibula: delante es del cigomatico, detras del temporal."""
+    su = load_skull()["arch_suture"]
+    line = _zigzag([(su["y"], su["z_from"]), (su["y"], su["z_to"])], int(su["teeth"]), float(su["amp"]))
+    far, zl, zh = 0.2, -0.05, 0.05
+    front = [(-far, zl), (su["y"], zl), (su["y"], su["z_from"])] + line[1:-1] + [(su["y"], su["z_to"]), (su["y"], zh), (-far, zh)]
+    g = su["gap"]
+    back = [(su["y"] + g, zl), (su["y"] + g, su["z_from"])] + [(y + g, z) for y, z in line[1:-1]] + [(su["y"] + g, su["z_to"]), (su["y"] + g, zh), (far, zh), (far, zl)]
+    sweep = subdivide(zygomatic_cage(sx), levels=SUBSURF_LEVELS)
+    return _boolean(sweep, _prism(front), "INTERSECT"), _boolean(sweep, _prism(back), "INTERSECT")
+
+
 def temporal_bones(squamae: dict) -> dict:
     """{TemporalL, TemporalR}: cada hueso temporal es UNA sola pieza: la escama (cascara de la boveda) UNIDA con la parte baja (oido y apofisis cigomatica) y la apofisis mastoides."""
     out = {}
@@ -589,7 +626,87 @@ def temporal_bones(squamae: dict) -> dict:
         piece = squamae[f"Temporal{side}"]
         for _, cage in TEMPORAL_EXTRAS:
             piece = _union(piece, subdivide(cage(sx), levels=SUBSURF_LEVELS))
+        piece = _union(piece, _ARCH.setdefault(side, arch_halves(sx))[1])  # la mitad posterior del arco es del temporal
         out[f"Temporal{side}"] = piece
+    return out
+
+
+def _outline_xy(spec: list) -> list:
+    """Contorno (x, z) de una region de la cara: tramos `{pts, zigzag}` concatenados (en H, sin pasar por la lamina)."""
+    poly = []
+    for part in spec:
+        pts = [tuple(p) for p in part["pts"]]
+        if part.get("zigzag"):
+            pts = _zigzag(pts, int(part["zigzag"]["teeth"]), float(part["zigzag"]["amp"]))
+        poly += pts
+    return poly
+
+
+def face_outer(shape: dict | None = None) -> tuple:
+    """Superficie de la cara ya subdividida (cache): la que se corta en huesos."""
+    if "face_outer" not in _CACHE:
+        _CACHE["face_outer"] = subdivide(face_cage(shape), levels=SUBSURF_LEVELS)
+    return _CACHE["face_outer"]
+
+
+def _largest_component(members: set, neigh: list) -> set:
+    seen, best = set(), set()
+    for s0 in members:
+        if s0 in seen:
+            continue
+        comp, stack = set(), [s0]
+        while stack:
+            x = stack.pop()
+            if x in comp:
+                continue
+            comp.add(x)
+            stack += [n for n in neigh[x] if n in members and n not in comp]
+        seen |= comp
+        if len(comp) > len(best):
+            best = comp
+    return best
+
+
+def face_bones(shape: dict | None = None) -> dict:
+    """{nombre: (vertices, caras)} de la cara partida en huesos por un MAPA de suturas poligonal (`face_sutures` de `config/cp/skull.json`): MaxillaL/R, NasalL/R, LacrimalL/R,
+    EthmoidL/R, ZygomaticL/R (solo el cuerpo malar; el brazo y el arco se unen despues) y Frontal (la banda de la ceja y el techo de la orbita, que se funde con el frontal). Cada uno,
+    una cascara cerrada de una sola componente, con un surco entre huesos."""
+    sh = shape or load_skull()
+    fsu = sh["face_sutures"]
+    regions = [(r["name"], _outline_xy(r["outline"]), r.get("y_min"), r.get("y_max")) for r in fsu["regions"]]
+    verts, faces = face_outer(sh)
+    label = []
+    for f in faces:
+        n = len(f)
+        x, y, z = (sum(verts[i][k] for i in f) / n for k in range(3))
+        ax = abs(x)
+        name = "maxilla"
+        for rn, poly, ymin, ymax in regions:
+            if (ymin is None or y > ymin) and (ymax is None or y < ymax) and _inside(poly, ax, z):
+                name = rn
+                break
+        if name == "frontal":
+            label.append("frontal")
+        else:
+            label.append(name + ("L" if x > 0 else "R"))
+    edge = {}
+    for fi, f in enumerate(faces):
+        for i in range(len(f)):
+            a, b = f[i], f[(i + 1) % len(f)]
+            edge.setdefault((min(a, b), max(a, b)), []).append(fi)
+    neigh = [[] for _ in faces]
+    for pair in edge.values():
+        if len(pair) == 2:
+            neigh[pair[0]].append(pair[1])
+            neigh[pair[1]].append(pair[0])
+    for _ in range(int(fsu["groove_faces"])):
+        cut = [fi for fi in range(len(faces)) if label[fi] and any(label[n] and label[n] != label[fi] and label[n][:-1] != label[fi][:-1] for n in neigh[fi])]  # entre huesos distintos
+        for fi in cut:  # (el maxilar izquierdo y el derecho, y los nasales, se juntan en la linea media sin surco: sutura intermaxilar)
+            label[fi] = None
+    out = {}
+    for nm in sorted({lb for lb in label if lb}):
+        best = _largest_component({fi for fi in range(len(faces)) if label[fi] == nm}, neigh)
+        out[nm[:1].upper() + nm[1:]] = _shell(verts, faces, best, float(fsu["shell_thickness"]))
     return out
 
 
@@ -598,7 +715,12 @@ def skull_parts() -> dict:
     if "parts" not in _CACHE:
         _CACHE["parts"] = {n: subdivide(f(), levels=1 if n == "Skull" else SUBSURF_LEVELS) for n, f in SKULL_PARTS.items()}
         bones = vault_bones()  # los cinco huesos de la boveda, cascaras independientes sobre el nucleo (cp.Skull)
-        bones.update(temporal_bones(bones))  # el temporal es una sola pieza (escama + base + mastoides)
+        bones.update(temporal_bones(bones))  # el temporal es una sola pieza (escama + base + mastoides + mitad posterior del arco)
+        face = face_bones()
+        bones["SkullFrontal"] = _union(bones["SkullFrontal"], face.pop("Frontal"))  # la ceja y el techo de la orbita son del frontal
+        for side, sx in (("L", 1.0), ("R", -1.0)):  # el cigomatico: cuerpo malar + brazo frontal + mitad anterior del arco
+            bones[f"Zygomatic{side}"] = _union(face.pop(f"Zygomatic{side}"), _ARCH.setdefault(side, arch_halves(sx))[0])
+        bones.update(face)  # maxilares, nasales, lagrimales y etmoides
         _CACHE["parts"].update(bones)
     return _CACHE["parts"]
 

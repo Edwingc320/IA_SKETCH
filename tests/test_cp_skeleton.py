@@ -53,7 +53,7 @@ def islands(o) -> int:
     return n
 
 
-SKULL_PREFIXES = ("cp.Skull", "cp.Zygomatic", "cp.Temporal", "cp.Mastoid", "cp.Condyle", "cp.TeethUpper", "cp.Parietal", "cp.Sphenoid")  # piezas independientes del craneo (la boveda es cp.Skull)
+SKULL_PREFIXES = ("cp.Skull", "cp.Zygomatic", "cp.Temporal", "cp.Mastoid", "cp.Condyle", "cp.TeethUpper", "cp.Parietal", "cp.Sphenoid", "cp.Maxilla", "cp.Nasal", "cp.Lacrimal", "cp.Ethmoid")  # piezas independientes del craneo (la boveda es cp.Skull)
 
 
 def skull_names(parts):
@@ -91,7 +91,7 @@ def pair_mirror_error(parts, name):
     """Error de simetria de una pieza: si es de un lado (sufijo L/R), la distancia de sus vertices espejados a la SUPERFICIE de su pareja; si es central, a su propia superficie."""
     from mathutils.bvhtree import BVHTree
 
-    if name[-1] not in "LR" or not name[:-1].endswith(("Zygomatic", "TemporalBase", "Temporal", "Mastoid", "Condyle", "Parietal", "Sphenoid")):
+    if name[-1] not in "LR" or not name[:-1].endswith(("Zygomatic", "Temporal", "Condyle", "Parietal", "Sphenoid", "Maxilla", "Nasal", "Lacrimal", "Ethmoid")):
         return mirror_error(parts[name])
     other = parts[name[:-1] + ("R" if name[-1] == "L" else "L")]
     tree = BVHTree.FromObject(other, bpy.context.evaluated_depsgraph_get())
@@ -418,7 +418,7 @@ class TestCpRefined(unittest.TestCase):
         counts = {n: len(o.data.polygons) for n, o in self.parts.items()}
         self.assertGreater(counts["cp.Pelvis"], 60000)  # alas iliacas, copas y anillo isquiopubiano
         self.assertGreater(sum(counts[n] for n in ("cp.SkullFrontal", "cp.SkullOccipital", "cp.ParietalL", "cp.ParietalR", "cp.TemporalL", "cp.TemporalR", "cp.SphenoidL", "cp.SphenoidR")), 100000)  # boveda en 5 huesos: jaula de 36 x 36 por lado + Subdivision Surface nivel 2
-        self.assertGreater(counts["cp.SkullFace"], 60000)  # cara: jaula de 28 x 28 por lado + Subdivision Surface nivel 2
+        self.assertGreater(counts["cp.MaxillaL"] + counts["cp.MaxillaR"], 60000)  # cara: jaula de 28 x 28 por lado + Subdivision Surface nivel 2 (maxilares)
         self.assertGreater(counts["cp.Mandible"], 2000)  # barrido en U de 21 secciones + Subdivision Surface nivel 2
         self.assertGreater(sum(counts.values()), 250000)
         for n, floor in (('cp.LumbarSpine', 5000), ('cp.ThoracicSpine', 10000), ('cp.CervicalSpine', 5000)):
@@ -565,7 +565,7 @@ class TestCpRefined(unittest.TestCase):
             return loc / h
 
         co = [v.co for v in sk.data.vertices]
-        face = [v.co for v in self.parts["cp.SkullFace"].data.vertices]  # el pomulo es del maxilar (el hueso cigomatico es otra pieza)
+        face = [v.co for n2 in ("cp.MaxillaL", "cp.MaxillaR", "cp.ZygomaticL", "cp.ZygomaticR") for v in self.parts[n2].data.vertices]  # el pomulo es del maxilar (el hueso cigomatico es otra pieza)
         cheek = max(p.x for p in face if -0.010 * h < p.z < 0.0 and -0.066 * h < p.y < -0.054 * h) / h
         self.assertGreater(cheek, 0.0385)  # pomulos marcados (+9 %): 0.0397 con el relieve y 0.0371 sin el
         fossa = hit((0.2, -0.026, 0.029), (-1, 0, 0)).x
@@ -784,7 +784,8 @@ class TestCpSkullParts(unittest.TestCase):
         cls.sk = SkullGroup(cls.parts)
 
     BONES = ["cp.SkullFrontal", "cp.SkullOccipital", "cp.ParietalL", "cp.ParietalR", "cp.TemporalL", "cp.TemporalR", "cp.SphenoidL", "cp.SphenoidR"]
-    NAMES = sorted(["cp.CondyleL", "cp.CondyleR", "cp.Skull", "cp.SkullFace", "cp.TeethUpper", "cp.ZygomaticL", "cp.ZygomaticR"] + BONES)
+    FACE = [f"cp.{n}{sd}" for n in ("Maxilla", "Nasal", "Lacrimal", "Ethmoid", "Zygomatic") for sd in "LR"]
+    NAMES = sorted(["cp.CondyleL", "cp.CondyleR", "cp.Skull", "cp.TeethUpper"] + BONES + FACE)
 
     def test_the_skull_is_made_of_independent_closed_pieces_not_one_solid(self):
         self.assertEqual(skull_names(self.parts), self.NAMES)
@@ -819,11 +820,14 @@ class TestCpSkullParts(unittest.TestCase):
                     return True
             return False
 
-        for a, b in (("cp.Skull", "cp.SkullFace"), ("cp.SkullFace", "cp.ZygomaticL"), ("cp.SkullFace", "cp.ZygomaticR"), ("cp.ZygomaticL", "cp.TemporalL"), ("cp.ZygomaticR", "cp.TemporalR"),
-                     ("cp.Skull", "cp.SkullFrontal"), ("cp.ZygomaticL", "cp.SkullFrontal"), ("cp.ZygomaticR", "cp.SkullFrontal"), ("cp.ZygomaticL", "cp.SphenoidL"), ("cp.ZygomaticR", "cp.SphenoidR"),
+        for a, b in (("cp.Skull", "cp.MaxillaL"), ("cp.Skull", "cp.MaxillaR"), ("cp.MaxillaL", "cp.ZygomaticL"), ("cp.MaxillaR", "cp.ZygomaticR"), ("cp.ZygomaticL", "cp.TemporalL"), ("cp.ZygomaticR", "cp.TemporalR"),
+                     ("cp.MaxillaL", "cp.NasalL"), ("cp.MaxillaR", "cp.NasalR"), ("cp.MaxillaL", "cp.LacrimalL"), ("cp.MaxillaR", "cp.LacrimalR"), ("cp.LacrimalL", "cp.EthmoidL"), ("cp.LacrimalR", "cp.EthmoidR"),
+                     ("cp.MaxillaL", "cp.MaxillaR"), ("cp.NasalL", "cp.NasalR"), ("cp.Skull", "cp.SkullFrontal"), ("cp.ZygomaticL", "cp.SkullFrontal"), ("cp.ZygomaticR", "cp.SkullFrontal"), ("cp.ZygomaticL", "cp.SphenoidL"), ("cp.ZygomaticR", "cp.SphenoidR"),
                      ("cp.Skull", "cp.SkullOccipital"), ("cp.Skull", "cp.ParietalL"), ("cp.Skull", "cp.ParietalR"), ("cp.Skull", "cp.TemporalL"), ("cp.Skull", "cp.TemporalR"),
-                     ("cp.Skull", "cp.SphenoidL"), ("cp.Skull", "cp.CondyleL"), ("cp.Skull", "cp.CondyleR"), ("cp.SkullFace", "cp.TeethUpper"), ("cp.Mandible", "cp.TeethLower")):
+                     ("cp.Skull", "cp.SphenoidL"), ("cp.Skull", "cp.CondyleL"), ("cp.Skull", "cp.CondyleR"), ("cp.MaxillaL", "cp.TeethUpper"), ("cp.Mandible", "cp.TeethLower")):
             self.assertTrue(touches(a, b) or touches(b, a), f"{a} y {b} no se tocan")
+        for a, b in (("cp.SkullFrontal", "cp.NasalL"), ("cp.SkullFrontal", "cp.NasalR"), ("cp.SkullFrontal", "cp.LacrimalL"), ("cp.SkullFrontal", "cp.LacrimalR")):  # suturas con surco: a < 10 mm
+            self.assertTrue(touches(a, b, 0.010) or touches(b, a, 0.010), f"{a} y {b} no estan juntos")
         self.assertEqual(sum(1 for o in bpy.data.objects if o.name.startswith(SKULL_PREFIXES)), len(self.NAMES))  # y siguen siendo objetos distintos (no se unieron)
 
     def test_the_vault_is_a_smooth_ovoid_like_the_reference_images(self):
@@ -852,10 +856,10 @@ class TestCpSkullParts(unittest.TestCase):
         self.assertAlmostEqual(length / (top - bottom), ref["side"]["aspect_w_over_h"], delta=0.07)  # largo / alto de perfil (0.958 en la imagen)
 
     def test_resizing_the_vault_scales_the_pieces_of_the_same_bone_but_not_the_mandible(self):
-        before = {n: max(v.co.x for v in self.parts[n].data.vertices) - min(v.co.x for v in self.parts[n].data.vertices) for n in ("cp.SkullFace", "cp.ZygomaticL", "cp.Mandible")}
+        before = {n: max(v.co.x for v in self.parts[n].data.vertices) - min(v.co.x for v in self.parts[n].data.vertices) for n in ("cp.MaxillaL", "cp.ZygomaticL", "cp.Mandible")}
         f = cp.cp_resize(self.parts["cp.Skull"], self.parts["cp.Skull"]["cp_ref_dim_m"] * 1.1)
         bpy.context.view_layer.update()
-        for n in ("cp.SkullFace", "cp.ZygomaticL"):
+        for n in ("cp.MaxillaL", "cp.ZygomaticL"):
             now = max(v.co.x for v in self.parts[n].data.vertices) - min(v.co.x for v in self.parts[n].data.vertices)
             self.assertAlmostEqual(now / before[n], f, places=4, msg=n)
         now = max(v.co.x for v in self.parts["cp.Mandible"].data.vertices) - min(v.co.x for v in self.parts["cp.Mandible"].data.vertices)
@@ -915,9 +919,9 @@ class TestCpSkullParts(unittest.TestCase):
             fr = min(v.co.y for v in self.parts["cp.SkullFrontal"].data.vertices)
             self.assertLess(min(p.y for p in vs), fr + 0.05 * h, n)
             self.assertGreater(max(sx * p.x for p in vs), 0.03 * h, n)  # y del lado correcto
-            face_half = max(abs(v.co.x) for v in self.parts["cp.SkullFace"].data.vertices)
+            face_half = max(abs(v.co.x) for n2 in ("cp.MaxillaL", "cp.MaxillaR") for v in self.parts[n2].data.vertices)
             outside = sum(1 for p in vs if sx * p.x > face_half)
-            self.assertGreater(outside, 0.15 * len(vs), n)  # el pomulo y el arco quedan POR FUERA del bloque de la cara, no ocultos dentro de el
+            self.assertGreater(outside, 100, n)  # el pomulo y el arco quedan POR FUERA del bloque de la cara, no ocultos dentro de el
             self.assertGreater(max(sx * p.x for p in vs), face_half + 0.003, n)
 
     def test_the_pieces_are_organised_in_section_collections(self):
@@ -947,6 +951,29 @@ class TestCpSkullParts(unittest.TestCase):
             self.assertTrue(any(p.z > 0.02 * self.h for p in vs), n)  # y la escama (alta)
             self.assertTrue(any(sx * p.x > 0.039 * self.h and p.y < -0.012 * self.h for p in vs), n)  # y la apofisis cigomatica (delante y por fuera)
         self.assertEqual(sum(1 for x in bpy.data.objects if x.name.startswith("cp.Temporal")), 2)
+
+    def test_the_face_is_split_into_bones_and_the_arch_is_halved_at_the_jaw_origin_by_a_w_suture(self):
+        h = self.h
+        for n in self.FACE:
+            self.assertEqual(islands(self.parts[n]), 1, n)  # cada hueso de la cara, una sola cascara
+            self.assertGreater(len(self.parts[n].data.vertices), 300, n)
+        self.assertNotIn("cp.SkullFace", self.parts)  # el bloque de la cara ya no existe: esta fragmentado
+        su = dict(__import__("anatomical_core.cp_skullbox", fromlist=["x"]).load_skull()["arch_suture"], y=ax.TMJ[1])  # la sutura va donde nace la mandibula (ATM), no donde diga la configuracion
+        for sx, sd in ((1, "L"), (-1, "R")):
+            zy = [v.co for v in self.parts[f"cp.Zygomatic{sd}"].data.vertices]
+            tp = [v.co for v in self.parts[f"cp.Temporal{sd}"].data.vertices]
+            arch_t = [p for p in tp if sx * p.x > 0.039 * h and p.z < -0.004 * h]  # el arco del lado del temporal
+            self.assertGreater(min(p.y for p in arch_t), (su["y"] - su["amp"] - 0.001) * h, sd)  # el temporal empieza donde nace la mandibula (y de la ATM)
+            self.assertLess(max(p.y for p in zy if p.z < -0.004 * h and sx * p.x > 0.039 * h), (su["y"] + su["amp"] + 0.001) * h, sd)  # y el cigomatico acaba ahi
+            bins = {}
+            for p in zy:
+                if p.y > (su["y"] - 0.006) * h and sx * p.x > 0.039 * h:
+                    k = round(p.z / (0.0015 * h))
+                    bins[k] = max(bins.get(k, -9.0), p.y)
+            self.assertGreater((max(bins.values()) - min(bins.values())) / h, 0.0025, sd)  # el borde es una W (dientes), no una recta
+            self.assertGreater(max(sx * p.x for p in zy), 0.0425 * h, sd)  # el cuerpo malar se une al maxilar: la mejilla es del cigomatico
+        mx = [v.co for v in self.parts["cp.MaxillaL"].data.vertices]
+        self.assertGreater(max(p.x for p in mx), 0.03 * h)
 
     def test_every_skull_piece_is_mirror_symmetric(self):
         for n in self.NAMES + ["cp.Mandible", "cp.TeethLower"]:

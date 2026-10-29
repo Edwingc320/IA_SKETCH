@@ -300,5 +300,169 @@
     ]
    }
   ]
+ },
+ "face_sutures": {
+  "description": "Mapa de suturas de la cara (plano frontal, x = |x| en H, z): cada region es un poligono; el primero que contiene el centro de la cara gana, el resto es el maxilar. y_min / y_max limitan la profundidad. Zigzag = W (dientes y amplitud en H). Entre huesos se quita una fila de caras (surco).",
+  "shell_thickness": 0.0022,
+  "groove_faces": 1,
+  "midline_gap": 0.0,
+  "regions": [
+   {
+    "name": "frontal",
+    "outline": [
+     {
+      "pts": [
+       [
+        0.0,
+        0.0115
+       ],
+       [
+        0.07,
+        0.0115
+       ],
+       [
+        0.07,
+        0.05
+       ],
+       [
+        0.0,
+        0.05
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "name": "ethmoid",
+    "y_min": -0.062,
+    "outline": [
+     {
+      "pts": [
+       [
+        0.006,
+        -0.002
+       ],
+       [
+        0.016,
+        -0.002
+       ],
+       [
+        0.016,
+        0.0115
+       ],
+       [
+        0.006,
+        0.0115
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "name": "lacrimal",
+    "outline": [
+     {
+      "pts": [
+       [
+        0.006,
+        0.0
+       ],
+       [
+        0.01,
+        0.0
+       ],
+       [
+        0.01,
+        0.0115
+       ],
+       [
+        0.006,
+        0.0115
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "name": "nasal",
+    "outline": [
+     {
+      "pts": [
+       [
+        0.0,
+        -0.003
+       ],
+       [
+        0.0072,
+        -0.003
+       ],
+       [
+        0.0058,
+        0.0115
+       ],
+       [
+        0.0,
+        0.0115
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "name": "zygomatic",
+    "y_max": -0.04,
+    "outline": [
+     {
+      "pts": [
+       [
+        0.023,
+        0.0115
+       ],
+       [
+        0.0215,
+        0.002
+       ],
+       [
+        0.019,
+        -0.006
+       ],
+       [
+        0.0225,
+        -0.016
+       ]
+      ],
+      "zigzag": {
+       "teeth": 2,
+       "amp": 0.0007
+      }
+     },
+     {
+      "pts": [
+       [
+        0.03,
+        -0.0235
+       ],
+       [
+        0.045,
+        -0.0235
+       ],
+       [
+        0.045,
+        0.0115
+       ]
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "arch_suture": {
+  "description": "Sutura temporo-cigomatica del arco: a la altura del origen de la mandibula (y de la ATM) el arco se parte en W: delante es del cigomatico, detras del temporal.",
+  "y": -0.032,
+  "z_from": -0.015,
+  "z_to": -0.001,
+  "teeth": 2,
+  "amp": 0.0022,
+  "gap": 0.0006
  }
 }
