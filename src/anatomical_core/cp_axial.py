@@ -18,12 +18,10 @@ from __future__ import annotations
 import math
 
 import bmesh
-import bpy
-from mathutils import Matrix, Vector
+from mathutils import Vector
 
 from . import cp_skeleton as cp
-from . import cp_skullbox
-from .cp_skeleton import ellipsoid, tube
+from . import cp_skullbox, cp_vertebra
 
 THOR_DISC_H = 0.0020
 CERV_DISC_H = 0.0030
@@ -72,153 +70,41 @@ def skull_origin_z() -> float:
     return cervical_origin_z() + cervical_total() + 0.0010
 
 
-# --- primitivas nuevas -----------------------------------------------------------------------------------------------------------------------
-def torus(bm, centre, a, b, r, axes=None, nu=32, nv=10):
-    """Toro eliptico (semiejes a, b en el plano local xy; radio del tubo r; normal local z), orientado por `axes` = (ex, ey, ez)."""
-    rot = Matrix.Identity(4)
-    if axes:
-        rot = Matrix((Vector(axes[0]), Vector(axes[1]), Vector(axes[2]))).transposed().to_4x4()
-    m = Matrix.Translation(Vector(centre)) @ rot
-    grid = []
-    for i in range(nu):
-        u = 2 * math.pi * i / nu
-        row = []
-        for j in range(nv):
-            v = 2 * math.pi * j / nv
-            row.append(bm.verts.new(m @ Vector(((a + r * math.cos(v)) * math.cos(u), (b + r * math.cos(v)) * math.sin(u), r * math.sin(v)))))
-        grid.append(row)
-    for i in range(nu):
-        for j in range(nv):
-            bm.faces.new((grid[i][j], grid[(i + 1) % nu][j], grid[(i + 1) % nu][(j + 1) % nv], grid[i][(j + 1) % nv]))
-
-
+# --- columna (etapa B): constructores en `cp_vertebra` --------------------------------------------------------------------------------------
 def _finish_local(bm):
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
 
 
-def _append(bm, other):
-    m = {v: bm.verts.new(v.co) for v in other.verts}
-    for f in other.faces:
-        bm.faces.new([m[v] for v in f.verts])
-    other.free()
-
-
-def _frame(origin, h, curve, s):
-    """Marco de la vertebra a la altura s (H): x lateral, y posterior, z a lo largo de la tangente de la curva sagital."""
-    c = lambda q: origin + Vector((0.0, curve(q) * h, q * h))  # noqa: E731
-    t = (c(s + 1e-4) - c(s - 1e-4)).normalized()
-    x = Vector((1, 0, 0))
-    y = t.cross(x).normalized()
-    return Matrix.Translation(c(s)) @ Matrix((x, y, t)).transposed().to_4x4()
-
-
-def _stack(h, origin, items, curve):
-    """Apila discos y vertebras hacia arriba desde el centro del primer disco (origen); `items` = [("disc", alto, a, b) | ("vert", alto, constructor)]."""
-    bm = bmesh.new()
-    z = -items[0][1] / 2
-    for it in items:
-        part = bmesh.new()
-        if it[0] == "disc":
-            _, hh, a, b = it
-            tube(part, [Vector((0, 0, -hh / 2 * h)), Vector((0, 0, hh / 2 * h))], [(a * h, b * h)] * 2, caps=(0.0, 0.0))
-        else:
-            _, hh, build = it
-            build(part, h)
-        bmesh.ops.transform(part, matrix=_frame(origin, h, curve, z + it[1] / 2), verts=part.verts)
-        _append(bm, part)
-        z += it[1]
-    return bm
-
-
-# --- vertebras -------------------------------------------------------------------------------------------------------------------------------
-def _arch(v, h, a, b, y_base, spine_len, spine_deg, transverse, process_z=0.0):
-    """Pediculos, apofisis transversas y espinosa de una vertebra (coordenadas locales de la vertebra, en H * h)."""
-    for sx in (1.0, -1.0):
-        tube(v, [Vector((sx * 0.55 * a * h, 0.9 * b * h, 0.0)), Vector((sx * 0.45 * a * h, (y_base - 0.002) * h, 0.001 * h))], [(0.0030 * h, 0.0030 * h)] * 2, caps=(0.0, 0.0))
-        tube(v, [Vector((sx * 0.4 * a * h, y_base * h, 0.0)), Vector((sx * (0.5 * a + transverse) * h, (y_base + 0.002) * h, process_z * h))],
-             [(0.0034 * h, 0.0030 * h), (0.0024 * h, 0.0024 * h)], ref=(0, 0, 1), caps=(0.0, 0.0020 * h))
-    th = math.radians(spine_deg)
-    tube(v, [Vector((0, y_base * h, 0.001 * h)), Vector((0, (y_base + spine_len * math.cos(th)) * h, -spine_len * math.sin(th) * h))],
-         [(0.0026 * h, 0.0050 * h), (0.0022 * h, 0.0045 * h)], ref=(1, 0, 0), caps=(0.0, 0.0020 * h))
-
-
-def _body(v, h, bh, a, b):
-    tube(v, [Vector((0, 0, -bh / 2 * h)), Vector((0, 0, bh / 2 * h))], [(a * h, b * h)] * 2, caps=(0.0015 * h, 0.0015 * h))
-
-
-def _thoracic_builder(i: int):
-    bh, a, b = _thoracic_dims(i)
-    level = 12 - i  # T12 .. T1
-    spine_len = {12: 0.022, 11: 0.026, 10: 0.029, 9: 0.032, 8: 0.034, 7: 0.034, 6: 0.034, 5: 0.033, 4: 0.030, 3: 0.026, 2: 0.022, 1: 0.020}[level]
-    spine_deg = {12: 25, 11: 32, 10: 42, 9: 50, 8: 55, 7: 55, 6: 52, 5: 45, 4: 36, 3: 28, 2: 20, 1: 14}[level]
-
-    def build(v, h):
-        _body(v, h, bh, a, b)
-        _arch(v, h, a, b, 1.9 * b, spine_len, spine_deg, 0.016, process_z=0.0)  # apofisis transversas romas, espinosa larga inclinada hacia abajo en T4-T9
-
-    return build
-
-
-def _cervical_builder(level: str):
-    if level == "C1":
-        def build(v, h):  # atlas: anillo alrededor de la odontoides, masas laterales y apofisis transversas
-            torus(v, (0, 0, 0), 0.0125 * h, 0.0112 * h, 0.0030 * h)
-            for sx in (1.0, -1.0):
-                ellipsoid(v, (sx * 0.0125 * h, -0.001 * h, 0.0), (0.0050 * h, 0.0060 * h, 0.0036 * h))
-                tube(v, [Vector((sx * 0.0140 * h, 0.001 * h, 0.0)), Vector((sx * 0.0230 * h, 0.003 * h, -0.001 * h))], [(0.0030 * h, 0.0030 * h), (0.0022 * h, 0.0022 * h)], ref=(0, 0, 1), caps=(0.0, 0.002 * h))
-            ellipsoid(v, (0, 0.0138 * h, 0.0), (0.0032 * h, 0.0030 * h, 0.0030 * h))  # tuberculo posterior
-
-        return build
-    if level == "C2":
-        def build(v, h):  # axis: cuerpo en la mitad inferior y apofisis odontoides arriba
-            tube(v, [Vector((0, 0, -0.0085 * h)), Vector((0, 0, 0.0015 * h))], [(0.0080 * h, 0.0070 * h)] * 2, caps=(0.0015 * h, 0.0))
-            tube(v, [Vector((0, -0.0008 * h, 0.0015 * h)), Vector((0, -0.0008 * h, 0.0085 * h))], [(0.0042 * h, 0.0040 * h), (0.0036 * h, 0.0034 * h)], caps=(0.0, 0.0030 * h))
-            _arch(v, h, 0.0080, 0.0070, 0.0125, 0.018, 12, 0.008, process_z=-0.003)
-
-        return build
-    bh = CERVICAL_BODY_H[level]
-    a = {"C7": 0.0090, "C6": 0.0086, "C5": 0.0082, "C4": 0.0078, "C3": 0.0075}[level]
-    b = {"C7": 0.0075, "C6": 0.0071, "C5": 0.0068, "C4": 0.0065, "C3": 0.0062}[level]
-    spine_len, spine_deg = (0.026, 8) if level == "C7" else (0.014, 15)
-
-    def build(v, h):
-        _body(v, h, bh, a, b)
-        _arch(v, h, a, b, 1.7 * b, spine_len, spine_deg, 0.011 if level != "C7" else 0.014)
-
-    return build
+def _column(h: float, origin: Vector, region: str, levels: list, curve, ref_name: str) -> tuple:
+    """Columna de una region: jaula de vertebras y discos sobre la curva sagital, Subdivision Surface y malla local al origen."""
+    spine = cp_vertebra.load_spine()
+    cage = cp_vertebra.build_column(h, origin, region, levels, curve, spine["regions"][region]["disc"], spine)
+    verts, faces = cp_vertebra.subdivide_column(cage)
+    bm = cp.mesh_to_bm(verts, faces)
+    _finish_local(bm)
+    bmesh.ops.translate(bm, vec=-origin, verts=bm.verts)
+    zs = [v.co.z for v in bm.verts]
+    return bm, origin, max(zs) - min(zs), ref_name
 
 
 def build_thoracic(h: float) -> tuple:
-    """(bmesh, origen mundo, dimension de referencia, nombre): T12-T1 con discos; cifosis; origen en el centro del disco T12/L1."""
+    """(bmesh, origen mundo, dimension de referencia, nombre): T12-T1 con discos y cifosis; vertebras torácicas (cuerpo en corazon con carillas costales, apofisis espinosa larga
+    e inclinada, transversas largas); origen en el centro del disco T12/L1."""
     origin = Vector((0.0, cp.LUMBAR_Y0, thoracic_origin_z())) * h
     total = thoracic_total()
-    items = []
-    for i in range(12):
-        bh, a, b = _thoracic_dims(i)
-        items += [("disc", THOR_DISC_H, a * 0.95, b * 0.95), ("vert", bh, _thoracic_builder(i))]
+    levels = [(name, _thoracic_dims(i)[0], THOR_DISC_H) for i, name in enumerate(THORACIC_LEVELS)]
     curve = lambda s: KYPHOSIS * math.sin(math.pi * min(max(s / total, 0.0), 1.0))  # noqa: E731 (convexa hacia atras: +y)
-    bm = _stack(h, origin, items, curve)
-    _finish_local(bm)
-    bmesh.ops.translate(bm, vec=-origin, verts=bm.verts)
-    zs = [v.co.z for v in bm.verts]
-    return bm, origin, max(zs) - min(zs), "thoracic_height"
+    return _column(h, origin, "thoracic", levels, curve, "thoracic_height")
 
 
 def build_cervical(h: float) -> tuple:
-    """(bmesh, origen mundo, dimension de referencia, nombre): C7-C1; lordosis; origen en el centro del disco C7/T1."""
+    """(bmesh, origen mundo, dimension de referencia, nombre): C7-C1 con lordosis; C3-C7 con ganchos uncinados y espinosa corta (bifida en C3-C6), C2 con odontoides, C1 en anillo;
+    origen en el centro del disco C7/T1."""
     origin = Vector((0.0, cp.LUMBAR_Y0, cervical_origin_z())) * h
     total = cervical_total()
-    items = [("disc", CERV_DISC_H, 0.0075, 0.0065)]
-    for lv in ("C7", "C6", "C5", "C4", "C3"):
-        items += [("vert", CERVICAL_BODY_H[lv], _cervical_builder(lv)), ("disc", CERV_DISC_H, 0.0070, 0.0060)]
-    items += [("vert", C2_H, _cervical_builder("C2")), ("vert", C1_H, _cervical_builder("C1"))]
+    levels = [(name, CERVICAL_BODY_H[name], CERV_DISC_H) for name in ("C7", "C6", "C5", "C4", "C3")] + [("C2", C2_H, CERV_DISC_H), ("C1", C1_H, 0.0)]
     curve = lambda s: -LORDOSIS * math.sin(math.pi * min(max(s / total, 0.0), 1.0))  # noqa: E731 (convexa hacia delante: -y)
-    # el orden de la pila es: disco C7/T1, C7, disco, C6, ... C3, disco C2/3, C2, C1
-    bm = _stack(h, origin, items, curve)
-    _finish_local(bm)
-    bmesh.ops.translate(bm, vec=-origin, verts=bm.verts)
-    zs = [v.co.z for v in bm.verts]
-    return bm, origin, max(zs) - min(zs), "cervical_height"
+    return _column(h, origin, "cervical", levels, curve, "cervical_height")
 
 
 # --- craneo y mandibula ----------------------------------------------------------------------------------------------------------------------

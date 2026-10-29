@@ -190,40 +190,16 @@ def build_pelvis(h: float) -> tuple:
 
 
 def build_lumbar(h: float) -> tuple:
-    """(bmesh, origen mundo, dimension de referencia): L5-L1 con sus discos naciendo del sacro, con lordosis; origen en el centro del disco L5-S1; dimension = altura."""
+    """(bmesh, origen mundo, dimension de referencia): L5-L1 con sus discos naciendo del sacro, con lordosis; origen en el centro del disco L5-S1; dimension = altura.
+    Vertebras lumbares (cuerpo en rinon grande con cuña, arco con foramen triangular, espinosa alta y roma, transversas finas) en `cp_vertebra`."""
+    from . import cp_axial, cp_vertebra  # (import tardio: cp_axial usa las primitivas de este modulo)
+
     origin = _v(0.0, LUMBAR_Y0, LUMBAR_Z0, h)
     total = 5 * (BODY_H + DISC_H) - DISC_H / 2
-    centre = lambda s: origin + _v(0.0, -0.010 * math.sin(math.pi * min(max(s / total, 0.0), 1.0)), s, h)  # noqa: E731 (lordosis: L3 el mas adelantado)
-    bm = bmesh.new()
-
-    def frame(s):
-        t = (centre(s + 1e-4) - centre(s - 1e-4)).normalized()
-        x = Vector((1, 0, 0))
-        y = t.cross(x).normalized()
-        return Matrix.Translation(centre(s)) @ Matrix((x, y, t)).transposed().to_4x4()
-
-    z = -DISC_H / 2  # el disco L5-S1 se centra en el origen
-    for i in range(5):
-        disc_c = z + DISC_H / 2
-        d = bmesh.new()
-        tube(d, [Vector((0, 0, -DISC_H / 2 * h)), Vector((0, 0, DISC_H / 2 * h))], [(0.0112 * h, 0.0095 * h)] * 2, caps=(0.0, 0.0))
-        bmesh.ops.transform(d, matrix=frame(disc_c), verts=d.verts)
-        _append(bm, d)
-        z += DISC_H
-        body_c = z + BODY_H / 2
-        v = bmesh.new()
-        w = (0.0118 + 0.0006 * (4 - i)) * h  # L5 algo mas ancho que L1
-        tube(v, [Vector((0, 0, -BODY_H / 2 * h)), Vector((0, 0, BODY_H / 2 * h))], [(w, 0.0100 * h)] * 2, caps=(0.0015 * h, 0.0015 * h))  # cuerpo
-        for sx in (1.0, -1.0):  # pedículo + apofisis transversa
-            tube(v, [Vector((sx * 0.0070 * h, 0.0090 * h, 0.0)), Vector((sx * 0.0060 * h, 0.0190 * h, 0.001 * h))], [(0.0030 * h, 0.0030 * h)] * 2, caps=(0.0, 0.0))
-            tube(v, [Vector((sx * 0.0070 * h, 0.0150 * h, 0.0)), Vector((sx * 0.0290 * h, 0.0160 * h, 0.002 * h))], [(0.0034 * h, 0.0030 * h), (0.0024 * h, 0.0024 * h)], ref=(0, 0, 1), caps=(0.0, 0.002 * h))
-        tube(v, [Vector((0, 0.0190 * h, 0.001 * h)), Vector((0, 0.0320 * h, -0.004 * h))], [(0.0028 * h, 0.0060 * h), (0.0024 * h, 0.0055 * h)], ref=(1, 0, 0), caps=(0.0, 0.002 * h))  # espinosa
-        bmesh.ops.transform(v, matrix=frame(body_c), verts=v.verts)
-        _append(bm, v)
-        z += BODY_H
-    _finish(bm, origin)
-    zs = [v.co.z for v in bm.verts]
-    return bm, origin, max(zs) - min(zs)
+    curve = lambda s: -0.010 * math.sin(math.pi * min(max(s / total, 0.0), 1.0))  # noqa: E731 (lordosis: L3 el mas adelantado)
+    levels = [(name, BODY_H, DISC_H) for name in ("L5", "L4", "L3", "L2", "L1")]
+    bm, o, d, _ = cp_axial._column(h, origin, "lumbar", levels, curve, "lumbar_height")
+    return bm, o, d
 
 
 def _append(bm, other):

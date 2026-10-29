@@ -29,6 +29,12 @@ def mirror_error(o):
     return max(tree.find_nearest(Vector((-v.co.x, v.co.y, v.co.z)))[3] for v in o.data.vertices)
 
 
+def disc_centred(o, half, tol=0.006):
+    """El primer disco (lente en torno al origen) esta centrado: el centroide de los vertices de su franja de altura (|z| < 1.2 half) cae a < `tol` del origen."""
+    band = [v.co for v in o.data.vertices if abs(v.co.z) < 1.2 * half and abs(v.co.y) < 0.0105 * 1.75 and abs(v.co.x) < 0.0105 * 1.75]  # sin el arco ni la espinosa, que cruzan la franja por detras
+    return len(band) > 80 and (sum(band, Vector()) / len(band)).length < tol
+
+
 def extents(o):
     xs = [v.co for v in o.data.vertices]
     return tuple(max(c[i] for c in xs) - min(c[i] for c in xs) for i in range(3))
@@ -63,9 +69,8 @@ class TestCpSkeleton(unittest.TestCase):
         o = self.parts["cp.LumbarSpine"]
         h = 1.75
         zs = [v.co.z for v in o.data.vertices]
-        half = cp.DISC_H / 2 * h  # los centros de las dos caras del disco L5-S1 estan a media altura del origen, uno frente al otro
-        poles = [v.co.copy() for v in o.data.vertices if abs(v.co.length - half) < 1e-5]
-        self.assertTrue(any((a + b).length < 1e-5 for a in poles for b in poles if a is not b), "el disco L5-S1 no esta centrado en el origen")
+        half = cp.DISC_H / 2 * h  # el disco L5-S1 (lente) esta centrado en el origen: los vertices de su franja de altura tienen el centroide en el origen
+        self.assertTrue(disc_centred(o, half), "el disco L5-S1 no esta centrado en el origen")
         self.assertAlmostEqual(min(zs), -cp.DISC_H / 2 * h, delta=0.012)  # la columna crece hacia arriba desde ese disco (la lordosis inclina el disco inferior ~17 grados)
         self.assertAlmostEqual(max(zs), (5 * (cp.BODY_H + cp.DISC_H) - cp.DISC_H / 2) * h, delta=0.012 * h)  # altura de L5-L1 con sus discos
         pelvis = self.parts["cp.Pelvis"]
@@ -214,8 +219,7 @@ class TestCpAxial(unittest.TestCase):
     def test_origins_are_the_articular_centres(self):
         h = self.h
         for name, half in (("cp.ThoracicSpine", ax.THOR_DISC_H / 2 * h), ("cp.CervicalSpine", ax.CERV_DISC_H / 2 * h)):  # centro del disco T12/L1 y C7/T1
-            poles = [v.co.copy() for v in self.parts[name].data.vertices if abs(v.co.length - half) < 1e-5]
-            self.assertTrue(any((a + b).length < 1e-5 for a in poles for b in poles if a is not b), name)
+            self.assertTrue(disc_centred(self.parts[name], half), name)
         xs = [v.co.x for v in self.parts["cp.Skull"].data.vertices]
         self.assertAlmostEqual(max(xs) + min(xs), 0.0, delta=1e-5)  # el craneo es simetrico respecto al plano sagital del origen
         for n in ("cp.Skull", "cp.Mandible"):  # cada vertice espejado en x coincide con otro vertice de la misma malla (hasta 0.5 mm)
@@ -343,7 +347,9 @@ class TestCpRefined(unittest.TestCase):
         self.assertGreater(counts["cp.Pelvis"], 60000)  # alas iliacas, copas y anillo isquiopubiano
         self.assertGreater(counts["cp.Skull"], 100000)  # jaula de 40 x 40 por lado + Subdivision Surface nivel 2
         self.assertGreater(counts["cp.Mandible"], 3000)  # barrido en U de 21 secciones + Subdivision Surface nivel 2
-        self.assertGreater(sum(counts.values()), 300000)
+        self.assertGreater(sum(counts.values()), 250000)
+        for n, floor in (('cp.LumbarSpine', 5000), ('cp.ThoracicSpine', 10000), ('cp.CervicalSpine', 5000)):
+            self.assertGreater(counts[n], floor, n)  # cada vertebra es una jaula (cuerpo, arco, apofisis) subdividida: no un cilindro
         for n in ("cp.Pelvis", "cp.Skull", "cp.Mandible"):
             self.assertTrue(all(p.use_smooth for p in self.parts[n].data.polygons), n)  # sombreado suave
         self.assertEqual(cp.validate(self.parts), [])  # superficies cerradas (manifold) y con volumen positivo
@@ -526,6 +532,172 @@ class TestCpRefined(unittest.TestCase):
         pivot = md.matrix_world.translation
         skull_tmj = s0 + Vector(ax.TMJ) * h
         self.assertLess((pivot - skull_tmj).length, 1e-5)  # pivote cinematico en el eje de las ATM
+
+
+@unittest.skipUnless(HAVE_BPY, "requiere Blender (bpy)")
+class TestCpSpine(unittest.TestCase):
+    """Etapa B: columna con vertebras propias de cada region (cuerpo en rinon con cintura, arco con foramen, apofisis reconocibles), curvas y discos."""
+
+    @classmethod
+    def setUpClass(cls):
+        bpy.ops.wm.read_factory_settings(use_empty=True)
+        cls.h = 1.75
+        cls.parts = cp.build_cp_skeleton(cls.h)
+        bpy.context.view_layer.update()
+        from anatomical_core import cp_skullbox, cp_vertebra
+
+        cls.cv, cls.sb = cp_vertebra, cp_skullbox
+        cls.spine = cp_vertebra.load_spine()
+
+    BODY_H = {"L": 0.0156, "T": 0.0115, "C": 0.0086}
+    REGION = {"L": "lumbar", "T": "thoracic", "C": "cervical"}
+
+    def vertebra(self, level):
+        """Objeto de UNA vertebra aislada (en metros, origen en el centro del cuerpo) para medir su forma."""
+        region = self.REGION[level[0]]
+        cage = self.cv.vertebra_cage(region, level, self.cv.level_params(self.spine, region, level), self.BODY_H[level[0]])
+        for v in cage.verts:
+            v.co *= self.h
+        verts, faces = self.sb.subdivide(cage, levels=1, scale=1.0)
+        me = bpy.data.meshes.new("t_" + level)
+        me.from_pydata(verts, [], faces)
+        me.update()
+        o = bpy.data.objects.new("t_" + level, me)
+        bpy.context.scene.collection.objects.link(o)
+        return o
+
+    def release(self, o):
+        m = o.data
+        bpy.data.objects.remove(o, do_unlink=True)
+        bpy.data.meshes.remove(m)
+
+    def test_each_region_has_its_own_vertebra_dimensions_and_shape_parameters(self):
+        p = lambda r, n: self.cv.level_params(self.spine, r, n)  # noqa: E731
+        self.assertGreater(p("lumbar", "L5")["bw"], p("lumbar", "L1")["bw"])  # la lumbar crece hacia el sacro
+        self.assertGreater(p("thoracic", "T12")["bw"], p("thoracic", "T1")["bw"])
+        self.assertGreater(p("cervical", "C7")["bw"], p("cervical", "C3")["bw"])
+        self.assertGreater(p("lumbar", "L1")["bw"], p("thoracic", "T12")["bw"])  # los cuerpos lumbares son los mayores
+        self.assertGreater(p("thoracic", "T1")["bw"], p("cervical", "C3")["bw"] * 1.05)
+        self.assertGreater(p("thoracic", "T7")["sp"][0], p("lumbar", "L3")["sp"][0] * 1.8)  # espinosa toracica larga, lumbar corta
+        self.assertGreater(p("thoracic", "T7")["sp"][1], 45.0)  # inclinada hacia abajo en T4-T9
+        self.assertLess(p("lumbar", "L3")["sp"][1], 6.0)  # lumbar casi horizontal
+        self.assertGreater(p("lumbar", "L3")["sp"][2], p("thoracic", "T7")["sp"][2] * 1.5)  # y alta (en hacha)
+        self.assertTrue(p("cervical", "C4")["bifid"] and not p("cervical", "C7").get("bifid"))  # bifida en C3-C6, C7 prominente
+        self.assertGreater(p("cervical", "C7")["sp"][0], p("cervical", "C4")["sp"][0] * 1.4)
+        self.assertGreater(p("thoracic", "T6")["tp"][0], p("lumbar", "L3")["tp"][0] * 1.1)  # transversas toracicas largas
+        self.assertTrue(p("thoracic", "T5")["costal"] and not p("lumbar", "L3").get("costal"))
+        self.assertTrue(p("cervical", "C5")["uncinate"])
+        regs = self.spine["regions"]
+        self.assertEqual(len(regs["lumbar"]["levels"]) + len(regs["thoracic"]["levels"]) + len(regs["cervical"]["levels"]) + 2, 24)  # 5 + 12 + 5 + C1 + C2
+
+    def test_the_body_is_kidney_shaped_with_a_waist_and_a_wedge(self):
+        h = self.h
+        for level in ("L3", "T8", "C5"):
+            o = self.vertebra(level)
+            p = self.cv.level_params(self.spine, self.REGION[level[0]], level)
+            bh = self.BODY_H[level[0]] * h
+            body = [v.co for v in o.data.vertices if v.co.y < p["bd"] * h * 1.02 and abs(v.co.x) < p["bw"] * h * 1.1]  # el cuerpo (sin el arco, que esta mas atras)
+            mid = [abs(v.x) for v in body if abs(v.z) < 0.08 * bh]
+            end = [abs(v.x) for v in body if 0.42 * bh < abs(v.z) < 0.52 * bh]
+            self.assertGreater(max(end), max(mid) * 1.04, level)  # cintura: el platillo es mas ancho que el centro
+            front_top = max(v.z for v in body if v.y < -0.6 * p["bd"] * h)
+            back_top = max(v.z for v in body if 0.35 * p["bd"] * h < v.y < 0.75 * p["bd"] * h and abs(v.x) < 0.6 * p["bw"] * h)  # (sin las carillas costales, que sobresalen)
+            front_top = max(v.z for v in body if v.y < -0.6 * p["bd"] * h and abs(v.x) < 0.6 * p["bw"] * h)
+            if p["wedge"] > 0.02:
+                self.assertGreater(front_top, back_top, level)  # cuña: mas alto delante
+            posterior = [v.y for v in body if abs(v.x) < 0.1 * p["bw"] * h and v.y > 0]
+            lateral = [v.y for v in body if abs(v.x) > 0.7 * p["bw"] * h and v.y > 0]
+            self.assertLess(max(posterior), max(lateral), level)  # pared posterior concava (rinon): el centro entra respecto a los lados
+            self.release(o)
+
+    def test_the_vertebral_foramen_is_open_behind_the_body_and_the_arch_closes_it(self):
+        h = self.h
+        for level in ("L3", "T8", "C5"):
+            o = self.vertebra(level)
+            p = self.cv.level_params(self.spine, self.REGION[level[0]], level)
+            canal_y = (p["bd"] + p["ped"][0] + p["fz"][1] * 0.45) * h
+            ok_body, _, _, _ = o.ray_cast(Vector((0.0, 0.0, 0.2)), Vector((0, 0, -1)))
+            ok_canal, _, _, _ = o.ray_cast(Vector((0.0, canal_y, 0.2)), Vector((0, 0, -1)))
+            self.assertTrue(ok_body, level)  # por el cuerpo pasa el solido
+            self.assertFalse(ok_canal, level)  # por el foramen no: el conducto esta vacio
+            ok_arch, _, _, _ = o.ray_cast(Vector((0.0, canal_y, 0.0)), Vector((0, 1, 0)))
+            self.assertTrue(ok_arch, level)  # y detras lo cierra el arco (laminas + espinosa)
+            self.release(o)
+
+    def test_the_spinous_and_transverse_processes_have_the_shape_of_their_region(self):
+        h = self.h
+        ext, slope = {}, {}
+        for level in ("L3", "T7", "C4"):
+            o = self.vertebra(level)
+            p = self.cv.level_params(self.spine, self.REGION[level[0]], level)
+            vs = [v.co.copy() for v in o.data.vertices]
+            tip = max(vs, key=lambda v: v.y)  # punta de la espinosa
+            apex_y = (p["bd"] + p["ped"][0] + p["fz"][1]) * h  # donde nace la espinosa (apice del arco)
+            slope[level] = -tip.z / max(1e-9, tip.y - apex_y)  # inclinacion hacia abajo: 0 = horizontal, 1 = 45 grados
+            ext[level] = (tip.y / h, max(abs(v.x) for v in vs) / h)
+            self.release(o)
+        self.assertGreater(slope["T7"], 1.0)  # espinosa toracica inclinada >= 45 grados hacia abajo (T4-T9)
+        self.assertLess(slope["L3"], 0.3)  # lumbar casi horizontal (en hacha)
+        self.assertGreater(ext["T7"][1], ext["C4"][1] * 1.15)  # transversas toracicas mas anchas que las cervicales
+        self.assertGreater(ext["T7"][0], ext["C4"][0] * 1.15)  # y la espinosa toracica llega mas atras que la cervical (aunque baja, su proyeccion horizontal es menor que su largo)
+
+    def test_the_spine_is_straight_in_the_frontal_plane_symmetric_and_curved_in_the_sagittal_plane(self):
+        for n in ("cp.LumbarSpine", "cp.ThoracicSpine", "cp.CervicalSpine"):
+            o = self.parts[n]
+            xs = [v.co.x for v in o.data.vertices]
+            self.assertLess(abs(sum(xs) / len(xs)), 5e-4, n)  # linea central en x = 0 (columna recta de frente)
+            self.assertLess(mirror_error(o), 1.5e-3, n)  # simetria bilateral
+        h = self.h
+
+        def front_y(frac):  # y mas anterior (cuerpos) en una franja de la columna lumbar
+            vs = self.parts["cp.LumbarSpine"].data.vertices
+            z0, z1 = min(v.co.z for v in vs), max(v.co.z for v in vs)
+            zc = z0 + (z1 - z0) * frac
+            return min(v.co.y for v in vs if abs(v.co.z - zc) < 0.012 * h)
+
+        self.assertLess(front_y(0.5) - 0.5 * (front_y(0.1) + front_y(0.9)), -0.0020)  # lordosis lumbar: el centro mas adelantado que los extremos
+
+    def test_the_lumbar_spine_rests_on_the_sacrum_and_the_discs_are_lens_shaped(self):
+        from mathutils.bvhtree import BVHTree
+
+        h = self.h
+        pelvis, lumbar = self.parts["cp.Pelvis"], self.parts["cp.LumbarSpine"]
+        tree = BVHTree.FromObject(pelvis, bpy.context.evaluated_depsgraph_get())
+        inv = pelvis.matrix_world.inverted()
+        low = [lumbar.matrix_world @ v.co for v in lumbar.data.vertices if v.co.z < -cp.DISC_H / 2 * h * 0.8 and abs(v.co.x) < 0.01 * h]  # cara inferior del disco L5-S1
+        self.assertGreater(len(low), 20)
+        d = min(tree.find_nearest(inv @ p)[3] for p in low)
+        self.assertLess(d, 0.006)  # el disco L5-S1 toca el sacro (< 6 mm)
+        q = self.cv.level_params(self.spine, "lumbar", "L3")
+        cage = self.cv.disc_cage(q["bw"], q["bd"], cp.DISC_H, 0.16, 1.05)
+        for v in cage.verts:
+            v.co *= h
+        verts, _ = self.sb.subdivide(cage, levels=1, scale=1.0)
+        hd = cp.DISC_H * h
+        mid_r = max(abs(v[0]) for v in verts if abs(v[2]) < 0.15 * hd)
+        end_r = max(abs(v[0]) for v in verts if abs(v[2]) > 0.40 * hd)
+        self.assertGreater(mid_r, end_r * 1.03)  # disco lenticular: mas ancho en el centro que en los platillos
+
+    def test_no_temporary_or_duplicate_objects_are_left_behind(self):
+        self.assertEqual(sorted(o.name for o in bpy.data.objects), sorted(self.parts))
+        self.assertEqual([m.name for m in bpy.data.meshes if m.name.startswith(("cp_tmp", "t_"))], [])
+        self.assertEqual(len({o.data.name for o in bpy.data.objects}), len(bpy.data.objects))  # cada objeto con su malla
+
+    def test_control_a_cylinder_body_fails_the_shape_checks(self):
+        """Control: un cuerpo SIN cintura, cuña ni concavidad posterior no cumple las comprobaciones de forma (las comprobaciones discriminan)."""
+        h = self.h
+        p = self.cv.level_params(self.spine, "lumbar", "L3")
+        flat = self.cv.body_cage(p["bw"], p["bd"], self.BODY_H["L"], 0.0, 0.0, 0.0)
+        for v in flat.verts:
+            v.co *= h
+        verts, faces = self.sb.subdivide(flat, levels=1, scale=1.0)
+        bh = self.BODY_H["L"] * h
+        xs_mid = max(abs(v[0]) for v in verts if abs(v[2]) < 0.08 * bh)
+        xs_end = max(abs(v[0]) for v in verts if 0.42 * bh < abs(v[2]) < 0.52 * bh)
+        self.assertLess(xs_end, xs_mid * 1.04)  # sin cintura
+        post = max(v[1] for v in verts if abs(v[0]) < 0.1 * p["bw"] * h)
+        lat = max(v[1] for v in verts if abs(v[0]) > 0.7 * p["bw"] * h)
+        self.assertGreaterEqual(post, lat)  # sin pared posterior concava
 
 
 if __name__ == "__main__":

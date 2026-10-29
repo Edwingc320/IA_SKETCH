@@ -105,14 +105,18 @@ def box_cage(centre, half, segments=3, crease=CREASE_HARD):
     return bm
 
 
-def sweep_box(rings, chamfer=0.30, crease=CREASE_HARD, cap=True):
-    """Barrido de secciones rectangulares achaflanadas: `rings` = [(centro, eje_ancho, semi_ancho, semi_espesor)]. Las aristas longitudinales llevan crease."""
+def sweep_box(rings, chamfer=0.30, crease=CREASE_HARD, cap=True, closed=False):
+    """Barrido de secciones rectangulares achaflanadas: `rings` = [(centro, eje_ancho, semi_ancho, semi_espesor)]. Las aristas longitudinales llevan crease.
+    `closed=True` une la ultima seccion con la primera (anillo, sin tapas)."""
     bm = bmesh.new()
     _layer(bm)
     centres = [Vector(r[0]) for r in rings]
     grid = []
     for i, (c, ew, w, t) in enumerate(rings):
-        a, b = centres[max(i - 1, 0)], centres[min(i + 1, len(rings) - 1)]
+        if closed:
+            a, b = centres[(i - 1) % len(rings)], centres[(i + 1) % len(rings)]
+        else:
+            a, b = centres[max(i - 1, 0)], centres[min(i + 1, len(rings) - 1)]
         tang = (b - a).normalized()
         ew = Vector(ew)
         ew = (ew - tang * ew.dot(tang)).normalized()
@@ -121,11 +125,12 @@ def sweep_box(rings, chamfer=0.30, crease=CREASE_HARD, cap=True):
         pts = [(w - fw, t), (w, t - ft), (w, -(t - ft)), (w - fw, -t), (-(w - fw), -t), (-w, -(t - ft)), (-w, t - ft), (-(w - fw), t)]
         grid.append([bm.verts.new(Vector(c) + ew * p + et * q) for p, q in pts])
     longitudinal = []
-    for i in range(len(grid) - 1):
+    for i in range(len(grid) - (0 if closed else 1)):
         for k in range(8):
-            bm.faces.new((grid[i][k], grid[i][(k + 1) % 8], grid[i + 1][(k + 1) % 8], grid[i + 1][k]))
-            longitudinal.append(bm.edges.get((grid[i][k], grid[i + 1][k])))
-    if cap:
+            j = (i + 1) % len(grid)
+            bm.faces.new((grid[i][k], grid[i][(k + 1) % 8], grid[j][(k + 1) % 8], grid[j][k]))
+            longitudinal.append(bm.edges.get((grid[i][k], grid[j][k])))
+    if cap and not closed:
         bm.faces.new(grid[0])
         bm.faces.new(list(reversed(grid[-1])))
     _set_crease(bm, [e for e in longitudinal if e], crease)

@@ -1,0 +1,367 @@
+{
+ "schema_version": 2,
+ "description": "Dimensiones de las vertebras de la linea cp.* (fracciones de la altura H, vertebra en coordenadas locales: x lateral, y posterior, z arriba; origen en el centro del cuerpo). VALORES APROXIMADOS por convencion (orden de magnitud de la anatomia descriptiva), interpolados linealmente por nivel entre `start` (nivel inferior de la region) y `end` (nivel superior); no estan medidos en este proyecto ni proceden de una fuente numerica citada (no_numeric_source). Los largos de segmento (alturas de cuerpo y disco) los fijan los datos antropometricos en cp_skeleton / cp_axial. Campos: bw, bd = semiancho y semiprofundidad del cuerpo; waist = cintura (fraccion); notch = concavidad de la pared posterior; wedge = cuña (fraccion, + = cuerpo mas alto delante); ped = [longitud, ancho, alto] del pediculo; fz = semiancho y semiprofundidad del foramen vertebral; lam = [alto, espesor] de la lamina; sp = [longitud, angulo hacia abajo en grados, alto de la lamina, espesor] de la apofisis espinosa; tp = [longitud, angulo hacia arriba en grados, angulo hacia atras en grados, ancho, espesor] de la apofisis transversa; fac = semiancho de la apofisis articular.",
+ "no_numeric_source": true,
+ "regions": {
+  "lumbar": {
+   "levels": [
+    "L5",
+    "L4",
+    "L3",
+    "L2",
+    "L1"
+   ],
+   "disc": {
+    "wedge": 0.16,
+    "bulge": 1.05
+   },
+   "start": {
+    "bw": 0.0142,
+    "bd": 0.0105,
+    "waist": 0.06,
+    "notch": 0.2,
+    "wedge": 0.1,
+    "ped": [
+     0.006,
+     0.0064,
+     0.0078
+    ],
+    "fz": [
+     0.0076,
+     0.007
+    ],
+    "lam": [
+     0.01,
+     0.0038
+    ],
+    "sp": [
+     0.015,
+     0.0,
+     0.0095,
+     0.0036
+    ],
+    "tp": [
+     0.017,
+     -8.0,
+     10.0,
+     0.005,
+     0.0034
+    ],
+    "fac": 0.0032
+   },
+   "end": {
+    "bw": 0.0118,
+    "bd": 0.01,
+    "waist": 0.07,
+    "notch": 0.22,
+    "wedge": 0.03,
+    "ped": [
+     0.0055,
+     0.0058,
+     0.0075
+    ],
+    "fz": [
+     0.0072,
+     0.0072
+    ],
+    "lam": [
+     0.0095,
+     0.0036
+    ],
+    "sp": [
+     0.0165,
+     3.0,
+     0.0115,
+     0.0034
+    ],
+    "tp": [
+     0.015,
+     3.0,
+     8.0,
+     0.0045,
+     0.003
+    ],
+    "fac": 0.003
+   }
+  },
+  "thoracic": {
+   "levels": [
+    "T12",
+    "T11",
+    "T10",
+    "T9",
+    "T8",
+    "T7",
+    "T6",
+    "T5",
+    "T4",
+    "T3",
+    "T2",
+    "T1"
+   ],
+   "disc": {
+    "wedge": 0.0,
+    "bulge": 1.04
+   },
+   "start": {
+    "bw": 0.0112,
+    "bd": 0.0095,
+    "waist": 0.08,
+    "notch": 0.18,
+    "wedge": 0.05,
+    "ped": [
+     0.005,
+     0.0048,
+     0.0068
+    ],
+    "fz": [
+     0.0068,
+     0.0066
+    ],
+    "lam": [
+     0.008,
+     0.0032
+    ],
+    "sp": [
+     0.022,
+     25.0,
+     0.007,
+     0.003
+    ],
+    "tp": [
+     0.01,
+     0.0,
+     0.0,
+     0.005,
+     0.004
+    ],
+    "fac": 0.0028,
+    "costal": true
+   },
+   "end": {
+    "bw": 0.0085,
+    "bd": 0.0075,
+    "waist": 0.07,
+    "notch": 0.2,
+    "wedge": 0.04,
+    "ped": [
+     0.0045,
+     0.004,
+     0.006
+    ],
+    "fz": [
+     0.006,
+     0.0054
+    ],
+    "lam": [
+     0.007,
+     0.0028
+    ],
+    "sp": [
+     0.02,
+     14.0,
+     0.0055,
+     0.0024
+    ],
+    "tp": [
+     0.0185,
+     5.0,
+     12.0,
+     0.0055,
+     0.0045
+    ],
+    "fac": 0.0024,
+    "costal": true
+   },
+   "spinous_by_level": {
+    "T12": [
+     0.022,
+     25
+    ],
+    "T11": [
+     0.026,
+     32
+    ],
+    "T10": [
+     0.029,
+     42
+    ],
+    "T9": [
+     0.032,
+     50
+    ],
+    "T8": [
+     0.034,
+     55
+    ],
+    "T7": [
+     0.034,
+     55
+    ],
+    "T6": [
+     0.034,
+     52
+    ],
+    "T5": [
+     0.033,
+     45
+    ],
+    "T4": [
+     0.03,
+     36
+    ],
+    "T3": [
+     0.026,
+     28
+    ],
+    "T2": [
+     0.022,
+     20
+    ],
+    "T1": [
+     0.02,
+     14
+    ]
+   },
+   "transverse_by_level": {
+    "T12": [
+     0.01,
+     0.0
+    ],
+    "T11": [
+     0.012,
+     0.0
+    ],
+    "T10": [
+     0.015,
+     2.0
+    ],
+    "T9": [
+     0.0175,
+     4.0
+    ],
+    "T8": [
+     0.0185,
+     5.0
+    ],
+    "T7": [
+     0.019,
+     5.0
+    ],
+    "T6": [
+     0.019,
+     5.0
+    ],
+    "T5": [
+     0.019,
+     5.0
+    ],
+    "T4": [
+     0.0188,
+     5.0
+    ],
+    "T3": [
+     0.0186,
+     5.0
+    ],
+    "T2": [
+     0.0185,
+     5.0
+    ],
+    "T1": [
+     0.0185,
+     5.0
+    ]
+   }
+  },
+  "cervical": {
+   "levels": [
+    "C7",
+    "C6",
+    "C5",
+    "C4",
+    "C3"
+   ],
+   "disc": {
+    "wedge": 0.08,
+    "bulge": 1.03
+   },
+   "start": {
+    "bw": 0.009,
+    "bd": 0.0075,
+    "waist": 0.05,
+    "notch": 0.14,
+    "wedge": 0.04,
+    "ped": [
+     0.004,
+     0.0036,
+     0.005
+    ],
+    "fz": [
+     0.009,
+     0.0072
+    ],
+    "lam": [
+     0.006,
+     0.0026
+    ],
+    "sp": [
+     0.026,
+     8.0,
+     0.0048,
+     0.0026
+    ],
+    "tp": [
+     0.014,
+     0.0,
+     5.0,
+     0.0044,
+     0.003
+    ],
+    "fac": 0.0026,
+    "uncinate": true
+   },
+   "end": {
+    "bw": 0.0075,
+    "bd": 0.0062,
+    "waist": 0.06,
+    "notch": 0.15,
+    "wedge": -0.02,
+    "ped": [
+     0.0038,
+     0.0034,
+     0.0048
+    ],
+    "fz": [
+     0.0085,
+     0.007
+    ],
+    "lam": [
+     0.0055,
+     0.0024
+    ],
+    "sp": [
+     0.014,
+     15.0,
+     0.0044,
+     0.0022
+    ],
+    "tp": [
+     0.011,
+     -5.0,
+     0.0,
+     0.004,
+     0.0028
+    ],
+    "fac": 0.0024,
+    "uncinate": true
+   },
+   "bifid_levels": [
+    "C3",
+    "C4",
+    "C5",
+    "C6"
+   ]
+  }
+ }
+}
