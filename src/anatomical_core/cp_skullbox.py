@@ -450,18 +450,21 @@ def ellipsoid_cage(centre, radii, segments: int = 8, crease: float = 0.0) -> "bm
 
 
 def zygomatic_cage(sx: float) -> "bmesh.types.BMesh":
-    """HUESO CIGOMATICO (malar + brazos): UN barrido de seccion rectangular con tres tramos: el BRAZO FRONTAL sube por el borde lateral de la orbita hasta rozar el frontal (por delante
-    del esfenoides), el cuerpo malar y el ARCO plano hasta la raiz temporal, que entra en el temporal. Pieza independiente."""
+    """HUESO CIGOMATICO (pomulo tetrarradiado, laminas anatomicas): UN barrido con el APOFISIS FRONTAL (delgada, sube por el borde lateral de la orbita hasta la sutura cigomatico-frontal,
+    por delante del ala mayor del esfenoides), el CUERPO malar (ancho; se apoya en el maxilar, borde y suelo de la orbita) y la APOFISIS TEMPORAL (arco largo y fino que baja ligeramente y
+    entra en la apofisis cigomatica del temporal: arco cigomatico). Pieza independiente."""
     up, ac = (0, 1, 0), (0, 0, 1)
     return sweep_box([
-        ((sx * 0.0312, -0.0562, 0.0152), up, 0.0046, 0.0019),  # extremo del brazo frontal (toca el borde inferior del frontal)
-        ((sx * 0.0340, -0.0556, 0.0050), up, 0.0050, 0.0021),  # brazo frontal, por el borde lateral de la orbita
-        ((sx * 0.0368, -0.0528, -0.0040), (0, 1, 0.35), 0.0058, 0.0024),  # malar
-        ((sx * 0.0378, -0.0480, -0.0080), ac, 0.0048, 0.0022),  # inicio del arco
-        ((sx * 0.0395, -0.0360, -0.0078), ac, 0.0040, 0.0017),  # arco plano
-        ((sx * 0.0392, -0.0220, -0.0066), ac, 0.0038, 0.0017),
-        ((sx * 0.0360, -0.0110, -0.0045), ac, 0.0040, 0.0019),  # raiz temporal
-        ((sx * 0.0335, -0.0040, -0.0038), ac, 0.0040, 0.0019),  # entra en el temporal
+        ((sx * 0.0308, -0.0562, 0.0152), up, 0.0040, 0.0017),  # extremo de la apofisis frontal (toca el frontal)
+        ((sx * 0.0330, -0.0560, 0.0090), up, 0.0046, 0.0019),
+        ((sx * 0.0352, -0.0550, 0.0020), (0, 1, 0.2), 0.0056, 0.0021),  # borde lateral de la orbita
+        ((sx * 0.0368, -0.0525, -0.0050), (0, 1, 0.4), 0.0075, 0.0026),  # cuerpo malar (el mas ancho)
+        ((sx * 0.0376, -0.0490, -0.0092), (0, 0.4, 1), 0.0062, 0.0024),  # angulo inferior
+        ((sx * 0.0392, -0.0420, -0.0088), ac, 0.0046, 0.0020),  # inicio de la apofisis temporal
+        ((sx * 0.0398, -0.0330, -0.0080), ac, 0.0040, 0.0017),  # arco largo y fino
+        ((sx * 0.0393, -0.0230, -0.0068), ac, 0.0038, 0.0016),
+        ((sx * 0.0365, -0.0125, -0.0048), ac, 0.0042, 0.0019),  # raiz temporal
+        ((sx * 0.0335, -0.0040, -0.0038), ac, 0.0042, 0.0019),  # entra en el temporal
     ], chamfer=0.28)
 
 
