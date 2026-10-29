@@ -367,6 +367,19 @@ def vault_core(shape: dict | None = None) -> "bmesh.types.BMesh":
     return bm
 
 
+def _flare_front(verts: list, fl: dict) -> list:
+    """Adelanta (-y) la parte baja de la frente de la boveda hasta `amount`, con rampas suaves en z (de `z_from` a `z_to`) y en y: la lamina frontal llega asi al plano de la cara."""
+    def ramp(t):
+        t = min(1.0, max(0.0, t))
+        return t * t * (3 - 2 * t)
+
+    out = []
+    for x, y, z in verts:
+        w = ramp((fl["z_from"] - z) / (fl["z_from"] - fl["z_to"])) * ramp((fl["y_from"] - y) / (fl["y_from"] - fl["y_to"]))
+        out.append((x, y - fl["amount"] * w, z))
+    return out
+
+
 def vault_bones(shape: dict | None = None) -> dict:
     """{nombre: (vertices, caras)} de los CINCO huesos de la boveda como cascaras cerradas independientes (frontal, parietal, temporal y esfenoides izquierdos y derechos, occipital), en H.
     Se cortan de la superficie exterior de la boveda por regiones de un MAPA de suturas (`config/cp/skull.json`, de la lamina lateral): sin cortes fractales, solo poligonos y
@@ -377,6 +390,8 @@ def vault_bones(shape: dict | None = None) -> dict:
     m = su["image_map"]
     regions = [(r["name"], _outline(m, r["outline"])) for r in su["regions"]]  # por orden de prioridad; el frontal es el resto
     verts, faces = vault_outer(sh)
+    verts = _flare_front(verts, sh["frontal_lower"]["flare"])  # la frente avanza hacia el plano de la cara
+    low = [tuple(p) for p in sh["frontal_lower"]["outline"]]
     cen = []
     for f in faces:
         n = len(f)
@@ -391,8 +406,8 @@ def vault_bones(shape: dict | None = None) -> dict:
             if _inside(poly, y, z):
                 name = rn
                 break
-        if name == "frontal" and z < su["frontal_clip_z"]:
-            label.append(None)
+        if name == "frontal" and z < su["frontal_clip_z"] and not (y < -0.035 and _inside(low, abs(x), z)):
+            label.append(None)  # bajo la frente solo quedan los arcos supraorbitarios, la parte nasal y las apofisis cigomaticas
             continue
         if abs(x) < su["sagittal_gap"] and name in ("parietal",):
             label.append(None)
@@ -709,7 +724,7 @@ def face_bones(shape: dict | None = None) -> dict:
                 name = rn
                 break
         if z > fsu["brow_clip_z"]:
-            label.append(None)  # por encima del borde de las orbitas la cara es del frontal (arco superciliar): aqui no hay cara
+            label.append(None)  # por encima del borde de las orbitas la cara es del frontal: aqui no hay cara
         else:
             label.append(name + ("L" if x > 0 else "R"))
     edge = {}
@@ -742,15 +757,6 @@ def _core_without_base(core: tuple) -> tuple:
     return _boolean(core, _prism(box, -0.3, 0.3), "DIFFERENCE")
 
 
-def brow_ridge(shape: dict | None = None) -> tuple:
-    """(vertices, caras) del arco superciliar del frontal: un barrido redondeado de lado a lado (`brow` de `config/cp/skull.json`) con Subdivision Surface; reborde sobre las orbitas y entrecejo
-    continuo, sin los cubos del bloque de la cara. Se funde con la boveda frontal."""
-    b = (shape or load_skull())["brow"]
-    half = [tuple(r) for r in b["half_rings"]]  # de lateral a medial
-    rings = [(-x, y, z, hw, ht) for x, y, z, hw, ht in half] + [tuple(b["centre_ring"])] + [(x, y, z, hw, ht) for x, y, z, hw, ht in reversed(half)]  # de izquierda (-x) a derecha (+x)
-    return subdivide(sweep_box([((x, y, z), (0, 0, 1), hw, ht) for x, y, z, hw, ht in rings], chamfer=0.45, crease=0.35), levels=SUBSURF_LEVELS)
-
-
 def skull_parts() -> dict:
     """{nombre: (vertices, caras)} de las piezas INDEPENDIENTES del craneo (en H, relativo al origen), ya subdivididas (cache)."""
     if "parts" not in _CACHE:
@@ -759,7 +765,6 @@ def skull_parts() -> dict:
         bones.update(temporal_bones(bones))  # el temporal es una sola pieza (escama + base + mastoides + mitad posterior del arco)
         bones["Skull"] = _core_without_base(_CACHE["parts"]["Skull"])  # fuera lo que cuelga bajo la boveda (no es de ningun hueso nombrado)
         face = face_bones()
-        bones["SkullFrontal"] = _union(brow_ridge(), bones["SkullFrontal"])  # el arco superciliar es del frontal: una pieza continua
         for side, sx in (("L", 1.0), ("R", -1.0)):  # el cigomatico: cuerpo malar + brazo frontal + mitad anterior del arco
             bones[f"Zygomatic{side}"] = _union(face.pop(f"Zygomatic{side}"), _ARCH.setdefault(side, arch_halves(sx))[0])
         bones.update(face)  # maxilares, nasales, lagrimales y etmoides
