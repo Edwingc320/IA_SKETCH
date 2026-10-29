@@ -820,7 +820,7 @@ class TestCpSkullParts(unittest.TestCase):
             return False
 
         for a, b in (("cp.Skull", "cp.SkullFace"), ("cp.Skull", "cp.TemporalBaseL"), ("cp.Skull", "cp.TemporalBaseR"), ("cp.SkullFace", "cp.ZygomaticL"), ("cp.SkullFace", "cp.ZygomaticR"),
-                     ("cp.ZygomaticL", "cp.TemporalBaseL"), ("cp.ZygomaticR", "cp.TemporalBaseR"), ("cp.TemporalBaseL", "cp.MastoidL"), ("cp.TemporalBaseR", "cp.MastoidR"), ("cp.Skull", "cp.SkullFrontal"), ("cp.ZygomaticL", "cp.SkullFrontal"), ("cp.ZygomaticR", "cp.SkullFrontal"), ("cp.ZygomaticL", "cp.SphenoidL"), ("cp.ZygomaticR", "cp.SphenoidR"), ("cp.ZygomaticL", "cp.TemporalL"), ("cp.ZygomaticR", "cp.TemporalR"), ("cp.Skull", "cp.SkullOccipital"), ("cp.Skull", "cp.ParietalL"), ("cp.Skull", "cp.ParietalR"), ("cp.Skull", "cp.TemporalL"), ("cp.Skull", "cp.SphenoidL"), ("cp.Skull", "cp.CondyleL"),
+                     ("cp.ZygomaticL", "cp.TemporalBaseL"), ("cp.ZygomaticR", "cp.TemporalBaseR"), ("cp.TemporalBaseL", "cp.MastoidL"), ("cp.TemporalBaseR", "cp.MastoidR"), ("cp.Skull", "cp.SkullFrontal"), ("cp.ZygomaticL", "cp.SkullFrontal"), ("cp.ZygomaticR", "cp.SkullFrontal"), ("cp.ZygomaticL", "cp.SphenoidL"), ("cp.ZygomaticR", "cp.SphenoidR"), ("cp.TemporalBaseL", "cp.TemporalL"), ("cp.TemporalBaseR", "cp.TemporalR"), ("cp.Skull", "cp.SkullOccipital"), ("cp.Skull", "cp.ParietalL"), ("cp.Skull", "cp.ParietalR"), ("cp.Skull", "cp.TemporalL"), ("cp.Skull", "cp.SphenoidL"), ("cp.Skull", "cp.CondyleL"),
                      ("cp.Skull", "cp.CondyleR"), ("cp.SkullFace", "cp.TeethUpper"), ("cp.Mandible", "cp.TeethLower")):
             self.assertTrue(touches(a, b) or touches(b, a), f"{a} y {b} no se tocan")
         self.assertEqual(sum(1 for o in bpy.data.objects if o.name.startswith(SKULL_PREFIXES)), len(self.NAMES))  # y siguen siendo objetos distintos (no se unieron)
@@ -914,6 +914,10 @@ class TestCpSkullParts(unittest.TestCase):
             fr = min(v.co.y for v in self.parts["cp.SkullFrontal"].data.vertices)
             self.assertLess(min(p.y for p in vs), fr + 0.05 * h, n)
             self.assertGreater(max(sx * p.x for p in vs), 0.03 * h, n)  # y del lado correcto
+            face_half = max(abs(v.co.x) for v in self.parts["cp.SkullFace"].data.vertices)
+            outside = sum(1 for p in vs if sx * p.x > face_half)
+            self.assertGreater(outside, 0.15 * len(vs), n)  # el pomulo y el arco quedan POR FUERA del bloque de la cara, no ocultos dentro de el
+            self.assertGreater(max(sx * p.x for p in vs), face_half + 0.003, n)
 
     def test_the_pieces_are_organised_in_section_collections(self):
         root = bpy.data.collections["CP_Skeleton"]
