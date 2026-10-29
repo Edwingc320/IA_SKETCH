@@ -1,0 +1,47 @@
+{
+ "description": "Medidas de FORMA de las imagenes de referencia del craneo (craneo frontal.jpg, craneo perfil.jpg, craneo atras.jpg; imagenes privadas, no versionadas): relacion ancho/alto de la silueta aislada por scripts/skull_reference.py. Las imagenes no tienen escala absoluta.",
+ "front": {
+  "file": "craneo frontal.jpg",
+  "size": [
+   516,
+   594
+  ],
+  "silhouette_bbox": [
+   80,
+   18,
+   461,
+   576
+  ],
+  "aspect_w_over_h": 0.6828
+ },
+ "side": {
+  "file": "craneo perfil.jpg",
+  "size": [
+   413,
+   413
+  ],
+  "silhouette_bbox": [
+   26,
+   18,
+   391,
+   399
+  ],
+  "aspect_w_over_h": 0.958
+ },
+ "back": {
+  "file": "craneo atras.jpg",
+  "size": [
+   466,
+   657
+  ],
+  "silhouette_bbox": [
+   65,
+   11,
+   397,
+   352
+  ],
+  "aspect_w_over_h": 0.9736,
+  "note": "solo la boveda: la cara queda oculta y la columna cervical se descarta bajo la fila 352"
+ },
+ "schema_version": 2
+}

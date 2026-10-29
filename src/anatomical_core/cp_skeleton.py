@@ -27,7 +27,12 @@ PREFIX = "cp."
 REF_HEIGHT_M = 1.75
 # cadena de emparentamiento (hijo -> padre): todo cuelga de la pelvis; el orden es de la pelvis hacia fuera
 PARENTS = {"cp.FemurL": "cp.Pelvis", "cp.FemurR": "cp.Pelvis", "cp.LumbarSpine": "cp.Pelvis", "cp.ThoracicSpine": "cp.LumbarSpine", "cp.CervicalSpine": "cp.ThoracicSpine",
-           "cp.Skull": "cp.CervicalSpine", "cp.Mandible": "cp.Skull"}
+           "cp.Skull": "cp.CervicalSpine", "cp.Mandible": "cp.Skull",
+           # piezas independientes del craneo: cuelgan de la boveda (cp.Skull) y comparten su origen; no se unen en un solo solido
+           "cp.SkullFace": "cp.Skull", "cp.ZygomaticL": "cp.Skull", "cp.ZygomaticR": "cp.Skull", "cp.TemporalL": "cp.Skull", "cp.TemporalR": "cp.Skull", "cp.MastoidL": "cp.Skull",
+           "cp.MastoidR": "cp.Skull", "cp.CondyleL": "cp.Skull", "cp.CondyleR": "cp.Skull", "cp.TeethUpper": "cp.Skull", "cp.TeethLower": "cp.Mandible"}
+FOLLOW_PARENT_SCALE = ("cp.SkullFace", "cp.ZygomaticL", "cp.ZygomaticR", "cp.TemporalL", "cp.TemporalR", "cp.MastoidL", "cp.MastoidR", "cp.CondyleL", "cp.CondyleR", "cp.TeethUpper",
+                       "cp.TeethLower")  # cambian de tamano con su pieza madre (cp_resize)
 SIDES = 20
 CAP_RINGS = 3
 BONE_COLOR = (0.95, 0.92, 0.84, 1.0)
@@ -247,7 +252,7 @@ def remove_generated() -> None:
 
 
 def build_cp_skeleton(height_m: float = REF_HEIGHT_M, dims: dict | None = None, parent: bool = True) -> dict:
-    """Genera cp.Pelvis, cp.FemurL/R, cp.LumbarSpine, cp.ThoracicSpine, cp.CervicalSpine, cp.Skull y cp.Mandible (y los redimensiona segun `dims`: {nombre: dimension_m}; `cp.Femur` aplica a ambos femures).
+    """Genera cp.Pelvis, cp.FemurL/R, cp.LumbarSpine, cp.ThoracicSpine, cp.CervicalSpine, el craneo en PIEZAS INDEPENDIENTES (cp.Skull = boveda, cp.SkullFace, cigomaticos, temporales, mastoides, condilos, dientes), cp.Mandible y cp.TeethLower (y los redimensiona segun `dims`: {nombre: dimension_m}; `cp.Femur` aplica a ambos femures).
     Devuelve {nombre: objeto}."""
     if height_m <= 0.3:
         raise ValueError("La altura debe ser > 0.3 m")
@@ -266,9 +271,13 @@ def build_cp_skeleton(height_m: float = REF_HEIGHT_M, dims: dict | None = None, 
     parts["cp.LumbarSpine"] = _object("cp.LumbarSpine", bm, o, d, "lumbar_height", h, col)
     from . import cp_axial as ax  # (import tardio: cp_axial usa las primitivas de este modulo)
 
-    for name, builder in (("ThoracicSpine", ax.build_thoracic), ("CervicalSpine", ax.build_cervical), ("Skull", ax.build_skull), ("Mandible", ax.build_mandible)):
+    for name, builder in (("ThoracicSpine", ax.build_thoracic), ("CervicalSpine", ax.build_cervical), ("Mandible", ax.build_mandible), ("TeethLower", ax.build_teeth_lower)):
         bm, o, d, ref_name = builder(h)
         parts[f"cp.{name}"] = _object(f"cp.{name}", bm, o, d, ref_name, h, col)
+    for name, (bm, o, d, ref_name) in ax.build_skull_parts(h).items():
+        parts[name] = _object(name, bm, o, d, ref_name, h, col)
+    for n in FOLLOW_PARENT_SCALE:
+        parts[n]["cp_follows_parent_scale"] = True
     parts["cp.ThoracicSpine"]["cp_levels"] = " ".join(ax.THORACIC_LEVELS)  # de abajo (T12) a arriba (T1)
     parts["cp.CervicalSpine"]["cp_levels"] = " ".join(ax.CERVICAL_LEVELS)
     parts["cp.LumbarSpine"]["cp_levels"] = "L5 L4 L3 L2 L1"
@@ -300,6 +309,10 @@ def cp_resize(obj, new_dim_m: float) -> float:
     obj["cp_ref_dim_m"] = new_dim_m
     bpy.context.view_layer.update()
     for ch in obj.children:  # los hijos siguen a su anclaje articular (y, con ellos, toda su cadena)
+        if ch.get("cp_follows_parent_scale"):  # piezas del mismo hueso (cara, cigomaticos, dientes...): se redimensionan con su madre
+            ch.data.transform(Matrix.Scale(f, 4))
+            ch.data.update()
+            ch["cp_ref_dim_m"] = ch["cp_ref_dim_m"] * f
         anchor = Vector(ch["cp_anchor_local"]) * f
         ch["cp_anchor_local"] = tuple(anchor)
         ch.matrix_world.translation = obj.matrix_world @ anchor

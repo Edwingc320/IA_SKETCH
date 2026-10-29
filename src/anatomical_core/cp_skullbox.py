@@ -18,26 +18,11 @@ import bmesh
 import bpy
 from mathutils import Matrix, Vector
 
-CAGE_SEGMENTS = 40  # divisiones por arista del cubo de la jaula del craneo (28 x 28 caras por lado)
+from .config import PROJECT_ROOT, ConfigError, _read_json
+
 SUBSURF_LEVELS = 2
 CREASE_HARD = 0.65  # aristas del bloque
 CREASE_RIM = 0.85  # bordes de las cavidades
-
-# perfiles del bloque craneo-facial segun la profundidad y (H, relativo al origen del craneo; y negativa = adelante)
-Y_FRONT, Y_BACK = -0.0762, 0.0455
-PROFILE = [  # y, z_techo, z_suelo, semianchura
-    (-0.0762, 0.0230, -0.0370, 0.0290),
-    (-0.0700, 0.0400, -0.0370, 0.0325),
-    (-0.0620, 0.0560, -0.0360, 0.0345),
-    (-0.0500, 0.0680, -0.0310, 0.0385),
-    (-0.0300, 0.0765, -0.0160, 0.0408),
-    (-0.0100, 0.0775, -0.0100, 0.0412),
-    (0.0100, 0.0745, -0.0110, 0.0400),
-    (0.0250, 0.0715, -0.0120, 0.0352),
-    (0.0360, 0.0590, -0.0090, 0.0285),
-    (Y_BACK, 0.0310, -0.0030, 0.0150),
-]
-
 
 def _interp(table, y, col):
     if y <= table[0][0]:
@@ -152,11 +137,16 @@ def _snap_to_ellipse(faces, centre, radii, axes=(0, 2)):
             v.co = co
 
 
-def _pocket(bm, faces, thickness, depth, direction, crease=CREASE_RIM, ellipse=None, axes=(0, 2)) -> list:
+def _pocket(bm, faces, thickness, depth, direction, crease=CREASE_RIM, ellipse=None, axes=(0, 2), smooth=0) -> list:
     """Inset + Extrude hacia dentro: inset de la region `faces`, hunde la region interior `depth` a lo largo de `direction`, marca con crease los bordes del anillo y
     devuelve las caras de la region interior (para encadenar otro escalon)."""
     if ellipse:
         _snap_to_ellipse(faces, *ellipse, axes=axes)
+    if smooth:  # suaviza el contorno escalonado de la region sobre superficies curvas (relajacion laplaciana de su borde)
+        fs = set(faces)
+        loop = {v for e in {e for f in faces for e in f.edges} if sum(1 for g in e.link_faces if g in fs) == 1 for v in e.verts}
+        for _ in range(smooth):
+            bmesh.ops.smooth_vert(bm, verts=list(loop), factor=0.5, use_axis_x=True, use_axis_y=True, use_axis_z=True)
     region = list(faces)  # tras el inset estas caras son la region INTERIOR; las nuevas (`ring`) son el anillo del reborde
     ring = set(bmesh.ops.inset_region(bm, faces=faces, thickness=thickness, depth=0.0, use_even_offset=False, use_boundary=True)["faces"])
     loop = [e for f in ring for e in f.edges if sum(1 for g in e.link_faces if g in ring) == 1]
@@ -166,62 +156,155 @@ def _pocket(bm, faces, thickness, depth, direction, crease=CREASE_RIM, ellipse=N
     return list(inner)
 
 
-def skull_cage() -> "bmesh.types.BMesh":
-    """Jaula del craneo: bloque con planos duros y cavidades por Inset/Extrude."""
+SKULL_FILE = PROJECT_ROOT / "config" / "cp" / "skull.json"
+
+
+def load_skull(path=None) -> dict:
+    p = path or SKULL_FILE
+    if not p.exists():
+        raise ConfigError(f"Falta {p}")
+    return _read_json(p)
+
+
+def _cubesphere(x: float, y: float, z: float) -> tuple:
+    """Cubo [-1, 1]^3 -> esfera unidad con los cuadrilateros casi uniformes (esfera de cubo), mejor repartida que una esfera UV."""
+    x2, y2, z2 = x * x, y * y, z * z
+    return (x * math.sqrt(1 - y2 / 2 - z2 / 2 + y2 * z2 / 3), y * math.sqrt(1 - z2 / 2 - x2 / 2 + z2 * x2 / 3), z * math.sqrt(1 - x2 / 2 - y2 / 2 + x2 * y2 / 3))
+
+
+def vault_point(v: dict, x: float, y: float, z: float) -> Vector:
+    """Punto de la boveda para el vertice (x, y, z) del cubo (y = -1 delante): superelipsoide ovoide (radios distintos delante/detras y arriba/abajo)."""
+    d = _cubesphere(x, y, z)
+    n = v["exponent"]
+    s = (abs(d[0]) ** n + abs(d[1]) ** n + abs(d[2]) ** n) ** (1.0 / n) or 1.0
+    d = tuple(c / s for c in d)
+    a = v["half_width"] * (1.0 + v["width_skew"] * d[1])
+    b = v["radius_front"] if d[1] < 0 else v["radius_back"]
+    c = v["radius_up"] if d[2] > 0 else v["radius_down"]
+    return Vector((a * d[0], v["center"][0] + b * d[1], v["center"][1] + c * d[2]))
+
+
+def vault_cage(shape: dict | None = None) -> "bmesh.types.BMesh":
+    """BOVEDA craneal (frontal, parietales y occipital): cubo subdividido mapeado a un ovoide, con la fosa temporal hundida por Inset + Extrude. Pieza independiente y cerrada."""
+    sh = shape or load_skull()
+    v = sh["vault"]
     bm = bmesh.new()
     _layer(bm)
     bmesh.ops.create_cube(bm, size=2.0)
-    bmesh.ops.subdivide_edges(bm, edges=bm.edges[:], cuts=CAGE_SEGMENTS - 1, use_grid_fill=True)
-    hard = _cube_edges(bm)
-    _set_crease(bm, hard, CREASE_HARD)
+    bmesh.ops.subdivide_edges(bm, edges=bm.edges[:], cuts=v["segments"] - 1, use_grid_fill=True)
+    _set_crease(bm, _cube_edges(bm), v["crease"])
+    lateral = {sx: [f for f in bm.faces if all(abs(vt.co.x - sx) < 1e-6 for vt in f.verts)] for sx in (1.0, -1.0)}  # parche lateral del cubo (antes de mapear)
+    for vert in bm.verts:
+        vert.co = vault_point(v, vert.co.x, vert.co.y, vert.co.z)
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    bm.faces.ensure_lookup_table()
+    tf = v["temporal_fossa"]
+    for sx in (1.0, -1.0):  # fosa temporal hundida en la pared lateral
+        side = [f for f in lateral[sx] if ((f.calc_center_median().y - tf["centre_yz"][0]) / tf["radii_yz"][0]) ** 2 + ((f.calc_center_median().z - tf["centre_yz"][1]) / tf["radii_yz"][1]) ** 2 < 1.0]
+        if side:
+            _pocket(bm, side, 0.0020, tf["depth"], (-sx, 0, 0), crease=0.0, ellipse=(tuple(tf["centre_yz"]), tuple(tf["radii_yz"])), axes=(1, 2), smooth=3)
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    return bm
+
+
+def face_cage(shape: dict | None = None) -> "bmesh.types.BMesh":
+    """CARA (maxilares, nasales y reborde de las orbitas): bloque con planos duros y pomulos marcados, orbitas y abertura piriforme hundidas por Inset + Extrude hacia dentro.
+    Pieza independiente y cerrada que queda en parte tapada por la boveda (sin unirse a ella)."""
+    sh = shape or load_skull()
+    f = sh["face"]
+    table = [tuple(r) for r in f["profile"]]
+    y0, y1 = table[0][0], table[-1][0]
+    bm = bmesh.new()
+    _layer(bm)
+    bmesh.ops.create_cube(bm, size=2.0)
+    bmesh.ops.subdivide_edges(bm, edges=bm.edges[:], cuts=f["segments"] - 1, use_grid_fill=True)
+    _set_crease(bm, _cube_edges(bm), CREASE_HARD)
     for v in bm.verts:
-        u, w, vv = v.co.x, v.co.z, v.co.y  # u lateral, w vertical, vv profundidad (-1 delante)
-        y = Y_FRONT + (Y_BACK - Y_FRONT) * (vv + 1.0) / 2.0
-        zt, zb, hw = _interp(PROFILE, y, 1), _interp(PROFILE, y, 2), _interp(PROFILE, y, 3)
-        s = (w + 1.0) / 2.0  # 0 abajo .. 1 arriba
-        # achaflanado: la base y el techo de la seccion se estrechan (esquinas cortadas, no cilindro)
+        u, w, vv = v.co.x, v.co.z, v.co.y
+        y = y0 + (y1 - y0) * (vv + 1.0) / 2.0
+        zt, zb, hw = _interp(table, y, 1), _interp(table, y, 2), _interp(table, y, 3)
+        s = (w + 1.0) / 2.0
         lower = 0.56 + 0.44 * _smooth(s / 0.46)
-        upper = 1.0 - 0.60 * _smooth((s - 0.56) / 0.44)
+        upper = 1.0 - f["upper_taper"] * _smooth((s - 0.56) / 0.44)
         width = hw * lower * upper
-        # cara plana: bajo la linea de las orbitas y por delante de los pomulos la mitad inferior se estrecha (maxilar)
-        face = _smooth((-0.050 - y) / 0.014)
+        fa = _smooth((-0.050 - y) / 0.014)  # cara plana: el maxilar se estrecha por debajo de las orbitas
         z = zb + s * (zt - zb)
-        width *= 1.0 - 0.30 * face * _smooth((-0.004 - z) / 0.028)
-        # pomulos marcados: salientes laterales a la altura de los malares
+        width *= 1.0 - f["lower_taper"] * 0.68 * fa * _smooth((-0.004 - z) / 0.028)
         cheek = math.exp(-(((y + 0.060) / 0.012) ** 2 + ((z + 0.004) / 0.012) ** 2))
-        width *= 1.0 + 0.09 * cheek
+        width *= 1.0 + f["cheek"] * cheek  # pomulos marcados
         v.co = Vector((u * width, y, z))
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     bm.faces.ensure_lookup_table()
-    # --- cavidades por Inset + Extrude hacia dentro
-    front = [f for f in bm.faces if f.normal.y < -0.5 and abs(f.calc_center_median().y - Y_FRONT) < 1e-6]
-    for sx in (1.0, -1.0):
-        orb = [f for f in front if ((f.calc_center_median().x - sx * 0.0183) / 0.0108) ** 2 + ((f.calc_center_median().z - 0.0040) / 0.0100) ** 2 < 1.0]
-        step = _pocket(bm, orb, 0.0016, 0.0085, (0, 1, 0), ellipse=((sx * 0.0183, 0.0040), (0.0108, 0.0100)))  # reborde y primer escalon de la orbita
-        _pocket(bm, step, 0.0020, 0.0110, (0, 1, 0), ellipse=((sx * 0.0183, 0.0040), (0.0092, 0.0084)))  # fondo de la orbita
-    nose = [f for f in front if ((f.calc_center_median().x) / 0.0068) ** 2 + ((f.calc_center_median().z + 0.0135) / 0.0105) ** 2 < 1.0]
-    step = _pocket(bm, nose, 0.0014, 0.0070, (0, 1, 0), ellipse=((0.0, -0.0135), (0.0068, 0.0105)))
-    _pocket(bm, step, 0.0016, 0.0070, (0, 1, 0), ellipse=((0.0, -0.0135), (0.0054, 0.0091)))
-    for sx in (1.0, -1.0):  # fosa temporal hundida
-        side = [f for f in bm.faces if f.normal.x * sx > 0.5 and -0.044 < f.calc_center_median().y < -0.008 and 0.012 < f.calc_center_median().z < 0.046 and abs(f.calc_center_median().x) > 0.030]
-        _pocket(bm, side, 0.0020, 0.0030, (-sx, 0, 0), crease=0.3)  # sin ajuste a elipse: la superficie lateral es curva y el ajuste la arruga
+    front = [fc for fc in bm.faces if fc.normal.y < -0.5 and abs(fc.calc_center_median().y - y0) < 1e-6]
+    for key in ("orbit", "nose"):
+        cfg = f[key]
+        cx, cz = cfg["centre_xz"]
+        rx, rz = cfg["radii_xz"]
+        for sx in ((1.0, -1.0) if key == "orbit" else (1.0,)):
+            ccx = sx * cx if key == "orbit" else cx
+            region = [fc for fc in front if ((fc.calc_center_median().x - ccx) / rx) ** 2 + ((fc.calc_center_median().z - cz) / rz) ** 2 < 1.0]
+            if not region:
+                continue
+            step = _pocket(bm, region, 0.0016 if key == "orbit" else 0.0014, cfg["depth"][0], (0, 1, 0), ellipse=((ccx, cz), (rx, rz)))
+            _pocket(bm, step, 0.0020 if key == "orbit" else 0.0016, cfg["depth"][1], (0, 1, 0), ellipse=((ccx, cz), (rx * 0.85, rz * 0.84)))
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     return bm
 
 
-def box_skull_cage() -> "bmesh.types.BMesh":
-    """Cage completa del craneo: bloque + arcos cigomaticos planos + mastoides + condilos occipitales + arcada dental (todo en cajas)."""
-    bm = skull_cage()
-    for sx in (1.0, -1.0):
-        arch = sweep_box([((sx * 0.0300, -0.0585, -0.0090), (0, 0, 1), 0.0040, 0.0017), ((sx * 0.0380, -0.0490, -0.0087), (0, 0, 1), 0.0044, 0.0018), ((sx * 0.0398, -0.0330, -0.0078), (0, 0, 1), 0.0044, 0.0018),
-                          ((sx * 0.0385, -0.0190, -0.0060), (0, 0, 1), 0.0040, 0.0018), ((sx * 0.0345, -0.0100, -0.0040), (0, 0, 1), 0.0038, 0.0018)])
-        _append(bm, arch)
-        _append(bm, box_cage((sx * 0.0194, -0.0139, -0.0138), (0.0070, 0.0085, 0.0110), segments=5))  # apofisis mastoides
-        _append(bm, box_cage((sx * 0.0120, 0.0040, -0.0045), (0.0060, 0.0140, 0.0050), segments=4))  # condilos occipitales
-    teeth = sweep_box([((-0.0225, -0.0560, -0.0345), (0, 0, 1), 0.0046, 0.0034), ((-0.0120, -0.0710, -0.0365), (0, 0, 1), 0.0046, 0.0034), ((0.0, -0.0765, -0.0370), (0, 0, 1), 0.0046, 0.0034),
-                       ((0.0120, -0.0710, -0.0365), (0, 0, 1), 0.0046, 0.0034), ((0.0225, -0.0560, -0.0345), (0, 0, 1), 0.0046, 0.0034)])
-    _append(bm, teeth)
+def ellipsoid_cage(centre, radii, segments: int = 8, crease: float = 0.0) -> "bmesh.types.BMesh":
+    """Elipsoide REDONDEADO (esfera de cubo subdividida): para los huesos pequenos de forma ovoide (temporal, mastoides, condilos); sin aristas de caja."""
+    bm = bmesh.new()
+    _layer(bm)
+    bmesh.ops.create_cube(bm, size=2.0)
+    bmesh.ops.subdivide_edges(bm, edges=bm.edges[:], cuts=segments - 1, use_grid_fill=True)
+    for v in bm.verts:
+        d = _cubesphere(v.co.x, v.co.y, v.co.z)
+        v.co = Vector((centre[0] + radii[0] * d[0], centre[1] + radii[1] * d[1], centre[2] + radii[2] * d[2]))
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     return bm
+
+
+def zygomatic_cage(sx: float) -> "bmesh.types.BMesh":
+    """HUESO CIGOMATICO (malar + arco plano): UN barrido de seccion rectangular, ancho en el pomulo y plano en el arco hasta la raiz temporal. Pieza independiente."""
+    return sweep_box([
+        ((sx * 0.0300, -0.0575, -0.0060), (0, 0, 1), 0.0062, 0.0026),  # malar
+        ((sx * 0.0372, -0.0500, -0.0082), (0, 0, 1), 0.0050, 0.0022),
+        ((sx * 0.0395, -0.0360, -0.0078), (0, 0, 1), 0.0040, 0.0017),  # arco plano
+        ((sx * 0.0392, -0.0220, -0.0066), (0, 0, 1), 0.0038, 0.0017),
+        ((sx * 0.0360, -0.0110, -0.0045), (0, 0, 1), 0.0040, 0.0019),  # raiz temporal
+    ], chamfer=0.28)
+
+
+def temporal_cage(sx: float) -> "bmesh.types.BMesh":
+    """HUESO TEMPORAL (escama baja, oido y fosa glenoidea): bloque subdividido bajo la pared lateral de la boveda. Pieza independiente."""
+    return ellipsoid_cage((sx * 0.0275, -0.0100, -0.0030), (0.0125, 0.0215, 0.0115), segments=10)
+
+
+def mastoid_cage(sx: float) -> "bmesh.types.BMesh":
+    """APOFISIS MASTOIDES (cuelga del temporal, hito mastoid_process). Pieza independiente."""
+    return ellipsoid_cage((sx * 0.0194, -0.0139, -0.0138), (0.0072, 0.0088, 0.0115), segments=8)
+
+
+def condyle_cage(sx: float) -> "bmesh.types.BMesh":
+    """CONDILO OCCIPITAL (articula con C1; su centro es el origen del craneo). Pieza independiente."""
+    return ellipsoid_cage((sx * 0.0120, 0.0040, -0.0045), (0.0062, 0.0145, 0.0052), segments=6)
+
+
+def teeth_cage(lower: bool = False) -> "bmesh.types.BMesh":
+    """ARCADA DENTAL (superior o inferior): barrido de seccion rectangular a lo largo del arco. Pieza independiente."""
+    z = -0.0405 if lower else -0.0335
+    zc = -0.0425 if lower else -0.0370
+    r = 0.0044 if lower else 0.0046
+    t = 0.0034
+    pts = [(-0.0215, -0.056, z), (-0.0115, -0.070, zc + 0.0005), (0.0, -0.075 if lower else -0.0765, zc), (0.0115, -0.070, zc + 0.0005), (0.0215, -0.056, z)]
+    return sweep_box([(p, (0, 0, 1), r, t) for p in pts])
+
+
+SKULL_PARTS = {  # nombre del objeto -> constructor de su jaula
+    "Skull": vault_cage, "SkullFace": face_cage, "ZygomaticL": lambda: zygomatic_cage(1.0), "ZygomaticR": lambda: zygomatic_cage(-1.0),
+    "TemporalL": lambda: temporal_cage(1.0), "TemporalR": lambda: temporal_cage(-1.0), "MastoidL": lambda: mastoid_cage(1.0), "MastoidR": lambda: mastoid_cage(-1.0),
+    "CondyleL": lambda: condyle_cage(1.0), "CondyleR": lambda: condyle_cage(-1.0), "TeethUpper": lambda: teeth_cage(False),
+}
 
 
 def jaw_cage() -> "bmesh.types.BMesh":
@@ -233,18 +316,14 @@ def jaw_cage() -> "bmesh.types.BMesh":
         ((0.0306, -0.0278, -0.0320), (0, 1, 0), 0.0092, 0.0030),
         ((0.0302, -0.0240, -0.0420), (0, 1, 0), 0.0088, 0.0040),  # gonion (angulo)
         ((0.0302, -0.0262, -0.0452), (0, 0.6, 0.8), 0.0080, 0.0046),
-        ((0.0296, -0.0310, -0.0468), (0, 0, 1), 0.0072, 0.0050),  # cuerpo
-        ((0.0250, -0.0470, -0.0482), (0, 0, 1), 0.0070, 0.0052),
-        ((0.0170, -0.0600, -0.0488), (0, 0, 1), 0.0068, 0.0054),
-        ((0.0080, -0.0690, -0.0490), (0, 0, 1), 0.0068, 0.0056),
+        ((0.0286, -0.0310, -0.0445), (0, 0, 1), 0.0068, 0.0050),  # cuerpo
+        ((0.0232, -0.0470, -0.0458), (0, 0, 1), 0.0066, 0.0052),
+        ((0.0155, -0.0600, -0.0462), (0, 0, 1), 0.0064, 0.0054),
+        ((0.0072, -0.0690, -0.0464), (0, 0, 1), 0.0064, 0.0056),
     ]
-    mid = [((0.0, -0.0720, -0.0490), (0, 0, 1), 0.0070, 0.0058)]  # menton plano
+    mid = [((0.0, -0.0715, -0.0465), (0, 0, 1), 0.0066, 0.0058)]  # menton plano
     right = [((-c[0], c[1], c[2]), (-e[0], e[1], e[2]), w, t) for c, e, w, t in reversed(left)]
     bm = sweep_box(left + mid + right, chamfer=0.30, crease=CREASE_HARD)
-    # arcada dental inferior
-    teeth = sweep_box([((-0.0210, -0.0560, -0.0405), (0, 0, 1), 0.0044, 0.0034), ((-0.0110, -0.0700, -0.0420), (0, 0, 1), 0.0044, 0.0034), ((0.0, -0.0750, -0.0425), (0, 0, 1), 0.0044, 0.0034),
-                       ((0.0110, -0.0700, -0.0420), (0, 0, 1), 0.0044, 0.0034), ((0.0210, -0.0560, -0.0405), (0, 0, 1), 0.0044, 0.0034)])
-    _append(bm, teeth)
     return bm
 
 
@@ -276,13 +355,20 @@ def subdivide(bm, levels: int = SUBSURF_LEVELS, scale: float = 1000.0) -> tuple:
 _CACHE: dict = {}
 
 
-def box_skull() -> tuple:
-    if "skull" not in _CACHE:
-        _CACHE["skull"] = subdivide(box_skull_cage())
-    return _CACHE["skull"]
+def skull_parts() -> dict:
+    """{nombre: (vertices, caras)} de las piezas INDEPENDIENTES del craneo (en H, relativo al origen), ya subdivididas (cache)."""
+    if "parts" not in _CACHE:
+        _CACHE["parts"] = {n: subdivide(f(), levels=SUBSURF_LEVELS) for n, f in SKULL_PARTS.items()}
+    return _CACHE["parts"]
 
 
 def box_mandible() -> tuple:
     if "jaw" not in _CACHE:
         _CACHE["jaw"] = subdivide(jaw_cage())
     return _CACHE["jaw"]
+
+
+def teeth_lower() -> tuple:
+    if "teeth_lower" not in _CACHE:
+        _CACHE["teeth_lower"] = subdivide(teeth_cage(True))
+    return _CACHE["teeth_lower"]

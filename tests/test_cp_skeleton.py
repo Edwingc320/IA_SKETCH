@@ -29,6 +29,75 @@ def mirror_error(o):
     return max(tree.find_nearest(Vector((-v.co.x, v.co.y, v.co.z)))[3] for v in o.data.vertices)
 
 
+def islands(o) -> int:
+    """Numero de componentes conexas de la malla de un objeto (1 = una sola pieza cerrada, sin cascarones sueltos)."""
+    import bmesh
+
+    bm = bmesh.new()
+    bm.from_mesh(o.data)
+    bm.verts.ensure_lookup_table()
+    parent = list(range(len(bm.verts)))
+
+    def find(a):
+        while parent[a] != a:
+            parent[a] = parent[parent[a]]
+            a = parent[a]
+        return a
+
+    for e in bm.edges:
+        a, b = find(e.verts[0].index), find(e.verts[1].index)
+        if a != b:
+            parent[a] = b
+    n = len({find(i) for i in range(len(bm.verts))})
+    bm.free()
+    return n
+
+
+SKULL_PREFIXES = ("cp.Skull", "cp.Zygomatic", "cp.Temporal", "cp.Mastoid", "cp.Condyle", "cp.TeethUpper")  # piezas independientes del craneo (la boveda es cp.Skull)
+
+
+def skull_names(parts):
+    return sorted(n for n in parts if n.startswith(SKULL_PREFIXES))
+
+
+class SkullGroup:
+    """El conjunto de piezas INDEPENDIENTES del craneo visto como un grupo para medirlo (comparten origen y orientacion): ray_cast y vertices del grupo, sin unirlas."""
+
+    def __init__(self, parts, names=None):
+        self.objs = [parts[n] for n in (names or skull_names(parts))]
+
+    @property
+    def matrix_world(self):
+        return self.objs[0].matrix_world
+
+    @property
+    def data(self):
+        return self
+
+    @property
+    def vertices(self):
+        return [v for o in self.objs for v in o.data.vertices]
+
+    def ray_cast(self, origin, direction):
+        best, bd = (False, None, None, None), 1e18
+        for o in self.objs:
+            ok, loc, nor, idx = o.ray_cast(origin, direction)
+            if ok and (loc - origin).length < bd:
+                best, bd = (ok, loc, nor, idx), (loc - origin).length
+        return best
+
+
+def pair_mirror_error(parts, name):
+    """Error de simetria de una pieza: si es de un lado (sufijo L/R), la distancia de sus vertices espejados a la SUPERFICIE de su pareja; si es central, a su propia superficie."""
+    from mathutils.bvhtree import BVHTree
+
+    if name[-1] not in "LR" or not name[:-1].endswith(("Zygomatic", "Temporal", "Mastoid", "Condyle")):
+        return mirror_error(parts[name])
+    other = parts[name[:-1] + ("R" if name[-1] == "L" else "L")]
+    tree = BVHTree.FromObject(other, bpy.context.evaluated_depsgraph_get())
+    return max(tree.find_nearest(Vector((-v.co.x, v.co.y, v.co.z)))[3] for v in parts[name].data.vertices)
+
+
 def disc_centred(o, half, tol=0.006):
     """El primer disco (lente en torno al origen) esta centrado: el centroide de los vertices de su franja de altura (|z| < 1.2 half) cae a < `tol` del origen."""
     band = [v.co for v in o.data.vertices if abs(v.co.z) < 1.2 * half and abs(v.co.y) < 0.0105 * 1.75 and abs(v.co.x) < 0.0105 * 1.75]  # sin el arco ni la espinosa, que cruzan la franja por detras
@@ -47,7 +116,7 @@ class TestCpSkeleton(unittest.TestCase):
         self.parts = cp.build_cp_skeleton(1.75)
 
     def test_four_independent_objects_with_the_cp_index_names(self):
-        self.assertEqual(sorted(self.parts), ["cp.CervicalSpine", "cp.FemurL", "cp.FemurR", "cp.LumbarSpine", "cp.Mandible", "cp.Pelvis", "cp.Skull", "cp.ThoracicSpine"])
+        self.assertEqual(sorted(self.parts), sorted(set(cp.PARENTS) | {"cp.Pelvis"}))
         self.assertEqual(sorted(o.name for o in bpy.data.objects), sorted(self.parts))
         for o in self.parts.values():
             self.assertEqual(o.type, "MESH")
@@ -193,7 +262,7 @@ class TestCpAxial(unittest.TestCase):
         return self.parts[name].matrix_world.translation.z
 
     def test_the_eight_parts_exist_and_form_one_chain_down_to_the_pelvis(self):
-        self.assertEqual(sorted(self.parts), ["cp.CervicalSpine", "cp.FemurL", "cp.FemurR", "cp.LumbarSpine", "cp.Mandible", "cp.Pelvis", "cp.Skull", "cp.ThoracicSpine"])
+        self.assertEqual(sorted(self.parts), sorted(set(cp.PARENTS) | {"cp.Pelvis"}))
         for n, par in cp.PARENTS.items():
             self.assertIs(self.parts[n].parent, self.parts[par], n)
         for n, o in self.parts.items():
@@ -222,8 +291,8 @@ class TestCpAxial(unittest.TestCase):
             self.assertTrue(disc_centred(self.parts[name], half), name)
         xs = [v.co.x for v in self.parts["cp.Skull"].data.vertices]
         self.assertAlmostEqual(max(xs) + min(xs), 0.0, delta=1e-5)  # el craneo es simetrico respecto al plano sagital del origen
-        for n in ("cp.Skull", "cp.Mandible"):  # cada vertice espejado en x coincide con otro vertice de la misma malla (hasta 0.5 mm)
-            self.assertLess(mirror_error(self.parts[n]), 1.5e-3, n)  # 1.5 mm: el Boolean y los anillos de los tubos no triangulan igual a cada lado
+        for n in (*skull_names(self.parts), "cp.Mandible", "cp.TeethLower"):  # cada pieza (o su pareja izquierda/derecha) es el espejo de si misma
+            self.assertLess(pair_mirror_error(self.parts, n), 1.5e-3, n)  # 1.5 mm: el Boolean y los anillos de los tubos no triangulan igual a cada lado
         tmj = self.parts["cp.Skull"].matrix_world.translation + Vector((0.0, ax.TMJ[1], ax.TMJ[2])) * h
         self.assertLess((self.parts["cp.Mandible"].matrix_world.translation - tmj).length, 1e-5)
 
@@ -261,7 +330,7 @@ class TestCpAxial(unittest.TestCase):
 
     def test_skull_and_mandible_have_head_proportions(self):
         h = self.h
-        sk, md = self.parts["cp.Skull"], self.parts["cp.Mandible"]
+        sk, md = SkullGroup(self.parts), self.parts["cp.Mandible"]
         ex = lambda o, i: max(v.co[i] for v in o.data.vertices) - min(v.co[i] for v in o.data.vertices)  # noqa: E731
         self.assertTrue(0.075 * h < ex(sk, 0) < 0.100 * h, "anchura del craneo (~14.5 cm)")
         self.assertTrue(0.105 * h < ex(sk, 1) < 0.135 * h, "longitud antero-posterior: ~19 cm el neurocraneo (0.109 H) mas la arcada dental que sobresale")
@@ -308,7 +377,7 @@ class TestCpAxial(unittest.TestCase):
 class TestCpRefined(unittest.TestCase):
     """Pelvis y craneo de alta densidad: ala iliaca real (no plato), copa acetabular, craneo con cavidades reales y mandibula con angulo, todo anclado a los hitos."""
 
-    PART = {"ilium": "cp.Pelvis", "ischium": "cp.Pelvis", "pubis": "cp.Pelvis", "sacrum": "cp.Pelvis", "coccyx": "cp.Pelvis", "cranium": "cp.Skull", "mandible": "cp.Mandible"}
+    PART = {"ilium": "cp.Pelvis", "ischium": "cp.Pelvis", "pubis": "cp.Pelvis", "sacrum": "cp.Pelvis", "coccyx": "cp.Pelvis", "cranium": "SKULL", "mandible": "cp.Mandible"}
     NOT_BONE = ("body_center_of_mass", "head_center_of_gravity")  # centros de masa y de gravedad: no son puntos de hueso
 
     @classmethod
@@ -334,37 +403,43 @@ class TestCpRefined(unittest.TestCase):
             name = "cp.Femur" + a.bone[-1] if b == "femur" else self.PART.get(b)
             if name is None:
                 continue
-            o = parts[name]
-            if name not in trees:
-                trees[name] = BVHTree.FromObject(o, dg)
-            q = o.matrix_world.inverted() @ Vector(a.point)
-            loc, nor, _, d = trees[name].find_nearest(q)
-            out[n] = 0.0 if (q - loc).dot(nor) < 0 else d * 1000.0
+            best = float("inf")
+            for part in (skull_names(parts) if name == "SKULL" else [name]):  # el craneo son varias piezas independientes: vale la mas cercana
+                o = parts[part]
+                if part not in trees:
+                    trees[part] = BVHTree.FromObject(o, dg)
+                q = o.matrix_world.inverted() @ Vector(a.point)
+                loc, nor, _, d = trees[part].find_nearest(q)
+                best = min(best, 0.0 if (q - loc).dot(nor) < 0 else d * 1000.0)
+            out[n] = best
         return out
 
     def test_the_meshes_are_high_density(self):
         counts = {n: len(o.data.polygons) for n, o in self.parts.items()}
         self.assertGreater(counts["cp.Pelvis"], 60000)  # alas iliacas, copas y anillo isquiopubiano
-        self.assertGreater(counts["cp.Skull"], 100000)  # jaula de 40 x 40 por lado + Subdivision Surface nivel 2
-        self.assertGreater(counts["cp.Mandible"], 3000)  # barrido en U de 21 secciones + Subdivision Surface nivel 2
+        self.assertGreater(counts["cp.Skull"], 100000)  # boveda: jaula de 36 x 36 por lado + Subdivision Surface nivel 2
+        self.assertGreater(counts["cp.SkullFace"], 60000)  # cara: jaula de 28 x 28 por lado + Subdivision Surface nivel 2
+        self.assertGreater(counts["cp.Mandible"], 2000)  # barrido en U de 21 secciones + Subdivision Surface nivel 2
         self.assertGreater(sum(counts.values()), 250000)
         for n, floor in (('cp.LumbarSpine', 5000), ('cp.ThoracicSpine', 10000), ('cp.CervicalSpine', 5000)):
             self.assertGreater(counts[n], floor, n)  # cada vertebra es una jaula (cuerpo, arco, apofisis) subdividida: no un cilindro
-        for n in ("cp.Pelvis", "cp.Skull", "cp.Mandible"):
+        for n in ("cp.Pelvis", *skull_names(self.parts), "cp.Mandible"):
             self.assertTrue(all(p.use_smooth for p in self.parts[n].data.polygons), n)  # sombreado suave
         self.assertEqual(cp.validate(self.parts), [])  # superficies cerradas (manifold) y con volumen positivo
 
     def test_every_pelvis_femur_skull_and_mandible_landmark_is_within_12_mm_at_three_heights(self):
-        for h in (1.5, 1.75, 2.05):
-            parts = cp.build_cp_skeleton(h)
+        try:
+            for h in (1.5, 1.75, 2.05):
+                parts = cp.build_cp_skeleton(h)
+                bpy.context.view_layer.update()
+                d = self.landmark_distances(h, parts)
+                self.assertGreaterEqual(len(d), 69, h)
+                bad = {n: round(v, 1) for n, v in d.items() if v >= 12.0 * h / 1.75}
+                self.assertEqual(bad, {}, h)
+        finally:  # deja la escena como la encontro la clase (las demas pruebas usan self.parts), pase o falle
+            cp.build_cp_skeleton(1.75)
             bpy.context.view_layer.update()
-            d = self.landmark_distances(h, parts)
-            self.assertGreaterEqual(len(d), 69, h)
-            bad = {n: round(v, 1) for n, v in d.items() if v >= 12.0 * h / 1.75}
-            self.assertEqual(bad, {}, h)
-        cp.build_cp_skeleton(1.75)  # deja la escena como la encontro la clase (las demas pruebas usan self.parts)
-        bpy.context.view_layer.update()
-        type(self).parts = {o.name: o for o in bpy.data.objects if o.name.startswith("cp.")}
+            type(self).parts = {o.name: o for o in bpy.data.objects if o.name.startswith("cp.")}
 
     def test_the_iliac_wing_is_a_curved_solid_sheet_not_a_flat_plate(self):
         from anatomical_core import cp_refine
@@ -431,8 +506,8 @@ class TestCpRefined(unittest.TestCase):
             self.assertGreater((q - loc).dot(nor), 0.0)
 
     def test_the_pelvis_skull_and_mandible_are_mirror_symmetric(self):
-        for n in ("cp.Pelvis", "cp.Skull", "cp.Mandible"):
-            self.assertLess(mirror_error(self.parts[n]), 1.5e-3, n)  # 1.5 mm: el Boolean y los anillos de los tubos no triangulan igual a cada lado
+        for n in ("cp.Pelvis", *skull_names(self.parts), "cp.Mandible"):
+            self.assertLess(pair_mirror_error(self.parts, n), 1.5e-3, n)  # 1.5 mm: el Boolean y los anillos de los tubos no triangulan igual a cada lado
 
     def test_the_obturator_foramen_and_the_symphysis_are_preserved(self):
         from mathutils.bvhtree import BVHTree
@@ -453,14 +528,14 @@ class TestCpRefined(unittest.TestCase):
 
     def test_the_skull_has_real_orbits_and_a_piriform_aperture(self):
         h = self.h
-        sk = self.parts["cp.Skull"]
+        sk = SkullGroup(self.parts)
 
         def first_hit(x, z):  # primer punto de la superficie que alcanza un rayo que avanza hacia atras (+y) por (x, z)
             ok, loc, _, _ = sk.ray_cast(Vector((x * h, -0.2 * h, z * h)), Vector((0, 1, 0)))
             self.assertTrue(ok)
             return loc.y / h
 
-        rim = first_hit(0.0183, 0.0160)  # por encima de la orbita: reborde / frente
+        rim = first_hit(0.0183, -0.0085)  # justo bajo la orbita: el plano de la cara (maxilar)
         orbit = first_hit(0.0183, 0.0040)  # centro de la orbita
         self.assertGreater(orbit - rim, 0.010)  # la orbita esta hundida >= 0.010 H (~17 mm) respecto a su reborde
         cheek = first_hit(0.0250, -0.0120)
@@ -471,7 +546,7 @@ class TestCpRefined(unittest.TestCase):
 
     def test_the_skull_has_the_dimensions_of_a_human_cranium(self):
         h = self.h
-        sk = self.parts["cp.Skull"]
+        sk = SkullGroup(self.parts)
         co = [v.co for v in sk.data.vertices]
         self.assertGreater(max(p.z for p in co) / h, 0.074)  # boveda a ~0.077 H sobre los condilos occipitales (13 cm)
         cranium_width = max(p.x for p in co if p.z > 0.020 * h) - min(p.x for p in co if p.z > 0.020 * h)
@@ -480,25 +555,21 @@ class TestCpRefined(unittest.TestCase):
         self.assertLess(min(p.y for p in co) / h, -0.075)  # cara adelante
         self.assertLess(max(p.y for p in co if p.z < -0.0 and abs(p.x) < 0.01 * h) / h, 0.050)
 
-    def test_the_skull_is_a_hard_surface_block_with_flat_forehead_marked_cheekbones_and_a_sunken_temporal_fossa(self):
+    def test_the_skull_has_marked_cheekbones_and_a_sunken_temporal_fossa(self):  # (la frente plana y el techo achatado se sustituyeron por la boveda ovoide: ver TestCpSkullParts)
         h = self.h
-        sk = self.parts["cp.Skull"]
+        sk = SkullGroup(self.parts)
 
         def hit(origin, direction):
             ok, loc, _, _ = sk.ray_cast(Vector(origin) * h, Vector(direction))
             self.assertTrue(ok)
             return loc / h
 
-        forehead = [hit((x, -0.2, 0.046), (0, 1, 0)).y for x in (-0.012, 0.0, 0.012)]  # frente plana: el plano no se curva en sentido lateral
-        self.assertLess(max(forehead) - min(forehead), 0.0015)
         co = [v.co for v in sk.data.vertices]
         cheek = max(p.x for p in co if -0.010 * h < p.z < 0.0 and -0.066 * h < p.y < -0.054 * h) / h
         self.assertGreater(cheek, 0.0365)  # pomulos marcados: salen mas que el reborde de las orbitas
         fossa = hit((0.2, -0.026, 0.029), (-1, 0, 0)).x
         behind = hit((0.2, -0.004, 0.029), (-1, 0, 0)).x  # misma altura, detras de la fosa
         self.assertGreater(behind - fossa, 0.0015)  # fosa temporal hundida respecto a la bobeda lateral que la rodea
-        flat_top = [hit((x, 0.0, 0.2), (0, 0, -1)).z for x in (-0.010, 0.0, 0.010)]
-        self.assertLess(max(flat_top) - min(flat_top), 0.0030)  # techo achatado (planos duros, no una esfera)
 
     def test_the_mandible_has_angle_ascending_ramus_body_and_chin(self):
         from mathutils.bvhtree import BVHTree
@@ -696,6 +767,101 @@ class TestCpSpine(unittest.TestCase):
         post = max(v[1] for v in verts if abs(v[0]) < 0.1 * p["bw"] * h)
         lat = max(v[1] for v in verts if abs(v[0]) > 0.7 * p["bw"] * h)
         self.assertGreaterEqual(post, lat)  # sin pared posterior concava
+
+
+@unittest.skipUnless(HAVE_BPY, "requiere Blender (bpy)")
+class TestCpSkullParts(unittest.TestCase):
+    """Craneo en piezas INDEPENDIENTES (bovedas, cara, cigomaticos, temporales, mastoides, condilos, dientes, mandibula): cada una una malla cerrada propia, que se tocan sin unirse
+    en un solo solido; boveda ovoide conforme a las imagenes de referencia y profundidades (orbitas, fosa nasal y fosas temporales)."""
+
+    @classmethod
+    def setUpClass(cls):
+        bpy.ops.wm.read_factory_settings(use_empty=True)
+        cls.h = 1.75
+        cls.parts = cp.build_cp_skeleton(cls.h)
+        bpy.context.view_layer.update()
+        cls.sk = SkullGroup(cls.parts)
+
+    NAMES = ["cp.CondyleL", "cp.CondyleR", "cp.MastoidL", "cp.MastoidR", "cp.Skull", "cp.SkullFace", "cp.TeethUpper", "cp.TemporalL", "cp.TemporalR", "cp.ZygomaticL", "cp.ZygomaticR"]
+
+    def test_the_skull_is_made_of_independent_closed_pieces_not_one_solid(self):
+        self.assertEqual(skull_names(self.parts), self.NAMES)
+        for n in self.NAMES + ["cp.Mandible", "cp.TeethLower"]:
+            o = self.parts[n]
+            self.assertEqual(islands(o), 1, n)  # una sola pieza cerrada por objeto: nada de cascarones sueltos dentro del mismo objeto
+            self.assertEqual(o.type, "MESH")
+        self.assertEqual(len({self.parts[n].data.name for n in self.NAMES}), len(self.NAMES))  # cada pieza con su propia malla
+        self.assertEqual(cp.validate({n: self.parts[n] for n in self.NAMES + ["cp.Mandible", "cp.TeethLower"]}), [])  # cerradas (manifold) y con volumen positivo
+
+    def test_the_pieces_hang_from_their_bone_and_share_the_skull_origin(self):
+        for n in self.NAMES[:4] + self.NAMES[5:]:
+            self.assertIs(self.parts[n].parent, self.parts["cp.Skull"], n)
+            self.assertLess((self.parts[n].matrix_world.translation - self.parts["cp.Skull"].matrix_world.translation).length, 1e-6, n)
+        self.assertIs(self.parts["cp.TeethLower"].parent, self.parts["cp.Mandible"])
+        self.assertIs(self.parts["cp.Skull"].parent, self.parts["cp.CervicalSpine"])
+
+    def test_the_junctions_between_groups_touch_without_being_fused(self):
+        from mathutils.bvhtree import BVHTree
+
+        dg = bpy.context.evaluated_depsgraph_get()
+        trees = {}
+
+        def touches(a, b, lim=0.003):
+            if b not in trees:
+                trees[b] = BVHTree.FromObject(self.parts[b], dg)
+            inv = self.parts[b].matrix_world.inverted()
+            for v in list(self.parts[a].data.vertices)[::3]:
+                q = inv @ (self.parts[a].matrix_world @ v.co)
+                loc, nor, _, d = trees[b].find_nearest(q)
+                if d < lim or (q - loc).dot(nor) < 0:
+                    return True
+            return False
+
+        for a, b in (("cp.Skull", "cp.SkullFace"), ("cp.Skull", "cp.TemporalL"), ("cp.Skull", "cp.TemporalR"), ("cp.SkullFace", "cp.ZygomaticL"), ("cp.SkullFace", "cp.ZygomaticR"),
+                     ("cp.ZygomaticL", "cp.TemporalL"), ("cp.ZygomaticR", "cp.TemporalR"), ("cp.TemporalL", "cp.MastoidL"), ("cp.TemporalR", "cp.MastoidR"), ("cp.Skull", "cp.CondyleL"),
+                     ("cp.Skull", "cp.CondyleR"), ("cp.SkullFace", "cp.TeethUpper"), ("cp.Mandible", "cp.TeethLower")):
+            self.assertTrue(touches(a, b) or touches(b, a), f"{a} y {b} no se tocan")
+        self.assertEqual(sum(1 for o in bpy.data.objects if o.name.startswith(SKULL_PREFIXES)), len(self.NAMES))  # y siguen siendo objetos distintos (no se unieron)
+
+    def test_the_vault_is_a_smooth_ovoid_like_the_reference_images(self):
+        h = self.h
+        vs = [v.co for v in self.parts["cp.Skull"].data.vertices]
+        spec = __import__("anatomical_core.cp_skullbox", fromlist=["x"]).load_skull()["vault"]
+        zc, cu, cy = spec["center"][1], spec["radius_up"], spec["center"][0]
+        eq = max(abs(p.x) for p in vs if abs(p.z / h - zc) < 0.004)  # semianchura ecuatorial
+        self.assertTrue(0.80 < max(abs(p.x) for p in vs if abs(p.z / h - (zc + 0.5 * cu)) < 0.003) / eq < 0.96)  # se estrecha al subir (una caja daria ~1.0)
+        self.assertTrue(0.60 < max(abs(p.x) for p in vs if abs(p.z / h - (zc + 0.8 * cu)) < 0.003) / eq < 0.82)
+        top = max(p.z for p in vs)
+        for xf, lo, hi in ((0.5, 0.0015, 0.0060), (0.75, 0.0060, 0.0160)):  # el techo cae al alejarse de la linea media: curva de ovoide, no un plano
+            zs = [p.z for p in vs if abs(abs(p.x) - xf * eq) < 0.003 * h and abs(p.y / h - cy) < 0.006 * h and p.z > 0]
+            self.assertTrue(lo * h < top - max(zs) < hi * h, xf)
+
+    def test_the_overall_proportions_follow_the_reference_images(self):
+        h = self.h
+        ref = __import__("json").loads((ROOT / "config" / "cp" / "skull_reference.json").read_text(encoding="utf-8"))
+        md = self.parts["cp.Mandible"]
+        g = [v.co for v in self.sk.data.vertices]
+        jaw = [md.matrix_world @ v.co - self.parts["cp.Skull"].matrix_world.translation for v in md.data.vertices]
+        top, bottom = max(p.z for p in g), min(p.z for p in jaw)
+        width = max(p.x for p in g) - min(p.x for p in g)
+        length = max(max(p.y for p in g), max(p.y for p in jaw)) - min(min(p.y for p in g), min(p.y for p in jaw))
+        self.assertAlmostEqual(width / (top - bottom), ref["front"]["aspect_w_over_h"], delta=0.06)  # ancho / alto de frente (0.683 en la imagen)
+        self.assertAlmostEqual(length / (top - bottom), ref["side"]["aspect_w_over_h"], delta=0.07)  # largo / alto de perfil (0.958 en la imagen)
+
+    def test_resizing_the_vault_scales_the_pieces_of_the_same_bone_but_not_the_mandible(self):
+        before = {n: max(v.co.x for v in self.parts[n].data.vertices) - min(v.co.x for v in self.parts[n].data.vertices) for n in ("cp.SkullFace", "cp.ZygomaticL", "cp.Mandible")}
+        f = cp.cp_resize(self.parts["cp.Skull"], self.parts["cp.Skull"]["cp_ref_dim_m"] * 1.1)
+        bpy.context.view_layer.update()
+        for n in ("cp.SkullFace", "cp.ZygomaticL"):
+            now = max(v.co.x for v in self.parts[n].data.vertices) - min(v.co.x for v in self.parts[n].data.vertices)
+            self.assertAlmostEqual(now / before[n], f, places=4, msg=n)
+        now = max(v.co.x for v in self.parts["cp.Mandible"].data.vertices) - min(v.co.x for v in self.parts["cp.Mandible"].data.vertices)
+        self.assertAlmostEqual(now / before["cp.Mandible"], 1.0, places=6)  # la mandibula tiene su propia dimension
+        cp.cp_resize(self.parts["cp.Skull"], self.parts["cp.Skull"]["cp_ref_dim_m"] / f)  # deshace
+
+    def test_every_skull_piece_is_mirror_symmetric(self):
+        for n in self.NAMES + ["cp.Mandible", "cp.TeethLower"]:
+            self.assertLess(pair_mirror_error(self.parts, n), 1.5e-3, n)
 
 
 if __name__ == "__main__":

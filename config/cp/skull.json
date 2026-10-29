@@ -1,0 +1,103 @@
+{
+ "schema_version": 2,
+ "description": "Forma del craneo de la linea cp.* (fracciones de la altura H, relativo al centro de los condilos occipitales: x lateral izquierda, y posterior, z arriba). La BOVEDA es un superelipsoide ovoide ajustado a las siluetas de las tres imagenes de referencia (craneo frontal, perfil y atras) por minimos cuadrados sobre sus perfiles de anchura (error medio ~2.5 mm a 1.75 m); la CARA es un bloque con planos (perfiles por secciones) con orbitas y fosa nasal hundidas por Inset + Extrude. Los largos siguen mandando los datos antropometricos (vertice a 0.9985 H, menton a 0.87 H); la imagen manda en la forma. Cada pieza es una malla independiente (sin unirlas).",
+ "vault": {
+  "center": [
+   -0.0131,
+   0.0334
+  ],
+  "half_width": 0.0428,
+  "width_skew": 0.0,
+  "radius_front": 0.0588,
+  "radius_back": 0.0548,
+  "radius_up": 0.0441,
+  "radius_down": 0.0515,
+  "exponent": 2.2,
+  "segments": 36,
+  "crease": 0.2,
+  "temporal_fossa": {
+   "centre_yz": [
+    -0.0379,
+    0.0285
+   ],
+   "radii_yz": [
+    0.0165,
+    0.0155
+   ],
+   "depth": 0.003
+  }
+ },
+ "face": {
+  "y_front": -0.0745,
+  "profile": [
+   [
+    -0.0745,
+    0.019,
+    -0.037,
+    0.029
+   ],
+   [
+    -0.069,
+    0.023,
+    -0.037,
+    0.0325
+   ],
+   [
+    -0.062,
+    0.027,
+    -0.036,
+    0.0345
+   ],
+   [
+    -0.05,
+    0.03,
+    -0.031,
+    0.0385
+   ],
+   [
+    -0.03,
+    0.032,
+    -0.016,
+    0.04
+   ],
+   [
+    -0.015,
+    0.033,
+    -0.011,
+    0.0405
+   ]
+  ],
+  "segments": 28,
+  "upper_taper": 0.62,
+  "lower_taper": 0.44,
+  "cheek": 0.09,
+  "orbit": {
+   "centre_xz": [
+    0.0183,
+    0.004
+   ],
+   "radii_xz": [
+    0.0108,
+    0.01
+   ],
+   "depth": [
+    0.0085,
+    0.011
+   ]
+  },
+  "nose": {
+   "centre_xz": [
+    0.0,
+    -0.0135
+   ],
+   "radii_xz": [
+    0.0068,
+    0.0105
+   ],
+   "depth": [
+    0.007,
+    0.007
+   ]
+  }
+ }
+}

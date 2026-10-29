@@ -112,21 +112,36 @@ def skull_origin(h: float) -> Vector:
     return Vector((0.0, cp.LUMBAR_Y0, skull_origin_z())) * h
 
 
-def build_skull(h: float) -> tuple:
-    """(bmesh, origen mundo, dimension de referencia, nombre): craneo por BOX MODELING estilizado (`cp_skullbox`: bloque con planos duros, orbitas y fosa nasal por
-    Inset/Extrude hacia dentro, arcos cigomaticos planos, creases y Subdivision Surface nivel 2) con origen en el centro de los condilos occipitales."""
-    verts, faces = cp_skullbox.box_skull()
-    bm = cp.mesh_to_bm(verts, faces, h)
-    _finish_local(bm)
-    ys = [v.co.y for v in bm.verts]
-    return bm, skull_origin(h), max(ys) - min(ys), "skull_length"
+SKULL_GROUP_PREFIXES = ("cp.Skull", "cp.Zygomatic", "cp.Temporal", "cp.Mastoid", "cp.Condyle", "cp.TeethUpper")  # piezas independientes del craneo (la boveda es cp.Skull)
+
+
+def build_skull_parts(h: float) -> dict:
+    """{nombre del objeto: (bmesh, origen mundo, dimension de referencia, nombre de la dimension)} de las PIEZAS INDEPENDIENTES del craneo (`cp_skullbox`): boveda (cp.Skull),
+    cara, cigomaticos, temporales, mastoides, condilos occipitales y arcada dental superior; cada una es una malla cerrada propia (no se unen en un solo solido). Todas comparten
+    el origen del craneo (centro de los condilos occipitales) y sus mallas son locales a el. La referencia de la boveda es su longitud antero-posterior."""
+    out = {}
+    for name, (verts, faces) in cp_skullbox.skull_parts().items():
+        bm = cp.mesh_to_bm(verts, faces, h)
+        _finish_local(bm)
+        ext = [max(v.co[i] for v in bm.verts) - min(v.co[i] for v in bm.verts) for i in range(3)]
+        out[f"cp.{name}"] = (bm, skull_origin(h), ext[1] if name == "Skull" else max(ext), "skull_length" if name == "Skull" else "part_extent")
+    return out
 
 
 def build_mandible(h: float) -> tuple:
     """(bmesh, origen mundo, dimension de referencia, nombre): mandibula por box modeling (barrido en U de secciones rectangulares: condilo, rama recta, gonion en esquina,
-    cuerpo y menton plano; Subdivision Surface nivel 2 con creases) con origen en el centro del eje de las ATM; referencia = anchura bicondilea."""
+    cuerpo y menton plano; Subdivision Surface nivel 2 con creases) con origen en el centro del eje de las ATM; referencia = anchura bicondilea. Sin dientes (cp.TeethLower)."""
     verts, faces = cp_skullbox.box_mandible()
     bm = cp.mesh_to_bm(verts, faces, h, offset=tuple(-c * h for c in TMJ))
     _finish_local(bm)
     xs = [v.co.x for v in bm.verts]
     return bm, skull_origin(h) + Vector(TMJ) * h, max(xs) - min(xs), "mandible_width"
+
+
+def build_teeth_lower(h: float) -> tuple:
+    """(bmesh, origen mundo, dimension, nombre): arcada dental inferior, pieza independiente que cuelga de la mandibula (mismo origen: el eje de las ATM)."""
+    verts, faces = cp_skullbox.teeth_lower()
+    bm = cp.mesh_to_bm(verts, faces, h, offset=tuple(-c * h for c in TMJ))
+    _finish_local(bm)
+    ext = max(max(v.co[i] for v in bm.verts) - min(v.co[i] for v in bm.verts) for i in range(3))
+    return bm, skull_origin(h) + Vector(TMJ) * h, ext, "part_extent"
