@@ -985,7 +985,22 @@ class TestCpSkullParts(unittest.TestCase):
                 o = self.parts[other]
                 d = min(tree.find_nearest(v.co)[3] for v in o.data.vertices)
                 self.assertLess(d, 0.0015 * h, other)  # sutura fronto-cigomatica y fronto-nasal: tocan al frontal (< 2,6 mm)
-        self.assertLess(min(v.co.z for v in fr.data.vertices), 0.0095 * h)  # el frontal incluye la ceja y el techo de la orbita (baja hasta el nasal), no solo la boveda
+        self.assertLess(min(v.co.y for v in fr.data.vertices), -0.078 * h)  # el arco superciliar sobresale por delante de la boveda (la vision lateral de la ceja)
+        self.assertLess(min(v.co.z for v in fr.data.vertices), 0.0125 * h)  # y baja hasta el borde superior de las orbitas y el nasal, no solo la boveda
+        import bmesh
+        import math
+
+        bm = bmesh.new()
+        bm.from_mesh(fr.data)
+        worst, n = 0.0, 0
+        for e in bm.edges:  # entrecejo y parpados: la cara delantera del arco es continua, sin aristas de caja (un cubo daria ~90 grados o mas)
+            c = (e.verts[0].co + e.verts[1].co) / 2
+            if len(e.link_faces) == 2 and c.y < -0.074 * h and abs(c.x) < 0.036 * h and c.z < 0.03 * h:
+                worst = max(worst, math.degrees(e.link_faces[0].normal.angle(e.link_faces[1].normal)))
+                n += 1
+        bm.free()
+        self.assertGreater(n, 100)
+        self.assertLess(worst, 45.0)
         self.assertEqual(islands(fr), 1)
         core = self.parts["cp.Skull"]
         self.assertGreater(min(v.co.z for v in core.data.vertices), -0.0105 * h)  # la esfera no cuelga bajo la boveda: solo quedan las piezas con nombre
