@@ -112,7 +112,7 @@ def skull_origin(h: float) -> Vector:
     return Vector((0.0, cp.LUMBAR_Y0, skull_origin_z())) * h
 
 
-SKULL_GROUP_PREFIXES = ("cp.Skull", "cp.Zygomatic", "cp.Temporal", "cp.Mastoid", "cp.Condyle", "cp.TeethUpper")  # piezas independientes del craneo (la boveda es cp.Skull)
+SKULL_GROUP_PREFIXES = ("cp.Skull", "cp.Zygomatic", "cp.Temporal", "cp.Parietal", "cp.Sphenoid", "cp.Mastoid", "cp.Condyle", "cp.TeethUpper")  # piezas independientes del craneo (la boveda es cp.Skull)
 
 
 def build_skull_parts(h: float) -> dict:

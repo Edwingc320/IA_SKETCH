@@ -53,7 +53,7 @@ def islands(o) -> int:
     return n
 
 
-SKULL_PREFIXES = ("cp.Skull", "cp.Zygomatic", "cp.Temporal", "cp.Mastoid", "cp.Condyle", "cp.TeethUpper")  # piezas independientes del craneo (la boveda es cp.Skull)
+SKULL_PREFIXES = ("cp.Skull", "cp.Zygomatic", "cp.Temporal", "cp.Mastoid", "cp.Condyle", "cp.TeethUpper", "cp.Parietal", "cp.Sphenoid")  # piezas independientes del craneo (la boveda es cp.Skull)
 
 
 def skull_names(parts):
@@ -91,7 +91,7 @@ def pair_mirror_error(parts, name):
     """Error de simetria de una pieza: si es de un lado (sufijo L/R), la distancia de sus vertices espejados a la SUPERFICIE de su pareja; si es central, a su propia superficie."""
     from mathutils.bvhtree import BVHTree
 
-    if name[-1] not in "LR" or not name[:-1].endswith(("Zygomatic", "Temporal", "Mastoid", "Condyle")):
+    if name[-1] not in "LR" or not name[:-1].endswith(("Zygomatic", "TemporalBase", "Temporal", "Mastoid", "Condyle", "Parietal", "Sphenoid")):
         return mirror_error(parts[name])
     other = parts[name[:-1] + ("R" if name[-1] == "L" else "L")]
     tree = BVHTree.FromObject(other, bpy.context.evaluated_depsgraph_get())
@@ -417,7 +417,7 @@ class TestCpRefined(unittest.TestCase):
     def test_the_meshes_are_high_density(self):
         counts = {n: len(o.data.polygons) for n, o in self.parts.items()}
         self.assertGreater(counts["cp.Pelvis"], 60000)  # alas iliacas, copas y anillo isquiopubiano
-        self.assertGreater(counts["cp.Skull"], 100000)  # boveda: jaula de 36 x 36 por lado + Subdivision Surface nivel 2
+        self.assertGreater(sum(counts[n] for n in ("cp.SkullFrontal", "cp.SkullOccipital", "cp.ParietalL", "cp.ParietalR", "cp.TemporalL", "cp.TemporalR", "cp.SphenoidL", "cp.SphenoidR")), 100000)  # boveda en 5 huesos: jaula de 36 x 36 por lado + Subdivision Surface nivel 2
         self.assertGreater(counts["cp.SkullFace"], 60000)  # cara: jaula de 28 x 28 por lado + Subdivision Surface nivel 2
         self.assertGreater(counts["cp.Mandible"], 2000)  # barrido en U de 21 secciones + Subdivision Surface nivel 2
         self.assertGreater(sum(counts.values()), 250000)
@@ -783,7 +783,8 @@ class TestCpSkullParts(unittest.TestCase):
         bpy.context.view_layer.update()
         cls.sk = SkullGroup(cls.parts)
 
-    NAMES = ["cp.CondyleL", "cp.CondyleR", "cp.MastoidL", "cp.MastoidR", "cp.Skull", "cp.SkullFace", "cp.TeethUpper", "cp.TemporalL", "cp.TemporalR", "cp.ZygomaticL", "cp.ZygomaticR"]
+    BONES = ["cp.SkullFrontal", "cp.SkullOccipital", "cp.ParietalL", "cp.ParietalR", "cp.TemporalL", "cp.TemporalR", "cp.SphenoidL", "cp.SphenoidR"]
+    NAMES = sorted(["cp.CondyleL", "cp.CondyleR", "cp.MastoidL", "cp.MastoidR", "cp.Skull", "cp.SkullFace", "cp.TeethUpper", "cp.TemporalBaseL", "cp.TemporalBaseR", "cp.ZygomaticL", "cp.ZygomaticR"] + BONES)
 
     def test_the_skull_is_made_of_independent_closed_pieces_not_one_solid(self):
         self.assertEqual(skull_names(self.parts), self.NAMES)
@@ -795,7 +796,7 @@ class TestCpSkullParts(unittest.TestCase):
         self.assertEqual(cp.validate({n: self.parts[n] for n in self.NAMES + ["cp.Mandible", "cp.TeethLower"]}), [])  # cerradas (manifold) y con volumen positivo
 
     def test_the_pieces_hang_from_their_bone_and_share_the_skull_origin(self):
-        for n in self.NAMES[:4] + self.NAMES[5:]:
+        for n in [x for x in self.NAMES if x != "cp.Skull"]:
             self.assertIs(self.parts[n].parent, self.parts["cp.Skull"], n)
             self.assertLess((self.parts[n].matrix_world.translation - self.parts["cp.Skull"].matrix_world.translation).length, 1e-6, n)
         self.assertIs(self.parts["cp.TeethLower"].parent, self.parts["cp.Mandible"])
@@ -818,8 +819,8 @@ class TestCpSkullParts(unittest.TestCase):
                     return True
             return False
 
-        for a, b in (("cp.Skull", "cp.SkullFace"), ("cp.Skull", "cp.TemporalL"), ("cp.Skull", "cp.TemporalR"), ("cp.SkullFace", "cp.ZygomaticL"), ("cp.SkullFace", "cp.ZygomaticR"),
-                     ("cp.ZygomaticL", "cp.TemporalL"), ("cp.ZygomaticR", "cp.TemporalR"), ("cp.TemporalL", "cp.MastoidL"), ("cp.TemporalR", "cp.MastoidR"), ("cp.Skull", "cp.CondyleL"),
+        for a, b in (("cp.Skull", "cp.SkullFace"), ("cp.Skull", "cp.TemporalBaseL"), ("cp.Skull", "cp.TemporalBaseR"), ("cp.SkullFace", "cp.ZygomaticL"), ("cp.SkullFace", "cp.ZygomaticR"),
+                     ("cp.ZygomaticL", "cp.TemporalBaseL"), ("cp.ZygomaticR", "cp.TemporalBaseR"), ("cp.TemporalBaseL", "cp.MastoidL"), ("cp.TemporalBaseR", "cp.MastoidR"), ("cp.Skull", "cp.SkullFrontal"), ("cp.Skull", "cp.SkullOccipital"), ("cp.Skull", "cp.ParietalL"), ("cp.Skull", "cp.ParietalR"), ("cp.Skull", "cp.TemporalL"), ("cp.Skull", "cp.SphenoidL"), ("cp.Skull", "cp.CondyleL"),
                      ("cp.Skull", "cp.CondyleR"), ("cp.SkullFace", "cp.TeethUpper"), ("cp.Mandible", "cp.TeethLower")):
             self.assertTrue(touches(a, b) or touches(b, a), f"{a} y {b} no se tocan")
         self.assertEqual(sum(1 for o in bpy.data.objects if o.name.startswith(SKULL_PREFIXES)), len(self.NAMES))  # y siguen siendo objetos distintos (no se unieron)
@@ -879,6 +880,29 @@ class TestCpSkullParts(unittest.TestCase):
         finally:
             for e in refs.values():
                 bpy.data.objects.remove(e, do_unlink=True)
+
+    def test_the_five_vault_bones_are_a_suture_map_of_independent_shells(self):
+        from mathutils.bvhtree import BVHTree
+
+        for n in self.BONES:
+            o = self.parts[n]
+            self.assertEqual(islands(o), 1, n)  # cada hueso, una sola cascara
+            self.assertGreater(len(o.data.vertices), 1000, n)
+        occ = self.parts["cp.SkullOccipital"]
+        zs = [v.co.z for v in occ.data.vertices]
+        self.assertLess(min(zs), max(zs) - 0.04 * self.h * 0.5)  # el occipital cubre la parte trasera baja de la boveda, no un parche
+        fr = self.parts["cp.SkullFrontal"]
+        self.assertLess(max(v.co.y for v in fr.data.vertices), 0.0)  # el frontal queda delante de la sutura coronal
+        self.assertGreater(min(v.co.y for v in self.parts["cp.ParietalL"].data.vertices), max(v.co.y for v in fr.data.vertices) - 0.035)  # la coronal en zigzag solapa unos cm en y
+        self.assertGreater(min(v.co.y for v in occ.data.vertices), min(v.co.y for v in self.parts["cp.ParietalL"].data.vertices))
+        for a, b in (("cp.ParietalL", "cp.ParietalR"),):  # la sutura sagital deja un surco entre los parietales
+            ta = BVHTree.FromObject(self.parts[a], bpy.context.evaluated_depsgraph_get())
+            d = min(ta.find_nearest(v.co)[3] for v in list(self.parts[b].data.vertices)[::7])
+            self.assertGreater(d, 1e-4)
+        for n in ("ParietalL", "TemporalL", "SphenoidL"):
+            self.assertGreater(min(v.co.x for v in self.parts["cp." + n].data.vertices), 0.0, n)  # el lado izquierdo es +x
+        for n in ("ParietalR", "TemporalR", "SphenoidR"):
+            self.assertLess(max(v.co.x for v in self.parts["cp." + n].data.vertices), 0.0, n)
 
     def test_every_skull_piece_is_mirror_symmetric(self):
         for n in self.NAMES + ["cp.Mandible", "cp.TeethLower"]:

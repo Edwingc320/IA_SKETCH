@@ -24,8 +24,8 @@ opt = {a: args[i + 1] for i, a in enumerate(args) if a.startswith("--") and i + 
 SET, MODE = opt.get("--set", "all"), opt.get("--mode", "silhouette")
 out_dir.mkdir(parents=True, exist_ok=True)
 
-SKULL_PREFIXES = ("cp.Skull", "cp.Mandible", "cp.Teeth", "cp.Zygomatic", "cp.Temporal", "cp.Mastoid", "cp.Condyle")
-VAULT_ONLY = ("cp.Skull", "cp.Zygomatic", "cp.Temporal", "cp.Mastoid", "cp.Condyle")  # sin cp.SkullFace
+SKULL_PREFIXES = ("cp.Skull", "cp.Mandible", "cp.Teeth", "cp.Zygomatic", "cp.Temporal", "cp.Parietal", "cp.Sphenoid", "cp.Mastoid", "cp.Condyle")
+VAULT_ONLY = ("cp.Skull", "cp.Zygomatic", "cp.Temporal", "cp.Parietal", "cp.Sphenoid", "cp.Mastoid", "cp.Condyle")  # sin cp.SkullFace
 bpy.context.view_layer.update()
 
 

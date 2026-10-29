@@ -25,7 +25,8 @@
     0.0155
    ],
    "depth": 0.003
-  }
+  },
+  "core_shrink": 0.003
  },
  "face": {
   "y_front": -0.0745,
@@ -99,5 +100,205 @@
     0.007
    ]
   }
+ },
+ "sutures": {
+  "description": "Mapa de suturas de la boveda tomado de la lamina lateral (frontal, parietal, temporal, esfenoides, occipital): regiones en PIXELES de la lamina, convertidas a (y, z) con image_map; poligonos simples, con W / triangulos (zigzag: dientes y amplitud en px) en la sutura coronal y la lambdoidea. Prioridad: esfenoides, temporal, occipital, frontal; el parietal es el resto.",
+  "image_map": {
+   "x_front_px": 185,
+   "x_back_px": 640,
+   "y_top_px": 62,
+   "y_base_px": 341,
+   "y_front": -0.0719,
+   "y_back": 0.0417,
+   "z_top": 0.0775,
+   "z_base": -0.0105
+  },
+  "base_clip_z": -0.01,
+  "frontal_clip_z": 0.012,
+  "sagittal_gap": 0.0006,
+  "groove_faces": 1,
+  "shell_thickness": 0.002,
+  "regions": [
+   {
+    "name": "sphenoid",
+    "outline": [
+     {
+      "pts": [
+       [
+        268,
+        222
+       ],
+       [
+        310,
+        216
+       ],
+       [
+        314,
+        232
+       ],
+       [
+        305,
+        330
+       ],
+       [
+        270,
+        328
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "name": "temporal",
+    "outline": [
+     {
+      "pts": [
+       [
+        312,
+        232
+       ],
+       [
+        345,
+        214
+       ],
+       [
+        385,
+        206
+       ],
+       [
+        430,
+        210
+       ],
+       [
+        465,
+        232
+       ],
+       [
+        482,
+        275
+       ],
+       [
+        490,
+        332
+       ],
+       [
+        480,
+        420
+       ],
+       [
+        300,
+        420
+       ],
+       [
+        300,
+        330
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "name": "occipital",
+    "outline": [
+     {
+      "pts": [
+       [
+        700,
+        120
+       ],
+       [
+        660,
+        200
+       ],
+       [
+        620,
+        270
+       ],
+       [
+        560,
+        325
+       ],
+       [
+        490,
+        332
+       ]
+      ],
+      "zigzag": {
+       "teeth": 3,
+       "amp": 6
+      }
+     },
+     {
+      "pts": [
+       [
+        480,
+        420
+       ],
+       [
+        740,
+        420
+       ],
+       [
+        740,
+        120
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "name": "frontal",
+    "outline": [
+     {
+      "pts": [
+       [
+        365,
+        40
+       ],
+       [
+        365,
+        62
+       ],
+       [
+        345,
+        120
+       ],
+       [
+        320,
+        170
+       ],
+       [
+        300,
+        215
+       ]
+      ],
+      "zigzag": {
+       "teeth": 2,
+       "amp": 5
+      }
+     },
+     {
+      "pts": [
+       [
+        268,
+        222
+       ],
+       [
+        268,
+        420
+       ],
+       [
+        100,
+        420
+       ],
+       [
+        100,
+        40
+       ]
+      ]
+     }
+    ]
+   }
+  ]
  }
 }

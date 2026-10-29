@@ -30,7 +30,7 @@ def add_reference_images(parts: dict, alpha: float = 0.55) -> dict:
     """Crea los tres empties de imagen alineados con el craneo de `parts`; devuelve {vista: objeto} (omite las imagenes que no existan en el disco)."""
     ref = json.loads(REF_FILE.read_text(encoding="utf-8"))
     bpy.context.view_layer.update()
-    group = [o for n, o in parts.items() if n.startswith(("cp.Skull", "cp.Zygomatic", "cp.Temporal", "cp.Mastoid", "cp.Condyle", "cp.TeethUpper"))]
+    group = [o for n, o in parts.items() if n.startswith(("cp.Skull", "cp.Zygomatic", "cp.Temporal", "cp.Mastoid", "cp.Condyle", "cp.TeethUpper", "cp.Parietal", "cp.Sphenoid"))]
     lo, hi = _bbox(group + [parts["cp.Mandible"]])  # craneo con mandibula
     vlo, vhi = _bbox([parts["cp.Skull"]])  # boveda
     col = bpy.data.collections.get(COLLECTION) or bpy.data.collections.new(COLLECTION)

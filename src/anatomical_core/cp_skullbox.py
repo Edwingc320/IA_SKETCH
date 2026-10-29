@@ -251,6 +251,191 @@ def face_cage(shape: dict | None = None) -> "bmesh.types.BMesh":
     return bm
 
 
+def _px_to_yz(m: dict, x: float, y: float) -> tuple:
+    """Pixel de la lamina lateral (`config/cp/skull.json`: sutures.image_map) -> (y, z) del craneo en H (cara a la izquierda de la imagen = -y)."""
+    sy = (m["y_back"] - m["y_front"]) / (m["x_back_px"] - m["x_front_px"])
+    sz = (m["z_top"] - m["z_base"]) / (m["y_base_px"] - m["y_top_px"])
+    return (m["y_front"] + (x - m["x_front_px"]) * sy, m["z_top"] - (y - m["y_top_px"]) * sz)
+
+
+def _zigzag(pts: list, teeth: int, amp: float) -> list:
+    """Sutura en W / triangulos: remuestrea la polilinea en 2 * `teeth` tramos de igual longitud de arco y desplaza alternativamente +-`amp` (perpendicular local) los puntos intermedios."""
+    n = 2 * teeth
+    cum = [0.0]
+    for a, b in zip(pts, pts[1:]):
+        cum.append(cum[-1] + math.hypot(b[0] - a[0], b[1] - a[1]))
+    total = cum[-1] or 1.0
+    out = [pts[0]]
+    for i in range(1, n):
+        s = total * i / n
+        k = max(j for j in range(len(cum) - 1) if cum[j] <= s)
+        t = (s - cum[k]) / ((cum[k + 1] - cum[k]) or 1.0)
+        ax, ay = pts[k]
+        bx, by = pts[k + 1]
+        dx, dy = bx - ax, by - ay
+        ln = math.hypot(dx, dy) or 1.0
+        off = amp if i % 2 else -amp
+        out.append((ax + dx * t - dy / ln * off, ay + dy * t + dx / ln * off))
+    out.append(pts[-1])
+    return out
+
+
+def _outline(m: dict, spec: list) -> list:
+    """Contorno (y, z) de una region: tramos `{pts: [[x_px, y_px]...], zigzag: {teeth, amp}}` concatenados; el zigzag (px) convierte el tramo en una sutura en W."""
+    poly = []
+    for part in spec:
+        pts = [tuple(p) for p in part["pts"]]
+        if part.get("zigzag"):
+            pts = _zigzag(pts, int(part["zigzag"]["teeth"]), float(part["zigzag"]["amp"]))
+        poly += pts
+    return [_px_to_yz(m, x, y) for x, y in poly]
+
+
+def _inside(poly: list, y: float, z: float) -> bool:
+    c = False
+    n = len(poly)
+    j = n - 1
+    for i in range(n):
+        yi, zi = poly[i]
+        yj, zj = poly[j]
+        if (zi > z) != (zj > z) and y < (yj - yi) * (z - zi) / (zj - zi + 1e-18) + yi:
+            c = not c
+        j = i
+    return c
+
+
+def _shell(verts: list, faces: list, keep: set, thickness: float) -> tuple:
+    """Cascara cerrada de un trozo de superficie (las caras `keep`): la superficie exterior, la interior desplazada `thickness` a lo largo de la normal de cada vertice (hacia dentro)
+    y las paredes del borde. Orientada hacia fuera."""
+    vmap, nv, nf = {}, [], []
+    for fi in keep:
+        for vi in faces[fi]:
+            if vi not in vmap:
+                vmap[vi] = len(nv)
+                nv.append(verts[vi])
+    normal = [[0.0, 0.0, 0.0] for _ in nv]
+    for fi in keep:
+        f = faces[fi]
+        a, b, c = verts[f[0]], verts[f[1]], verts[f[2]]
+        ux, uy, uz = b[0] - a[0], b[1] - a[1], b[2] - a[2]
+        vx, vy, vz = c[0] - a[0], c[1] - a[1], c[2] - a[2]
+        n = (uy * vz - uz * vy, uz * vx - ux * vz, ux * vy - uy * vx)
+        for vi in f:
+            k = vmap[vi]
+            normal[k][0] += n[0]
+            normal[k][1] += n[1]
+            normal[k][2] += n[2]
+    inner = []
+    for p, n in zip(nv, normal):
+        ln = math.sqrt(n[0] ** 2 + n[1] ** 2 + n[2] ** 2) or 1.0
+        inner.append((p[0] - n[0] / ln * thickness, p[1] - n[1] / ln * thickness, p[2] - n[2] / ln * thickness))
+    outer_faces = [tuple(vmap[v] for v in faces[fi]) for fi in keep]
+    verts_out = nv + inner
+    off = len(nv)
+    faces_out = list(outer_faces) + [tuple(off + v for v in reversed(f)) for f in outer_faces]
+    edges = {}
+    for f in outer_faces:
+        for i in range(len(f)):
+            edges.setdefault((f[i], f[(i + 1) % len(f)]), 0)
+    for (a, b) in edges:
+        if (b, a) not in edges:  # arista de borde: pared (b, a, a', b')
+            faces_out.append((b, a, off + a, off + b))
+    return verts_out, faces_out
+
+
+def vault_outer(shape: dict | None = None) -> tuple:
+    """Superficie EXTERIOR de la boveda ya subdividida (cache): la que se corta en huesos."""
+    if "vault_outer" not in _CACHE:
+        _CACHE["vault_outer"] = subdivide(vault_cage(shape), levels=SUBSURF_LEVELS)
+    return _CACHE["vault_outer"]
+
+
+def vault_core(shape: dict | None = None) -> "bmesh.types.BMesh":
+    """NUCLEO del neurocraneo: el mismo ovoide encogido (`core_shrink`) y liso, que cierra por dentro los surcos entre los huesos. Es `cp.Skull`."""
+    sh = shape or load_skull()
+    v = dict(sh["vault"])
+    k = v["core_shrink"]
+    for key in ("half_width", "radius_front", "radius_back", "radius_up", "radius_down"):
+        v[key] = v[key] - k
+    bm = bmesh.new()
+    _layer(bm)
+    bmesh.ops.create_cube(bm, size=2.0)
+    bmesh.ops.subdivide_edges(bm, edges=bm.edges[:], cuts=v["segments"] // 2 - 1, use_grid_fill=True)
+    for vert in bm.verts:
+        vert.co = vault_point(v, vert.co.x, vert.co.y, vert.co.z)
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    return bm
+
+
+def vault_bones(shape: dict | None = None) -> dict:
+    """{nombre: (vertices, caras)} de los CINCO huesos de la boveda como cascaras cerradas independientes (frontal, parietal, temporal y esfenoides izquierdos y derechos, occipital), en H.
+    Se cortan de la superficie exterior de la boveda por regiones de un MAPA de suturas (`config/cp/skull.json`, de la lamina lateral): sin cortes fractales, solo poligonos y
+    W/triangulos. Entre dos huesos se quita una fila de caras (surco de la sutura); cada pieza se queda con su mayor trozo conexo y recibe grosor hacia dentro."""
+    sh = shape or load_skull()
+    v = sh["vault"]
+    su = sh["sutures"]
+    m = su["image_map"]
+    regions = [(r["name"], _outline(m, r["outline"])) for r in su["regions"]]  # por orden de prioridad; el frontal es el resto
+    verts, faces = vault_outer(sh)
+    cen = []
+    for f in faces:
+        n = len(f)
+        cen.append((sum(verts[i][0] for i in f) / n, sum(verts[i][1] for i in f) / n, sum(verts[i][2] for i in f) / n))
+    label = []
+    for (x, y, z) in cen:
+        if z < su["base_clip_z"]:
+            label.append(None)
+            continue
+        name = "parietal"  # el resto de la boveda (entre la sutura coronal, la escamosa y la lambdoidea)
+        for rn, poly in regions:
+            if _inside(poly, y, z):
+                name = rn
+                break
+        if name == "frontal" and z < su["frontal_clip_z"]:
+            label.append(None)
+            continue
+        if abs(x) < su["sagittal_gap"] and name in ("parietal",):
+            label.append(None)
+            continue
+        side = "L" if x > 0 else "R"
+        label.append(name if name in ("frontal", "occipital") else name + side)
+    edge = {}
+    for fi, f in enumerate(faces):
+        for i in range(len(f)):
+            a, b = f[i], f[(i + 1) % len(f)]
+            edge.setdefault((min(a, b), max(a, b)), []).append(fi)
+    neigh = [[] for _ in faces]
+    for fs in edge.values():
+        if len(fs) == 2:
+            neigh[fs[0]].append(fs[1])
+            neigh[fs[1]].append(fs[0])
+    for _ in range(int(su["groove_faces"])):  # surco: caras de borde entre dos huesos distintos
+        cut = [fi for fi in range(len(faces)) if label[fi] and any(label[n] and label[n] != label[fi] for n in neigh[fi])]
+        for fi in cut:
+            label[fi] = None
+    out = {}
+    names = sorted({lb for lb in label if lb})
+    for nm in names:
+        members = {fi for fi in range(len(faces)) if label[fi] == nm}
+        seen, best = set(), set()
+        for s0 in members:  # mayor componente conexa (sin islotes sueltos)
+            if s0 in seen:
+                continue
+            comp, stack = set(), [s0]
+            while stack:
+                x = stack.pop()
+                if x in comp:
+                    continue
+                comp.add(x)
+                stack += [n for n in neigh[x] if n in members and n not in comp]
+            seen |= comp
+            if len(comp) > len(best):
+                best = comp
+        sv, sf = _shell(verts, faces, best, float(su["shell_thickness"]))
+        out[{"frontal": "SkullFrontal", "occipital": "SkullOccipital"}.get(nm, nm[:-1].capitalize() + nm[-1])] = (sv, sf)
+    return out
+
+
 def ellipsoid_cage(centre, radii, segments: int = 8, crease: float = 0.0) -> "bmesh.types.BMesh":
     """Elipsoide REDONDEADO (esfera de cubo subdividida): para los huesos pequenos de forma ovoide (temporal, mastoides, condilos); sin aristas de caja."""
     bm = bmesh.new()
@@ -301,8 +486,8 @@ def teeth_cage(lower: bool = False) -> "bmesh.types.BMesh":
 
 
 SKULL_PARTS = {  # nombre del objeto -> constructor de su jaula
-    "Skull": vault_cage, "SkullFace": face_cage, "ZygomaticL": lambda: zygomatic_cage(1.0), "ZygomaticR": lambda: zygomatic_cage(-1.0),
-    "TemporalL": lambda: temporal_cage(1.0), "TemporalR": lambda: temporal_cage(-1.0), "MastoidL": lambda: mastoid_cage(1.0), "MastoidR": lambda: mastoid_cage(-1.0),
+    "Skull": vault_core, "SkullFace": face_cage, "ZygomaticL": lambda: zygomatic_cage(1.0), "ZygomaticR": lambda: zygomatic_cage(-1.0),
+    "TemporalBaseL": lambda: temporal_cage(1.0), "TemporalBaseR": lambda: temporal_cage(-1.0), "MastoidL": lambda: mastoid_cage(1.0), "MastoidR": lambda: mastoid_cage(-1.0),
     "CondyleL": lambda: condyle_cage(1.0), "CondyleR": lambda: condyle_cage(-1.0), "TeethUpper": lambda: teeth_cage(False),
 }
 
@@ -358,7 +543,8 @@ _CACHE: dict = {}
 def skull_parts() -> dict:
     """{nombre: (vertices, caras)} de las piezas INDEPENDIENTES del craneo (en H, relativo al origen), ya subdivididas (cache)."""
     if "parts" not in _CACHE:
-        _CACHE["parts"] = {n: subdivide(f(), levels=SUBSURF_LEVELS) for n, f in SKULL_PARTS.items()}
+        _CACHE["parts"] = {n: subdivide(f(), levels=1 if n == "Skull" else SUBSURF_LEVELS) for n, f in SKULL_PARTS.items()}
+        _CACHE["parts"].update(vault_bones())  # los cinco huesos de la boveda, cascaras independientes sobre el nucleo (cp.Skull)
     return _CACHE["parts"]
 
 
