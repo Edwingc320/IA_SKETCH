@@ -36,6 +36,24 @@ PARENTS = {"cp.FemurL": "cp.Pelvis", "cp.FemurR": "cp.Pelvis", "cp.LumbarSpine":
            "cp.SphenoidL": "cp.Skull", "cp.SphenoidR": "cp.Skull"}
 FOLLOW_PARENT_SCALE = ("cp.SkullFace", "cp.ZygomaticL", "cp.ZygomaticR", "cp.TemporalBaseL", "cp.TemporalBaseR", "cp.MastoidL", "cp.MastoidR", "cp.CondyleL", "cp.CondyleR", "cp.TeethUpper",
                        "cp.TeethLower", "cp.SkullFrontal", "cp.SkullOccipital", "cp.ParietalL", "cp.ParietalR", "cp.TemporalL", "cp.TemporalR", "cp.SphenoidL", "cp.SphenoidR")  # cambian de tamano con su pieza madre (cp_resize)
+# Colecciones por seccion, anidadas bajo CP_Skeleton: (ruta) -> objetos que contiene (cada objeto en UNA sola coleccion; el parentesco no cambia)
+SECTIONS = {
+    ("Pelvis",): ("cp.Pelvis",),
+    ("Femures",): ("cp.FemurL", "cp.FemurR"),
+    ("Columna", "Lumbar"): ("cp.LumbarSpine",),
+    ("Columna", "Toracica"): ("cp.ThoracicSpine",),
+    ("Columna", "Cervical"): ("cp.CervicalSpine",),
+    ("Craneo", "Neurocraneo"): ("cp.Skull", "cp.SkullFrontal", "cp.ParietalL", "cp.ParietalR", "cp.TemporalL", "cp.TemporalR", "cp.SkullOccipital", "cp.SphenoidL", "cp.SphenoidR",
+                                "cp.TemporalBaseL", "cp.TemporalBaseR", "cp.MastoidL", "cp.MastoidR", "cp.CondyleL", "cp.CondyleR"),
+    ("Craneo", "Viscerocraneo"): ("cp.SkullFace", "cp.ZygomaticL", "cp.ZygomaticR", "cp.Mandible"),
+    ("Craneo", "Dientes"): ("cp.TeethUpper", "cp.TeethLower"),
+}
+# Los 22 huesos principales del craneo (8 del neurocraneo + 14 del viscerocraneo): referencia de lo que falta por modelar, guardada en la coleccion (propiedad `cp_huesos_esperados`)
+SKULL_BONES_EXPECTED = {
+    "Neurocraneo": ("Frontal", "Parietal D", "Parietal I", "Temporal D", "Temporal I", "Occipital", "Esfenoides", "Etmoides"),
+    "Viscerocraneo": ("Maxilar D", "Maxilar I", "Cigomatico D", "Cigomatico I", "Nasal D", "Nasal I", "Lagrimal D", "Lagrimal I", "Palatino D", "Palatino I",
+                      "Cornete inferior D", "Cornete inferior I", "Vomer", "Mandibula"),
+}
 SIDES = 20
 CAP_RINGS = 3
 BONE_COLOR = (0.95, 0.92, 0.84, 1.0)
@@ -254,6 +272,33 @@ def remove_generated() -> None:
         bpy.data.meshes.remove(m)
 
 
+def _subcollection(parent, name):
+    c = bpy.data.collections.get(f"CP_{name}") or bpy.data.collections.new(f"CP_{name}")
+    if c.name not in parent.children:
+        parent.children.link(c)
+    return c
+
+
+def organize_collections(parts: dict, root) -> dict:
+    """Reparte los objetos en subcolecciones por seccion (`SECTIONS`) bajo `root`; devuelve {ruta: coleccion}. Cada objeto queda en una sola coleccion."""
+    out = {}
+    for path, names in SECTIONS.items():
+        c = root
+        for seg in path:
+            c = _subcollection(c, seg)
+        out[path] = c
+        for n in names:
+            o = parts[n]
+            for old in list(o.users_collection):
+                if old is not c:
+                    old.objects.unlink(o)
+            if o.name not in c.objects:
+                c.objects.link(o)
+    for key, bones in SKULL_BONES_EXPECTED.items():
+        out[("Craneo", key)]["cp_huesos_esperados"] = ", ".join(bones)
+    return out
+
+
 def build_cp_skeleton(height_m: float = REF_HEIGHT_M, dims: dict | None = None, parent: bool = True) -> dict:
     """Genera cp.Pelvis, cp.FemurL/R, cp.LumbarSpine, cp.ThoracicSpine, cp.CervicalSpine, el craneo en PIEZAS INDEPENDIENTES (cp.Skull = boveda, cp.SkullFace, cigomaticos, temporales, mastoides, condilos, dientes), cp.Mandible y cp.TeethLower (y los redimensiona segun `dims`: {nombre: dimension_m}; `cp.Femur` aplica a ambos femures).
     Devuelve {nombre: objeto}."""
@@ -284,6 +329,7 @@ def build_cp_skeleton(height_m: float = REF_HEIGHT_M, dims: dict | None = None, 
     parts["cp.ThoracicSpine"]["cp_levels"] = " ".join(ax.THORACIC_LEVELS)  # de abajo (T12) a arriba (T1)
     parts["cp.CervicalSpine"]["cp_levels"] = " ".join(ax.CERVICAL_LEVELS)
     parts["cp.LumbarSpine"]["cp_levels"] = "L5 L4 L3 L2 L1"
+    organize_collections(parts, col)
     bpy.context.view_layer.update()
     for n, ob in parts.items():
         if n in PARENTS:

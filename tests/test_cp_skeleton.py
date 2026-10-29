@@ -915,6 +915,21 @@ class TestCpSkullParts(unittest.TestCase):
             self.assertLess(min(p.y for p in vs), fr + 0.05 * h, n)
             self.assertGreater(max(sx * p.x for p in vs), 0.03 * h, n)  # y del lado correcto
 
+    def test_the_pieces_are_organised_in_section_collections(self):
+        root = bpy.data.collections["CP_Skeleton"]
+        for path, names in cp.SECTIONS.items():
+            c = root
+            for seg in path:
+                c = bpy.data.collections["CP_" + seg]
+                self.assertIn(c.name, [x.name for x in (root.children_recursive)], c.name)
+            self.assertEqual(sorted(o.name for o in c.objects), sorted(names), path)
+        every = [o for o in bpy.data.objects if o.name.startswith("cp.")]
+        self.assertTrue(all(len(o.users_collection) == 1 for o in every))  # cada pieza en una sola coleccion
+        self.assertEqual(len(every), sum(len(v) for v in cp.SECTIONS.values()))
+        self.assertEqual(len(bpy.data.collections["CP_Neurocraneo"]["cp_huesos_esperados"].split(", ")), 8)  # los 22 huesos: 8 del neurocraneo
+        self.assertEqual(len(bpy.data.collections["CP_Viscerocraneo"]["cp_huesos_esperados"].split(", ")), 14)  # y 14 del viscerocraneo
+        self.assertIs(self.parts["cp.Skull"].parent, self.parts["cp.CervicalSpine"])  # el parentesco no cambia
+
     def test_every_skull_piece_is_mirror_symmetric(self):
         for n in self.NAMES + ["cp.Mandible", "cp.TeethLower"]:
             self.assertLess(pair_mirror_error(self.parts, n), 1.5e-3, n)
