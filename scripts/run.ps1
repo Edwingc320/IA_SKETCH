@@ -20,7 +20,8 @@ param(
     [string[]]$Set = @(),
     [string[]]$Pose = @(),
     [switch]$Neutral,
-    [switch]$NoPreview
+    [switch]$NoPreview,
+    [ValidateSet('current', 'legacy', 'all')][string]$Suite = 'current'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -101,7 +102,7 @@ if ($Task -in 'All', 'Anatomy') {
 }
 
 if ($Task -in 'All', 'Test') {
-    $a = @('-b', '--factory-startup', '--python', (Join-Path $Root 'tests\run_tests.py'))
+    $a = @('-b', '--factory-startup', '--python', (Join-Path $Root 'tests\run_tests.py'), '--', '--suite', $Suite)  # current = esqueleto oseo actual (cp.*); legacy = modelo viejo; all = todo
     $code = Invoke-Blender 'tests' $a
     if ($code -ne 0 -and $exit -eq 0) { $exit = $code }
 }

@@ -321,9 +321,9 @@ class TestCpRefined(unittest.TestCase):
     def landmark_distances(self, h, parts):
         """{hito: mm} a la superficie de su malla cp (0 dentro del solido): hitos del nivel 1 de pelvis, femur, craneo y mandibula."""
         from mathutils.bvhtree import BVHTree
-        from test_bone_meshes import build_all
+        from support import build_reference
 
-        _, _, art, _ = build_all(h)
+        art = build_reference(h)[2]
         dg = bpy.context.evaluated_depsgraph_get()
         trees = {}
         out = {}
