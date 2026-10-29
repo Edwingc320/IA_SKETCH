@@ -146,7 +146,7 @@ Mallas oseas solidas (F1-F2 del esqueleto de referencia): `configonesone_meshe
 
 Articulacion coxofemoral solida (F2b): `acetabulum` (copa roja), `acetabular_roof`, `obturator_frame` y `pubic_symphysis` en `config\bones\bone_meshes.json`; pruebas `python -m unittest tests.test_bone_meshes.TestHipJoint` y mutaciones `python scripts\mutation_battery.py -k bmesh_hip`.
 
-Pelvis y craneo `cp.*` de alta densidad: parametros en `config\cp\refine.json` y geometria en `src\anatomical_core\cp_refine.py`; IoU por region contra la imagen: `python scripts\compare_cp_regions.py --after output\cp_skeleton.blend [--before otro.blend]` (renderiza con `scripts\render_cp_silhouette.py`).
+Craneo y mandibula `cp.*` por box modeling con Subdivision Surface: `src\anatomical_core\cp_skullbox.py` (jaula, Inset/Extrude, barridos, creases). Pelvis y craneo `cp.*` de alta densidad: parametros en `config\cp\refine.json` y geometria en `src\anatomical_core\cp_refine.py`; IoU por region contra la imagen: `python scripts\compare_cp_regions.py --after output\cp_skeleton.blend [--before otro.blend]` (renderiza con `scripts\render_cp_silhouette.py`).
 
 Esqueleto parametrico `cp.*` (pelvis, femures, columna lumbar, toracica y cervical, craneo y mandibula, generado desde cero; cadena de emparentamiento hasta la pelvis; `--dim cp.Skull=0.20`, `cp.ThoracicSpine`, etc.): `blender -b --python scripts\cp_skeleton.py -- --height 1.75 --dim cp.Femur=0.45 --out output\cp_skeleton.blend` (`--dim PIEZA=metros` redimensiona la pieza de forma uniforme; `--no-parent` omite el emparentamiento). Pruebas: ejecutar `tests\test_cp_skeleton.py` dentro de Blender.
 

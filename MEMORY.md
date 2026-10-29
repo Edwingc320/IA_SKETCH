@@ -201,3 +201,9 @@ Motor reproducible y configurable de esqueleto humano 3D en **Blender 5.0.1** (P
 - 69 hitos de pelvis, fémur, cráneo y mandíbula a < 12 mm (1,50 / 1,75 / 2,05 m). IoU por región (`scripts/compare_cp_regions.py`): 0,517 → 0,531 (pelvis 0,442 → 0,461; cráneo 0,593 → 0,601).
 - Lección: `bmesh.ops.create_uvsphere` sobre una malla grande es O(n) por llamada: crear cada elipsoide en un bmesh aparte y añadirlo. El Boolean con `use_self=True` tardó 286 s; sin él, 7 s.
 - 34 pruebas de Blender y 16 mutaciones (todas detectadas tras reforzar pruebas; algunas mutaciones solo se detectaban en la clase de pruebas que no corría la batería).
+
+## Línea cp.*: cráneo y mandíbula por box modeling (2026-10-29)
+- `cp_skullbox.py`: jaula de cubo mapeada por perfiles + Inset/Extrude (órbitas, fosa nasal, fosas temporales) + barridos de sección rectangular (arcos, arcada, mandíbula en U) + creases + Subdivision Surface nivel 2. Sin trimesh/Open3D (no instalados).
+- **Error propio corregido**: `compare_cp_regions.figure_rows` medía la coronilla sobre la marca de agua (fila 31 en vez de ~72). Ahora usa el contorno oscuro de las columnas centrales. Cifras de IoU antiguas (0,442 / 0,461 / 0,593 / 0,601) eran absolutas erróneas; las nuevas: cráneo 0,784 (original) → 0,810 (elipsoides) → 0,806 (box); pelvis 0,445 → 0,472.
+- El box modeling NO mejora significativamente el IoU frente a la versión de elipsoides (0,812/0,783 vs 0,816/0,788 de frente/lado); sí frente al original.
+- Lecciones de bmesh: crear la capa `crease_edge` invalida las referencias a aristas (crearla al empezar); `inset_region` con `use_even_offset=True` produce picos tras ajustar a elipse (usar False); las caras de entrada pasan a ser la región interior y `ret['faces']` el anillo.
