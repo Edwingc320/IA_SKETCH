@@ -224,3 +224,6 @@ Motor reproducible y configurable de esqueleto humano 3D en **Blender 5.0.1** (P
 - Herramientas: `scripts/skull_reference.py` (siluetas), `scripts/compare_skull_reference.py --blend X` (IoU de forma + superposición), `scripts/render_skull_views.py -- carpeta etiqueta --mode silhouette|depth|parts|shaded`, `cp_skeleton.py --reference-images` (planos de las imágenes en el .blend).
 - IoU de forma: frente 0,838 → 0,889; perfil 0,856 → 0,857; atrás 0,827. Las imágenes de referencia nuevas están en `.gitignore`.
 - Lección: `bmesh.ops.inset_region` deja las caras de entrada como región interior y el anillo nuevo en `ret['faces']`; las máscaras de color (blanco casi puro) exigen umbral < 251, no 244; un plano con una mutación suave (solo un anillo del barrido) puede seguir tocando a su vecino: la mutación debe alejar toda la pieza.
+
+## Bóveda en 5 huesos (2026-10-29)
+- Frontal, parietal L/R, temporal L/R, esfenoides L/R y occipital son mallas independientes cortadas de la bóveda por un mapa de polígonos (`sutures` en `config/cp/skull.json`); `cp.Skull` es ahora el núcleo liso. Las imágenes de referencia no van en el modelo.
