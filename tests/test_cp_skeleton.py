@@ -565,8 +565,9 @@ class TestCpRefined(unittest.TestCase):
             return loc / h
 
         co = [v.co for v in sk.data.vertices]
-        cheek = max(p.x for p in co if -0.010 * h < p.z < 0.0 and -0.066 * h < p.y < -0.054 * h) / h
-        self.assertGreater(cheek, 0.0365)  # pomulos marcados: salen mas que el reborde de las orbitas
+        face = [v.co for v in self.parts["cp.SkullFace"].data.vertices]  # el pomulo es del maxilar (el hueso cigomatico es otra pieza)
+        cheek = max(p.x for p in face if -0.010 * h < p.z < 0.0 and -0.066 * h < p.y < -0.054 * h) / h
+        self.assertGreater(cheek, 0.0385)  # pomulos marcados (+9 %): 0.0397 con el relieve y 0.0371 sin el
         fossa = hit((0.2, -0.026, 0.029), (-1, 0, 0)).x
         behind = hit((0.2, -0.004, 0.029), (-1, 0, 0)).x  # misma altura, detras de la fosa
         self.assertGreater(behind - fossa, 0.0015)  # fosa temporal hundida respecto a la bobeda lateral que la rodea
@@ -858,6 +859,26 @@ class TestCpSkullParts(unittest.TestCase):
         now = max(v.co.x for v in self.parts["cp.Mandible"].data.vertices) - min(v.co.x for v in self.parts["cp.Mandible"].data.vertices)
         self.assertAlmostEqual(now / before["cp.Mandible"], 1.0, places=6)  # la mandibula tiene su propia dimension
         cp.cp_resize(self.parts["cp.Skull"], self.parts["cp.Skull"]["cp_ref_dim_m"] / f)  # deshace
+
+    @unittest.skipUnless(all((ROOT / f).exists() for f in ("craneo frontal.jpg", "craneo perfil.jpg", "craneo atras.jpg")), "faltan las imagenes de referencia (privadas, no versionadas)")
+    def test_the_reference_images_are_mapped_to_the_skull_scale_and_position(self):
+        from anatomical_core import cp_reference
+
+        refs = cp_reference.add_reference_images(self.parts)
+        try:
+            self.assertEqual(sorted(refs), ["back", "front", "side"])
+            ref = __import__("json").loads((ROOT / "config" / "cp" / "skull_reference.json").read_text(encoding="utf-8"))
+            lo, hi = cp_reference._bbox(self.sk.objs + [self.parts["cp.Mandible"]])
+            for v in ("front", "side"):
+                x0, y0, x1, y1 = ref[v]["silhouette_bbox"]
+                self.assertAlmostEqual(refs[v]["cp_m_per_px"] * (y1 - y0), hi.z - lo.z, places=6, msg=v)  # la altura de la silueta de la imagen iguala la del craneo con mandibula
+            self.assertLess(refs["front"].location.y, lo.y)  # el plano frontal queda delante,
+            self.assertGreater(refs["back"].location.y, hi.y)  # el posterior detras
+            self.assertGreater(refs["side"].location.x, hi.x)  # y el de perfil a su lado
+            self.assertTrue(all(e.hide_render and e.empty_display_type == "IMAGE" for e in refs.values()))  # no se renderizan
+        finally:
+            for e in refs.values():
+                bpy.data.objects.remove(e, do_unlink=True)
 
     def test_every_skull_piece_is_mirror_symmetric(self):
         for n in self.NAMES + ["cp.Mandible", "cp.TeethLower"]:
